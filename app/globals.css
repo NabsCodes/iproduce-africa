@@ -1,26 +1,301 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/* ─── Color primitives ─────────────────────────────── */
 
 :root {
+  /* Leaf — primary action green */
+  --leaf-subtle: #e3f5ca;
+  --leaf-emphasized: #afe07d;
+  --leaf-fg: #548330;
+  --leaf-solid: #548330;
+  --leaf-contrast: #ffffff;
+
+  /* Acid — alias of leaf scale for Tailwind utilities */
+  --acid-50: #f4fae9;
+  --acid-100: #e3f5ca;
+  --acid-200: #c8e39a;
+  --acid-300: #afe07d;
+  --acid-400: #7cb86a;
+  --acid-500: #6fa832;
+  --acid-600: #548330;
+  --acid-700: #43612a;
+  --acid-800: #364f24;
+  --acid-900: #2d401f;
+  --acid-950: #16230f;
+
+  /* Forest — deep brand green */
+  --forest-50: #f4fae9;
+  --forest-100: #eef2ec;
+  --forest-200: #dce8de;
+  --forest-300: #8fb398;
+  --forest-400: #659473;
+  --forest-500: #4a7859;
+  --forest-600: #24361b;
+  --forest-700: #1d2c15;
+  --forest-800: #1a2f18;
+  --forest-900: #152614;
+  --forest-950: #0f1e02;
+  --forest-subtle: #f4fae9;
+  --forest-solid: #24361b;
+  --forest-contrast: #ffffff;
+
+  /* Grey */
+  --grey-50: #f8f8f7;
+  --grey-100: #f0efec;
+  --grey-200: #e4e3df;
+  --grey-300: #d0cec8;
+  --grey-400: #aeaba3;
+  --grey-500: #8a8780;
+  --grey-600: #6f6c66;
+  --grey-700: #5a5853;
+  --grey-800: #4d4b47;
+  --grey-900: #43413e;
+  --grey-950: #2a2927;
+
+  /* Tangerine — energy / CTA */
+  --tangerine-50: #fdf4ee;
+  --tangerine-100: #fbe5d6;
+  --tangerine-200: #f6c8ab;
+  --tangerine-300: #f0a476;
+  --tangerine-400: #ed7a3b;
+  --tangerine-500: #ed7a3b;
+  --tangerine-600: #d5662a;
+  --tangerine-700: #994824;
+  --tangerine-800: #7c3c22;
+  --tangerine-900: #66341f;
+  --tangerine-950: #37180e;
+
+  /* Emerald */
+  --emerald-50: #eef8f4;
+  --emerald-100: #d5efe4;
+  --emerald-200: #aedfcc;
+  --emerald-300: #7bc7ad;
+  --emerald-400: #4faa8c;
+  --emerald-500: #358f72;
+  --emerald-600: #28735c;
+  --emerald-700: #225c4b;
+  --emerald-800: #1e4a3e;
+  --emerald-900: #1a3d34;
+  --emerald-950: #0d231d;
+
+  /* Honey */
+  --honey-50: #fdf8ec;
+  --honey-100: #faefc8;
+  --honey-200: #f5dd8d;
+  --honey-300: #efc452;
+  --honey-400: #e9ad2a;
+  --honey-500: #d99018;
+  --honey-600: #bb6f12;
+  --honey-700: #965211;
+  --honey-800: #7c4216;
+  --honey-900: #6a3717;
+  --honey-950: #3d1b08;
+
+  /* Rose */
+  --rose-50: #fdf2f3;
+  --rose-100: #fce4e7;
+  --rose-200: #f9c8d0;
+  --rose-300: #f49dad;
+  --rose-400: #ec6a84;
+  --rose-500: #df4064;
+  --rose-600: #c5254d;
+  --rose-700: #a51a41;
+  --rose-800: #89193c;
+  --rose-900: #751938;
+  --rose-950: #42081a;
+
+  /* Sky */
+  --sky-50: #f0f8ff;
+  --sky-100: #e0f0fe;
+  --sky-200: #bae0fd;
+  --sky-300: #7dc8fc;
+  --sky-400: #38acf8;
+  --sky-500: #0e91e9;
+  --sky-600: #0273c7;
+  --sky-700: #035ba1;
+  --sky-800: #074e85;
+  --sky-900: #0c426e;
+  --sky-950: #082a49;
+
+  /* ─── Semantic roles (shadcn + brand) ─────────────────────────────────── */
+
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #10140e;
+  --text-fg: #10140e;
+  --text-fg-muted: #5c6655;
+  --text-fg-subtle: #828e7b;
+  --text-fg-inverted: #ffffff;
+  --bg-muted: #eef2ec;
+  --bg-subtle: #f7f9f5;
+  --bg-panel: #ffffff;
+  --border-subtle: #eef2ec;
+  --tangerine-subtle: #fbdfcb;
+
+  --card: #ffffff;
+  --card-foreground: #10140e;
+
+  --popover: #ffffff;
+  --popover-foreground: #10140e;
+
+  --primary: var(--leaf-solid);
+  --primary-foreground: var(--leaf-contrast);
+
+  --secondary: var(--leaf-subtle);
+  --secondary-foreground: var(--forest-700);
+
+  --muted: var(--bg-muted);
+  --muted-foreground: var(--text-fg-muted);
+
+  --accent: var(--tangerine-100);
+  --accent-foreground: var(--tangerine-600);
+
+  --destructive: var(--rose-600);
+  --destructive-foreground: #ffffff;
+
+  --border: var(--border-subtle);
+  --input: var(--border-subtle);
+  --ring: var(--leaf-emphasized);
+
+  --radius: 1rem;
 }
+
+/* ─── Tailwind theme bridge ──────────────────────────────────────────────── */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-bg-panel: var(--bg-panel);
+  --color-tangerine-subtle: var(--tangerine-subtle);
+  --color-leaf-emphasized: var(--leaf-emphasized);
+
+  --color-acid-50: var(--acid-50);
+  --color-acid-100: var(--acid-100);
+  --color-acid-200: var(--acid-200);
+  --color-acid-300: var(--acid-300);
+  --color-acid-400: var(--acid-400);
+  --color-acid-500: var(--acid-500);
+  --color-acid-600: var(--acid-600);
+  --color-acid-700: var(--acid-700);
+  --color-acid-800: var(--acid-800);
+  --color-acid-900: var(--acid-900);
+  --color-acid-950: var(--acid-950);
+
+  --color-forest-50: var(--forest-50);
+  --color-forest-100: var(--forest-100);
+  --color-forest-200: var(--forest-200);
+  --color-forest-300: var(--forest-300);
+  --color-forest-400: var(--forest-400);
+  --color-forest-500: var(--forest-500);
+  --color-forest-600: var(--forest-600);
+  --color-forest-700: var(--forest-700);
+  --color-forest-800: var(--forest-800);
+  --color-forest-900: var(--forest-900);
+  --color-forest-950: var(--forest-950);
+
+  --color-grey-50: var(--grey-50);
+  --color-grey-100: var(--grey-100);
+  --color-grey-200: var(--grey-200);
+  --color-grey-300: var(--grey-300);
+  --color-grey-400: var(--grey-400);
+  --color-grey-500: var(--grey-500);
+  --color-grey-600: var(--grey-600);
+  --color-grey-700: var(--grey-700);
+  --color-grey-800: var(--grey-800);
+  --color-grey-900: var(--grey-900);
+  --color-grey-950: var(--grey-950);
+
+  --color-tangerine-50: var(--tangerine-50);
+  --color-tangerine-100: var(--tangerine-100);
+  --color-tangerine-200: var(--tangerine-200);
+  --color-tangerine-300: var(--tangerine-300);
+  --color-tangerine-400: var(--tangerine-400);
+  --color-tangerine-500: var(--tangerine-500);
+  --color-tangerine-600: var(--tangerine-600);
+  --color-tangerine-700: var(--tangerine-700);
+  --color-tangerine-800: var(--tangerine-800);
+  --color-tangerine-900: var(--tangerine-900);
+  --color-tangerine-950: var(--tangerine-950);
+
+  --color-emerald-50: var(--emerald-50);
+  --color-emerald-500: var(--emerald-500);
+  --color-emerald-600: var(--emerald-600);
+
+  --color-honey-50: var(--honey-50);
+  --color-honey-500: var(--honey-500);
+
+  --color-rose-50: var(--rose-50);
+  --color-rose-500: var(--rose-500);
+  --color-rose-600: var(--rose-600);
+
+  --color-sky-50: var(--sky-50);
+  --color-sky-500: var(--sky-500);
+  --color-sky-600: var(--sky-600);
+
+  --font-sans: var(--font-plus-jakarta);
+  --font-serif: var(--font-fraunces);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ─── Typography ─────────────────────────────────────────────────────────── */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 600;
+}
+
+/* ─── Elevation ─────────────────────────────────────── */
+
+.elevation-1 {
+  box-shadow: 0 1px 2px rgb(17 28 22 / 0.06);
+}
+
+.elevation-2 {
+  box-shadow: 0 2px 8px rgb(17 28 22 / 0.08);
+}
+
+.elevation-3 {
+  box-shadow: 0 4px 16px rgb(17 28 22 / 0.1);
+}
+
+.elevation-4 {
+  box-shadow: 0 8px 24px rgb(17 28 22 / 0.12);
+}
+
+.elevation-5 {
+  box-shadow: 0 16px 40px rgb(17 28 22 / 0.14);
 }
