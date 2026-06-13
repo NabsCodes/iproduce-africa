@@ -16,22 +16,22 @@ export const navLinks = [
     children: [
       {
         label: "Webinars (events)",
-        href: "/academy/webinars",
+        href: "/academy#webinars",
         description: "Live sessions, AMAs and online events",
       },
       {
         label: "Training programmes",
-        href: "/academy/training",
+        href: "/academy#training",
         description: "Structured cohort-based learning",
       },
       {
         label: "Mini courses",
-        href: "/academy/courses",
+        href: "/academy#courses",
         description: "Short, self-paced skill modules",
       },
       {
         label: "Blog / insights",
-        href: "/blog",
+        href: "/academy#insights",
         description: "Articles, guides and market updates",
       },
     ],
