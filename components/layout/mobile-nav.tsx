@@ -27,9 +27,13 @@ import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
   activePath?: string;
+  currentRoute?: string;
 };
 
-export function MobileNav({ activePath = "/" }: MobileNavProps) {
+export function MobileNav({
+  activePath = "/",
+  currentRoute = activePath,
+}: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -45,8 +49,9 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
         <button
           ref={triggerRef}
           type="button"
-          className="text-grey-950 inline-flex size-10 items-center justify-center transition-opacity hover:opacity-70 md:hidden"
+          className="text-grey-950 focus-visible:ring-leaf-400 inline-flex size-11 shrink-0 items-center justify-center transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:outline-none md:hidden"
           aria-label="Open menu"
+          aria-expanded={open}
         >
           <svg viewBox="0 0 24 24" className="size-6" fill="none" aria-hidden>
             <path
@@ -65,11 +70,19 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
       >
         <SheetTitle className="sr-only">Navigation menu</SheetTitle>
 
-        <div ref={menuRef} className="flex h-full flex-col gap-0">
-          <div className="flex items-center justify-between px-5 py-5">
+        <div
+          ref={menuRef}
+          className="flex h-full flex-col gap-0 overflow-y-auto"
+        >
+          <div className="flex items-center justify-between px-5 py-4">
             <SiteLogo />
             <SheetClose asChild>
-              <Button variant="ghost" size="icon-sm" aria-label="Close menu">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="size-11"
+                aria-label="Close menu"
+              >
                 <X className="size-5" />
               </Button>
             </SheetClose>
@@ -82,15 +95,11 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
               if ("children" in link && link.children) {
                 return (
                   <div key={link.href}>
-                    <Accordion
-                      type="single"
-                      collapsible
-                      defaultValue={link.href}
-                    >
+                    <Accordion type="single" collapsible>
                       <AccordionItem value={link.href} className="border-none">
                         <AccordionTrigger
                           className={cn(
-                            "text-grey-950 [&>svg]:text-tangerine-500 py-5 font-serif text-2xl font-semibold hover:no-underline",
+                            "text-grey-950 [&>svg]:text-tangerine-500 min-h-11 py-4 font-serif text-2xl font-semibold hover:no-underline",
                             activePath.startsWith(link.href) &&
                               "text-tangerine-500",
                           )}
@@ -110,9 +119,9 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                                   <Link
                                     href={child.href}
                                     className={cn(
-                                      "text-grey-800 hover:bg-leaf-50 block px-4 py-3 transition-colors",
-                                      activePath === child.href &&
-                                        "bg-leaf-100",
+                                      "text-grey-800 hover:bg-leaf-50 focus-visible:ring-leaf-400 block min-h-11 rounded-xl px-4 py-3 transition-colors focus-visible:ring-2 focus-visible:outline-none",
+                                      currentRoute === child.href &&
+                                        "bg-leaf-100 text-forest-700 font-medium",
                                     )}
                                   >
                                     <span className="font-sans text-base font-medium">
@@ -143,7 +152,7 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                     <Link
                       href={link.href}
                       className={cn(
-                        "text-grey-950 flex items-center justify-between py-5 font-serif text-2xl font-semibold",
+                        "text-grey-950 focus-visible:ring-leaf-400 flex min-h-11 items-center justify-between py-4 font-serif text-2xl font-semibold focus-visible:ring-2 focus-visible:outline-none",
                         activePath === link.href && "text-tangerine-500",
                       )}
                     >
@@ -153,7 +162,7 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                         </span>
                         {link.label}
                       </span>
-                      <ArrowRight className="text-leaf-600 size-5" />
+                      <ArrowRight className="text-leaf-600 size-5 shrink-0" />
                     </Link>
                   </SheetClose>
                   <Separator />
@@ -163,38 +172,45 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
           </nav>
 
           <div className="space-y-3 px-5 py-6">
-            <ButtonLink href="/community" variant="green" size="lg" fullWidth>
-              <UserPlus className="size-5" />
-              Join our community
-            </ButtonLink>
             <ButtonLink
               href="/partners"
               variant="green-ghost"
               size="lg"
               fullWidth
+              className="min-h-11"
             >
               Partner with us
+            </ButtonLink>
+            <ButtonLink
+              href="/community"
+              variant="green"
+              size="lg"
+              fullWidth
+              className="min-h-11 rounded-xl"
+            >
+              <UserPlus className="size-5" />
+              Join our community
             </ButtonLink>
           </div>
 
           <div className="border-grey-200 bg-grey-50 space-y-4 border-t px-5 py-5">
             <p className="text-grey-600 flex items-center gap-2 text-sm font-medium">
-              <Clock3 className="text-leaf-600 size-4" aria-hidden />
+              <Clock3 className="text-leaf-600 size-4 shrink-0" aria-hidden />
               <span>{siteConfig.hours}</span>
             </p>
             <div className="grid gap-3 text-sm">
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="text-grey-700 hover:text-forest-700 flex items-center gap-2.5 transition-colors"
+                className="text-grey-700 hover:text-forest-700 focus-visible:ring-leaf-400 flex min-h-11 items-center gap-2.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
-                <Mail className="size-4" aria-hidden />
-                <span>{siteConfig.email}</span>
+                <Mail className="size-4 shrink-0" aria-hidden />
+                <span className="break-all">{siteConfig.email}</span>
               </a>
               <a
                 href={`tel:${siteConfig.phone}`}
-                className="text-grey-700 hover:text-forest-700 flex items-center gap-2.5 transition-colors"
+                className="text-grey-700 hover:text-forest-700 focus-visible:ring-leaf-400 flex min-h-11 items-center gap-2.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
-                <Phone className="size-4" aria-hidden />
+                <Phone className="size-4 shrink-0" aria-hidden />
                 <span>{siteConfig.phone}</span>
               </a>
             </div>
@@ -208,7 +224,7 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={social.label}
-                      className="border-grey-200 text-grey-700 hover:border-leaf-300 hover:text-leaf-700 inline-flex size-10 items-center justify-center border bg-white transition-colors"
+                      className="border-grey-200 text-grey-700 hover:border-leaf-300 hover:text-leaf-700 focus-visible:ring-leaf-400 inline-flex size-11 items-center justify-center rounded-xl border bg-white transition-colors focus-visible:ring-2 focus-visible:outline-none"
                     >
                       <SocialIcon
                         platform={social.platform}
@@ -223,7 +239,7 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                     key={social.label}
                     role="img"
                     aria-label={social.label}
-                    className="border-grey-200 text-grey-700 inline-flex size-10 items-center justify-center border bg-white"
+                    className="border-grey-200 text-grey-500 inline-flex size-11 items-center justify-center rounded-xl border bg-white"
                   >
                     <SocialIcon platform={social.platform} className="size-4" />
                   </span>

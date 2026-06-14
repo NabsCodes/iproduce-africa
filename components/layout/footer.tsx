@@ -46,7 +46,7 @@ export function Footer() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={social.label}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-stone-300 transition-colors hover:border-white/30 hover:text-white"
+                      className="flex size-9 items-center justify-center rounded-full border border-white/15 text-stone-300 transition-colors hover:border-white/30 hover:text-white focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:outline-none"
                     >
                       <SocialIcon
                         platform={social.platform}
@@ -61,7 +61,7 @@ export function Footer() {
                     key={social.label}
                     role="img"
                     aria-label={social.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-stone-300"
+                    className="flex size-9 items-center justify-center rounded-full border border-white/15 text-stone-500"
                   >
                     <SocialIcon platform={social.platform} className="size-4" />
                   </span>
