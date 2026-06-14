@@ -35,7 +35,8 @@ before any CMS or backend integration work begins.
 - `components/layout/` owns shared site chrome and shared page-intro patterns.
 - `components/ui/` owns reusable primitives.
 - `content/` owns editable site copy and repeated collections.
-- Keep site identity and contact details in `content/site.ts`.
+- Keep site identity, contact details, hours, and social links in
+  `content/site.ts`.
 - Keep shared navigation data in `content/navigation.ts`.
 - Keep route SEO copy and sitemap route data in `content/seo.ts`.
 - Keep page content in per-page `content/*.ts` files as the site grows.

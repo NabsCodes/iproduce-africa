@@ -70,7 +70,6 @@ app/
 
 components/
   ui/                            # primitives only
-  icons/
   layout/                        # shared public-site chrome and repeated sections
     header.tsx
     footer.tsx
@@ -137,7 +136,6 @@ docs/
 
 public/
   images/
-  icons/
 ```
 
 ## Why This Is Balanced
@@ -272,7 +270,6 @@ If we stay pragmatic, the next near-term target should be:
 app/**
 components/
   ui/
-  icons/
   layout/
   home/
   about/

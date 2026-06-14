@@ -2,7 +2,6 @@ import type { SiteConfig } from "@/types/site";
 
 export const siteConfig = {
   name: "iProduce Africa",
-  tagline: "Agribusiness Hub",
   description:
     "Unlocking local and global agribusiness opportunities for African agripreneurs.",
   siteUrl: "https://iproduceafrica.com",
@@ -17,5 +16,11 @@ export const siteConfig = {
     "African agriculture ecosystem",
   ],
   email: "info@iproduceafrica.com",
-  phone: "+234 803 410 8745",
+  phone: "08034108745",
+  hours: "Monday - Friday, 08 am - 05 pm",
+  socialLinks: [
+    { label: "Facebook", platform: "facebook", href: undefined },
+    { label: "Instagram", platform: "instagram", href: undefined },
+    { label: "YouTube", platform: "youtube", href: undefined },
+  ],
 } satisfies SiteConfig;

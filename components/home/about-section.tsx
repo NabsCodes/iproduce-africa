@@ -29,12 +29,12 @@ export function AboutSection() {
     <section className="bg-white py-20">
       <Container>
         <div className="flex flex-col gap-20 lg:flex-row lg:items-center">
-          <div className="flex-1 rounded-t-[20px] rounded-b-lg bg-[var(--bg-muted)] p-7">
+          <div className="flex-1 rounded-t-[20px] rounded-b-lg bg-(--bg-muted) p-7">
             <EyebrowBadge>What we do</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-[40px] sm:leading-[48px]">
               Integrating African Agripreneurs to the World Agro-ecosystem
             </h2>
-            <div className="relative mt-9 aspect-[529/309] overflow-hidden rounded-3xl">
+            <div className="relative mt-9 aspect-529/309 overflow-hidden rounded-3xl">
               <Image
                 src={placeholderImages.whatWeDo}
                 alt="Farmers harvesting crops together"
@@ -43,7 +43,7 @@ export function AboutSection() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="flex size-12 items-center justify-center rounded-xl bg-[var(--bg-muted)]">
+                <span className="flex size-12 items-center justify-center rounded-xl bg-(--bg-muted)">
                   <Play className="fill-forest-600 text-forest-600 size-5" />
                 </span>
               </div>
@@ -62,7 +62,7 @@ export function AboutSection() {
                         "flex size-12 items-center justify-center rounded-xl",
                         index === 0
                           ? "bg-leaf-600 text-white"
-                          : "text-forest-600 bg-[var(--forest-subtle)]",
+                          : "text-forest-600 bg-(--forest-subtle)",
                       )}
                     >
                       <Icon className="size-5" aria-hidden />
@@ -70,7 +70,7 @@ export function AboutSection() {
                     <h3 className="text-foreground mt-6 font-sans text-lg font-semibold">
                       {pillar.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-5 text-[var(--text-fg-subtle)]">
+                    <p className="mt-3 text-sm leading-5 text-(--text-fg-subtle)">
                       {pillar.description}
                     </p>
                   </article>

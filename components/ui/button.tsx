@@ -17,7 +17,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         destructive: "bg-destructive text-white hover:bg-rose-700",
 
-        /* iProduce brand palettes — see Figma Button documentation */
+        /* iProduce brand palettes */
         green:
           "bg-leaf-600 text-white hover:bg-leaf-700 focus-visible:ring-leaf-400",
         "green-soft":
@@ -48,16 +48,16 @@ const buttonVariants = cva(
       },
       size: {
         /* Figma spec sizes */
-        sm: "h-10 rounded-xl px-4 text-sm [&_svg:not([class*='size-'])]:size-4",
-        md: "h-12 rounded-xl px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
-        lg: "h-14 rounded-2xl px-6 text-base [&_svg:not([class*='size-'])]:size-6",
+        sm: "h-10 rounded-lg px-4 text-sm [&_svg:not([class*='size-'])]:size-4",
+        md: "h-12 rounded-lg px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
+        lg: "h-14 rounded-xl px-6 text-base [&_svg:not([class*='size-'])]:size-6",
 
         /* shadcn compat */
         default:
-          "h-12 rounded-xl px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
-        xs: "h-8 rounded-lg px-3 text-xs [&_svg:not([class*='size-'])]:size-3.5",
-        icon: "size-12 rounded-xl [&_svg:not([class*='size-'])]:size-5",
-        "icon-sm": "size-10 rounded-xl [&_svg:not([class*='size-'])]:size-4",
+          "h-12 rounded-lg px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
+        xs: "h-8 rounded-md px-3 text-xs [&_svg:not([class*='size-'])]:size-3.5",
+        icon: "size-12 rounded-lg [&_svg:not([class*='size-'])]:size-5",
+        "icon-sm": "size-10 rounded-lg [&_svg:not([class*='size-'])]:size-4",
       },
       fullWidth: {
         true: "w-full",

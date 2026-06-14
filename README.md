@@ -35,7 +35,7 @@ such as `public/images/home/` and `public/images/shared/`.
 
 Shared content ownership should stay simple:
 
-- `content/site.ts` for site identity and contact details
+- `content/site.ts` for site identity, contact details, hours, and social links
 - `content/navigation.ts` for shared navigation structure
 - `content/seo.ts` for page metadata copy and sitemap routes
 - page-specific `content/*.ts` files for presentation copy

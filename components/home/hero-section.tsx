@@ -26,7 +26,7 @@ export function HeroSection() {
       <Container className="relative flex min-h-[720px] items-end pt-16 pb-[72px]">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[677px]">
-            <div className="inline-flex items-center gap-1 rounded-full bg-[var(--leaf-subtle)] px-3 py-2">
+            <div className="inline-flex items-center gap-1 rounded-full bg-(--leaf-subtle) px-3 py-2">
               <span className="bg-leaf-600 size-1.5 rounded-full" aria-hidden />
               <span className="text-leaf-600 text-xs font-semibold tracking-[0.18em] uppercase">
                 {homeContent.hero.eyebrow}

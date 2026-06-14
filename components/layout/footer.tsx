@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { SiteLogo } from "@/components/layout/site-logo";
+import { SocialIcon } from "@/components/layout/social-icon";
 import { siteConfig } from "@/content/site";
+import { isInternalRoute } from "@/lib/routes";
 
 const footerLinks = {
   Explore: [
@@ -24,34 +26,47 @@ const footerLinks = {
   ],
 };
 
-const socials = [
-  { label: "LinkedIn", href: "#" },
-  { label: "X", href: "#" },
-  { label: "Instagram", href: "#" },
-  { label: "YouTube", href: "#" },
-];
-
 export function Footer() {
   return (
     <footer className="bg-green-950 text-white">
       <Container className="py-16">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_repeat(3,1fr)_1.4fr]">
           <div>
-            <Logo className="[&_.font-serif]:text-white [&_.text-stone-500]:text-stone-400 [&_span]:text-white" />
+            <SiteLogo panel imageClassName="w-[176px]" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-stone-400">
               {siteConfig.description}
             </p>
             <div className="mt-6 flex gap-3">
-              {socials.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-xs font-semibold text-stone-300 transition-colors hover:border-white/30 hover:text-white"
-                >
-                  {social.label[0]}
-                </a>
-              ))}
+              {siteConfig.socialLinks.map((social) => {
+                if (social.href) {
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={social.label}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-stone-300 transition-colors hover:border-white/30 hover:text-white"
+                    >
+                      <SocialIcon
+                        platform={social.platform}
+                        className="size-4"
+                      />
+                    </a>
+                  );
+                }
+
+                return (
+                  <span
+                    key={social.label}
+                    role="img"
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-stone-300"
+                  >
+                    <SocialIcon platform={social.platform} className="size-4" />
+                  </span>
+                );
+              })}
             </div>
           </div>
 
@@ -63,12 +78,21 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 {links.map((link) => (
                   <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-stone-400 transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </Link>
+                    {isInternalRoute(link.href) ? (
+                      <Link
+                        href={link.href}
+                        className="text-sm text-stone-400 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-sm text-stone-400 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

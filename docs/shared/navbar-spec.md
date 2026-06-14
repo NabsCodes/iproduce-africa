@@ -2,7 +2,9 @@
 
 ## Status
 
-Foundation ready, design still open for screenshot-driven refinement.
+Desktop reference captured. Desktop spacing, active-state, and CTA polish updated
+against the approved screenshot. Mobile and dropdown polish still open for
+screenshot-driven refinement.
 
 ## Purpose
 
@@ -15,20 +17,35 @@ treated as its own spec rather than just another component.
 - Primary CTAs are `Join our community` and `Partner with us`
 - Academy includes a dropdown structure
 - Mobile navigation must be intentionally designed, not just collapsed
+- Desktop utility bar includes hours on the left, then email, phone, and social
+  icons on the right
+- Shared site hours, contact details, and social entries should live in
+  `content/site.ts`
+- The shared logo should come from `public/images/shared/iproduce-logo.webp`
+
+## Approved Desktop Reference
+
+Source: `CleanShot 2026-06-14 at 7.29.01@2x.png`
+
+- dark green utility bar
+- white primary bar with the original logo at left
+- centered main navigation
+- short orange underline for the active route
+- `Partner with us` as the quieter text CTA
+- `Join our community` as the filled green pill CTA
 
 ## Current Questions
 
-- final logo scale and spacing
-- exact desktop nav spacing
-- dropdown styling parity with approved design
-- mobile sheet visual treatment
+- exact mobile header and sheet screenshot
+- final social destination URLs
+- dropdown open-state parity once the Academy screen is shared
 
 ## Checklist
 
-- [ ] Approved desktop navbar screenshot documented
+- [x] Approved desktop navbar screenshot documented
 - [ ] Approved mobile navbar screenshot documented
-- [ ] Desktop active-state behavior approved
+- [x] Desktop active-state behavior approved
 - [ ] Academy dropdown content and styling approved
 - [ ] Mobile menu hierarchy approved
-- [ ] CTA order and emphasis approved
+- [x] CTA order and emphasis approved
 - [ ] 390px overflow and tap-target QA complete

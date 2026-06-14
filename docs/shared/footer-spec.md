@@ -12,7 +12,9 @@ brand tone without pretending final integrations already exist.
 ## Confirmed Inputs
 
 - Shared footer exists across all public routes
-- Current social and newsletter destinations are placeholders until confirmed
+- Current social destinations are data-driven from `content/site.ts`, but final
+  URLs are still pending
+- Newsletter treatment is static-only until a later phase
 
 ## Current Questions
 
