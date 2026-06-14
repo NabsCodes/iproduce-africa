@@ -20,7 +20,7 @@ import { useScrolled } from "@/hooks/use-scrolled";
 import { cn } from "@/lib/utils";
 
 const navLinkClass =
-  "relative inline-flex shrink-0 items-center whitespace-nowrap rounded-lg px-3 py-0.5 font-sans text-[15px] font-medium tracking-[-0.01em] text-grey-800 transition-colors hover:text-forest-700 focus-visible:bg-leaf-50 focus-visible:text-forest-700 focus-visible:outline-none";
+  "relative inline-flex shrink-0 items-center whitespace-nowrap rounded-lg px-2 py-0.5 font-sans text-[15px] font-medium tracking-[-0.01em] text-grey-800 transition-colors hover:text-forest-700 focus-visible:bg-leaf-50 focus-visible:text-forest-700 focus-visible:outline-none";
 
 function NavIndicator({ active }: { active: boolean }) {
   if (!active) return null;
@@ -83,7 +83,7 @@ export function Header() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={social.label}
-                      className="inline-flex size-7 items-center justify-center border border-white/20 text-white/95 transition-colors hover:border-white/35 hover:text-white focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none lg:size-6"
+                      className="inline-flex size-7 items-center justify-center rounded-md border border-white/20 text-white/95 transition-colors hover:border-white/35 hover:text-white focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none lg:size-6"
                     >
                       <SocialIcon platform={social.platform} />
                     </a>
@@ -95,7 +95,7 @@ export function Header() {
                     key={social.label}
                     role="img"
                     aria-label={social.label}
-                    className="inline-flex size-7 items-center justify-center border border-white/20 text-white/60 lg:size-6"
+                    className="inline-flex size-7 items-center justify-center rounded-full border border-white/20 text-white/60 lg:size-6"
                   >
                     <SocialIcon platform={social.platform} />
                   </span>
@@ -124,7 +124,7 @@ export function Header() {
           />
 
           <nav
-            className="hidden min-w-0 flex-nowrap items-center justify-center gap-0.5 md:flex"
+            className="hidden w-full min-w-0 flex-nowrap items-center justify-evenly md:flex"
             aria-label="Main"
           >
             {mainNavigation.map((link) => {
