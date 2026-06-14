@@ -3,32 +3,7 @@ import { ArrowUpRight, Calendar, GraduationCap } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-const events = [
-  {
-    month: "JUN",
-    day: "18",
-    title: "Climate-smart irrigation 101",
-    meta: "Webinar · Online · Free",
-    tag: "Webinar",
-    href: "/academy/climate-smart-irrigation",
-  },
-  {
-    month: "JUN",
-    day: "24",
-    title: "Post-harvest handling for vegetables",
-    meta: "Training · Kano · Members",
-    tag: "Workshop",
-    href: "/academy/post-harvest-handling",
-  },
-  {
-    month: "JUL",
-    day: "02",
-    title: "Exporting under AfCFTA — AMA",
-    meta: "Live Q&A · Online · Free",
-    tag: "Event",
-    href: "/academy/afcfta-ama",
-  },
-];
+import { homeContent } from "@/content/home";
 
 export function IdeasSection() {
   return (
@@ -52,7 +27,7 @@ export function IdeasSection() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <span className="bg-acid-600 inline-flex h-8 items-center gap-1 rounded-full px-3 text-[13px] font-medium text-white">
+            <span className="bg-leaf-600 inline-flex h-8 items-center gap-1 rounded-full px-3 text-[13px] font-medium text-white">
               <Calendar className="size-3.5" />
               Upcoming Events
             </span>
@@ -64,9 +39,9 @@ export function IdeasSection() {
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {events.map((event) => (
+          {homeContent.academyEvents.map((event) => (
             <article
-              key={event.href}
+              key={`${event.month}-${event.day}-${event.title}`}
               className="flex flex-col justify-between rounded-[20px] border border-[var(--border-subtle)] bg-white p-6"
             >
               <div className="flex gap-4">
@@ -87,7 +62,7 @@ export function IdeasSection() {
               </div>
 
               <div className="mt-6 flex items-center justify-between">
-                <span className="text-acid-600 inline-flex h-5 items-center rounded-full border border-[var(--leaf-emphasized)] px-2 text-[11px] font-semibold tracking-wide">
+                <span className="text-leaf-600 inline-flex h-5 items-center rounded-full border border-[var(--leaf-emphasized)] px-2 text-[11px] font-semibold tracking-wide">
                   {event.tag}
                 </span>
                 <Button asChild variant="green-soft" size="sm">

@@ -2,26 +2,25 @@ import Link from "next/link";
 import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "@/content/site";
 
 const footerLinks = {
-  Company: [
+  Explore: [
     { label: "About us", href: "/about" },
-    { label: "Our team", href: "/team" },
-    { label: "Careers", href: "/careers" },
-    { label: "Contact", href: "/contact" },
-  ],
-  Services: [
     { label: "Academy", href: "/academy" },
     { label: "Community", href: "/community" },
     { label: "Partners", href: "/partners" },
-    { label: "Consulting", href: "/consulting" },
   ],
-  Resources: [
-    { label: "Blog", href: "/blog" },
-    { label: "Events", href: "/events" },
+  Academy: [
+    { label: "Webinars", href: "/academy#webinars" },
+    { label: "Training", href: "/academy#training" },
+    { label: "Courses", href: "/academy#courses" },
+    { label: "Insights", href: "/academy#insights" },
+  ],
+  Contact: [
+    { label: "Get in touch", href: "/contact" },
+    { label: "Email us", href: `mailto:${siteConfig.email}` },
     { label: "FAQs", href: "/#faq" },
-    { label: "Newsletter", href: "/newsletter" },
   ],
 };
 

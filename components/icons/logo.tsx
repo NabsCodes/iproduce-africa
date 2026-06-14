@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "@/content/site";
 
 export function Logo({ className }: { className?: string }) {
   return (

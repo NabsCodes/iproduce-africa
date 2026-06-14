@@ -5,24 +5,21 @@
 
 :root {
   /* Leaf — primary action green */
-  --leaf-subtle: #e3f5ca;
-  --leaf-emphasized: #afe07d;
-  --leaf-fg: #548330;
-  --leaf-solid: #548330;
+  --leaf-50: #f4fae9;
+  --leaf-100: #e3f5ca;
+  --leaf-200: #c8e39a;
+  --leaf-300: #afe07d;
+  --leaf-400: #7cb86a;
+  --leaf-500: #6fa832;
+  --leaf-600: #548330;
+  --leaf-700: #43612a;
+  --leaf-800: #364f24;
+  --leaf-900: #2d401f;
+  --leaf-950: #16230f;
+  --leaf-subtle: var(--leaf-100);
+  --leaf-emphasized: var(--leaf-300);
+  --leaf-solid: var(--leaf-600);
   --leaf-contrast: #ffffff;
-
-  /* Acid — alias of leaf scale for Tailwind utilities */
-  --acid-50: #f4fae9;
-  --acid-100: #e3f5ca;
-  --acid-200: #c8e39a;
-  --acid-300: #afe07d;
-  --acid-400: #7cb86a;
-  --acid-500: #6fa832;
-  --acid-600: #548330;
-  --acid-700: #43612a;
-  --acid-800: #364f24;
-  --acid-900: #2d401f;
-  --acid-950: #16230f;
 
   /* Forest — deep brand green */
   --forest-50: #f4fae9;
@@ -186,17 +183,17 @@
   --color-tangerine-subtle: var(--tangerine-subtle);
   --color-leaf-emphasized: var(--leaf-emphasized);
 
-  --color-acid-50: var(--acid-50);
-  --color-acid-100: var(--acid-100);
-  --color-acid-200: var(--acid-200);
-  --color-acid-300: var(--acid-300);
-  --color-acid-400: var(--acid-400);
-  --color-acid-500: var(--acid-500);
-  --color-acid-600: var(--acid-600);
-  --color-acid-700: var(--acid-700);
-  --color-acid-800: var(--acid-800);
-  --color-acid-900: var(--acid-900);
-  --color-acid-950: var(--acid-950);
+  --color-leaf-50: var(--leaf-50);
+  --color-leaf-100: var(--leaf-100);
+  --color-leaf-200: var(--leaf-200);
+  --color-leaf-300: var(--leaf-300);
+  --color-leaf-400: var(--leaf-400);
+  --color-leaf-500: var(--leaf-500);
+  --color-leaf-600: var(--leaf-600);
+  --color-leaf-700: var(--leaf-700);
+  --color-leaf-800: var(--leaf-800);
+  --color-leaf-900: var(--leaf-900);
+  --color-leaf-950: var(--leaf-950);
 
   --color-forest-50: var(--forest-50);
   --color-forest-100: var(--forest-100);

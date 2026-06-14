@@ -18,7 +18,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Logo } from "@/components/icons/logo";
-import { navLinks, siteConfig } from "@/lib/site";
+import { mainNavigation } from "@/content/navigation";
+import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
@@ -63,7 +64,7 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
         </div>
 
         <nav className="flex-1 px-5" aria-label="Mobile">
-          {navLinks.map((link, index) => {
+          {mainNavigation.map((link, index) => {
             const number = String(index + 1).padStart(2, "0");
 
             if ("children" in link && link.children) {
@@ -93,15 +94,16 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                                 <Link
                                   href={child.href}
                                   className={cn(
-                                    "text-grey-800 hover:bg-acid-50 block rounded-xl px-4 py-3 transition-colors",
-                                    activePath === child.href && "bg-acid-100",
+                                    "text-grey-800 hover:bg-leaf-50 block rounded-xl px-4 py-3 transition-colors",
+                                    activePath === child.href && "bg-leaf-100",
                                   )}
                                 >
                                   <span className="font-sans text-base font-medium">
                                     {child.label}
                                   </span>
-                                  {"description" in child && child.description ? (
-                                    <span className="mt-0.5 block text-sm text-grey-500">
+                                  {"description" in child &&
+                                  child.description ? (
+                                    <span className="text-grey-500 mt-0.5 block text-sm">
                                       {child.description}
                                     </span>
                                   ) : null}
@@ -134,7 +136,7 @@ export function MobileNav({ activePath = "/" }: MobileNavProps) {
                       </span>
                       {link.label}
                     </span>
-                    <ArrowRight className="text-acid-600 size-5" />
+                    <ArrowRight className="text-leaf-600 size-5" />
                   </Link>
                 </SheetClose>
                 <Separator />

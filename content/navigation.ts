@@ -1,13 +1,6 @@
-export const siteConfig = {
-  name: "iProduce Africa",
-  tagline: "Agribusiness Hub",
-  description:
-    "Unlocking local and global agribusiness opportunities for African agripreneurs.",
-  email: "hello@iproduce.africa",
-  phone: "+234 800 000 0000",
-};
+import type { SiteNavigationItem } from "@/types/navigation";
 
-export const navLinks = [
+export const mainNavigation = [
   { label: "Home", href: "/" },
   { label: "About us", href: "/about" },
   {
@@ -39,6 +32,4 @@ export const navLinks = [
   { label: "Community", href: "/community" },
   { label: "Partners", href: "/partners" },
   { label: "Contact", href: "/contact" },
-] as const;
-
-export type NavLink = (typeof navLinks)[number];
+] as const satisfies readonly SiteNavigationItem[];

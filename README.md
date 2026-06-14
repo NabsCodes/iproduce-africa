@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# iProduce Africa Website
 
-## Getting Started
+Static-first implementation of the approved iProduce Africa redesign. The
+current milestone translates the Figma screens into responsive Next.js pages;
+Sanity CMS integration comes after the interface and content structure are
+approved.
 
-First, run the development server:
+## Current Milestone
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Right now the focus is foundation plus Home page fidelity:
+
+- establish the docs, layout system, and design system first
+- complete the Home page as a polished static experience
+- keep secondary public routes scaffolded but lightweight
+- defer Sanity, live forms, and backend integrations until the interface is
+  approved
+
+## Project Structure
+
+```text
+app/                  Root app shell, fonts, and public routes
+components/[page]/    Page-specific sections, such as Home and About
+components/layout/    Shared site chrome and page-intro patterns
+components/ui/        Small reusable UI primitives
+content/              Static MVP content, site config, and page copy
+types/                Shared content and navigation shapes
+lib/                  Metadata helpers, temporary imagery helpers, and utilities
+public/               Final exported assets, including route-based images
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Keep copy and collection data in `content/`. Components own presentation and
+interaction. Temporary imagery stays in `lib/placeholder-images.ts` until final
+assets are exported into `public/images/`, organized by route or shared usage
+such as `public/images/home/` and `public/images/shared/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Shared content ownership should stay simple:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `content/site.ts` for site identity and contact details
+- `content/navigation.ts` for shared navigation structure
+- `content/seo.ts` for page metadata copy and sitemap routes
+- page-specific `content/*.ts` files for presentation copy
 
-## Learn More
+For now, all six public pages share the same top-level layout in `app/layout.tsx`.
+If route behavior diverges later, a route group can be introduced then.
 
-To learn more about Next.js, take a look at the following resources:
+## Working Docs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Start here before making product-facing changes:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `CLAUDE.md`
+- `AGENTS.md`
+- `docs/README.md`
+- `docs/workflow.md`
+- `docs/mvp-phases.md`
+- `docs/homepage-static-spec.md` for the active Home page milestone
+- `docs/routes/README.md`
+- `docs/layout-system.md`
+- `docs/design-system.md`
+- `docs/status-board.md`
+- `docs/implementation-log.md`
 
-## Deploy on Vercel
+## Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000).
+
+Use `pnpm format`, `pnpm lint`, `pnpm typecheck`, and `pnpm build` before
+handing off a completed page.
+
+## MVP Boundaries
+
+- Build the approved static pages and responsive interactions first.
+- Keep Academy content on the single `/academy` route for the MVP.
+- Do not add Sanity, authentication, payments, e-commerce, or a deal room yet.
+- Forms may validate locally but must not imply that data has been saved.
+- Custom `loading.tsx`, `error.tsx`, `not-found.tsx`, and a wider motion system
+  are future scope unless the current design pass specifically requires them.

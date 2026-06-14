@@ -2,19 +2,13 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { placeholderImages } from "@/lib/placeholder-images";
-
-const stats = [
-  { value: "2,400", suffix: "+", label: "Agripreneurs", accent: false },
-  { value: "100", suffix: "+", label: "Partner Orgs", accent: true },
-  { value: "100", suffix: "%", label: "Training success", accent: true },
-];
+import { homeContent } from "@/content/home";
 
 export function HeroSection() {
   return (
     <section className="relative min-h-[720px] overflow-hidden">
       <Image
-        src={placeholderImages.hero}
+        src={homeContent.hero.image}
         alt="Agripreneur working in a greenhouse"
         fill
         priority
@@ -32,25 +26,24 @@ export function HeroSection() {
       <Container className="relative flex min-h-[720px] items-end pt-16 pb-[72px]">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[677px]">
-            <div className="inline-flex items-center gap-1 rounded-full bg-(--leaf-subtle) px-3 py-2">
-              <span className="bg-acid-600 size-1.5 rounded-full" aria-hidden />
-              <span className="text-acid-600 text-xs font-semibold tracking-[0.18em] uppercase">
-                Africa&apos;s Agribusiness Ecosystem Platform
+            <div className="inline-flex items-center gap-1 rounded-full bg-[var(--leaf-subtle)] px-3 py-2">
+              <span className="bg-leaf-600 size-1.5 rounded-full" aria-hidden />
+              <span className="text-leaf-600 text-xs font-semibold tracking-[0.18em] uppercase">
+                {homeContent.hero.eyebrow}
               </span>
             </div>
 
             <h1 className="mt-6 font-serif text-4xl leading-[1.06] font-semibold tracking-[-0.02em] text-white sm:text-5xl lg:text-[72px] lg:leading-[76px]">
-              Unlocking Local and Global Agribusiness Opportunities
+              {homeContent.hero.title}
             </h1>
 
             <p className="mt-8 max-w-[618px] text-lg leading-7 text-white">
-              We connect you with helpful resources, services and opportunities
-              to start or grow your agribusiness.
+              {homeContent.hero.description}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <ButtonLink href="/community" variant="green" size="lg">
-                Apply for Membership
+                Join our community
                 <ArrowUpRight className="size-5" />
               </ButtonLink>
               <ButtonLink href="/partners" variant="green-soft" size="lg">
@@ -65,13 +58,13 @@ export function HeroSection() {
               aria-hidden
             />
             <div className="flex gap-8 border-t border-[#e2dfda] pt-4">
-              {stats.map((stat) => (
+              {homeContent.hero.stats.map((stat, index) => (
                 <div key={stat.label}>
                   <p className="font-serif text-[32px] leading-10 tracking-[-0.01em] text-white">
                     <span className="font-semibold">{stat.value}</span>
                     <span
                       className={
-                        stat.accent
+                        index > 0
                           ? "font-normal text-[#c8eb99] italic"
                           : undefined
                       }

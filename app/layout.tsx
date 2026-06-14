@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-import { siteConfig } from "@/lib/site";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { createSiteMetadata, viewport } from "@/lib/metadata";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -14,13 +15,8 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-};
+export const metadata = createSiteMetadata();
+export { viewport };
 
 export default function RootLayout({
   children,
@@ -33,7 +29,11 @@ export default function RootLayout({
       className={`${fraunces.variable} ${plusJakarta.variable} h-full scroll-smooth antialiased`}
     >
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">
-        {children}
+        <div className="flex min-h-full flex-col">
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
         <Analytics />
       </body>
     </html>

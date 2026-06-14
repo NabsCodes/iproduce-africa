@@ -7,55 +7,22 @@ import {
   Handshake,
   Users,
   UserRound,
+  type LucideIcon,
 } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { homeContent } from "@/content/home";
 import { placeholderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 
-const pillars = [
-  {
-    title: "Agritech & Smart Agriculture",
-    description:
-      "End-to-end coaching on agritech to help agripreneurs scale sustainably. Precision tools and digital innovation for modern farms.",
-    icon: Sprout,
-    iconClass: "bg-acid-600 text-white",
-  },
-  {
-    title: "Training & Capacity",
-    description:
-      "Structured programmes, workshops, and e-learning resources built for the modern African agricultural entrepreneur.",
-    icon: GraduationCap,
-    iconClass: "bg-[var(--forest-subtle)] text-forest-600",
-  },
-  {
-    title: "Market & Trade Linkages",
-    description:
-      "Direct access to intra-African and global markets through our network of buyers, exporters, and trade partners.",
-    icon: Globe,
-    iconClass: "bg-[var(--forest-subtle)] text-forest-600",
-  },
-  {
-    title: "Agribusiness Leadership",
-    description:
-      "Strategic collaboration with NGOs, donors, investors, and institutions driving agricultural development across Africa.",
-    icon: Handshake,
-    iconClass: "bg-[var(--forest-subtle)] text-forest-600",
-  },
-  {
-    title: "Women in Agriculture",
-    description: "Backing women-led enterprises across the value chain.",
-    icon: UserRound,
-    iconClass: "bg-[var(--forest-subtle)] text-forest-600",
-  },
-  {
-    title: "Youth Development",
-    description:
-      "Bringing the next generation of African farmers and agripreneurs into modern, digitally-enabled agribusiness.",
-    icon: Users,
-    iconClass: "bg-[var(--forest-subtle)] text-forest-600",
-  },
-];
+const pillarIcons = {
+  sprout: Sprout,
+  "graduation-cap": GraduationCap,
+  globe: Globe,
+  handshake: Handshake,
+  "user-round": UserRound,
+  users: Users,
+} satisfies Record<string, LucideIcon>;
 
 export function AboutSection() {
   return (
@@ -85,24 +52,30 @@ export function AboutSection() {
 
           <div className="flex-1">
             <div className="grid gap-8 sm:grid-cols-2">
-              {pillars.map((pillar) => (
-                <article key={pillar.title}>
-                  <span
-                    className={cn(
-                      "flex size-12 items-center justify-center rounded-xl",
-                      pillar.iconClass,
-                    )}
-                  >
-                    <pillar.icon className="size-5" aria-hidden />
-                  </span>
-                  <h3 className="text-foreground mt-6 font-sans text-lg font-semibold">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-5 text-[var(--text-fg-subtle)]">
-                    {pillar.description}
-                  </p>
-                </article>
-              ))}
+              {homeContent.pillars.map((pillar, index) => {
+                const Icon = pillarIcons[pillar.icon];
+
+                return (
+                  <article key={pillar.title}>
+                    <span
+                      className={cn(
+                        "flex size-12 items-center justify-center rounded-xl",
+                        index === 0
+                          ? "bg-leaf-600 text-white"
+                          : "text-forest-600 bg-[var(--forest-subtle)]",
+                      )}
+                    >
+                      <Icon className="size-5" aria-hidden />
+                    </span>
+                    <h3 className="text-foreground mt-6 font-sans text-lg font-semibold">
+                      {pillar.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-5 text-[var(--text-fg-subtle)]">
+                      {pillar.description}
+                    </p>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>

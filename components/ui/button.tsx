@@ -10,8 +10,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-acid-700",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-acid-200",
+        default: "bg-primary text-primary-foreground hover:bg-leaf-700",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-leaf-200",
         outline: "border-border bg-background text-foreground hover:bg-muted",
         ghost: "text-foreground hover:bg-muted",
         link: "text-primary underline-offset-4 hover:underline",
@@ -19,15 +19,15 @@ const buttonVariants = cva(
 
         /* iProduce brand palettes — see Figma Button documentation */
         green:
-          "bg-acid-600 text-white hover:bg-acid-700 focus-visible:ring-acid-400",
+          "bg-leaf-600 text-white hover:bg-leaf-700 focus-visible:ring-leaf-400",
         "green-soft":
-          "bg-acid-100 text-forest-800 hover:bg-acid-200 focus-visible:ring-acid-300",
+          "bg-leaf-100 text-forest-800 hover:bg-leaf-200 focus-visible:ring-leaf-300",
         "green-outline":
-          "border-acid-600 bg-transparent text-acid-700 hover:bg-acid-50 focus-visible:ring-acid-300",
+          "border-leaf-600 bg-transparent text-leaf-700 hover:bg-leaf-50 focus-visible:ring-leaf-300",
         "green-ghost":
-          "bg-transparent text-acid-700 hover:bg-acid-50 focus-visible:ring-acid-300",
+          "bg-transparent text-leaf-700 hover:bg-leaf-50 focus-visible:ring-leaf-300",
         "green-link":
-          "bg-transparent px-0 text-acid-700 hover:text-acid-800 focus-visible:ring-acid-300",
+          "bg-transparent px-0 text-leaf-700 hover:text-leaf-800 focus-visible:ring-leaf-300",
 
         tangerine:
           "bg-tangerine-400 text-grey-950 hover:bg-tangerine-500 focus-visible:ring-tangerine-300",

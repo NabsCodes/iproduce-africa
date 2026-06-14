@@ -3,35 +3,8 @@ import { Quote } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { CarouselDots } from "@/components/ui/carousel-dots";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { placeholderImages } from "@/lib/placeholder-images";
+import { homeContent } from "@/content/home";
 import { cn } from "@/lib/utils";
-
-const testimonials = [
-  {
-    quote:
-      "iProduce connected our us to two new buyers in 3 months — the platform pays for itself.",
-    name: "Aïssatou Diallo",
-    role: "Cooperative Lead · Senegal",
-    image: placeholderImages.testimonials.aissatou,
-    initials: null,
-  },
-  {
-    quote:
-      "From the academy to the marketplace, everything we need to grow sits in one ecosystem.",
-    name: "Kofi Mensah",
-    role: "Exporter · Ghana",
-    image: null,
-    initials: "KM",
-  },
-  {
-    quote:
-      "The bootcamp gave me my first export client. I came for the training and left with a market.",
-    name: "Zainab A.",
-    role: "Shea processor · Kano · Cohort 2",
-    image: null,
-    initials: "ZA",
-  },
-];
 
 function Avatar({
   image,
@@ -83,12 +56,12 @@ export function TestimonialsSection() {
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {testimonials.map((item) => (
+          {homeContent.testimonials.map((item) => (
             <article
               key={item.name}
               className="flex flex-col gap-4 rounded-[20px] bg-[var(--bg-subtle)] p-8"
             >
-              <Quote className="text-acid-600 size-6" aria-hidden />
+              <Quote className="text-leaf-600 size-6" aria-hidden />
               <p className="text-foreground font-serif text-xl leading-7 font-semibold">
                 {item.quote}
               </p>
