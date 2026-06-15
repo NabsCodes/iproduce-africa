@@ -11,8 +11,6 @@ import {
 } from "lucide-react";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
-import { placeholderImages } from "@/lib/placeholder-images";
-import { cn } from "@/lib/utils";
 
 const pillarIcons = {
   sprout: Sprout,
@@ -28,21 +26,21 @@ export function AboutSection() {
     <section className="bg-white py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-20 lg:flex-row lg:items-center">
-          <div className="flex-1 rounded-t-[20px] rounded-b-lg bg-(--bg-muted) p-7">
-            <EyebrowBadge>What we do</EyebrowBadge>
+          <div className="bg-muted flex-1 rounded-t-[20px] rounded-b-lg p-7">
+            <EyebrowBadge>{homeContent.about.eyebrow}</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-[40px] sm:leading-[48px]">
-              Integrating African Agripreneurs to the World Agro-ecosystem
+              {homeContent.about.title}
             </h2>
             <div className="relative mt-9 aspect-529/309 overflow-hidden rounded-3xl">
               <Image
-                src={placeholderImages.whatWeDo}
-                alt="Farmers harvesting crops together"
+                src={homeContent.about.image}
+                alt={homeContent.about.imageAlt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="flex size-12 items-center justify-center rounded-xl bg-(--bg-muted)">
+                <span className="bg-muted flex size-12 items-center justify-center rounded-xl">
                   <Play className="fill-forest-600 text-forest-600 size-5" />
                 </span>
               </div>
@@ -51,19 +49,15 @@ export function AboutSection() {
 
           <div className="flex-1">
             <div className="grid gap-8 sm:grid-cols-2">
-              {homeContent.pillars.map((pillar, index) => {
+              {homeContent.pillars.map((pillar) => {
                 const Icon = pillarIcons[pillar.icon];
 
                 return (
-                  <article key={pillar.title}>
-                    <span
-                      className={cn(
-                        "flex size-12 items-center justify-center rounded-xl",
-                        index === 0
-                          ? "bg-leaf-600 text-white"
-                          : "text-forest-600 bg-(--forest-subtle)",
-                      )}
-                    >
+                  <article
+                    key={pillar.title}
+                    className="group transition-transform duration-200 hover:-translate-y-0.5"
+                  >
+                    <span className="text-forest-600 group-hover:bg-leaf-600 flex size-12 items-center justify-center rounded-xl bg-(--forest-subtle) transition-colors duration-200 group-hover:text-white">
                       <Icon className="size-5" aria-hidden />
                     </span>
                     <h3 className="text-foreground mt-6 font-sans text-lg font-semibold">

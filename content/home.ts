@@ -7,15 +7,31 @@ import { placeholderImages } from "@/lib/placeholder-images";
 export const homeContent = {
   hero: {
     eyebrow: "Africa's Agribusiness Ecosystem Platform",
+    eyebrowTone: "leaf",
     title: "Unlocking Local and Global Agribusiness Opportunities",
     description:
       "We connect you with helpful resources, services and opportunities to start or grow your agribusiness.",
-    image: placeholderImages.hero,
+    image: "/images/home/hero-image.webp",
+    imageAlt: "Smiling agripreneur harvesting tomatoes in a greenhouse",
+    primaryCta: {
+      label: "Join our community",
+      href: "/community#join",
+    },
+    secondaryCta: {
+      label: "Partner with us",
+      href: "/partners#partner",
+    },
     stats: [
       { value: "2,400", suffix: "+", label: "Agripreneurs" },
       { value: "100", suffix: "+", label: "Partner Orgs" },
       { value: "100", suffix: "%", label: "Training success" },
     ],
+  },
+  about: {
+    eyebrow: "What we do",
+    title: "Integrating African Agripreneurs to the World Agro-ecosystem",
+    image: placeholderImages.whatWeDo,
+    imageAlt: "Farmers harvesting crops together",
   },
   pillars: [
     {
@@ -68,7 +84,7 @@ export const homeContent = {
         "Structured training programmes",
         "Market and partner introductions",
       ],
-      href: "/community",
+      href: "/community#join",
       cta: "Join our community",
       tone: "light",
     },
@@ -85,7 +101,7 @@ export const homeContent = {
         "Strategic ecosystem partnerships",
         "Impact measurement & reporting",
       ],
-      href: "/partners",
+      href: "/partners#partner",
       cta: "Partner with us",
       tone: "dark",
     },

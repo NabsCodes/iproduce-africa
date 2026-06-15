@@ -3,7 +3,6 @@
  * Replace paths/URLs with exported hi-fidelity assets in /public/images/.
  */
 export const placeholderImages = {
-  hero: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2000&q=80",
   whatWeDo:
     "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1200&q=80",
   valueChains: {

@@ -1,5 +1,8 @@
+export type EyebrowTone = "leaf" | "tangerine";
+
 export type PageHeroContent = {
   eyebrow: string;
+  eyebrowTone?: EyebrowTone;
   title: string;
   description: string;
 };

@@ -47,6 +47,19 @@ Every Home section should be checked against the approved desktop design for:
 - CTA hierarchy
 - section height and vertical rhythm
 
+Current fidelity notes from the approved hero and what-we-do references:
+
+- the hero eyebrow uses a shared pill treatment, not one-off inline markup
+- the Home hero uses the provided local public asset when available instead of a
+  placeholder image source
+- the what-we-do section should keep its original left editorial panel and
+  right capability grid structure unless a new approved screenshot says
+  otherwise
+- capability icons in the what-we-do grid should stay neutral by default and
+  flip to the green active state only on hover
+- hover treatment in the what-we-do area should stay subtle and premium, not
+  turn the grid into heavy marketing cards
+
 The mobile version must be treated as its own composition. Reorder, restack,
 and resize intentionally instead of shrinking the desktop layout.
 
