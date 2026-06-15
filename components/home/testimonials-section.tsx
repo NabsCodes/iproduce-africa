@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Quote } from "lucide-react";
-import { Container } from "@/components/ui/container";
 import { CarouselDots } from "@/components/ui/carousel-dots";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
@@ -44,7 +43,7 @@ function Avatar({
 export function TestimonialsSection() {
   return (
     <section className="bg-white py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="max-w-xl">
           <EyebrowBadge>Our impact</EyebrowBadge>
           <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">
@@ -85,7 +84,7 @@ export function TestimonialsSection() {
         </div>
 
         <CarouselDots total={3} className="mt-10 justify-center" />
-      </Container>
+      </div>
     </section>
   );
 }

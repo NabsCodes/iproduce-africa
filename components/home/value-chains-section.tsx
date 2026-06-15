@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Container } from "@/components/ui/container";
 import { CarouselDots } from "@/components/ui/carousel-dots";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
@@ -7,7 +6,7 @@ import { homeContent } from "@/content/home";
 export function ValueChainsSection() {
   return (
     <section className="bg-white py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <EyebrowBadge>Core areas of focus</EyebrowBadge>
@@ -48,7 +47,7 @@ export function ValueChainsSection() {
         </div>
 
         <CarouselDots total={3} className="mt-10 justify-end" />
-      </Container>
+      </div>
     </section>
   );
 }

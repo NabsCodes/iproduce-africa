@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { SiteLogo } from "@/components/layout/site-logo";
 import { SocialIcon } from "@/components/layout/social-icon";
 import { siteConfig } from "@/content/site";
@@ -29,7 +28,7 @@ const footerLinks = {
 export function Footer() {
   return (
     <footer className="bg-green-950 text-white">
-      <Container className="py-16">
+      <div className="max-w-8xl mx-auto w-full px-4 py-16 md:px-6">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_repeat(3,1fr)_1.4fr]">
           <div>
             <SiteLogo panel imageClassName="w-[176px]" />
@@ -138,7 +137,7 @@ export function Footer() {
             </Link>
           </div>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

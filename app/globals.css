@@ -159,6 +159,10 @@
 
 /* ─── Tailwind theme bridge ──────────────────────────────────────────────── */
 
+@theme {
+  --container-8xl: 82rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

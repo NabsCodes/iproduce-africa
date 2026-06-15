@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { ArrowUpRight, Calendar, GraduationCap } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 
 export function IdeasSection() {
   return (
     <section className="bg-[var(--bg-subtle)] py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <EyebrowBadge>Academy spotlight</EyebrowBadge>
@@ -72,7 +71,7 @@ export function IdeasSection() {
             </article>
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

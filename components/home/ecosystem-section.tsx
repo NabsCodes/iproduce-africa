@@ -1,6 +1,5 @@
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import { cn } from "@/lib/utils";
@@ -8,7 +7,7 @@ import { cn } from "@/lib/utils";
 export function EcosystemSection() {
   return (
     <section className="bg-[var(--bg-subtle)] py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start">
           <div className="max-w-sm shrink-0">
             <EyebrowBadge>Your pathway</EyebrowBadge>
@@ -96,7 +95,7 @@ export function EcosystemSection() {
             })}
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

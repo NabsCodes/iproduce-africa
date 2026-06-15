@@ -1,11 +1,10 @@
 import { Handshake, Sprout, Users } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 
 export function CtaSection() {
   return (
     <section className="relative z-10 -mb-40 pb-0">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="bg-forest-600 relative overflow-hidden rounded-[28px] px-8 py-[72px] text-center text-white sm:px-16">
           <div
             aria-hidden
@@ -57,7 +56,7 @@ export function CtaSection() {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

@@ -9,7 +9,6 @@ import {
   UserRound,
   type LucideIcon,
 } from "lucide-react";
-import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import { placeholderImages } from "@/lib/placeholder-images";
@@ -27,7 +26,7 @@ const pillarIcons = {
 export function AboutSection() {
   return (
     <section className="bg-white py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="flex flex-col gap-20 lg:flex-row lg:items-center">
           <div className="flex-1 rounded-t-[20px] rounded-b-lg bg-(--bg-muted) p-7">
             <EyebrowBadge>What we do</EyebrowBadge>
@@ -79,7 +78,7 @@ export function AboutSection() {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { ChevronDown, Clock3, Mail, Phone, UsersRound } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,7 +40,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white">
       <div className="bg-forest-900 hidden text-white md:block">
-        <Container className="flex h-[42px] items-center justify-between gap-4 text-[13px] lg:gap-8 lg:text-[14px]">
+        <div className="max-w-8xl mx-auto flex h-[42px] w-full items-center justify-between gap-4 px-4 text-[13px] md:px-6 lg:gap-8 lg:text-[14px]">
           <p className="flex min-w-0 items-center gap-2 font-medium tracking-[-0.01em] text-white/95 lg:gap-2.5">
             <Clock3 className="size-4 shrink-0" aria-hidden />
             <span className="truncate lg:whitespace-normal">
@@ -103,7 +102,7 @@ export function Header() {
               })}
             </div>
           </div>
-        </Container>
+        </div>
       </div>
 
       <div
@@ -112,16 +111,13 @@ export function Header() {
           scrolled && "border-grey-300",
         )}
       >
-        <Container
+        <div
           className={cn(
-            "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 transition-[height] sm:gap-3 md:grid-cols-[auto_1fr_auto] md:gap-6",
+            "max-w-8xl mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 md:grid-cols-[auto_1fr_auto] md:gap-6 md:px-6",
             scrolled ? "h-[72px] md:h-[76px]" : "h-[72px] md:h-20",
           )}
         >
-          <SiteLogo
-            priority
-            className="max-w-[calc(100%-7.5rem)] shrink-0 justify-self-start sm:max-w-none"
-          />
+          <SiteLogo priority className="shrink-0 justify-self-start" />
 
           <nav
             className="hidden w-full min-w-0 flex-nowrap items-center justify-evenly md:flex"
@@ -199,13 +195,13 @@ export function Header() {
 
           <div className="flex shrink-0 items-center gap-2 justify-self-end sm:gap-3 md:gap-5">
             <Link
-              href="/partners"
+              href="/partners#partner"
               className="text-leaf-600 hover:text-leaf-700 focus-visible:bg-leaf-50 focus-visible:text-leaf-700 hidden px-2 py-1 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-none md:inline-flex"
             >
               Partner with us
             </Link>
             <ButtonLink
-              href="/community"
+              href="/community#join"
               variant="green"
               className="hidden h-[52px] px-6 text-[15px] font-semibold md:inline-flex"
             >
@@ -213,7 +209,7 @@ export function Header() {
               Join our community
             </ButtonLink>
             <ButtonLink
-              href="/community"
+              href="/community#join"
               variant="green"
               className="h-11 min-w-11 px-4 text-sm font-semibold md:hidden"
             >
@@ -221,7 +217,7 @@ export function Header() {
             </ButtonLink>
             <MobileNav activePath={activePath} currentRoute={currentRoute} />
           </div>
-        </Container>
+        </div>
       </div>
     </header>
   );

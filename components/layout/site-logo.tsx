@@ -1,10 +1,10 @@
+import type { ComponentProps } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
 
-type SiteLogoProps = {
-  className?: string;
+type SiteLogoProps = Omit<ComponentProps<typeof Link>, "href" | "children"> & {
   imageClassName?: string;
   panel?: boolean;
   priority?: boolean;
@@ -15,6 +15,7 @@ export function SiteLogo({
   imageClassName,
   panel = false,
   priority = false,
+  ...rest
 }: SiteLogoProps) {
   return (
     <Link
@@ -25,6 +26,7 @@ export function SiteLogo({
         panel && "rounded-[20px] bg-white px-4 py-3 shadow-sm",
         className,
       )}
+      {...rest}
     >
       <Image
         src="/images/shared/iproduce-logo.webp"
@@ -34,7 +36,7 @@ export function SiteLogo({
         priority={priority}
         sizes="(min-width: 1280px) 172px, (min-width: 1024px) 156px, (min-width: 640px) 152px, 140px"
         className={cn(
-          "h-auto w-[140px] sm:w-[152px] lg:w-[156px] xl:w-[172px]",
+          "h-auto w-[140px] sm:w-[152px] lg:w-[156px] xl:w-[180px]",
           imageClassName,
         )}
       />

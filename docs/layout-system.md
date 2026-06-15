@@ -7,17 +7,38 @@ designed precisely without every section inventing its own structure.
 
 - the root app layout owns header, main, and footer for now
 - `PageHero` is the current shared intro pattern for secondary public pages
-- `Container` is the main width constraint and should stay the default outer
-  wrapper unless a full-bleed design reason exists.
+- keep the baseline page width visible in JSX so section structure stays easy to
+  scan while we build the six public pages
 
-## Container Rules
+## Width Baseline
 
-`components/ui/container.tsx` is the baseline layout wrapper:
+Use this class string on the outer wrapper of shared public sections unless the
+design explicitly needs a different posture:
 
-- max width: `1312px`
-- horizontal padding: `20px` mobile, `32px` small screens, `64px` desktop
+`mx-auto w-full max-w-8xl px-4 md:px-6`
 
-Do not create one-off container widths without a clear design need.
+Notes:
+
+- `max-w-8xl` is the shared 82rem layout width token defined in
+  `app/globals.css`
+- `px-4` is the default mobile gutter
+- `md:px-6` is the default wider public-page gutter
+- only break this baseline when the approved design clearly calls for it
+
+## Ownership Rule
+
+The page or section boundary owns layout width.
+
+- route pages can own the baseline wrapper when the whole page shares one width
+  rhythm
+- section components can own the baseline wrapper when they are page slices such
+  as Home sections
+- small reusable UI pieces should inherit width from their parent context
+- do not place `max-w-*` page-width constraints inside cards, buttons, nav
+  items, pills, badges, or other primitives
+
+This keeps layout decisions visible where they matter without leaking page
+structure into reusable components.
 
 ## Section Postures
 
@@ -114,5 +135,8 @@ Introduce a new shared layout primitive only when:
 
 - the pattern appears in at least a few places, and
 - the abstraction clarifies the code instead of hiding layout decisions
+
+For the current six-page marketing site, inline Tailwind on section wrappers is
+the preferred default over a dedicated container component.
 
 This repo should feel structured, not over-engineered.

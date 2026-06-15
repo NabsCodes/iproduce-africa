@@ -54,6 +54,12 @@ before any CMS or backend integration work begins.
 
 - Mobile is not a compressed desktop layout. Build intentional 390px
   compositions.
+- Layout width belongs to the page or section boundary, not to small reusable
+  primitives.
+- Use `mx-auto w-full max-w-8xl px-4 md:px-6` on route-level and section-level
+  wrappers by default.
+- Do not hide `max-w-*` page-width constraints inside cards, buttons, nav
+  items, badges, or other small reusable UI pieces.
 - Reuse existing primitives before creating new abstractions.
 - Promote a new primitive only when the pattern is stable and repeated enough
   to earn reuse.

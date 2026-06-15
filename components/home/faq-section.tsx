@@ -2,7 +2,6 @@
 
 import { MessageCircle, Minus, Plus } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent, type HomeFaqCategory } from "@/content/home";
 import { cn } from "@/lib/utils";
@@ -19,7 +18,7 @@ export function FaqSection() {
 
   return (
     <section id="faq" className="bg-[var(--bg-subtle)] py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="flex flex-col gap-16 lg:flex-row lg:gap-20">
           <div className="max-w-[380px] shrink-0">
             <EyebrowBadge>Frequently asked questions</EyebrowBadge>
@@ -123,7 +122,7 @@ export function FaqSection() {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

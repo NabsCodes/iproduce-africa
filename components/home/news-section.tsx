@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import { cn } from "@/lib/utils";
@@ -16,7 +15,7 @@ const articleCategoryClasses = {
 export function NewsSection() {
   return (
     <section className="bg-white py-20">
-      <Container>
+      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <EyebrowBadge>Featured article</EyebrowBadge>
@@ -69,7 +68,7 @@ export function NewsSection() {
             </article>
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

@@ -26,6 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${plusJakarta.variable} h-full scroll-smooth antialiased`}
     >
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">

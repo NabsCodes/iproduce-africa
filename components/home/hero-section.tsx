@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { homeContent } from "@/content/home";
 
 export function HeroSection() {
@@ -23,7 +22,7 @@ export function HeroSection() {
         }}
       />
 
-      <Container className="relative flex min-h-[720px] items-end pt-16 pb-[72px]">
+      <div className="max-w-8xl relative mx-auto flex min-h-[720px] w-full items-end px-4 pt-16 pb-[72px] md:px-6">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[677px]">
             <div className="inline-flex items-center gap-1 rounded-full bg-(--leaf-subtle) px-3 py-2">
@@ -78,7 +77,7 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
