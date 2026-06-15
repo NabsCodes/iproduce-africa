@@ -8,7 +8,7 @@ const eyebrowPillVariants = cva(
     variants: {
       tone: {
         leaf: "bg-leaf-50/95 text-leaf-600",
-        tangerine: "bg-tangerine-50/95 text-tangerine-700",
+        tangerine: "bg-tangerine-100 text-tangerine-700",
       },
       size: {
         sm: "px-3.5 py-1.5",

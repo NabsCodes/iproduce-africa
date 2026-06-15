@@ -57,13 +57,13 @@ export function AboutSection() {
                     key={pillar.title}
                     className="group transition-transform duration-200 hover:-translate-y-0.5"
                   >
-                    <span className="text-forest-600 group-hover:bg-leaf-600 flex size-12 items-center justify-center rounded-xl bg-(--forest-subtle) transition-colors duration-200 group-hover:text-white">
+                    <span className="bg-forest-subtle text-forest-600 group-hover:bg-leaf-600 flex size-12 items-center justify-center rounded-xl transition-colors duration-200 group-hover:text-white">
                       <Icon className="size-5" aria-hidden />
                     </span>
                     <h3 className="text-foreground mt-6 font-sans text-lg font-semibold">
                       {pillar.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-5 text-(--text-fg-subtle)">
+                    <p className="text-fg-subtle mt-3 text-sm leading-5">
                       {pillar.description}
                     </p>
                   </article>

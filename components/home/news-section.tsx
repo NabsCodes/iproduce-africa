@@ -7,9 +7,9 @@ import { homeContent } from "@/content/home";
 import { cn } from "@/lib/utils";
 
 const articleCategoryClasses = {
-  INNOVATION: "bg-[var(--forest-subtle)] text-forest-600",
-  TRADE: "bg-[var(--tangerine-subtle)] text-tangerine-700",
-  "SMART AGRICULTURE": "bg-[var(--leaf-subtle)] text-leaf-600",
+  INNOVATION: "bg-forest-subtle text-forest-600",
+  TRADE: "bg-tangerine-subtle text-tangerine-700",
+  "SMART AGRICULTURE": "bg-leaf-subtle text-leaf-600",
 } as const;
 
 export function NewsSection() {
@@ -38,7 +38,7 @@ export function NewsSection() {
           {homeContent.articles.map((article) => (
             <article
               key={article.title}
-              className="bg-bg-subtle flex flex-col rounded-[20px] border border-(--border-subtle) p-4"
+              className="border-border bg-subtle flex flex-col rounded-[20px] border p-4"
             >
               <Link href={article.href} className="group flex flex-1 flex-col">
                 <div className="relative aspect-4/3 overflow-hidden rounded-[14px]">
@@ -61,9 +61,7 @@ export function NewsSection() {
                 <h3 className="text-foreground group-hover:text-leaf-700 mt-3 font-serif text-lg leading-[26px] font-semibold">
                   {article.title}
                 </h3>
-                <p className="mt-1 text-xs text-(--text-fg-muted)">
-                  {article.meta}
-                </p>
+                <p className="text-fg-muted mt-1 text-xs">{article.meta}</p>
               </Link>
             </article>
           ))}

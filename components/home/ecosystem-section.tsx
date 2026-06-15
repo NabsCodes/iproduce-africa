@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function EcosystemSection() {
   return (
-    <section className="bg-bg-subtle py-20">
+    <section className="bg-subtle py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start">
           <div className="max-w-sm shrink-0">
@@ -25,7 +25,7 @@ export function EcosystemSection() {
                   key={journey.title}
                   className={cn(
                     "flex flex-col gap-10 rounded-2xl p-7",
-                    isDark ? "bg-forest-600 text-white" : "bg-(--leaf-subtle)",
+                    isDark ? "bg-forest-600 text-white" : "bg-leaf-subtle",
                   )}
                 >
                   <div>
@@ -43,7 +43,7 @@ export function EcosystemSection() {
                     <p
                       className={cn(
                         "mt-3 text-sm leading-5",
-                        isDark ? "text-[#f7f9f5]" : "text-(--text-fg-muted)",
+                        isDark ? "text-[#f7f9f5]" : "text-fg-muted",
                       )}
                     >
                       {journey.description}
@@ -54,7 +54,7 @@ export function EcosystemSection() {
                           key={item}
                           className={cn(
                             "flex items-center gap-3 text-sm",
-                            isDark ? "text-white" : "text-(--text-fg-muted)",
+                            isDark ? "text-white" : "text-fg-muted",
                           )}
                         >
                           <CheckCircle2

@@ -189,6 +189,30 @@ export const homeContent = {
       image: null,
       initials: "ZA",
     },
+    {
+      quote:
+        "The partner network opened doors we'd been knocking on for years. Real introductions, not cold leads.",
+      name: "Tendai Mukamuri",
+      role: "Agritech Founder · Zimbabwe",
+      image: null,
+      initials: "TM",
+    },
+    {
+      quote:
+        "Weekly webinars keep our team current on policy and AfCFTA changes — it's become part of our planning cycle.",
+      name: "Fatou Ndiaye",
+      role: "Operations Lead · Senegal",
+      image: null,
+      initials: "FN",
+    },
+    {
+      quote:
+        "We joined for the market access and stayed for the community. The peer learning is unmatched.",
+      name: "Samuel Okoye",
+      role: "Cassava Processor · Nigeria",
+      image: null,
+      initials: "SO",
+    },
   ],
   faqCategories: ["All", "Platform", "Membership", "Partners"],
   faqs: [

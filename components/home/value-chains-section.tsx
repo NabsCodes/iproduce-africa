@@ -1,5 +1,12 @@
-import { ValueChainsCarousel } from "@/components/home/value-chains-carousel";
+import { FocusAreaCard } from "@/components/home/focus-area-card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { homeContent } from "@/content/home";
 
 export function ValueChainsSection() {
   return (
@@ -12,15 +19,25 @@ export function ValueChainsSection() {
               Four connected sectors
             </h2>
           </div>
-          <p className="max-w-[360px] text-base leading-6 text-[var(--text-fg-muted)]">
+          <p className="text-fg-muted max-w-[360px] text-base leading-6">
             Four connected sectors forming the backbone of iProduce
             Africa&apos;s agribusiness transformation agenda.
           </p>
         </div>
 
-        <div className="mt-10">
-          <ValueChainsCarousel />
-        </div>
+        <Carousel className="mt-10" aria-label="Core focus areas">
+          <CarouselContent className="-ml-6">
+            {homeContent.valueChains.map((chain) => (
+              <CarouselItem
+                key={chain.title}
+                className="basis-[282px] pl-6"
+              >
+                <FocusAreaCard {...chain} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselDots className="mt-10 justify-end" />
+        </Carousel>
       </div>
     </section>
   );

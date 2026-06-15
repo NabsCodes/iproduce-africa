@@ -60,6 +60,9 @@ before any CMS or backend integration work begins.
   and section-level wrappers by default.
 - Do not hide `max-w-*` page-width constraints inside cards, buttons, nav
   items, badges, or other small reusable UI pieces.
+- Consume registered semantic colors through Tailwind utilities such as
+  `bg-subtle`, `text-fg-muted`, and `border-border`. Avoid direct
+  `var(--...)` color utilities in component JSX when a theme utility exists.
 - Reuse existing primitives before creating new abstractions.
 - Promote a new primitive only when the pattern is stable and repeated enough
   to earn reuse.

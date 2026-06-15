@@ -21,10 +21,8 @@ export function CarouselDots({
       {Array.from({ length: total }).map((_, index) => {
         const isActive = index === active;
         const indicatorClassName = cn(
-          "block transition-[width,background-color] duration-200",
-          isActive
-            ? "h-3 w-11 rounded-lg bg-[var(--leaf-emphasized)]"
-            : "size-2 rounded-full bg-[#dde5da]",
+          "block h-2 rounded-full transition-[width,background-color] duration-300 ease-out",
+          isActive ? "bg-leaf-emphasized w-10" : "w-2 bg-[#dde5da]",
         );
 
         if (!onSelect) {
@@ -37,7 +35,7 @@ export function CarouselDots({
           <button
             key={index}
             type="button"
-            className="flex min-h-6 min-w-6 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--leaf-emphasized)]"
+            className="focus-visible:outline-leaf-emphasized flex min-h-6 min-w-6 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
             aria-label={`Go to carousel page ${index + 1}`}
             aria-current={isActive ? "true" : undefined}
             onClick={() => onSelect(index)}

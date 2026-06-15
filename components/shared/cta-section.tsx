@@ -12,7 +12,7 @@ export function CtaSection() {
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute bottom-16 -left-14 size-44 rounded-full border-32 border-(--leaf-emphasized)/20"
+            className="border-leaf-emphasized/20 pointer-events-none absolute bottom-16 -left-14 size-44 rounded-full border-32"
           />
           <Sprout
             aria-hidden

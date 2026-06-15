@@ -48,9 +48,8 @@ Practical usage:
 
 - use `leaf` for main actions and green highlights
 - use `forest` for dark nav/footer surfaces and strong contrast moments
-- use semantic neutrals like `bg-subtle`, `bg-muted`, `border-subtle`, and
-  `text-fg-muted` instead of inventing a full extra neutral scale in every
-  component
+- use semantic neutrals like `bg-subtle`, `bg-muted`, `border-border`, and
+  `text-fg-muted` instead of reaching directly into CSS variables
 - use `tangerine` as accent, not as the default color for all CTAs
 - reserve state palettes for actual status meaning
 
@@ -60,6 +59,8 @@ Most components should prefer semantic roles before raw palette classes:
 
 - `bg-background`, `text-foreground`
 - `bg-card`, `border-border`
+- `bg-subtle`, `bg-panel`
+- `text-fg-muted`, `text-fg-subtle`
 - `bg-muted`, `text-muted-foreground`
 - `bg-primary`, `text-primary-foreground`
 - `bg-secondary`, `text-secondary-foreground`
@@ -72,6 +73,27 @@ expression:
 - `leaf` for primary emphasis
 - `forest` for contrast
 - `tangerine` for warm editorial accents
+
+Brand-tinted semantic surfaces use the same readable Tailwind vocabulary:
+
+- `bg-leaf-subtle`
+- `bg-forest-subtle`
+- `bg-tangerine-subtle`
+- `bg-leaf-emphasized`, `text-leaf-emphasized`, or
+  `border-leaf-emphasized` when that stronger role is required
+
+### Tailwind v4 Class Rule
+
+Component JSX should consume values registered through Tailwind's
+`--color-*` theme namespace. Do not use arbitrary CSS-variable color classes
+when an equivalent theme utility exists.
+
+`border-border` is intentional: the first `border` is Tailwind's property
+utility and the second is shadcn's standard semantic color role. For one-pixel
+grid separators, use `bg-border`.
+
+Direct CSS variables remain appropriate inside CSS declarations or third-party
+style configuration objects where Tailwind classes cannot apply.
 
 ## Typography
 

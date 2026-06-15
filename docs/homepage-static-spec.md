@@ -61,11 +61,16 @@ Current fidelity notes from the approved hero and what-we-do references:
   turn the grid into heavy marketing cards
 - the two-journey section remains a static side-by-side pathway composition on
   desktop rather than a carousel
-- the Core Focus strip uses the shared shadcn-style Embla carousel behavior;
-  its pagination count and active state must come from the actual snap list,
-  never from a hard-coded dot count
+- the Core Focus strip is a native horizontally scrollable content rail with
+  CSS scroll snap, not a pointer-drag carousel
+- its pagination count and active state must come from the real scrollable card
+  offsets, never from a hard-coded dot count
+- trackpad horizontal scroll, touch swipe, Shift-wheel, and the platform's
+  native scrollbar behavior should work without hijacking vertical page scroll
+- pagination dots remain the only custom navigation controls and update from
+  the rail's native scroll position
 - Core Focus card presentation belongs in a Home-specific reusable component,
-  while carousel mechanics and pagination indicators stay in `components/ui`
+  while the pagination indicator stays in `components/ui`
 
 The mobile version must be treated as its own composition. Reorder, restack,
 and resize intentionally instead of shrinking the desktop layout.

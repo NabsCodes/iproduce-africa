@@ -6,7 +6,7 @@ import { homeContent } from "@/content/home";
 
 export function IdeasSection() {
   return (
-    <section className="bg-bg-subtle py-20">
+    <section className="bg-subtle py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -30,7 +30,7 @@ export function IdeasSection() {
               <Calendar className="size-3.5" />
               Upcoming Events
             </span>
-            <span className="inline-flex h-8 items-center gap-1 rounded-full bg-(--bg-muted) px-3 text-[13px] font-medium text-[#272e22]">
+            <span className="bg-muted inline-flex h-8 items-center gap-1 rounded-full px-3 text-[13px] font-medium text-[#272e22]">
               <GraduationCap className="size-3.5" />
               Training programmes
             </span>
@@ -41,7 +41,7 @@ export function IdeasSection() {
           {homeContent.academyEvents.map((event) => (
             <article
               key={`${event.month}-${event.day}-${event.title}`}
-              className="flex flex-col justify-between rounded-[20px] border border-(--border-subtle) bg-white p-6"
+              className="border-border flex flex-col justify-between rounded-[20px] border bg-white p-6"
             >
               <div className="flex gap-4">
                 <div className="text-foreground bg-tangerine-subtle flex size-[60px] shrink-0 flex-col items-center justify-center rounded-[14px]">
@@ -54,9 +54,7 @@ export function IdeasSection() {
                   <h3 className="text-foreground font-serif text-lg leading-[26px] font-semibold">
                     {event.title}
                   </h3>
-                  <p className="mt-1 text-xs text-(--text-fg-muted)">
-                    {event.meta}
-                  </p>
+                  <p className="text-fg-muted mt-1 text-xs">{event.meta}</p>
                 </div>
               </div>
 

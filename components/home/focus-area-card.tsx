@@ -18,7 +18,8 @@ export function FocusAreaCard({
           src={image}
           alt={title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          draggable={false}
+          className="pointer-events-none object-cover transition-transform duration-500 select-none group-hover:scale-[1.03]"
           sizes="282px"
         />
         <div className="absolute inset-0 bg-black/10" aria-hidden />

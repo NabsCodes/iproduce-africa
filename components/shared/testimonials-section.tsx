@@ -1,0 +1,96 @@
+import Image from "next/image";
+import { Quote } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { homeContent } from "@/content/home";
+import { cn } from "@/lib/utils";
+
+function Avatar({
+  image,
+  initials,
+  name,
+}: {
+  image: string | null;
+  initials: string | null;
+  name: string;
+}) {
+  if (image) {
+    return (
+      <div className="relative size-8 overflow-hidden rounded-full">
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-cover"
+          sizes="32px"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <span
+      className={cn(
+        "flex size-8 items-center justify-center rounded-full",
+        "text-forest-600 bg-[#c8eb99] text-[11px] font-semibold tracking-wide",
+      )}
+    >
+      {initials}
+    </span>
+  );
+}
+
+export function TestimonialsSection() {
+  return (
+    <section className="bg-white py-20">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
+        <div className="max-w-xl">
+          <EyebrowBadge>Our impact</EyebrowBadge>
+          <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">
+            What our community says
+          </h2>
+          <p className="text-fg-muted mt-3 text-base leading-6">
+            Farmers, traders and innovators on what iProduce changed for them.
+          </p>
+        </div>
+
+        <Carousel className="mt-10" aria-label="Community testimonials">
+          <CarouselContent className="-ml-6">
+            {homeContent.testimonials.map((item) => (
+              <CarouselItem
+                key={item.name}
+                className="basis-full pl-6 sm:basis-1/2 lg:basis-1/3"
+              >
+                <article className="bg-subtle flex h-full flex-col gap-4 rounded-[20px] p-8">
+                  <Quote className="text-leaf-600 size-6" aria-hidden />
+                  <p className="text-foreground font-serif text-xl leading-7 font-semibold">
+                    {item.quote}
+                  </p>
+                  <div className="mt-auto flex items-center gap-3 pt-2">
+                    <Avatar
+                      image={item.image}
+                      initials={item.initials}
+                      name={item.name}
+                    />
+                    <div>
+                      <p className="text-foreground text-[13px] font-medium">
+                        {item.name}
+                      </p>
+                      <p className="text-fg-subtle text-xs">{item.role}</p>
+                    </div>
+                  </div>
+                </article>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselDots className="mt-10 justify-center" />
+        </Carousel>
+      </div>
+    </section>
+  );
+}
