@@ -1,7 +1,5 @@
-import Image from "next/image";
-import { CarouselDots } from "@/components/ui/carousel-dots";
+import { ValueChainsCarousel } from "@/components/home/value-chains-carousel";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { homeContent } from "@/content/home";
 
 export function ValueChainsSection() {
   return (
@@ -20,33 +18,9 @@ export function ValueChainsSection() {
           </p>
         </div>
 
-        <div className="mt-10 flex gap-6 overflow-x-auto pb-2">
-          {homeContent.valueChains.map((chain) => (
-            <article
-              key={chain.title}
-              className="w-[282px] shrink-0 rounded-[20px] border border-[var(--border-subtle)] bg-white p-4"
-            >
-              <div className="relative h-[280px] overflow-hidden rounded-[14px]">
-                <Image
-                  src={chain.image}
-                  alt={chain.title}
-                  fill
-                  className="object-cover"
-                  sizes="282px"
-                />
-                <div className="absolute inset-0 bg-black/10" aria-hidden />
-              </div>
-              <h3 className="text-foreground mt-3 font-serif text-lg leading-[26px] font-semibold">
-                {chain.title}
-              </h3>
-              <p className="mt-1 text-xs leading-4 text-[var(--text-fg-muted)]">
-                {chain.description}
-              </p>
-            </article>
-          ))}
+        <div className="mt-10">
+          <ValueChainsCarousel />
         </div>
-
-        <CarouselDots total={3} className="mt-10 justify-end" />
       </div>
     </section>
   );

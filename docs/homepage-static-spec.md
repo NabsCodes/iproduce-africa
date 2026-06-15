@@ -59,6 +59,13 @@ Current fidelity notes from the approved hero and what-we-do references:
   flip to the green active state only on hover
 - hover treatment in the what-we-do area should stay subtle and premium, not
   turn the grid into heavy marketing cards
+- the two-journey section remains a static side-by-side pathway composition on
+  desktop rather than a carousel
+- the Core Focus strip uses the shared shadcn-style Embla carousel behavior;
+  its pagination count and active state must come from the actual snap list,
+  never from a hard-coded dot count
+- Core Focus card presentation belongs in a Home-specific reusable component,
+  while carousel mechanics and pagination indicators stay in `components/ui`
 
 The mobile version must be treated as its own composition. Reorder, restack,
 and resize intentionally instead of shrinking the desktop layout.

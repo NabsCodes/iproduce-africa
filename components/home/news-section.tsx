@@ -38,10 +38,10 @@ export function NewsSection() {
           {homeContent.articles.map((article) => (
             <article
               key={article.title}
-              className="flex flex-col rounded-[20px] border border-[var(--border-subtle)] bg-[var(--bg-subtle)] p-4"
+              className="bg-bg-subtle flex flex-col rounded-[20px] border border-(--border-subtle) p-4"
             >
               <Link href={article.href} className="group flex flex-1 flex-col">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[14px]">
+                <div className="relative aspect-4/3 overflow-hidden rounded-[14px]">
                   <Image
                     src={article.image}
                     alt=""
@@ -61,7 +61,7 @@ export function NewsSection() {
                 <h3 className="text-foreground group-hover:text-leaf-700 mt-3 font-serif text-lg leading-[26px] font-semibold">
                   {article.title}
                 </h3>
-                <p className="mt-1 text-xs text-[var(--text-fg-muted)]">
+                <p className="mt-1 text-xs text-(--text-fg-muted)">
                   {article.meta}
                 </p>
               </Link>

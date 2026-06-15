@@ -49,7 +49,7 @@ export function TestimonialsSection() {
           <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">
             What our community says
           </h2>
-          <p className="mt-3 text-base leading-6 text-[var(--text-fg-muted)]">
+          <p className="mt-3 text-base leading-6 text-(--text-fg-muted)">
             Farmers, traders and innovators on what iProduce changed for them.
           </p>
         </div>
@@ -58,7 +58,7 @@ export function TestimonialsSection() {
           {homeContent.testimonials.map((item) => (
             <article
               key={item.name}
-              className="flex flex-col gap-4 rounded-[20px] bg-[var(--bg-subtle)] p-8"
+              className="bg-bg-subtle flex flex-col gap-4 rounded-[20px] p-8"
             >
               <Quote className="text-leaf-600 size-6" aria-hidden />
               <p className="text-foreground font-serif text-xl leading-7 font-semibold">
@@ -74,9 +74,7 @@ export function TestimonialsSection() {
                   <p className="text-foreground text-[13px] font-medium">
                     {item.name}
                   </p>
-                  <p className="text-xs text-[var(--text-fg-subtle)]">
-                    {item.role}
-                  </p>
+                  <p className="text-xs text-(--text-fg-subtle)">{item.role}</p>
                 </div>
               </div>
             </article>

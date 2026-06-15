@@ -17,7 +17,7 @@ export function FaqSection() {
       : homeContent.faqs.filter((faq) => faq.category === activeCategory);
 
   return (
-    <section id="faq" className="bg-[var(--bg-subtle)] py-20">
+    <section id="faq" className="bg-bg-subtle py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-16 lg:flex-row lg:gap-20">
           <div className="max-w-[380px] shrink-0">
@@ -27,7 +27,7 @@ export function FaqSection() {
               <br />
               answered.
             </h2>
-            <p className="mt-4 text-base leading-6 text-[var(--text-fg-muted)]">
+            <p className="mt-4 text-base leading-6 text-(--text-fg-muted)">
               Everything about the platform, membership and partnerships —
               answered plainly.
             </p>
@@ -62,7 +62,7 @@ export function FaqSection() {
                   className={cn(
                     "h-10 rounded-xl px-4 text-sm font-semibold transition-colors",
                     activeCategory === category
-                      ? "text-leaf-600 bg-[var(--leaf-subtle)]"
+                      ? "text-leaf-600 bg-(--leaf-subtle)"
                       : "text-[#272e22] hover:bg-white/60",
                   )}
                 >
@@ -80,8 +80,8 @@ export function FaqSection() {
                     key={faq.number}
                     className={cn(
                       isOpen
-                        ? "rounded-[20px] bg-[var(--leaf-subtle)] px-6 pt-6 pb-6"
-                        : "border-b border-[var(--border-subtle)] px-6 py-[22px]",
+                        ? "rounded-[20px] bg-(--leaf-subtle) px-6 pt-6 pb-6"
+                        : "border-b border-(--border-subtle) px-6 py-[22px]",
                     )}
                   >
                     <button
@@ -112,7 +112,7 @@ export function FaqSection() {
                       </span>
                     </button>
                     {isOpen ? (
-                      <p className="mt-3 pl-14 text-base leading-6 text-[var(--text-fg-muted)]">
+                      <p className="mt-3 pl-14 text-base leading-6 text-(--text-fg-muted)">
                         {faq.answer}
                       </p>
                     ) : null}
