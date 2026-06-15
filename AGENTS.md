@@ -56,8 +56,8 @@ before any CMS or backend integration work begins.
   compositions.
 - Layout width belongs to the page or section boundary, not to small reusable
   primitives.
-- Use `mx-auto w-full max-w-8xl px-4 md:px-6` on route-level and section-level
-  wrappers by default.
+- Use `mx-auto w-full max-w-8xl px-4 sm:px-6 lg:px-8 xl:px-10` on route-level
+  and section-level wrappers by default.
 - Do not hide `max-w-*` page-width constraints inside cards, buttons, nav
   items, badges, or other small reusable UI pieces.
 - Reuse existing primitives before creating new abstractions.

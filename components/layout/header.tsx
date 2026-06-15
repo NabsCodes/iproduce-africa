@@ -40,7 +40,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white">
       <div className="bg-forest-900 hidden text-white md:block">
-        <div className="max-w-8xl mx-auto flex h-[42px] w-full items-center justify-between gap-4 px-4 text-[13px] md:px-6 lg:gap-8 lg:text-[14px]">
+        <div className="max-w-8xl mx-auto flex h-[42px] w-full items-center justify-between gap-4 px-4 text-[13px] sm:px-6 lg:gap-8 lg:px-8 lg:text-[14px] xl:px-10">
           <p className="flex min-w-0 items-center gap-2 font-medium tracking-[-0.01em] text-white/95 lg:gap-2.5">
             <Clock3 className="size-4 shrink-0" aria-hidden />
             <span className="truncate lg:whitespace-normal">
@@ -61,7 +61,7 @@ export function Header() {
               aria-hidden
             />
             <a
-              href={`tel:${siteConfig.phone}`}
+              href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
               aria-label={`Call ${siteConfig.phone}`}
               className="hover:text-leaf-100 inline-flex items-center gap-2 text-white/95 transition-colors focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
             >
@@ -113,7 +113,7 @@ export function Header() {
       >
         <div
           className={cn(
-            "max-w-8xl mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 md:grid-cols-[auto_1fr_auto] md:gap-6 md:px-6",
+            "max-w-8xl mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 sm:px-6 md:grid-cols-[auto_1fr_auto] md:gap-6 lg:px-8 xl:px-10",
             scrolled ? "h-[72px] md:h-[76px]" : "h-[72px] md:h-20",
           )}
         >

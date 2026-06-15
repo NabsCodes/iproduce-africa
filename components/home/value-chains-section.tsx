@@ -6,7 +6,7 @@ import { homeContent } from "@/content/home";
 export function ValueChainsSection() {
   return (
     <section className="bg-white py-20">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <EyebrowBadge>Core areas of focus</EyebrowBadge>

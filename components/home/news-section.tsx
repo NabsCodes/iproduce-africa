@@ -15,7 +15,7 @@ const articleCategoryClasses = {
 export function NewsSection() {
   return (
     <section className="bg-white py-20">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <EyebrowBadge>Featured article</EyebrowBadge>

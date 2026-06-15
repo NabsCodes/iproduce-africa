@@ -26,7 +26,7 @@ const pillarIcons = {
 export function AboutSection() {
   return (
     <section className="bg-white py-20">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-20 lg:flex-row lg:items-center">
           <div className="flex-1 rounded-t-[20px] rounded-b-lg bg-(--bg-muted) p-7">
             <EyebrowBadge>What we do</EyebrowBadge>

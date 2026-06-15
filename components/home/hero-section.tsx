@@ -22,7 +22,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="max-w-8xl relative mx-auto flex min-h-[720px] w-full items-end px-4 pt-16 pb-[72px] md:px-6">
+      <div className="max-w-8xl relative mx-auto flex min-h-[720px] w-full items-end px-4 pt-16 pb-[72px] sm:px-6 lg:px-8 xl:px-10">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[677px]">
             <div className="inline-flex items-center gap-1 rounded-full bg-(--leaf-subtle) px-3 py-2">

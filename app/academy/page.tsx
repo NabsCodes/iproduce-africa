@@ -16,7 +16,7 @@ export default function AcademyPage() {
   return (
     <>
       <PageHero {...academyPageContent.hero} />
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-px bg-[var(--border-subtle)] lg:grid-cols-4">
           {academySections.map((section) => (
             <section

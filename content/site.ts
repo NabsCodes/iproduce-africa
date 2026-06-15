@@ -16,11 +16,49 @@ export const siteConfig = {
     "African agriculture ecosystem",
   ],
   email: "info@iproduceafrica.com",
-  phone: "08034108745",
+  phone: "+234 803 410 8745",
   hours: "Monday - Friday, 08 am - 05 pm",
+  address: "3, Baltic Crescent, Maitama, Abuja",
   socialLinks: [
     { label: "Facebook", platform: "facebook", href: undefined },
     { label: "Instagram", platform: "instagram", href: undefined },
     { label: "YouTube", platform: "youtube", href: undefined },
   ],
+  footer: {
+    description:
+      "Building Africa's connected agribusiness ecosystem through learning, networking, and strategic partnerships.",
+    linkGroups: [
+      {
+        title: "Explore",
+        links: [
+          { label: "About us", href: "/about" },
+          { label: "Academy", href: "/academy" },
+          { label: "Community", href: "/community" },
+          { label: "Partnerships", href: "/partners" },
+          { label: "Careers", href: undefined },
+        ],
+      },
+      {
+        title: "Academy",
+        links: [
+          { label: "Webinars", href: "/academy#webinars" },
+          { label: "Trainings", href: "/academy#training" },
+          { label: "Courses", href: "/academy#courses" },
+          { label: "Events", href: undefined },
+        ],
+      },
+    ],
+    newsletter: {
+      title: "Stay in the loop",
+      description: "Get updates on new trainings and ecosystem news.",
+      placeholder: "Your email address",
+      submitLabel: "Newsletter signup integration coming later",
+    },
+    legalLinks: [
+      { label: "Privacy", href: undefined },
+      { label: "Terms", href: undefined },
+      { label: "Cookies", href: undefined },
+      { label: "Accessibility", href: undefined },
+    ],
+  },
 } satisfies SiteConfig;

@@ -5,7 +5,7 @@ const partnerSlots = Array.from({ length: 7 }, (_, index) => index + 1);
 export function PartnersSection() {
   return (
     <section className="bg-[var(--forest-subtle)] pt-56 pb-20">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="text-center">
           <EyebrowBadge className="justify-center">Our partners</EyebrowBadge>
           <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">

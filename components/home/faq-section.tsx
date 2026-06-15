@@ -18,7 +18,7 @@ export function FaqSection() {
 
   return (
     <section id="faq" className="bg-[var(--bg-subtle)] py-20">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-16 lg:flex-row lg:gap-20">
           <div className="max-w-[380px] shrink-0">
             <EyebrowBadge>Frequently asked questions</EyebrowBadge>

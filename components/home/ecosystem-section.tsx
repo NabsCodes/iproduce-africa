@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export function EcosystemSection() {
   return (
     <section className="bg-[var(--bg-subtle)] py-20">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start">
           <div className="max-w-sm shrink-0">
             <EyebrowBadge>Your pathway</EyebrowBadge>

@@ -255,7 +255,7 @@ export function MobileNav({
               {siteConfig.email}
             </a>
             <a
-              href={`tel:${siteConfig.phone}`}
+              href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
               aria-label={`Call ${siteConfig.phone}`}
               className="text-grey-700 hover:text-forest-700 focus-visible:ring-leaf-400 shrink-0 text-sm tabular-nums transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >

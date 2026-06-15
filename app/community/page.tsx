@@ -23,7 +23,7 @@ export default function CommunityPage() {
         id={joinSection.id}
         className="scroll-mt-32 bg-white py-16 sm:py-20 md:scroll-mt-36"
       >
-        <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+        <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
           <div className="border-border-subtle bg-bg-subtle rounded-[32px] border">
             <div className="grid gap-8 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:gap-12 lg:px-12 lg:py-12">
               <div className="max-w-2xl">

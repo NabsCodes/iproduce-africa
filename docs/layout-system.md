@@ -15,14 +15,15 @@ designed precisely without every section inventing its own structure.
 Use this class string on the outer wrapper of shared public sections unless the
 design explicitly needs a different posture:
 
-`mx-auto w-full max-w-8xl px-4 md:px-6`
+`mx-auto w-full max-w-8xl px-4 sm:px-6 lg:px-8 xl:px-10`
 
 Notes:
 
 - `max-w-8xl` is the shared 82rem layout width token defined in
   `app/globals.css`
 - `px-4` is the default mobile gutter
-- `md:px-6` is the default wider public-page gutter
+- `sm:px-6`, `lg:px-8`, and `xl:px-10` widen the gutter progressively as the
+  viewport grows
 - only break this baseline when the approved design clearly calls for it
 
 ## Ownership Rule

@@ -6,6 +6,28 @@ export type SiteSocialLink = {
   href?: string;
 };
 
+export type SiteLinkItem = {
+  label: string;
+  href?: string;
+};
+
+export type SiteFooterLinkGroup = {
+  title: string;
+  links: readonly SiteLinkItem[];
+};
+
+export type SiteFooterConfig = {
+  description: string;
+  linkGroups: readonly SiteFooterLinkGroup[];
+  newsletter: {
+    title: string;
+    description: string;
+    placeholder: string;
+    submitLabel: string;
+  };
+  legalLinks: readonly SiteLinkItem[];
+};
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -14,7 +36,9 @@ export type SiteConfig = {
   email: string;
   phone: string;
   hours: string;
+  address: string;
   socialLinks: readonly SiteSocialLink[];
+  footer: SiteFooterConfig;
 };
 
 export type SitemapRoute = {

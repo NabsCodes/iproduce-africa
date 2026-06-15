@@ -4,7 +4,7 @@ import { ButtonLink } from "@/components/ui/button";
 export function CtaSection() {
   return (
     <section className="relative z-10 -mb-40 pb-0">
-      <div className="max-w-8xl mx-auto w-full px-4 md:px-6">
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bg-forest-600 relative overflow-hidden rounded-[28px] px-8 py-[72px] text-center text-white sm:px-16">
           <div
             aria-hidden
