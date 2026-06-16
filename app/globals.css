@@ -265,6 +265,27 @@
   --radius-xl: 1.25rem;
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
+
+  --animate-marquee: marquee var(--duration) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 /* ─── Typography ─────────────────────────────────────────────────────────── */
@@ -341,6 +362,11 @@ h6 {
     animation: none;
     transform: rotate(calc(var(--orbit-angle) * 1deg))
       translateX(var(--orbit-radius)) rotate(calc(var(--orbit-angle) * -1deg));
+  }
+
+  .animate-marquee,
+  .animate-marquee-vertical {
+    animation: none;
   }
 }
 

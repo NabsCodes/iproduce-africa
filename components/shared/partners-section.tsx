@@ -1,6 +1,7 @@
+import { PartnerLogo } from "@/components/shared/partner-logo";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-
-const partnerSlots = Array.from({ length: 7 }, (_, index) => index + 1);
+import { Marquee } from "@/components/ui/marquee";
+import { partnersList } from "@/content/partners";
 
 export function PartnersSection() {
   return (
@@ -17,17 +18,24 @@ export function PartnersSection() {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10 sm:gap-4">
-          {partnerSlots.map((slot) => (
-            <div
-              key={slot}
-              className="border-border flex h-12 w-[152px] items-center justify-center rounded-xl border bg-white sm:h-14 sm:w-[184px]"
-            >
-              <span className="text-fg-subtle text-[11px] font-semibold tracking-[0.14em]">
-                PARTNER LOGO
-              </span>
-            </div>
-          ))}
+        <div className="relative mt-10 sm:mt-12">
+          <Marquee
+            pauseOnHover
+            repeat={4}
+            className="[--duration:20s] [--gap:1rem]"
+          >
+            {partnersList.map((partner) => (
+              <div
+                key={partner.id}
+                className="border-border/60 bg-panel flex h-16 w-[180px] items-center justify-center rounded-2xl border px-6 sm:h-20 sm:w-[240px] sm:px-8"
+              >
+                <PartnerLogo partner={partner} />
+              </div>
+            ))}
+          </Marquee>
+
+          <div className="from-forest-subtle pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r to-transparent sm:w-24" />
+          <div className="from-forest-subtle pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l to-transparent sm:w-24" />
         </div>
       </div>
     </section>

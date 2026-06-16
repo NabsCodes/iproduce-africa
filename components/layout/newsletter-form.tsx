@@ -29,12 +29,9 @@ export function NewsletterForm() {
           type="submit"
           variant="tangerine"
           aria-label={siteConfig.footer.newsletter.submitLabel}
-          className="hover:shadow-tangerine-500/25 active:bg-tangerine-600 size-14 shrink-0 p-0 transition-all hover:-translate-y-px hover:shadow-lg active:translate-y-0 active:scale-[0.97]"
+          className="hover:shadow-tangerine-500/25 active:bg-tangerine-600 size-14 shrink-0 p-0 transition-all"
         >
-          <Send
-            className="size-5 transition-transform group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
-            aria-hidden
-          />
+          <Send className="size-5" aria-hidden />
         </Button>
       </Field>
     </form>

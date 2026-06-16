@@ -1,5 +1,30 @@
 import type { PageActionContent, PageHeroContent } from "@/types/content";
 
+export type Partner = {
+  id: string;
+  name: string;
+  logo: string;
+  href?: string;
+};
+
+export const partnersList: Partner[] = [
+  {
+    id: "icreate-africa",
+    name: "iCreate Africa",
+    logo: "/images/partners/icreate-africa.webp",
+  },
+  {
+    id: "islamic-development-bank",
+    name: "Islamic Development Bank",
+    logo: "/images/partners/islamic-development-bank.webp",
+  },
+  {
+    id: "nicert",
+    name: "NICERT",
+    logo: "/images/partners/nicert.webp",
+  },
+];
+
 export const partnersPageContent = {
   hero: {
     eyebrow: "Partnerships",

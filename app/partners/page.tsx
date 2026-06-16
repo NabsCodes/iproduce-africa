@@ -1,4 +1,5 @@
 import { PageHero } from "@/components/layout/page-hero";
+import { PartnersSection } from "@/components/shared/partners-section";
 import { ButtonLink, buttonVariants } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
@@ -18,6 +19,8 @@ export default function PartnersPage() {
   return (
     <>
       <PageHero {...partnersPageContent.hero} />
+
+      <PartnersSection />
 
       <section
         id={partnerSection.id}
