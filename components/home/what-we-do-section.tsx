@@ -26,7 +26,7 @@ export function WhatWeDoSection() {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
           <div className="bg-muted flex-1 rounded-t-[20px] rounded-b-lg p-5 sm:p-7">
             <EyebrowBadge>{homeContent.about.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {homeContent.about.title}
             </h2>
             <div className="relative mt-7 aspect-529/309 overflow-hidden rounded-3xl sm:mt-9">

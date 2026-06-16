@@ -11,7 +11,7 @@ export function TwoJourneysSection() {
         <div className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:items-start lg:gap-16">
           <div className="max-w-xs shrink-0">
             <EyebrowBadge>Your pathway</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               Two Journeys. One Ecosystem.
             </h2>
           </div>

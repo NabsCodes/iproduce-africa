@@ -46,7 +46,7 @@ export function AcademySpotlightSection() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <EyebrowBadge>Academy spotlight</EyebrowBadge>
-              <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
                 Explore Ideas for the agripreneur.
               </h2>
               <ButtonLink

@@ -15,8 +15,9 @@ export function PartnerLogo({ partner, className }: PartnerLogoProps) {
       alt={partner.name}
       width={200}
       height={64}
+      style={{ width: "auto" }}
       className={cn(
-        "h-9 w-auto object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0 sm:h-10 lg:h-12",
+        "h-9 object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0 sm:h-10 lg:h-12",
         className,
       )}
     />

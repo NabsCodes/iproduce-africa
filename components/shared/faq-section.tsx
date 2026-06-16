@@ -72,7 +72,7 @@ export function FaqSection() {
         <div className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:gap-20">
           <div className="max-w-[380px] shrink-0">
             <EyebrowBadge>Frequently asked questions</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               Questions,
               <br />
               answered.

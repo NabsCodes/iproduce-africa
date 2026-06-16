@@ -276,27 +276,36 @@ export const homeContent = {
   articles: [
     {
       category: "INNOVATION",
-      title: "From pilot to profit: three agritech success stories to watch",
-      meta: "May 19, 2026 · 8 min read",
+      readTime: "5 min read",
+      title: "How AgriTech Is Reshaping African Farms",
+      description:
+        "From mobile advisory to precision sensors — the tools changing how the continent farms.",
       image: placeholderImages.news.one,
-      href: "/academy#insights",
+      href: "/academy/insights",
     },
     {
       category: "TRADE",
-      title: "AfCFTA in practice: what agro-exporters learned in year three",
-      meta: "May 28, 2026 · 6 min read",
+      readTime: "4 min read",
+      title: "Unlocking Intra-African Trade",
+      description:
+        "What the AfCFTA means for producers and traders moving goods across borders.",
       image: placeholderImages.news.two,
-      href: "/academy#insights",
+      href: "/academy/insights",
     },
     {
       category: "SMART AGRICULTURE",
-      title: "How smart sensors are cutting water use by 40% on Kenyan farms",
-      meta: "May 12, 2026 · 5 min read",
+      readTime: "6 min read",
+      title: "Climate-Smart Practices That Pay Off",
+      description:
+        "Low-cost techniques that build resilience while improving farm profitability.",
       image: placeholderImages.news.three,
-      href: "/academy#insights",
+      href: "/academy/insights",
     },
   ],
 } as const;
+
+export type HomeArticle = (typeof homeContent.articles)[number];
+export type HomeArticleCategory = HomeArticle["category"];
 
 export type HomeFaqCategory = (typeof homeContent.faqCategories)[number];
 

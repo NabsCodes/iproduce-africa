@@ -15,7 +15,7 @@ export function CoreFocusSection() {
         <div className="flex flex-col gap-5 sm:gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <EyebrowBadge>Core areas of focus</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               Core Focus Areas
             </h2>
           </div>

@@ -92,7 +92,7 @@ export function CtaSection() {
               </span>
             </div>
 
-            <h2 className="mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               Join the Future of African Agriculture
             </h2>
 

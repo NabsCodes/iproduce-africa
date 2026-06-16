@@ -21,7 +21,7 @@ export function TestimonialsSection() {
       <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="max-w-xl">
           <EyebrowBadge>Our impact</EyebrowBadge>
-          <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
             What our community says
           </h2>
           <p className="text-fg-muted mt-3 text-base leading-6">

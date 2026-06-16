@@ -9,7 +9,7 @@ export function PartnersSection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="text-center">
           <EyebrowBadge className="justify-center">Our partners</EyebrowBadge>
-          <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
             Trusted by Partners across the Ecosystem
           </h2>
           <p className="text-fg-muted mx-auto mt-4 max-w-2xl text-base leading-6">
