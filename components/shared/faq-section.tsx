@@ -1,15 +1,64 @@
 "use client";
 
+import { useState } from "react";
 import { MessageCircle, Minus, Plus } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionPrimitive,
+} from "@/components/ui/accordion";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { homeContent, type HomeFaqCategory } from "@/content/home";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+
+function FaqAccordion({
+  items,
+}: {
+  items: readonly (typeof homeContent.faqs)[number][];
+}) {
+  return (
+    <Accordion
+      type="single"
+      collapsible
+      defaultValue={items[0] ? `faq-0` : undefined}
+      className="gap-2"
+    >
+      {items.map((faq, index) => {
+        const number = String(index + 1).padStart(2, "0");
+        return (
+          <AccordionItem
+            key={`${faq.category}-${faq.question}`}
+            value={`faq-${index}`}
+            className="border-border data-[state=open]:bg-leaf-subtle border-b transition-all data-[state=closed]:px-6 data-[state=closed]:py-[22px] data-[state=open]:rounded-[20px] data-[state=open]:border-b-0 data-[state=open]:px-6 data-[state=open]:pt-6 data-[state=open]:pb-6"
+          >
+            <AccordionPrimitive.Header className="flex">
+              <AccordionPrimitive.Trigger className="group/faq-trigger focus-visible:ring-leaf-400 flex w-full items-center gap-5 rounded-md text-left outline-none focus-visible:ring-2">
+                <span className="text-tangerine-400 w-9 shrink-0 font-serif text-lg font-semibold">
+                  {number}
+                </span>
+                <span className="text-foreground flex-1 font-serif text-lg leading-[26px] font-semibold">
+                  {faq.question}
+                </span>
+                <span className="text-foreground border-grey-300 group-data-[state=open]/faq-trigger:bg-forest-600 flex size-9 shrink-0 items-center justify-center rounded-[18px] border bg-white transition-colors group-data-[state=open]/faq-trigger:border-transparent group-data-[state=open]/faq-trigger:text-white">
+                  <Plus className="size-4 group-data-[state=open]/faq-trigger:hidden" />
+                  <Minus className="hidden size-4 group-data-[state=open]/faq-trigger:inline" />
+                </span>
+              </AccordionPrimitive.Trigger>
+            </AccordionPrimitive.Header>
+            <AccordionContent className="text-fg-muted pt-3 pb-0 pl-14 text-base leading-6">
+              {faq.answer}
+            </AccordionContent>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+}
 
 export function FaqSection() {
   const [activeCategory, setActiveCategory] = useState<HomeFaqCategory>("All");
-  const [openIndex, setOpenIndex] = useState(0);
 
   const filteredFaqs =
     activeCategory === "All"
@@ -50,76 +99,29 @@ export function FaqSection() {
           </div>
 
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap gap-2">
-              {homeContent.faqCategories.map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => {
-                    setActiveCategory(category);
-                    setOpenIndex(0);
-                  }}
-                  className={cn(
-                    "h-10 rounded-xl px-4 text-sm font-semibold transition-colors",
-                    activeCategory === category
-                      ? "bg-leaf-subtle text-leaf-600"
-                      : "text-[#272e22] hover:bg-white/60",
-                  )}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-5 space-y-2">
-              {filteredFaqs.map((faq, index) => {
-                const isOpen = openIndex === index;
-
-                return (
-                  <div
-                    key={faq.number}
-                    className={cn(
-                      isOpen
-                        ? "bg-leaf-subtle rounded-[20px] px-6 pt-6 pb-6"
-                        : "border-border border-b px-6 py-[22px]",
-                    )}
+            <Tabs
+              value={activeCategory}
+              onValueChange={(value) =>
+                setActiveCategory(value as HomeFaqCategory)
+              }
+              className="flex w-full flex-col gap-5"
+            >
+              <TabsList className="h-auto w-fit flex-wrap gap-2 bg-transparent p-0">
+                {homeContent.faqCategories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="text-foreground/70 hover:text-foreground data-[state=active]:bg-leaf-subtle data-[state=active]:text-leaf-600 h-10 flex-none rounded-xl border-0 px-4 text-sm font-semibold transition-colors hover:bg-white/60 data-[state=active]:shadow-none"
                   >
-                    <button
-                      type="button"
-                      aria-expanded={isOpen}
-                      onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                      className="flex w-full items-center gap-5 text-left"
-                    >
-                      <span className="text-tangerine-400 w-9 shrink-0 font-serif text-lg font-semibold">
-                        {faq.number}
-                      </span>
-                      <span className="text-foreground flex-1 font-serif text-lg leading-[26px] font-semibold">
-                        {faq.question}
-                      </span>
-                      <span
-                        className={cn(
-                          "flex size-9 shrink-0 items-center justify-center rounded-[18px]",
-                          isOpen
-                            ? "bg-forest-600 text-white"
-                            : "text-foreground border border-[#c2d0be] bg-white",
-                        )}
-                      >
-                        {isOpen ? (
-                          <Minus className="size-4" />
-                        ) : (
-                          <Plus className="size-4" />
-                        )}
-                      </span>
-                    </button>
-                    {isOpen ? (
-                      <p className="text-fg-muted mt-3 pl-14 text-base leading-6">
-                        {faq.answer}
-                      </p>
-                    ) : null}
-                  </div>
-                );
-              })}
-            </div>
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              <TabsContent value={activeCategory} className="mt-0">
+                <FaqAccordion items={filteredFaqs} />
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>

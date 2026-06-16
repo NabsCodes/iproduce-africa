@@ -4,12 +4,12 @@ import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import { cn } from "@/lib/utils";
 
-export function EcosystemSection() {
+export function TwoJourneysSection() {
   return (
     <section className="bg-subtle py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start">
-          <div className="max-w-sm shrink-0">
+          <div className="max-w-xs shrink-0">
             <EyebrowBadge>Your pathway</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">
               Two Journeys. One Ecosystem.

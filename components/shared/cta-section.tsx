@@ -1,23 +1,71 @@
-import { Handshake, Sprout, Users } from "lucide-react";
+import Image from "next/image";
+import { Handshake, Users } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
+import { DecorativeRing } from "@/components/ui/decorative-ring";
 
 export function CtaSection() {
   return (
     <section className="relative z-10 -mb-40 pb-0">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bg-forest-600 relative overflow-hidden rounded-[28px] px-8 py-[72px] text-center text-white sm:px-16">
+        <div className="bg-forest-900 relative overflow-clip rounded-[28px] px-8 py-[72px] text-center text-white sm:px-16">
+          <DecorativeRing
+            strokeWidth={10}
+            className="text-tangerine-500 top-1/2 -left-18 hidden size-[200px] -translate-y-1/2 md:block"
+          />
+          <DecorativeRing
+            strokeWidth={10}
+            className="text-leaf-700 top-0 right-0 hidden size-[260px] translate-x-1/2 -translate-y-1/2 md:block"
+          />
+
+          <Image
+            src="/svgs/sprout.svg"
+            alt=""
+            aria-hidden
+            width={228}
+            height={158}
+            unoptimized
+            className="pointer-events-none absolute top-6 left-10 hidden w-44 md:block"
+          />
+
+          <Image
+            src="/svgs/tree.svg"
+            alt=""
+            aria-hidden
+            width={355}
+            height={308}
+            unoptimized
+            className="pointer-events-none absolute right-12 bottom-4 hidden w-72 md:block"
+          />
+
           <div
             aria-hidden
-            className="border-tangerine-400/30 pointer-events-none absolute -top-16 -right-16 size-56 rounded-full border-40"
-          />
-          <div
-            aria-hidden
-            className="border-leaf-emphasized/20 pointer-events-none absolute bottom-16 -left-14 size-44 rounded-full border-32"
-          />
-          <Sprout
-            aria-hidden
-            className="pointer-events-none absolute top-8 left-14 size-48 -rotate-12 text-white/5"
-          />
+            className="pointer-events-none absolute inset-x-0 bottom-10 flex flex-col gap-3"
+          >
+            <Image
+              src="/svgs/lines-1.svg"
+              alt=""
+              width={1312}
+              height={19}
+              unoptimized
+              className="w-full"
+            />
+            <Image
+              src="/svgs/lines-2.svg"
+              alt=""
+              width={1312}
+              height={25}
+              unoptimized
+              className="w-full"
+            />
+            <Image
+              src="/svgs/lines-3.svg"
+              alt=""
+              width={1312}
+              height={17}
+              unoptimized
+              className="w-full"
+            />
+          </div>
 
           <div className="relative mx-auto max-w-3xl">
             <div className="inline-flex items-center gap-3 py-2">

@@ -128,50 +128,61 @@ export function Header() {
                 const isActive = activePath.startsWith(link.href);
 
                 return (
-                  <DropdownMenu key={link.href}>
-                    <DropdownMenuTrigger
+                  <div
+                    key={link.href}
+                    className="relative inline-flex items-center"
+                  >
+                    <Link
+                      href={link.href}
                       className={cn(
                         navLinkClass,
-                        "group/trigger data-[state=open]:bg-leaf-50 data-[state=open]:text-forest-700 gap-1",
+                        "pr-1",
                         isActive && "text-grey-950 font-semibold",
                       )}
                     >
                       {link.label}
-                      <ChevronDown
-                        aria-hidden
-                        className="size-3.5 opacity-70 transition-transform duration-200 group-data-[state=open]/trigger:rotate-180"
-                      />
                       <NavIndicator active={isActive} />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="start"
-                      sideOffset={8}
-                      className="border-grey-200 w-auto min-w-[240px] border bg-white p-2.5 shadow-[0_22px_54px_-28px_rgba(15,37,12,0.42)] ring-0"
-                    >
-                      {link.children.map((child) => {
-                        const isChildActive = currentRoute === child.href;
+                    </Link>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        aria-label={`${link.label} menu`}
+                        className="group/trigger text-grey-700 hover:text-forest-700 focus-visible:bg-leaf-50 focus-visible:text-forest-700 data-[state=open]:bg-leaf-50 data-[state=open]:text-forest-700 inline-flex size-6 items-center justify-center rounded-md transition-colors focus-visible:outline-none"
+                      >
+                        <ChevronDown
+                          aria-hidden
+                          className="size-3.5 opacity-70 transition-transform duration-200 group-data-[state=open]/trigger:rotate-180"
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align="start"
+                        sideOffset={8}
+                        className="border-grey-200 w-auto min-w-[240px] border bg-white p-2.5 shadow-[0_22px_54px_-28px_rgba(15,37,12,0.42)] ring-0"
+                      >
+                        {link.children.map((child) => {
+                          const isChildActive = currentRoute === child.href;
 
-                        return (
-                          <DropdownMenuItem
-                            key={child.href}
-                            asChild
-                            className="p-0 focus:bg-transparent"
-                          >
-                            <Link
-                              href={child.href}
-                              className={cn(
-                                "text-grey-900 hover:bg-leaf-50 focus-visible:bg-leaf-50 block cursor-pointer px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none",
-                                isChildActive &&
-                                  "bg-leaf-50 text-forest-700 font-semibold",
-                              )}
+                          return (
+                            <DropdownMenuItem
+                              key={child.href}
+                              asChild
+                              className="p-0 focus:bg-transparent"
                             >
-                              {child.label}
-                            </Link>
-                          </DropdownMenuItem>
-                        );
-                      })}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                              <Link
+                                href={child.href}
+                                className={cn(
+                                  "text-grey-900 hover:bg-leaf-50 focus-visible:bg-leaf-50 block cursor-pointer px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none",
+                                  isChildActive &&
+                                    "bg-leaf-50 text-forest-700 font-semibold",
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            </DropdownMenuItem>
+                          );
+                        })}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 );
               }
 

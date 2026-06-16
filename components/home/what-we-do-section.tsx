@@ -1,27 +1,25 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
-  Play,
-  Sprout,
-  Globe,
+  ArrowRight,
   GraduationCap,
-  Handshake,
+  Lightbulb,
+  Play,
+  TrendingUp,
   Users,
-  UserRound,
   type LucideIcon,
 } from "lucide-react";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 
-const pillarIcons = {
-  sprout: Sprout,
+const academyIcons: Record<string, LucideIcon> = {
   "graduation-cap": GraduationCap,
-  globe: Globe,
-  handshake: Handshake,
-  "user-round": UserRound,
+  lightbulb: Lightbulb,
   users: Users,
-} satisfies Record<string, LucideIcon>;
+  "trending-up": TrendingUp,
+};
 
-export function AboutSection() {
+export function WhatWeDoSection() {
   return (
     <section className="bg-white py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -48,25 +46,29 @@ export function AboutSection() {
           </div>
 
           <div className="flex-1">
-            <div className="grid gap-8 sm:grid-cols-2">
-              {homeContent.pillars.map((pillar) => {
-                const Icon = pillarIcons[pillar.icon];
-
+            <div className="grid gap-6 sm:grid-cols-2">
+              {homeContent.academyHighlights.map((card) => {
+                const Icon = academyIcons[card.icon];
                 return (
-                  <article
-                    key={pillar.title}
-                    className="group transition-transform duration-200 hover:-translate-y-0.5"
+                  <Link
+                    key={card.title}
+                    href={card.href}
+                    className="group border-border hover:border-leaf-300 focus-visible:border-leaf-400 focus-visible:ring-leaf-200 flex flex-col rounded-2xl border bg-white p-6 transition-colors focus-visible:ring-2 focus-visible:outline-none"
                   >
-                    <span className="bg-forest-subtle text-forest-600 group-hover:bg-leaf-600 flex size-12 items-center justify-center rounded-xl transition-colors duration-200 group-hover:text-white">
+                    <span className="bg-leaf-subtle text-leaf-700 group-hover:bg-leaf-600 flex size-12 items-center justify-center rounded-full transition-colors group-hover:text-white">
                       <Icon className="size-5" aria-hidden />
                     </span>
-                    <h3 className="text-foreground mt-6 font-sans text-lg font-semibold">
-                      {pillar.title}
+                    <h3 className="text-foreground mt-6 font-serif text-lg font-semibold">
+                      {card.title}
                     </h3>
-                    <p className="text-fg-subtle mt-3 text-sm leading-5">
-                      {pillar.description}
+                    <p className="text-fg-subtle mt-2 text-sm leading-5">
+                      {card.description}
                     </p>
-                  </article>
+                    <span className="text-leaf-700 group-hover:text-leaf-800 mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-colors">
+                      Jump to section
+                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
                 );
               })}
             </div>

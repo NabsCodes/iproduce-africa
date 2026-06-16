@@ -31,7 +31,7 @@ before any CMS or backend integration work begins.
 - `app/` owns public routes and metadata.
 - Keep the top-level `app/` structure flat for now. Introduce route groups only
   when route behavior or shells genuinely diverge.
-- `components/home/` owns Home-only sections.
+- `components/home/` owns Home-only sections. Name files after the section eyebrow or role (for example `what-we-do-section.tsx`, `core-focus-section.tsx`).
 - `components/layout/` owns shared site chrome and shared page-intro patterns.
 - `components/ui/` owns reusable primitives.
 - `content/` owns editable site copy and repeated collections.

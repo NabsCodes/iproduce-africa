@@ -6,7 +6,7 @@ import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent bg-clip-padding font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/button inline-flex shrink-0 items-center duration-300 justify-center gap-2 border border-transparent bg-clip-padding font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -30,7 +30,7 @@ const buttonVariants = cva(
           "bg-transparent px-0 text-leaf-700 hover:text-leaf-800 focus-visible:ring-leaf-300",
 
         tangerine:
-          "bg-tangerine-400 text-grey-950 hover:bg-tangerine-500 focus-visible:ring-tangerine-300",
+          "bg-tangerine-400 text-grey-950 hover:bg-tangerine-600 focus-visible:ring-tangerine-300",
         "tangerine-soft":
           "bg-tangerine-100 text-tangerine-800 hover:bg-tangerine-200 focus-visible:ring-tangerine-300",
         "tangerine-outline":
@@ -48,9 +48,9 @@ const buttonVariants = cva(
       },
       size: {
         /* Figma spec sizes */
-        sm: "h-10 rounded-lg px-4 text-sm [&_svg:not([class*='size-'])]:size-4",
-        md: "h-12 rounded-lg px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
-        lg: "h-14 rounded-xl px-6 text-base [&_svg:not([class*='size-'])]:size-6",
+        sm: "h-10 rounded-md px-4 text-sm [&_svg:not([class*='size-'])]:size-4",
+        md: "h-12 rounded-md px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
+        lg: "h-14 rounded-lg px-6 text-base [&_svg:not([class*='size-'])]:size-6",
 
         /* shadcn compat */
         default:

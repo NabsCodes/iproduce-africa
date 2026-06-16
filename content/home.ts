@@ -1,5 +1,16 @@
 import { placeholderImages } from "@/lib/placeholder-images";
 
+export type AcademyEventCategory = "event" | "training";
+
+export type AcademyEvent = {
+  date: string;
+  title: string;
+  meta: string;
+  tag: string;
+  category: AcademyEventCategory;
+  href: string;
+};
+
 /**
  * Static MVP content. Keep this file presentation-agnostic so each collection
  * can later map to a Sanity document or object without rewriting the sections.
@@ -33,6 +44,35 @@ export const homeContent = {
     image: placeholderImages.whatWeDo,
     imageAlt: "Farmers harvesting crops together",
   },
+  academyHighlights: [
+    {
+      icon: "graduation-cap",
+      title: "Webinars",
+      description:
+        "Live expert-led sessions on agribusiness trends and opportunities.",
+      href: "/academy/webinars",
+    },
+    {
+      icon: "lightbulb",
+      title: "Courses",
+      description:
+        "Structured learning programmes designed for practical impact.",
+      href: "/academy/courses",
+    },
+    {
+      icon: "users",
+      title: "Events",
+      description: "Workshops, conferences and networking engagements.",
+      href: "/academy/events",
+    },
+    {
+      icon: "trending-up",
+      title: "Insights",
+      description:
+        "Articles, industry updates and thought-leadership content.",
+      href: "/academy/insights",
+    },
+  ],
   pillars: [
     {
       title: "Agritech & Smart Agriculture",
@@ -102,7 +142,7 @@ export const homeContent = {
         "Impact measurement & reporting",
       ],
       href: "/partners#partner",
-      cta: "Partner with us",
+      cta: "Become a partner",
       tone: "dark",
     },
   ],
@@ -140,30 +180,54 @@ export const homeContent = {
   ],
   academyEvents: [
     {
-      month: "JUN",
-      day: "18",
+      date: "2026-06-18",
       title: "Climate-smart irrigation 101",
       meta: "Webinar · Online · Free",
       tag: "Webinar",
+      category: "event",
       href: "/academy#webinars",
     },
     {
-      month: "JUN",
-      day: "24",
+      date: "2026-06-24",
       title: "Post-harvest handling for vegetables",
       meta: "Training · Kano · Members",
       tag: "Workshop",
+      category: "training",
       href: "/academy#training",
     },
     {
-      month: "JUL",
-      day: "02",
+      date: "2026-07-02",
       title: "Exporting under AfCFTA — AMA",
       meta: "Live Q&A · Online · Free",
       tag: "Event",
+      category: "event",
       href: "/academy#webinars",
     },
-  ],
+    {
+      date: "2026-07-10",
+      title: "Cold-chain logistics for produce",
+      meta: "Training · Lagos · Members",
+      tag: "Workshop",
+      category: "training",
+      href: "/academy#training",
+    },
+    {
+      date: "2026-07-18",
+      title: "Pitching to agri-investors",
+      meta: "Webinar · Online · Free",
+      tag: "Webinar",
+      category: "event",
+      href: "/academy#webinars",
+    },
+    {
+      date: "2026-07-25",
+      title: "Cocoa fermentation & quality",
+      meta: "Training · Akure · Members",
+      tag: "Workshop",
+      category: "training",
+      href: "/academy#training",
+    },
+  ] satisfies readonly AcademyEvent[],
   testimonials: [
     {
       quote:
@@ -217,35 +281,30 @@ export const homeContent = {
   faqCategories: ["All", "Platform", "Membership", "Partners"],
   faqs: [
     {
-      number: "01",
       question: "What is iProduce Africa?",
       answer:
         "iProduce Africa is an agribusiness ecosystem connecting farmers, processors, traders, investors and innovators across the continent — with learning, networking and market-access tools in one place.",
       category: "Platform",
     },
     {
-      number: "02",
       question: "Who is the platform for?",
       answer:
         "Farmers, processors, traders, investors, researchers and agripreneurs — anyone building in African agriculture.",
       category: "Platform",
     },
     {
-      number: "03",
       question: "Is it free to join?",
       answer:
         "Basic community membership is free. Premium programmes and Academy courses may have separate pricing, which will be stated on each programme page.",
       category: "Membership",
     },
     {
-      number: "04",
       question: "Which countries do you operate in?",
       answer:
         "Our digital programmes and community are built for participants across Africa, with physical activities announced by location.",
       category: "Platform",
     },
     {
-      number: "05",
       question: "How do I become a partner?",
       answer:
         "Partners collaborate through co-designed programmes, market access initiatives, capacity building, and thought leadership. Visit our Partners page to start a conversation.",
@@ -278,3 +337,9 @@ export const homeContent = {
 } as const;
 
 export type HomeFaqCategory = (typeof homeContent.faqCategories)[number];
+
+export type HomeFaq = {
+  question: string;
+  answer: string;
+  category: Exclude<HomeFaqCategory, "All">;
+};

@@ -1,16 +1,16 @@
 import Image from "next/image";
 
-type FocusAreaCardProps = {
+type CoreFocusCardProps = {
   title: string;
   description: string;
   image: string;
 };
 
-export function FocusAreaCard({
+export function CoreFocusCard({
   title,
   description,
   image,
-}: FocusAreaCardProps) {
+}: CoreFocusCardProps) {
   return (
     <article className="group border-border h-full rounded-[20px] border bg-white p-4">
       <div className="relative h-[280px] overflow-hidden rounded-[14px]">

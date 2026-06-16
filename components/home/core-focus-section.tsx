@@ -1,4 +1,4 @@
-import { FocusAreaCard } from "@/components/home/focus-area-card";
+import { CoreFocusCard } from "@/components/home/core-focus-card";
 import {
   Carousel,
   CarouselContent,
@@ -8,7 +8,7 @@ import {
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 
-export function ValueChainsSection() {
+export function CoreFocusSection() {
   return (
     <section className="bg-white py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -16,7 +16,7 @@ export function ValueChainsSection() {
           <div>
             <EyebrowBadge>Core areas of focus</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">
-              Four connected sectors
+              Core Focus Areas
             </h2>
           </div>
           <p className="text-fg-muted max-w-[360px] text-base leading-6">
@@ -28,11 +28,8 @@ export function ValueChainsSection() {
         <Carousel className="mt-10" aria-label="Core focus areas">
           <CarouselContent className="-ml-6">
             {homeContent.valueChains.map((chain) => (
-              <CarouselItem
-                key={chain.title}
-                className="basis-[282px] pl-6"
-              >
-                <FocusAreaCard {...chain} />
+              <CarouselItem key={chain.title} className="basis-[282px] pl-6">
+                <CoreFocusCard {...chain} />
               </CarouselItem>
             ))}
           </CarouselContent>

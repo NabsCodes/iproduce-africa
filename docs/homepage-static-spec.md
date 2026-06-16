@@ -10,7 +10,14 @@ implementation with strong desktop and mobile fidelity.
 ## Files In Scope
 
 - `app/page.tsx`
-- `components/home/*`
+- `components/home/*` — section files are named after their eyebrow or section role:
+  - `hero-section.tsx` — top hero
+  - `what-we-do-section.tsx` — eyebrow: "What we do"
+  - `two-journeys-section.tsx` — eyebrow: "Your pathway"
+  - `core-focus-section.tsx` — eyebrow: "Core areas of focus"
+  - `core-focus-card.tsx` — card used by core focus rail
+  - `academy-spotlight-section.tsx` — eyebrow: "Academy spotlight"
+  - `featured-articles-section.tsx` — eyebrow: "Featured article"
 - Shared primitives only when a Home page need genuinely earns reuse
 - `content/home.ts`
 - `lib/placeholder-images.ts`
@@ -61,14 +68,14 @@ Current fidelity notes from the approved hero and what-we-do references:
   turn the grid into heavy marketing cards
 - the two-journey section remains a static side-by-side pathway composition on
   desktop rather than a carousel
-- the Core Focus strip is a native horizontally scrollable content rail with
-  CSS scroll snap, not a pointer-drag carousel
-- its pagination count and active state must come from the real scrollable card
-  offsets, never from a hard-coded dot count
-- trackpad horizontal scroll, touch swipe, Shift-wheel, and the platform's
-  native scrollbar behavior should work without hijacking vertical page scroll
-- pagination dots remain the only custom navigation controls and update from
-  the rail's native scroll position
+- the Core Focus strip uses the shared Embla-based carousel primitive for now,
+  with the cards still feeling like a calm horizontal rail rather than a heavy
+  slider
+- its pagination count and active state must come from the real carousel snap
+  points, never from a hard-coded dot count
+- touch, trackpad, keyboard, and pagination-dot navigation should feel smooth
+  without hijacking normal vertical page scroll
+- pagination dots remain the only visible custom navigation controls
 - Core Focus card presentation belongs in a Home-specific reusable component,
   while the pagination indicator stays in `components/ui`
 

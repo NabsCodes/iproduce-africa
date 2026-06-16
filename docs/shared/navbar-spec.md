@@ -78,12 +78,23 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 - Academy trigger uses the same highlight when open (`data-[state=open]`)
 - Chevron rotates 180° when Academy menu is open
 
-### Academy dropdown
+### Academy dropdown (split target)
 
-- shadcn `DropdownMenu` on desktop
-- Label-only items (no descriptions, no footer CTA)
+Academy is both a real page (`/academy`) and a parent route to sub-pages.
+The desktop nav uses a split-target pattern so clicking the label navigates
+and clicking the chevron opens the menu:
+
+- The label `Academy` is a Next.js `<Link href="/academy">` — clicking it
+  navigates immediately
+- The chevron sits in a small adjacent `DropdownMenuTrigger` button (size-6,
+  rounded-md) — clicking it opens the children menu without navigating
+- Both elements live inside one `relative inline-flex items-center` wrapper
+  so the active underline still spans the label area only
 - Panel: white, `min-w-[240px]`, light border, soft shadow, `sideOffset={8}`
 - Child links use `leaf-50` hover/active background
+- Children live at proper subroutes (`/academy/webinars`, `/academy/courses`,
+  `/academy/events`, `/academy/insights`) — not hash anchors. Each child is a
+  full page that will later be sourced from the CMS
 
 ### CTAs (desktop)
 
@@ -108,8 +119,10 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 - Top-level links: leaf-green right arrow on inactive; tangerine arrow, label,
   and number when the route is active
 - Academy: shadcn `Accordion` in `type="single"` controlled mode; auto-expands
-  when the active path starts with `/academy`. Children are label-only (no
-  description) to mirror the desktop dropdown
+  when the active path starts with `/academy`. The expanded panel begins with a
+  `Visit Academy` link (leaf-700, semibold) that points to `/academy` itself,
+  followed by the children. Mirrors the desktop split-target behaviour where
+  the parent is reachable as its own page
 - Active Academy child shows a full-width leaf-100 pill aligned with the parent
   label column (`pl-10`)
 - Open or active Academy parent flips to tangerine (label, number, chevron)

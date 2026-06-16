@@ -17,6 +17,7 @@
   --leaf-900: #2d401f;
   --leaf-950: #16230f;
   --leaf-subtle: var(--leaf-100);
+  --leaf-muted: #c8eb99;
   --leaf-emphasized: var(--leaf-300);
   --leaf-solid: var(--leaf-600);
   --leaf-contrast: #ffffff;
@@ -187,6 +188,7 @@
   --color-fg-muted: var(--text-fg-muted);
   --color-fg-subtle: var(--text-fg-subtle);
   --color-leaf-subtle: var(--leaf-subtle);
+  --color-leaf-muted: var(--leaf-muted);
   --color-tangerine-subtle: var(--tangerine-subtle);
   --color-leaf-emphasized: var(--leaf-emphasized);
   --color-forest-subtle: var(--forest-subtle);
@@ -303,4 +305,57 @@ h6 {
 
 .elevation-5 {
   box-shadow: 0 16px 40px rgb(17 28 22 / 0.14);
+}
+
+/* ─── Orbiting circles ───────────────────────────────────────────────────── */
+
+@keyframes orbit-path {
+  from {
+    transform: rotate(calc(var(--orbit-angle) * 1deg))
+      translateX(var(--orbit-radius)) rotate(calc(var(--orbit-angle) * -1deg));
+  }
+
+  to {
+    transform: rotate(calc(var(--orbit-angle) * 1deg + 360deg))
+      translateX(var(--orbit-radius))
+      rotate(calc(var(--orbit-angle) * -1deg - 360deg));
+  }
+}
+
+.orbit-item {
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  margin-left: calc(var(--orbit-size) / -2);
+  margin-top: calc(var(--orbit-size) / -2);
+  animation: orbit-path var(--orbit-duration) linear infinite;
+  animation-delay: var(--orbit-delay, 0s);
+  will-change: transform;
+}
+
+.orbit-item-reverse {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-item {
+    animation: none;
+    transform: rotate(calc(var(--orbit-angle) * 1deg))
+      translateX(var(--orbit-radius)) rotate(calc(var(--orbit-angle) * -1deg));
+  }
+}
+
+.ecosystem-orbit-frame {
+  position: relative;
+  width: min(var(--orbit-design-size, 598px), 100vw - 2rem);
+  aspect-ratio: 1;
+  container-type: inline-size;
+}
+
+.ecosystem-orbit-stage {
+  position: absolute;
+  inset: 0;
+  width: var(--orbit-design-size, 598px);
+  height: var(--orbit-design-size, 598px);
+  transform-origin: top left;
+  transform: scale(calc(100cqw / var(--orbit-design-size, 598px)));
 }

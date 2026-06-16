@@ -139,6 +139,23 @@ export function MobileNav({
                       </AccordionTrigger>
                       <AccordionContent className="pt-0 pb-3 [&_a]:no-underline">
                         <ul className="space-y-1 pl-10">
+                          <li>
+                            <SheetClose asChild>
+                              <Link
+                                href={link.href}
+                                aria-current={
+                                  currentRoute === link.href
+                                    ? "page"
+                                    : undefined
+                                }
+                                className={cn(
+                                  "text-leaf-700 hover:bg-leaf-50 focus-visible:ring-leaf-400 block rounded-2xl px-4 py-3 font-sans text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none",
+                                )}
+                              >
+                                Visit Academy
+                              </Link>
+                            </SheetClose>
+                          </li>
                           {link.children.map((child) => {
                             const isChildActive = currentRoute === child.href;
                             return (
