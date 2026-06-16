@@ -51,7 +51,7 @@ export function MobileNav({
       <SheetTrigger asChild>
         <button
           type="button"
-          className="text-grey-950 focus-visible:ring-leaf-400 inline-flex size-11 shrink-0 items-center justify-center transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:outline-none md:hidden"
+          className="text-grey-950 focus-visible:ring-leaf-400 inline-flex size-11 shrink-0 items-center justify-center transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:outline-none lg:hidden"
           aria-label="Open menu"
           aria-expanded={open}
         >

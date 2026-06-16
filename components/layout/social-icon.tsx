@@ -1,5 +1,10 @@
 import type { ComponentType } from "react";
-import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaYoutube,
+} from "react-icons/fa6";
 
 import { cn } from "@/lib/utils";
 import type { SiteSocialLink } from "@/types/site";
@@ -7,6 +12,7 @@ import type { SiteSocialLink } from "@/types/site";
 const socialIconMap = {
   facebook: FaFacebookF,
   instagram: FaInstagram,
+  linkedin: FaLinkedinIn,
   youtube: FaYoutube,
 } as const satisfies Record<
   SiteSocialLink["platform"],

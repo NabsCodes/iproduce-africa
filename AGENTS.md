@@ -54,6 +54,12 @@ before any CMS or backend integration work begins.
 
 - Mobile is not a compressed desktop layout. Build intentional 390px
   compositions.
+- A desktop screenshot is not enough to mark a section complete. When changing
+  UI, make the mobile and tablet layout decisions in the same pass unless the
+  user explicitly scopes the work to desktop only.
+- Keep mobile vertical padding tighter than desktop by default; current Home
+  sections generally use `py-14 sm:py-16 lg:py-20` unless the design needs a
+  custom rhythm.
 - Layout width belongs to the page or section boundary, not to small reusable
   primitives.
 - Use `mx-auto w-full max-w-8xl px-4 sm:px-6 lg:px-8 xl:px-10` on route-level

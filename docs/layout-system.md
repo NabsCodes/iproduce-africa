@@ -79,7 +79,9 @@ Use for pillars, value chains, testimonials, or article previews.
 
 Default to a predictable vertical rhythm:
 
-- standard section padding: generous on desktop, slightly tighter on mobile
+- standard section padding: generous on desktop, tighter on mobile
+- Home sections default to `py-14 sm:py-16 lg:py-20` unless the design needs a
+  custom hero, CTA, or overlap rhythm
 - large section gaps should feel intentional, not accidental
 - inner card spacing should tighten as density increases
 
@@ -99,6 +101,10 @@ Avoid mixing too many radius values on one screen.
 ## Desktop And Mobile Are Different Layouts
 
 390px is a required design checkpoint.
+
+Do not treat mobile as cleanup after desktop. If a section is changed from a
+desktop reference, the same implementation pass must also decide the 390px and
+tablet layouts so later agents are not forced to rediscover the same breakpoints.
 
 Mobile rules:
 

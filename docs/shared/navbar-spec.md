@@ -32,8 +32,11 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 
 - **Below `md` (768px):** compact header — logo, compact `Join` CTA, plain
   hamburger. Utility bar hidden. Full nav lives in the mobile sheet.
-- **`md` and up:** utility bar visible, full desktop nav, `Partner with us` text
-  CTA, full `Join our community` button.
+- **`md` to below `xl`:** tablet header — utility bar is visible, but the
+  primary bar stays compact with logo, compact `Join` CTA, and hamburger. Do
+  not show the full desktop nav here; it does not have enough horizontal room.
+- **`xl` and up:** full desktop nav, `Partner with us` text CTA, and full
+  `Join our community` button.
 
 ## Desktop Structure
 
@@ -43,18 +46,22 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 - Height: `42px`
 - Left: hours with clock icon (`siteConfig.hours`)
 - Right: email, phone, then social icons
-- Email and phone labels truncate on smaller desktop widths; full text from `lg`
+- Email and phone labels are visible from `md`; email truncates if space gets
+  tight and phone stays tabular/nowrap
+- Social icons stay visible from `md`; tighten gaps and email truncation instead
+  of removing the icons on tablet
+- Contact groups use the shared `Separator` primitive for vertical dividers
 - Social entries without `href` render as muted non-clickable placeholder icons
 
 ### Primary bar
 
 - White background, bottom border (`grey-200`, darkens slightly on scroll)
-- Height: `72px` default, `80px` at `md+` (slightly shorter when scrolled)
-- Layout: `md:grid-cols-[auto_1fr_auto]` — logo | nav | CTAs
+- Height: `72px` default, `80px` at `xl+` (slightly shorter when scrolled)
+- Layout: `xl:grid-cols-[auto_1fr_auto]` — logo | nav | CTAs
 
 ### Main navigation
 
-- Hidden below `md`, visible from `md` up
+- Hidden below `xl`, visible from `xl` up
 - Spans the center grid column with `w-full justify-evenly` so links distribute
   evenly between logo and CTAs
 - Items from `mainNavigation`: Home, About us, Academy (dropdown), Community,
@@ -104,7 +111,7 @@ and clicking the chevron opens the menu:
 
 ## Mobile Structure
 
-### Header chrome (below `md`)
+### Header chrome (below `xl`)
 
 - Logo left
 - Compact green `Join` button (`/community`)

@@ -68,46 +68,8 @@ export const homeContent = {
     {
       icon: "trending-up",
       title: "Insights",
-      description:
-        "Articles, industry updates and thought-leadership content.",
+      description: "Articles, industry updates and thought-leadership content.",
       href: "/academy/insights",
-    },
-  ],
-  pillars: [
-    {
-      title: "Agritech & Smart Agriculture",
-      description:
-        "End-to-end coaching on agritech to help agripreneurs scale sustainably. Precision tools and digital innovation for modern farms.",
-      icon: "sprout",
-    },
-    {
-      title: "Training & Capacity",
-      description:
-        "Structured programmes, workshops, and e-learning resources built for the modern African agricultural entrepreneur.",
-      icon: "graduation-cap",
-    },
-    {
-      title: "Market & Trade Linkages",
-      description:
-        "Direct access to intra-African and global markets through our network of buyers, exporters, and trade partners.",
-      icon: "globe",
-    },
-    {
-      title: "Agribusiness Leadership",
-      description:
-        "Strategic collaboration with NGOs, funders, investors, and institutions driving agricultural development across Africa.",
-      icon: "handshake",
-    },
-    {
-      title: "Women in Agriculture",
-      description: "Backing women-led enterprises across the value chain.",
-      icon: "user-round",
-    },
-    {
-      title: "Youth Development",
-      description:
-        "Bringing the next generation of African farmers and agripreneurs into modern, digitally-enabled agribusiness.",
-      icon: "users",
     },
   ],
   journeys: [
@@ -148,34 +110,34 @@ export const homeContent = {
   ],
   valueChains: [
     {
-      title: "Livestock",
+      title: "Livestock & Poultry",
       description:
-        "Cattle, poultry, aquaculture — building resilient protein value chains across the continent.",
-      image: placeholderImages.valueChains.livestock,
+        "Breeding, feed, animal health and market access for livestock and poultry producers.",
+      image: "/images/home/livestock.webp",
     },
     {
       title: "Cotton & Garment",
       description:
         "From field to fabric — integrating cotton growers into regional textile and fashion supply chains.",
-      image: placeholderImages.valueChains.cotton,
+      image: "/images/home/cotton-garment.webp",
     },
     {
-      title: "Fruits & Vegetables",
+      title: "Crops & Grains",
       description:
-        "Reducing post-harvest losses and connecting produce to urban, export, and processing markets.",
-      image: placeholderImages.valueChains.fruits,
-    },
-    {
-      title: "Essential Oils",
-      description:
-        "Unlocking Africa's aromatic plant heritage for high-value cosmetic, pharma, and wellness markets.",
-      image: placeholderImages.valueChains.oils,
+        "Staple and cash crops — better inputs, higher yields and reliable market access.",
+      image: "/images/home/crops-grains.webp",
     },
     {
       title: "Horticulture",
       description:
-        "High-value greenhouse and floriculture production for domestic and export markets.",
-      image: placeholderImages.valueChains.horticulture,
+        "Fruits, vegetables and high-value produce, from greenhouse to fresh market.",
+      image: "/images/home/horticulture.webp",
+    },
+    {
+      title: "Aquaculture & Fisheries",
+      description:
+        "Sustainable fish farming and value addition across inland and coastal communities.",
+      image: "/images/home/aquaculture.webp",
     },
   ],
   academyEvents: [

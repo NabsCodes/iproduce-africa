@@ -48,6 +48,28 @@ After each meaningful session, update:
   extracted constants. Direct state over `useMemo` unless something is
   actually expensive.
 
+## Mobile First
+
+Write base styles for mobile, scale up at `sm:` / `md:` / `lg:` / `xl:`.
+Never the other way around.
+
+- Title sizes start small (`text-[28px]` / `text-3xl`) and grow at `sm:` and
+  `lg:` for desktop comfort.
+- Paddings start tight (`py-12`/`py-14`) and grow at `sm:` and `lg:`.
+- A two-column desktop layout starts as a single `flex-col` and adds
+  `lg:flex-row` at the breakpoint.
+- A grid-of-three desktop layout starts as `grid-cols-1`, then `sm:grid-cols-2`,
+  then `lg:grid-cols-3`.
+
+For sections that swap layout entirely on mobile (a hero with overlay text on
+desktop vs. a stacked card on mobile, for example), it's fine to render two
+JSX blocks gated by `lg:hidden` / `hidden lg:block` — that's clearer than
+fighting one structure into both.
+
+Aim to keep each section visually contained on mobile (the bulk of it visible
+without long scroll within the section), unless the section is genuinely
+content-heavy.
+
 ## Respect the Design System
 
 Variant components own their own visual tokens. Do **not** override them

@@ -25,8 +25,8 @@ export function HeroSection() {
   return (
     <section>
       {/* Mobile: stacked white layout */}
-      <div className="bg-white px-4 pt-10 pb-12 sm:px-6 lg:hidden">
-        <div className="mx-auto flex max-w-xl flex-col gap-6">
+      <div className="bg-subtle px-4 pt-10 pb-12 sm:px-6 md:hidden">
+        <div className="mx-auto flex flex-col gap-6">
           <EyebrowPill tone={hero.eyebrowTone} size="sm">
             {hero.eyebrow}
           </EyebrowPill>
@@ -76,7 +76,7 @@ export function HeroSection() {
             {hero.stats.map((stat) => (
               <div
                 key={stat.label}
-                className="border-border rounded-2xl border bg-white px-3 py-4 text-center"
+                className="border-border rounded-lg border bg-white px-3 py-4 text-center"
               >
                 <p className="text-foreground font-serif text-xl font-semibold">
                   {stat.value}
@@ -90,7 +90,7 @@ export function HeroSection() {
       </div>
 
       {/* Desktop: full-bleed overlay layout */}
-      <div className="relative hidden min-h-[720px] overflow-hidden lg:block">
+      <div className="relative hidden min-h-[720px] overflow-hidden md:block">
         <Image
           src={hero.image}
           alt={hero.imageAlt}

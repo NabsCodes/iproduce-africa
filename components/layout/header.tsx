@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronDown, Clock3, Mail, Phone, UsersRound } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,32 +48,32 @@ export function Header() {
               {siteConfig.hours}
             </span>
           </p>
-          <div className="flex shrink-0 items-center gap-2.5 lg:gap-4">
+          <div className="flex min-w-0 shrink-0 items-center gap-2.5 lg:gap-4">
             <a
               href={`mailto:${siteConfig.email}`}
               aria-label={`Email ${siteConfig.email}`}
-              className="hover:text-leaf-100 inline-flex items-center gap-2 text-white/95 transition-colors focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
+              className="hover:text-leaf-100 inline-flex min-w-0 items-center gap-2 text-white/95 transition-colors focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
             >
               <Mail className="size-4 shrink-0" aria-hidden />
-              <span className="hidden lg:inline">{siteConfig.email}</span>
+              <span className="max-w-[165px] truncate lg:max-w-[210px]">
+                {siteConfig.email}
+              </span>
             </a>
-            <span
-              className="hidden h-4 w-px bg-white/25 lg:block"
-              aria-hidden
-            />
             <a
               href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
               aria-label={`Call ${siteConfig.phone}`}
               className="hover:text-leaf-100 inline-flex items-center gap-2 text-white/95 transition-colors focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
             >
               <Phone className="size-4 shrink-0" aria-hidden />
-              <span className="hidden lg:inline">{siteConfig.phone}</span>
+              <span className="whitespace-nowrap tabular-nums">
+                {siteConfig.phone}
+              </span>
             </a>
-            <span
-              className="hidden h-4 w-px bg-white/25 lg:block"
-              aria-hidden
+            <Separator
+              orientation="vertical"
+              className="h-4 w-px bg-white/60"
             />
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2 lg:gap-2.5">
               {siteConfig.socialLinks.map((social) => {
                 if (social.href) {
                   return (
@@ -113,14 +114,14 @@ export function Header() {
       >
         <div
           className={cn(
-            "max-w-8xl mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 sm:px-6 md:grid-cols-[auto_1fr_auto] md:gap-6 lg:px-8 xl:px-10",
-            scrolled ? "h-[72px] md:h-[76px]" : "h-[72px] md:h-20",
+            "max-w-8xl mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 sm:px-6 lg:grid-cols-[auto_1fr_auto] lg:gap-6 lg:px-8 xl:px-10",
+            scrolled ? "h-[72px] lg:h-[76px]" : "h-[72px] lg:h-20",
           )}
         >
           <SiteLogo priority className="shrink-0 justify-self-start" />
 
           <nav
-            className="hidden w-full min-w-0 flex-nowrap items-center justify-evenly md:flex"
+            className="hidden w-full min-w-0 flex-nowrap items-center justify-center gap-2 lg:flex xl:gap-4"
             aria-label="Main"
           >
             {mainNavigation.map((link) => {
@@ -207,14 +208,14 @@ export function Header() {
           <div className="flex shrink-0 items-center gap-2 justify-self-end sm:gap-3 md:gap-5">
             <Link
               href="/partners#partner"
-              className="text-leaf-600 hover:text-leaf-700 focus-visible:bg-leaf-50 focus-visible:text-leaf-700 hidden px-2 py-1 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-none md:inline-flex"
+              className="text-leaf-600 hover:text-leaf-700 focus-visible:bg-leaf-50 focus-visible:text-leaf-700 hidden px-2 py-1 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-none lg:inline-flex"
             >
               Partner with us
             </Link>
             <ButtonLink
               href="/community#join"
               variant="green"
-              className="hidden h-[52px] px-6 text-[15px] font-semibold md:inline-flex"
+              className="hidden h-[52px] px-6 text-[15px] font-semibold xl:inline-flex"
             >
               <UsersRound className="size-4" />
               Join our community
@@ -222,7 +223,7 @@ export function Header() {
             <ButtonLink
               href="/community#join"
               variant="green"
-              className="h-11 min-w-11 px-4 text-sm font-semibold md:hidden"
+              className="h-11 min-w-11 px-4 text-sm font-semibold xl:hidden"
             >
               Join
             </ButtonLink>

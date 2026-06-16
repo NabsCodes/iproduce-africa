@@ -54,6 +54,11 @@ Every Home section should be checked against the approved desktop design for:
 - CTA hierarchy
 - section height and vertical rhythm
 
+Every Home section should also be checked at 390px and tablet widths in the
+same implementation pass. Desktop-first references are useful, but they do not
+complete a section until the mobile composition, card density, CTA stacking, and
+horizontal overflow behavior are also intentional.
+
 Current fidelity notes from the approved hero and what-we-do references:
 
 - the hero eyebrow uses a shared pill treatment, not one-off inline markup

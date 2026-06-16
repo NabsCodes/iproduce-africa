@@ -6,17 +6,17 @@ import { cn } from "@/lib/utils";
 
 export function TwoJourneysSection() {
   return (
-    <section className="bg-subtle py-20">
+    <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="flex flex-col gap-16 lg:flex-row lg:items-start">
+        <div className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:items-start lg:gap-16">
           <div className="max-w-xs shrink-0">
             <EyebrowBadge>Your pathway</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-[40px] leading-[48px] font-semibold tracking-[-0.01em]">
+            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               Two Journeys. One Ecosystem.
             </h2>
           </div>
 
-          <div className="grid flex-1 gap-8 lg:grid-cols-2">
+          <div className="grid flex-1 gap-5 sm:gap-8 lg:grid-cols-2">
             {homeContent.journeys.map((journey) => {
               const isDark = journey.tone === "dark";
 
@@ -24,7 +24,7 @@ export function TwoJourneysSection() {
                 <article
                   key={journey.title}
                   className={cn(
-                    "flex flex-col gap-10 rounded-2xl p-7",
+                    "flex flex-col gap-8 rounded-2xl p-6 sm:gap-10 sm:p-7",
                     isDark ? "bg-forest-600 text-white" : "bg-leaf-subtle",
                   )}
                 >
@@ -37,7 +37,7 @@ export function TwoJourneysSection() {
                     >
                       {journey.audience}
                     </p>
-                    <h3 className="mt-3 font-serif text-[32px] leading-10 font-semibold tracking-[-0.005em]">
+                    <h3 className="mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.005em] sm:text-3xl sm:leading-10">
                       {journey.title}
                     </h3>
                     <p
@@ -48,7 +48,7 @@ export function TwoJourneysSection() {
                     >
                       {journey.description}
                     </p>
-                    <ul className="mt-6 space-y-4">
+                    <ul className="mt-5 space-y-3.5 sm:mt-6 sm:space-y-4">
                       {journey.items.map((item) => (
                         <li
                           key={item}

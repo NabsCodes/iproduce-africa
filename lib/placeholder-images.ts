@@ -21,7 +21,7 @@ export const placeholderImages = {
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80",
   },
   news: {
-    one: "https://images.unsplash.com/photo-1574943329840-66a1e3e2a4a8?auto=format&fit=crop&w=800&q=80",
+    one: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80",
     two: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
     three:
       "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=80",

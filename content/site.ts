@@ -20,8 +20,9 @@ export const siteConfig = {
   hours: "Monday - Friday, 08 am - 05 pm",
   address: "3, Baltic Crescent, Maitama, Abuja",
   socialLinks: [
-    { label: "Facebook", platform: "facebook", href: undefined },
     { label: "Instagram", platform: "instagram", href: undefined },
+    { label: "LinkedIn", platform: "linkedin", href: undefined },
+    { label: "Facebook", platform: "facebook", href: undefined },
     { label: "YouTube", platform: "youtube", href: undefined },
   ],
   footer: {
@@ -41,10 +42,10 @@ export const siteConfig = {
       {
         title: "Academy",
         links: [
-          { label: "Webinars", href: "/academy#webinars" },
-          { label: "Trainings", href: "/academy#training" },
-          { label: "Courses", href: "/academy#courses" },
-          { label: "Events", href: undefined },
+          { label: "Webinars", href: "/academy/webinars" },
+          { label: "Courses", href: "/academy/courses" },
+          { label: "Events", href: "/academy/events" },
+          { label: "Insights", href: "/academy/insights" },
         ],
       },
     ],

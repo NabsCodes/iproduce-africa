@@ -46,8 +46,8 @@ export function Footer() {
   return (
     <footer className="bg-forest-950 text-white">
       <div className="max-w-8xl mx-auto w-full px-6 pt-14 pb-10 sm:px-8 md:px-12 md:pt-20 md:pb-12">
-        <div className="grid gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-[1.2fr_0.7fr_0.7fr_1.2fr_1.6fr] lg:gap-x-6 lg:gap-y-0 xl:gap-x-10">
-          <div className="sm:col-span-2 lg:col-auto">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-[1.2fr_0.7fr_0.7fr_1.2fr_1.6fr] lg:gap-x-6 lg:gap-y-0 xl:gap-x-10">
+          <div className="col-span-2 lg:col-auto">
             <SiteLogo
               className="inline-flex"
               imageClassName="w-[140px] sm:w-[148px] md:w-[156px]"
@@ -112,7 +112,7 @@ export function Footer() {
             </div>
           ))}
 
-          <div className="min-w-0">
+          <div className="col-span-2 min-w-0 lg:col-auto">
             <h2 className="text-leaf-300 text-xs font-semibold tracking-[0.14em] uppercase">
               Contact
             </h2>
@@ -153,7 +153,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="min-w-0 sm:col-span-2 lg:col-auto">
+          <div className="col-span-2 min-w-0 lg:col-auto">
             <h2 className="text-leaf-300 text-xs font-semibold tracking-[0.14em] uppercase">
               {siteConfig.footer.newsletter.title}
             </h2>

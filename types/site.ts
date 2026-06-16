@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export type SiteSocialLink = {
   label: string;
-  platform: "facebook" | "instagram" | "youtube";
+  platform: "facebook" | "instagram" | "linkedin" | "youtube";
   href?: string;
 };
 
