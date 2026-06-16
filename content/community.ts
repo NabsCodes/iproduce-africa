@@ -1,12 +1,91 @@
-import type { PageActionContent, PageHeroContent } from "@/types/content";
+import { placeholderImages } from "@/lib/placeholder-images";
+import type { CommunityHeroContent, PageActionContent } from "@/types/content";
 
 export const communityPageContent = {
   hero: {
-    eyebrow: "Community",
+    eyebrow: "Membership",
     eyebrowTone: "tangerine",
-    title: "Join Africa's growing agribusiness community",
+    title: {
+      lead: "Join our ",
+      accent: "Agribusiness community",
+    },
     description:
-      "Connect with farmers, agripreneurs, investors, processors, traders, and ecosystem partners building the future of agriculture across Africa.",
+      "Become part of a network of farmers, agripreneurs, investors, innovators, processors, traders and ecosystem leaders shaping the future of agriculture across Africa.",
+    primaryCta: {
+      label: "Join our Community",
+      href: "/community#join",
+    },
+    secondaryCta: {
+      label: "Explore Member Benefits",
+      href: "/community#join",
+    },
+    membersLabel: "Members across 20+ African countries",
+    members: [
+      {
+        name: "Community member",
+        initials: "AM",
+        image: placeholderImages.communityMembers.one,
+      },
+      {
+        name: "Community member",
+        initials: "BK",
+        image: placeholderImages.communityMembers.two,
+      },
+      {
+        name: "Community member",
+        initials: "CD",
+        image: placeholderImages.communityMembers.three,
+      },
+    ],
+    orbit: {
+      rings: [
+        {
+          radius: 160,
+          duration: 34,
+          reverse: true,
+          items: [
+            {
+              label: "Exporters",
+              icon: "package",
+              tone: "tangerine",
+              angle: 258,
+            },
+            {
+              label: "Investors",
+              icon: "trending-up",
+              tone: "tangerine",
+              angle: 12,
+            },
+          ],
+        },
+        {
+          radius: 230,
+          duration: 46,
+          items: [
+            { label: "Farmers", icon: "sprout", tone: "leaf", angle: 270 },
+            {
+              label: "Logistics",
+              icon: "truck",
+              tone: "tangerine",
+              angle: 322,
+            },
+            {
+              label: "Women in Agric",
+              icon: "user-round",
+              tone: "leaf",
+              angle: 108,
+            },
+            { label: "Processors", icon: "factory", tone: "leaf", angle: 168 },
+            {
+              label: "Youth Agripreneurs",
+              icon: "lightbulb",
+              tone: "leaf",
+              angle: 222,
+            },
+          ],
+        },
+      ],
+    },
   },
   join: {
     id: "join",
@@ -23,4 +102,7 @@ export const communityPageContent = {
     primaryEmailSubject: "Community interest",
     secondaryCtaLabel: "Open contact page",
   },
-} as const satisfies { hero: PageHeroContent; join: PageActionContent };
+} as const satisfies {
+  hero: CommunityHeroContent;
+  join: PageActionContent;
+};

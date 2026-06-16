@@ -42,11 +42,9 @@ export function FeaturedArticlesSection() {
               key={article.title}
               image={article.image}
               href={article.href}
-              primaryTag={{
-                label: article.category,
-                tone: articleToneByCategory[article.category],
-              }}
-              secondaryTag={{ label: article.readTime.toUpperCase() }}
+              category={article.category}
+              categoryTone={articleToneByCategory[article.category]}
+              meta={article.readTime.toUpperCase()}
               title={article.title}
               description={article.description}
             />

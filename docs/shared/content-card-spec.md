@@ -45,23 +45,24 @@ type ContentCardProps = {
   image: string;
   imageAlt?: string;
   href: string;
-  primaryTag: { label: string; tone?: ContentCardTone };
-  secondaryTag?: { label: string };
+  category: string;
+  categoryTone?: ContentCardTone;
+  meta?: string;
   title: string;
   description?: string;
   className?: string;
 };
 ```
 
-`primaryTag.tone` maps to existing `Badge` variants (`leaf` / `forest` /
+`categoryTone` maps to existing `Badge` variants (`leaf` / `forest` /
 `tangerine`). Default is `tangerine`.
 
-`secondaryTag` renders as a neutral outline pill (no tint) so the primary
-pill always reads as the dominant signal.
+`meta` renders as a neutral outline pill (no tint) so the category pill
+always reads as the dominant signal.
 
 ## Consumers
 
-| Surface                     | primaryTag                                    | secondaryTag         | Notes      |
+| Surface                     | category                                      | meta                 | Notes      |
 | --------------------------- | --------------------------------------------- | -------------------- | ---------- |
 | Home — Featured Articles    | category (INNOVATION/TRADE/SMART AGRICULTURE) | read time            | Live       |
 | Academy — Courses           | difficulty (BEGINNER/INTERMEDIATE/ADVANCED)   | duration ("6 WEEKS") | Next phase |

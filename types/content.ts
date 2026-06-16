@@ -1,3 +1,4 @@
+import type { CommunityOrbitIconKey } from "@/lib/community-orbit-icons";
 import type { PillarIconKey } from "@/lib/pillar-icons";
 
 export type EyebrowTone = "leaf" | "tangerine";
@@ -60,4 +61,45 @@ export type PageActionContent = {
   primaryCtaLabel: string;
   primaryEmailSubject: string;
   secondaryCtaLabel: string;
+};
+
+export type CommunityHeroTitle = {
+  lead: string;
+  accent: string;
+};
+
+export type CommunityOrbitChip = {
+  label: string;
+  icon: CommunityOrbitIconKey;
+  tone: "leaf" | "tangerine";
+  angle: number;
+};
+
+export type CommunityOrbitRing = {
+  radius: number;
+  duration: number;
+  reverse?: boolean;
+  items: readonly CommunityOrbitChip[];
+};
+
+export type CommunityOrbitContent = {
+  rings: readonly CommunityOrbitRing[];
+};
+
+export type CommunityHeroMember = {
+  name: string;
+  initials: string;
+  image?: string;
+};
+
+export type CommunityHeroContent = {
+  eyebrow: string;
+  eyebrowTone?: EyebrowTone;
+  title: CommunityHeroTitle;
+  description: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta: { label: string; href: string };
+  membersLabel: string;
+  members: readonly CommunityHeroMember[];
+  orbit: CommunityOrbitContent;
 };

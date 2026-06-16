@@ -7,17 +7,13 @@ import { cn } from "@/lib/utils";
 
 export type ContentCardTone = "tangerine" | "leaf" | "forest";
 
-export type ContentCardTag = {
-  label: string;
-  tone?: ContentCardTone;
-};
-
 type ContentCardProps = {
   image: string;
   imageAlt?: string;
   href: string;
-  primaryTag: ContentCardTag;
-  secondaryTag?: { label: string };
+  category: string;
+  categoryTone?: ContentCardTone;
+  meta?: string;
   title: string;
   description?: string;
   className?: string;
@@ -27,14 +23,13 @@ export function ContentCard({
   image,
   imageAlt = "",
   href,
-  primaryTag,
-  secondaryTag,
+  category,
+  categoryTone = "tangerine",
+  meta,
   title,
   description,
   className,
 }: ContentCardProps) {
-  const primaryTone: ContentCardTone = primaryTag.tone ?? "tangerine";
-
   return (
     <Card
       className={cn(
@@ -55,10 +50,10 @@ export function ContentCard({
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <Badge variant={primaryTone}>{primaryTag.label}</Badge>
-            {secondaryTag ? (
+            <Badge variant={categoryTone}>{category}</Badge>
+            {meta ? (
               <span className="border-border text-fg-muted inline-flex h-5 items-center rounded-full border bg-transparent px-2 text-[11px] font-semibold tracking-wide">
-                {secondaryTag.label}
+                {meta}
               </span>
             ) : null}
           </div>

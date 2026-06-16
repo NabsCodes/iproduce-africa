@@ -4,16 +4,22 @@ import { cn } from "@/lib/utils";
 type OrbitRingProps = {
   diameter: number;
   className?: string;
+  dashed?: boolean;
 };
 
-export function OrbitRing({ diameter, className }: OrbitRingProps) {
+export function OrbitRing({
+  diameter,
+  className,
+  dashed = false,
+}: OrbitRingProps) {
   const radius = diameter / 2;
 
   return (
     <div
       aria-hidden
       className={cn(
-        "border-grey-200 pointer-events-none absolute top-1/2 left-1/2 rounded-full border",
+        "border-grey-200 pointer-events-none absolute top-1/2 left-1/2 rounded-full border border-solid",
+        dashed && "border-dashed",
         className,
       )}
       style={{
@@ -35,6 +41,8 @@ type OrbitItemProps = {
   children: ReactNode;
   className?: string;
   size?: number;
+  /** Center variable-width children (labels) on the orbit path. */
+  fit?: boolean;
 };
 
 export function OrbitItem({
@@ -46,13 +54,14 @@ export function OrbitItem({
   children,
   className,
   size = 44,
+  fit = false,
 }: OrbitItemProps) {
   const style = {
     "--orbit-angle": angle,
     "--orbit-radius": `${radius}px`,
     "--orbit-duration": `${duration}s`,
     "--orbit-delay": `${delay}s`,
-    "--orbit-size": `${size}px`,
+    "--orbit-size": fit ? "1px" : `${size}px`,
   } as CSSProperties;
 
   return (
@@ -60,11 +69,18 @@ export function OrbitItem({
       className={cn(
         "orbit-item absolute top-1/2 left-1/2",
         reverse && "orbit-item-reverse",
+        fit && "overflow-visible",
         className,
       )}
       style={style}
     >
-      {children}
+      {fit ? (
+        <div className="orbit-item-content absolute top-1/2 left-1/2 w-max max-w-max -translate-x-1/2 -translate-y-1/2">
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
 }

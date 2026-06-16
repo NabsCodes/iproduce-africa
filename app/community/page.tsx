@@ -1,4 +1,4 @@
-import { PageHero } from "@/components/layout/page-hero";
+import { CommunityHeroSection } from "@/components/community/hero-section";
 import { ButtonLink, buttonVariants } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
@@ -17,7 +17,7 @@ export default function CommunityPage() {
 
   return (
     <>
-      <PageHero {...communityPageContent.hero} />
+      <CommunityHeroSection />
 
       <section
         id={joinSection.id}
