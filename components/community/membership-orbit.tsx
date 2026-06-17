@@ -69,7 +69,7 @@ export function MembershipOrbit({ orbit, className }: MembershipOrbitProps) {
               className={
                 isOuterRing
                   ? "border-grey-200 border-3"
-                  : "border-leaf-subtle border-3 border-solid"
+                  : "border-leaf-subtle border-2 border-solid"
               }
             />
           );

@@ -59,6 +59,10 @@ export function Header() {
                 {siteConfig.email}
               </span>
             </a>
+            <Separator
+              orientation="vertical"
+              className="h-4 w-px bg-white/60"
+            />
             <a
               href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
               aria-label={`Call ${siteConfig.phone}`}
