@@ -37,6 +37,7 @@ export function CtaSection() {
             aria-hidden
             width={355}
             height={308}
+            priority
             unoptimized
             className="pointer-events-none absolute right-12 bottom-4 hidden w-72 md:block"
           />

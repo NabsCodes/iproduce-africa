@@ -128,6 +128,7 @@
   --bg-subtle: #f7f9f5;
   --bg-panel: #ffffff;
   --border-subtle: #eef2ec;
+  --border-default: #dde5da;
   --tangerine-subtle: #fbdfcb;
 
   --card: #ffffff;
@@ -181,6 +182,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
+  --color-default: var(--border-default);
+
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-subtle: var(--bg-subtle);
