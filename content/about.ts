@@ -82,10 +82,10 @@ export const aboutPageContent = {
     description:
       "Our trainings, network and alliances are organised around high-opportunity value chains — with more being added.",
     items: [
-      { label: "Members served", value: "1000", accent: "+" },
-      { label: "Trainings success", value: "100", accent: "%" },
-      { label: "Organisations partnership", value: "1000", accent: "+" },
-      { label: "Client satisfaction rate", value: "100", accent: "%" },
+      { label: "Members served", value: 2400, accent: "+" },
+      { label: "Sessions delivered", value: 80, accent: "+" },
+      { label: "Partner organisations", value: 45, accent: "+" },
+      { label: "Client satisfaction rate", value: 96, accent: "%" },
     ],
   },
   journey: {
@@ -165,35 +165,35 @@ export const aboutPageContent = {
         role: "Founder & CEO",
         bio: "Adaeze leads the strategic vision and growth of iProduce Africa, working with stakeholders across the agricultural ecosystem.",
         photo: portrait,
-        socials: { linkedin: "#", facebook: "#" },
+        socials: {},
       },
       {
         name: "Kwame Mensah",
         role: "Co-founder & COO",
         bio: "Kwame leads operations and partnerships, working with stakeholders across the agricultural ecosystem to scale impact.",
         photo: portrait,
-        socials: { linkedin: "#", facebook: "#" },
+        socials: {},
       },
       {
         name: "Tunde Adeyemi",
         role: "Head of Community & Partnerships",
         bio: "Tunde nurtures the member network and forges new partnerships across the continent's agribusiness ecosystem.",
         photo: portrait,
-        socials: { linkedin: "#", facebook: "#" },
+        socials: {},
       },
       {
         name: "Aissatou Diallo",
         role: "Head of Programmes",
         bio: "Aissatou designs the learning and training programmes that power iProduce Africa's member network.",
         photo: portrait,
-        socials: { linkedin: "#", facebook: "#" },
+        socials: {},
       },
       {
         name: "Lerato Modise",
         role: "Head of Partnerships",
         bio: "Lerato builds and maintains strategic partnerships with institutions across the African continent.",
         photo: portrait,
-        socials: { linkedin: "#", facebook: "#" },
+        socials: {},
       },
     ],
   },
@@ -208,28 +208,24 @@ export const aboutPageContent = {
         role: "Founder & CEO",
         bio: "Adaeze leads the strategic vision and growth of iProduce Africa, working with stakeholders across the agricultural ecosystem.",
         photo: portrait,
-        linkedin: "#",
       },
       {
         name: "Kwame Mensah",
         role: "Co-founder & COO",
         bio: "Kwame leads operations and partnerships, working with stakeholders across the agricultural ecosystem to scale impact.",
         photo: portrait,
-        linkedin: "#",
       },
       {
         name: "Tunde Adeyemi",
         role: "Head of Community & Partnerships",
         bio: "Tunde nurtures the member network and forges new partnerships across the continent's agribusiness ecosystem.",
         photo: portrait,
-        linkedin: "#",
       },
       {
         name: "Aissatou Diallo",
         role: "Head of Programmes",
         bio: "Aissatou designs the learning and training programmes that power iProduce Africa's member network.",
         photo: portrait,
-        linkedin: "#",
       },
     ],
   },
@@ -260,7 +256,7 @@ export type AboutMissionVisionObjective = {
 
 export type AboutImpactStat = {
   label: string;
-  value: string;
+  value: number;
   accent?: string;
 };
 

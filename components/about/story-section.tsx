@@ -26,13 +26,12 @@ export function StorySection() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
-              <button
-                type="button"
-                aria-label="Play our story"
-                className="bg-leaf-subtle text-leaf-700 hover:bg-leaf-200 absolute top-1/2 left-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl transition"
+              <span
+                aria-hidden
+                className="bg-leaf-subtle text-leaf-700 pointer-events-none absolute top-1/2 left-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl"
               >
                 <Play className="size-5 fill-current" />
-              </button>
+              </span>
             </div>
           </div>
 
