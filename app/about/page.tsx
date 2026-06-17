@@ -6,7 +6,6 @@ import { MvoSection } from "@/components/about/mvo-section";
 import { StorySection } from "@/components/about/story-section";
 import { TeamSection } from "@/components/about/team-section";
 import { CtaSection } from "@/components/shared/cta-section";
-import { PartnersSection } from "@/components/shared/partners-section";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -22,8 +21,7 @@ export default function AboutPage() {
       <JourneySection />
       <TeamSection />
       <AdvisorsSection />
-      <CtaSection />
-      <PartnersSection />
+      <CtaSection overlapNext={false} />
     </>
   );
 }

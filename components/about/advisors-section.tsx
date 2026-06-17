@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FaLinkedinIn } from "react-icons/fa6";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent, type AboutAdvisor } from "@/content/about";
 
@@ -46,8 +47,12 @@ export function AdvisorsSection() {
   const advisors = aboutPageContent.advisors;
 
   return (
-    <section className="bg-white py-14 sm:py-16 lg:py-20">
-      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
+    <section className="relative overflow-x-clip bg-white py-14 sm:py-16 lg:py-20">
+      <DecorativeRing
+        strokeWidth={6}
+        className="text-tangerine-300 top-28 right-10 hidden size-[300px] translate-x-[60%] -translate-y-1/2 opacity-80 lg:block lg:size-[300px]"
+      />
+      <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="max-w-2xl">
           <EyebrowBadge>{advisors.eyebrow}</EyebrowBadge>
           <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">

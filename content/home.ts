@@ -5,6 +5,9 @@ export type AcademyEventCategory = "event" | "training";
 export type AcademyEvent = {
   date: string;
   title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
   meta: string;
   tag: string;
   category: AcademyEventCategory;
@@ -143,7 +146,11 @@ export const homeContent = {
   academyEvents: [
     {
       date: "2026-06-18",
-      title: "Climate-smart irrigation 101",
+      title: "Scaling Smallholder Farms with Data",
+      description:
+        "How farm records and precision tools help small farms lift yields and win buyers.",
+      image: placeholderImages.academySpotlight.microphone,
+      imageAlt: "Microphone set up for an agribusiness webinar",
       meta: "Webinar · Online · Free",
       tag: "Webinar",
       category: "event",
@@ -151,31 +158,47 @@ export const homeContent = {
     },
     {
       date: "2026-06-24",
-      title: "Post-harvest handling for vegetables",
+      title: "Post-Harvest Handling Essentials",
+      description:
+        "Cut losses and protect quality with practical storage, packaging and cold-chain methods.",
+      image: placeholderImages.academySpotlight.workshop,
+      imageAlt: "Agribusiness team learning in a workshop space",
       meta: "Training · Kano · Members",
-      tag: "Workshop",
+      tag: "Training",
       category: "training",
       href: "/academy#training",
     },
     {
       date: "2026-07-02",
-      title: "Exporting under AfCFTA — AMA",
+      title: "Ask an Agronomist: Soil Health",
+      description:
+        "A live session on soil testing, fertility and regenerative practices — bring your questions.",
+      image: placeholderImages.academySpotlight.presentation,
+      imageAlt: "Speaker presenting agribusiness training to an audience",
       meta: "Live Q&A · Online · Free",
-      tag: "Event",
+      tag: "Live Q&A",
       category: "event",
       href: "/academy#webinars",
     },
     {
-      date: "2026-07-10",
-      title: "Cold-chain logistics for produce",
-      meta: "Training · Lagos · Members",
-      tag: "Workshop",
-      category: "training",
-      href: "/academy#training",
+      date: "2026-07-09",
+      title: "Building an Export-Ready Business",
+      description:
+        "Standards, certification and the paperwork behind successful cross-border trade.",
+      image: placeholderImages.academySpotlight.market,
+      imageAlt: "Fresh produce arranged at a market stand",
+      meta: "Webinar · Online · Free",
+      tag: "Webinar",
+      category: "event",
+      href: "/academy#webinars",
     },
     {
       date: "2026-07-18",
       title: "Pitching to agri-investors",
+      description:
+        "Shape a sharper story for agribusiness investors, funders and ecosystem partners.",
+      image: placeholderImages.academySpotlight.presentation,
+      imageAlt: "Agribusiness speaker presenting to a seated audience",
       meta: "Webinar · Online · Free",
       tag: "Webinar",
       category: "event",
@@ -184,8 +207,12 @@ export const homeContent = {
     {
       date: "2026-07-25",
       title: "Cocoa fermentation & quality",
+      description:
+        "Practical quality-control lessons for cocoa processors preparing for stronger markets.",
+      image: placeholderImages.academySpotlight.workshop,
+      imageAlt: "Team collaborating during an agribusiness training session",
       meta: "Training · Akure · Members",
-      tag: "Workshop",
+      tag: "Training",
       category: "training",
       href: "/academy#training",
     },
@@ -302,6 +329,13 @@ export const homeContent = {
       href: "/academy/insights",
     },
   ],
+  stayConnected: {
+    eyebrow: "Stay connected",
+    title: "Join the Conversation",
+    description:
+      "Follow iProduce Africa for agribusiness insights, event highlights, training opportunities, and community stories.",
+    platforms: ["instagram", "facebook", "youtube"],
+  },
 } as const;
 
 export type HomeArticle = (typeof homeContent.articles)[number];

@@ -1,7 +1,8 @@
 # Partners section — shared spec
 
-Single shared section that displays the partner logo strip. Used on the home
-page and on the `/partners` route so the same source of truth drives both.
+Single shared section that displays the partner logo strip. Used on the home,
+about, and `/partners` routes so the same source of truth drives all partner
+logo bands.
 
 ## Component
 
@@ -9,7 +10,7 @@ page and on the `/partners` route so the same source of truth drives both.
 - Imports: `<Marquee />` from `components/ui/marquee.tsx`, `<PartnerLogo />`
   from `components/shared/partner-logo.tsx`, `partnersList` from
   `content/partners.ts`.
-- Used in: `app/page.tsx`, `app/partners/page.tsx`.
+- Used in: `app/page.tsx`, `app/about/page.tsx`, `app/partners/page.tsx`.
 
 ## Pieces
 
@@ -31,6 +32,12 @@ page and on the `/partners` route so the same source of truth drives both.
   full opacity.
 - Respects `prefers-reduced-motion`: animation halts, layout stays intact
   (see `app/globals.css`).
+
+## Placement
+
+Default section rhythm: `py-14 sm:py-16 lg:py-20`. On Home it sits directly
+under the hero. On About it follows `<CtaSection />`; the CTA’s negative
+margin overlap is intentional — no extra Partners padding needed.
 
 ## Data shape
 

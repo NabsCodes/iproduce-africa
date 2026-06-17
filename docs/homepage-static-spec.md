@@ -12,11 +12,13 @@ implementation with strong desktop and mobile fidelity.
 - `app/page.tsx`
 - `components/home/*` — section files are named after their eyebrow or section role:
   - `hero-section.tsx` — top hero
+  - shared `partners-section.tsx` — eyebrow: "Our partners", placed directly below hero on Home
   - `what-we-do-section.tsx` — eyebrow: "What we do"
   - `two-journeys-section.tsx` — eyebrow: "Your pathway"
   - `core-focus-section.tsx` — eyebrow: "Core areas of focus"
   - `core-focus-card.tsx` — card used by core focus rail
   - `academy-spotlight-section.tsx` — eyebrow: "Academy spotlight"
+  - `stay-connected-section.tsx` — eyebrow: "Stay connected"
   - `featured-articles-section.tsx` — eyebrow: "Featured article"
 - Shared primitives only when a Home page need genuinely earns reuse
 - `content/home.ts`
@@ -83,6 +85,23 @@ Current fidelity notes from the approved hero and what-we-do references:
 - pagination dots remain the only visible custom navigation controls
 - Core Focus card presentation belongs in a Home-specific reusable component,
   while the pagination indicator stays in `components/ui`
+
+Latest June 17 Home screenshots adjust the section order and add one section:
+
+- Home order is now: Hero, Partners, What we do, Two journeys, Core focus,
+  Academy spotlight, Testimonials, Stay connected, FAQ, Featured articles, CTA.
+- Partners sits directly under the hero in a pale `forest-subtle` band with
+  normal Home section rhythm. The old extra top padding is only for pages where
+  a preceding CTA overlaps the partner band.
+- Academy spotlight keeps the same heading/tabs intent but its items now use
+  the shared image-led `<ContentCard />` treatment instead of the old date-block
+  `AcademyEventCard`.
+- Academy spotlight shows a four-card desktop row where space allows, then
+  falls back to two cards on tablet and one card at 390px.
+- Stay connected is a dark rounded Home module between Testimonials and FAQ.
+  It presents Instagram, Facebook, and YouTube cards using the shared
+  `content/site.ts` social-link source. Do not invent final URLs; cards remain
+  disabled/coming-soon when a social `href` is still unconfirmed.
 
 The mobile version must be treated as its own composition. Reorder, restack,
 and resize intentionally instead of shrinking the desktop layout.

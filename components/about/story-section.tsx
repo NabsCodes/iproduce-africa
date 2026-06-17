@@ -21,7 +21,7 @@ export function StorySection() {
             <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-[28px]">
               <Image
                 src={story.image}
-                alt=""
+                alt="Our story"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -50,7 +50,7 @@ export function StorySection() {
               <ButtonLink
                 href={story.primaryCta.href}
                 variant="green"
-                size="lg"
+                size="md"
               >
                 <UsersRound />
                 {story.primaryCta.label}
@@ -58,7 +58,7 @@ export function StorySection() {
               <ButtonLink
                 href={story.secondaryCta.href}
                 variant="tangerine-outline"
-                size="lg"
+                size="md"
               >
                 <GraduationCap />
                 {story.secondaryCta.label}

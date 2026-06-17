@@ -2,10 +2,22 @@ import Image from "next/image";
 import { Handshake, Users } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
+import { cn } from "@/lib/utils";
 
-export function CtaSection() {
+type CtaSectionProps = {
+  overlapNext?: boolean;
+};
+
+export function CtaSection({ overlapNext = true }: CtaSectionProps) {
   return (
-    <section className="relative z-10 -mb-28 pb-0 sm:-mb-32 lg:-mb-40">
+    <section
+      className={cn(
+        "relative z-10",
+        overlapNext
+          ? "-mb-28 pb-0 sm:-mb-32 lg:-mb-40"
+          : "bg-white py-14 sm:py-16 lg:py-20",
+      )}
+    >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bg-forest-900 relative overflow-clip rounded-[28px] px-6 py-14 text-center text-white sm:px-10 sm:py-16 lg:px-16 lg:py-[72px]">
           <DecorativeRing

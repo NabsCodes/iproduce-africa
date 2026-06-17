@@ -5,7 +5,7 @@ import { partnersList } from "@/content/partners";
 
 export function PartnersSection() {
   return (
-    <section className="bg-forest-subtle pt-36 pb-14 sm:pt-40 sm:pb-16 lg:pt-56 lg:pb-20">
+    <section className="bg-forest-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="text-center">
           <EyebrowBadge className="justify-center">Our partners</EyebrowBadge>

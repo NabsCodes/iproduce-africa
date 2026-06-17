@@ -8,8 +8,9 @@ and articles on the Academy page. Built once now, consumed everywhere later.
 
 - File: `components/shared/content-card.tsx`
 - Primitive deps: `components/ui/card.tsx`, `components/ui/badge.tsx`
-- Used in: `components/home/featured-articles-section.tsx` (live), Academy
-  page surfaces (next phase).
+- Used in: `components/home/academy-spotlight-section.tsx`,
+  `components/home/featured-articles-section.tsx`; Academy page surfaces
+  (next phase).
 
 ## Anatomy
 
@@ -64,6 +65,7 @@ always reads as the dominant signal.
 
 | Surface                     | category                                      | meta                 | Notes      |
 | --------------------------- | --------------------------------------------- | -------------------- | ---------- |
+| Home — Academy spotlight    | type (WEBINAR/TRAINING/LIVE Q&A)              | date ("JUN 18")      | Live       |
 | Home — Featured Articles    | category (INNOVATION/TRADE/SMART AGRICULTURE) | read time            | Live       |
 | Academy — Courses           | difficulty (BEGINNER/INTERMEDIATE/ADVANCED)   | duration ("6 WEEKS") | Next phase |
 | Academy — Webinars & Events | type (WEBINAR/TRAINING/LIVE Q&A)              | date ("JUN 18")      | Next phase |
@@ -93,9 +95,9 @@ the same shape — the card and section components stay untouched.
 
 ## What this card is _not_
 
-- Not a replacement for `AcademyEventCard` in its current shape (date-block,
-  no image). When the Academy phase rebuilds events with images, that card
-  is retired in favour of this one.
+- Not for date-block-only event lists. The June 17 Home design changed the
+  Home Academy spotlight to image-led cards, so that Home surface now uses this
+  component.
 - Not for `CoreFocusCard` (value-chain carousel) — different visual
   language, dedicated component stays.
 - Not for partner logos (`PartnerLogo` lives in `components/shared/`).

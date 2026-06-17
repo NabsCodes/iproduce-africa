@@ -13,7 +13,7 @@ import { homeContent } from "@/content/home";
 
 export function TestimonialsSection() {
   return (
-    <section className="relative overflow-clip bg-white py-14 sm:py-16 lg:py-20">
+    <section className="relative overflow-x-clip bg-white py-14 sm:py-16 lg:py-20">
       <DecorativeRing
         strokeWidth={5}
         className="text-tangerine-300 top-0 right-0 hidden size-[320px] translate-x-[60%] -translate-y-1/2 md:block lg:size-[380px]"

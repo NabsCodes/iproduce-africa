@@ -60,7 +60,7 @@ export function MvoSection() {
           >
             <DecorativeRing
               strokeWidth={6}
-              className="text-tangerine-400 -right-16 -bottom-16 hidden size-[260px] lg:block"
+              className="text-tangerine-400 -right-16 -bottom-16 hidden size-[260px] opacity-40 lg:block"
             />
           </MvoCard>
           <MvoCard

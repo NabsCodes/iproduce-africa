@@ -74,26 +74,28 @@ function MilestoneRow({
   );
 }
 
-function StickyImage({ src, alt = "" }: { src: string; alt?: string }) {
+function StickyImage({ src, alt }: { src: string; alt: string }) {
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={src}
-        initial={{ opacity: 0, scale: 1.02 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="bg-muted relative aspect-4/5 overflow-hidden rounded-xl"
-      >
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="(max-width: 1024px) 100vw, 33vw"
-          className="object-cover"
-        />
-      </motion.div>
-    </AnimatePresence>
+    <div className="bg-muted relative aspect-4/5 overflow-hidden rounded-xl">
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={src}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            className="object-cover"
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -185,7 +187,7 @@ export function JourneySection() {
             </h2>
 
             <div className="mt-8 hidden lg:block">
-              <StickyImage src={active.leftImage} />
+              <StickyImage src={active.leftImage} alt={active.title} />
             </div>
           </div>
 

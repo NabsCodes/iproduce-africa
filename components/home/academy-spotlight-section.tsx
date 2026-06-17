@@ -2,37 +2,61 @@
 
 import { useMemo } from "react";
 import { ArrowUpRight, Calendar, GraduationCap } from "lucide-react";
-import { AcademyEventCard } from "@/components/academy/academy-event-card";
+import { ContentCard } from "@/components/shared/content-card";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { homeContent, type AcademyEventCategory } from "@/content/home";
+import { homeContent } from "@/content/home";
+
+type AcademySpotlightTab = "upcoming" | "training";
 
 const tabs = [
-  { id: "event", label: "Upcoming Events", icon: Calendar },
+  { id: "upcoming", label: "Upcoming Events", icon: Calendar },
   { id: "training", label: "Training programmes", icon: GraduationCap },
 ] as const satisfies readonly {
-  id: AcademyEventCategory;
+  id: AcademySpotlightTab;
   label: string;
   icon: typeof Calendar;
 }[];
 
-const SPOTLIGHT_LIMIT = 3;
+const SPOTLIGHT_LIMIT = 4;
 
-function SpotlightGrid({ category }: { category: AcademyEventCategory }) {
+const dateFormat = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "2-digit",
+  timeZone: "UTC",
+});
+
+function formatSpotlightDate(iso: string) {
+  return dateFormat.format(new Date(iso)).toUpperCase();
+}
+
+function SpotlightGrid({ tabId }: { tabId: AcademySpotlightTab }) {
   const visibleEvents = useMemo(
     () =>
       [...homeContent.academyEvents]
-        .filter((event) => event.category === category)
+        .filter((event) =>
+          tabId === "training" ? event.category === "training" : true,
+        )
         .sort((a, b) => a.date.localeCompare(b.date))
         .slice(0, SPOTLIGHT_LIMIT),
-    [category],
+    [tabId],
   );
 
   return (
-    <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-6 lg:grid-cols-3">
+    <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
       {visibleEvents.map((event) => (
-        <AcademyEventCard key={`${event.date}-${event.title}`} event={event} />
+        <ContentCard
+          key={`${event.date}-${event.title}`}
+          image={event.image}
+          imageAlt={event.imageAlt}
+          href={event.href}
+          category={event.tag.toUpperCase()}
+          meta={formatSpotlightDate(event.date)}
+          title={event.title}
+          description={event.description}
+          className="bg-white"
+        />
       ))}
     </div>
   );
@@ -42,8 +66,8 @@ export function AcademySpotlightSection() {
   return (
     <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <Tabs defaultValue="event" className="flex flex-col">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <Tabs defaultValue="upcoming" className="flex flex-col">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <EyebrowBadge>Academy spotlight</EyebrowBadge>
               <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
@@ -62,7 +86,7 @@ export function AcademySpotlightSection() {
 
             <TabsList
               aria-label="Academy categories"
-              className="hidden h-auto w-fit flex-wrap gap-2 bg-transparent p-0 sm:flex"
+              className="h-[40px] min-h-[40px] w-full scrollbar-none flex-nowrap justify-start gap-2 overflow-x-auto bg-transparent p-0 pb-1 [-ms-overflow-style:none] sm:w-fit sm:flex-wrap sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden"
             >
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -71,7 +95,7 @@ export function AcademySpotlightSection() {
                   <TabsTrigger
                     key={tab.id}
                     value={tab.id}
-                    className="focus-visible:ring-leaf-400 data-[state=active]:bg-leaf-600 data-active:bg-leaf-600 bg-muted hover:bg-muted/70 inline-flex h-9 flex-none items-center gap-1 rounded-full px-4 text-[13px] font-medium text-[#272e22] transition-colors focus-visible:ring-2 focus-visible:outline-none data-active:text-white data-active:shadow-none data-[state=active]:text-white data-[state=active]:shadow-none sm:h-8 sm:px-3"
+                    className="focus-visible:ring-leaf-400 data-[state=active]:bg-leaf-600 data-active:bg-leaf-600 bg-muted hover:bg-muted/70 text-foreground inline-flex h-9 min-h-[36px] flex-none items-center gap-1 rounded-full px-4 text-[13px] font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none data-active:text-white data-active:shadow-none data-[state=active]:text-white data-[state=active]:shadow-none sm:h-8 sm:min-h-[32px] sm:px-3"
                   >
                     <Icon className="size-3.5" />
                     {tab.label}
@@ -83,7 +107,7 @@ export function AcademySpotlightSection() {
 
           {tabs.map((tab) => (
             <TabsContent key={tab.id} value={tab.id} className="mt-0">
-              <SpotlightGrid category={tab.id} />
+              <SpotlightGrid tabId={tab.id} />
             </TabsContent>
           ))}
 
@@ -93,7 +117,7 @@ export function AcademySpotlightSection() {
             size="lg"
             className="mt-6 w-full sm:hidden"
           >
-            Visit the Academy
+            View all events
             <ArrowUpRight className="size-5" />
           </ButtonLink>
         </Tabs>

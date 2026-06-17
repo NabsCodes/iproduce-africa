@@ -27,7 +27,7 @@ function TeamCard({ member }: { member: AboutTeamMember }) {
         />
       </div>
       <CardContent className="flex flex-1 flex-col p-0 pt-4">
-        <div className="flex flex-wrap items-center gap-x-2 text-[15px]">
+        <div className="flex flex-wrap items-center gap-x-2 text-sm">
           <span className="text-foreground font-semibold">{member.name}</span>
           <span className="text-fg-subtle">|</span>
           <span className="text-fg-muted">{member.role}</span>
