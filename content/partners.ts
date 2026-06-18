@@ -1,4 +1,4 @@
-import type { PageActionContent, PageHeroContent } from "@/types/content";
+import type { PartnersPageContent } from "@/types/partners";
 
 export type Partner = {
   id: string;
@@ -27,11 +27,35 @@ export const partnersList: Partner[] = [
 
 export const partnersPageContent = {
   hero: {
-    eyebrow: "Partnerships",
+    eyebrow: "Partner with us",
     eyebrowTone: "tangerine",
-    title: "Create lasting agricultural impact with us",
+    title: {
+      lead: "Partner With Us to",
+      accentOne: "Transform",
+      middle: "Africa's Agribusiness",
+      accentTwo: "Future",
+    },
     description:
-      "Work with iProduce Africa to co-design programmes, strengthen value chains, expand market access, and support agribusiness growth across the continent.",
+      "We collaborate with organisations, institutions, and ecosystem leaders to create opportunities, build capacity, and strengthen agribusiness across Africa.",
+    primaryCta: {
+      label: "Become a Partner",
+      href: "#partner",
+    },
+    secondaryCta: {
+      label: "Speak With Our Team",
+      href: "/contact",
+    },
+    map: {
+      base: "/images/partners/africa-map.webp",
+      baseAlt:
+        "Agripreneur giving a thumbs-up while holding fresh produce, masked inside an Africa silhouette",
+      backdrop: "/svgs/north-map.svg",
+      madagascar: "/svgs/madagascar.svg",
+    },
+    stat: {
+      label: "Sustainable development",
+      value: "10+ Industry Collaborations",
+    },
   },
   partner: {
     id: "partner",
@@ -49,4 +73,4 @@ export const partnersPageContent = {
     primaryEmailSubject: "Partnership inquiry",
     secondaryCtaLabel: "Open contact page",
   },
-} as const satisfies { hero: PageHeroContent; partner: PageActionContent };
+} as const satisfies PartnersPageContent;

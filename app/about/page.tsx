@@ -1,6 +1,6 @@
 import { AdvisorsSection } from "@/components/about/advisors-section";
 import { AboutHeroSection } from "@/components/about/hero-section";
-import { ImpactStatsSection } from "@/components/about/impact-stats-section";
+import { ImpactStatsSection } from "@/components/shared/impact-stats-section";
 import { JourneySection } from "@/components/about/journey-section";
 import { MvoSection } from "@/components/about/mvo-section";
 import { StorySection } from "@/components/about/story-section";

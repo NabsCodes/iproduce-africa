@@ -42,6 +42,9 @@ export const placeholderImages = {
     market:
       "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80",
   },
+  partners: {
+    hero: "https://images.unsplash.com/photo-1593113598332-cd288d641307?auto=format&fit=crop&w=1200&q=85",
+  },
   about: {
     story:
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
