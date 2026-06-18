@@ -5,7 +5,8 @@ import { FaLinkedinIn } from "react-icons/fa6";
 import { Card, CardContent } from "@/components/ui/card";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { aboutPageContent, type AboutAdvisor } from "@/content/about";
+import { aboutPageContent } from "@/content/about";
+import type { AboutAdvisor } from "@/types/about";
 
 function AdvisorCard({ advisor }: { advisor: AboutAdvisor }) {
   return (

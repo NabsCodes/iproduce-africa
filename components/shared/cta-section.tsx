@@ -19,7 +19,7 @@ export function CtaSection({ overlapNext = true }: CtaSectionProps) {
       )}
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bg-forest-900 relative overflow-clip rounded-[28px] px-6 py-14 text-center text-white sm:px-10 sm:py-16 lg:px-16 lg:py-[72px]">
+        <div className="bg-forest-900 relative overflow-clip rounded-xl px-6 py-14 text-center text-white sm:px-10 sm:py-16 lg:px-16 lg:py-[72px]">
           <DecorativeRing
             strokeWidth={10}
             className="text-tangerine-500 -top-12 -right-10 size-[150px] md:hidden"

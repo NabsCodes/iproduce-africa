@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import type { AcademyEvent } from "@/content/home";
+import type { AcademyScheduledItem } from "@/types/academy";
 
 const monthFormat = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -18,13 +18,13 @@ function formatEventDate(iso: string) {
   };
 }
 
-export function AcademyEventCard({ event }: { event: AcademyEvent }) {
+export function AcademyEventCard({ event }: { event: AcademyScheduledItem }) {
   const { month, day } = formatEventDate(event.date);
 
   return (
-    <Card className="border-border flex flex-col justify-between gap-0 rounded-[20px] border bg-white py-0 shadow-none ring-0">
+    <Card className="border-border flex flex-col justify-between gap-0 rounded-xl border bg-white py-0 shadow-none ring-0">
       <CardContent className="flex items-center gap-4 p-5 sm:items-start sm:p-6 sm:pb-4">
-        <div className="text-foreground bg-tangerine-subtle flex h-10 shrink-0 flex-row items-center justify-center gap-1 rounded-full px-4 sm:size-[60px] sm:flex-col sm:gap-0 sm:rounded-[14px] sm:px-0">
+        <div className="text-foreground bg-tangerine-subtle flex h-10 shrink-0 flex-row items-center justify-center gap-1 rounded-full px-4 sm:size-[60px] sm:flex-col sm:gap-0 sm:rounded-full sm:px-0">
           <span className="text-xs font-semibold tracking-[0.16em] uppercase sm:tracking-[0.18em]">
             {month}
           </span>
@@ -35,7 +35,7 @@ export function AcademyEventCard({ event }: { event: AcademyEvent }) {
             {event.title}
           </h3>
           <p className="text-fg-muted mt-1 hidden text-xs sm:block">
-            {event.meta}
+            {event.type}
           </p>
         </div>
         <ChevronRight
@@ -45,9 +45,9 @@ export function AcademyEventCard({ event }: { event: AcademyEvent }) {
       </CardContent>
 
       <CardFooter className="hidden items-center justify-between border-0 bg-transparent px-5 pt-0 pb-5 sm:flex sm:px-6 sm:pb-6">
-        <Badge variant="leaf-outline">{event.tag}</Badge>
+        <Badge variant="leaf-outline">{event.type}</Badge>
         <Button asChild variant="green-soft" size="sm">
-          <Link href={event.href}>Register</Link>
+          <Link href="/academy#webinars-events">Register</Link>
         </Button>
       </CardFooter>
     </Card>

@@ -23,7 +23,7 @@ export function SiteLogo({
       aria-label={siteConfig.name}
       className={cn(
         "inline-flex items-center",
-        panel && "rounded-[20px] bg-white px-4 py-3 shadow-sm",
+        panel && "rounded-xl bg-white px-4 py-3 shadow-sm",
         className,
       )}
       {...rest}

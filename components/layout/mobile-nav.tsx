@@ -149,7 +149,7 @@ export function MobileNav({
                                     : undefined
                                 }
                                 className={cn(
-                                  "text-leaf-700 hover:bg-leaf-50 focus-visible:ring-leaf-400 block rounded-2xl px-4 py-3 font-sans text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none",
+                                  "text-leaf-700 hover:bg-leaf-50 focus-visible:ring-leaf-400 block rounded-xl px-4 py-3 font-sans text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none",
                                 )}
                               >
                                 Visit Academy
@@ -167,7 +167,7 @@ export function MobileNav({
                                       isChildActive ? "page" : undefined
                                     }
                                     className={cn(
-                                      "block rounded-2xl px-4 py-3 font-sans text-base font-medium transition-colors",
+                                      "block rounded-xl px-4 py-3 font-sans text-base font-medium transition-colors",
                                       "focus-visible:ring-leaf-400 focus-visible:ring-2 focus-visible:outline-none",
                                       isChildActive
                                         ? "bg-leaf-100 text-grey-950"
@@ -243,7 +243,7 @@ export function MobileNav({
               variant="green"
               size="lg"
               fullWidth
-              className="h-14 rounded-3xl text-base font-semibold"
+              className="h-14 rounded-xl text-base font-semibold"
             >
               Join our community
             </ButtonLink>

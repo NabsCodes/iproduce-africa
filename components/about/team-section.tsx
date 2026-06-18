@@ -12,7 +12,8 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { aboutPageContent, type AboutTeamMember } from "@/content/about";
+import { aboutPageContent } from "@/content/about";
+import type { AboutTeamMember } from "@/types/about";
 
 function TeamCard({ member }: { member: AboutTeamMember }) {
   return (

@@ -1,12 +1,415 @@
-import type { PageHeroContent } from "@/types/content";
+import { placeholderImages } from "@/lib/placeholder-images";
+import type {
+  AcademyArticleCategory,
+  AcademyContent,
+  AcademyHomePreview,
+  AcademyPreviewTone,
+} from "@/types/academy";
 
-export const academyPageContent = {
+const HOME_SPOTLIGHT_LIMIT = 4;
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "2-digit",
+  timeZone: "UTC",
+});
+
+const articleToneByCategory: Record<
+  AcademyArticleCategory,
+  AcademyPreviewTone
+> = {
+  INNOVATION: "forest",
+  TRADE: "tangerine",
+  "SMART AGRICULTURE": "leaf",
+};
+
+function formatShortDate(iso: string) {
+  return dateFormatter.format(new Date(iso)).toUpperCase();
+}
+
+export const academyContent = {
   hero: {
-    eyebrow: "The Academy — Learn, Innovate, Grow",
+    eyebrow: "The Academy — Knowledge & Events Hub",
     eyebrowTone: "tangerine",
-    title:
-      "Learn, Innovate & Grow through Africa's leading agribusiness academy.",
+    title: {
+      lead: "Learn, ",
+      accent: "Innovate & Grow",
+      trail: "\nthrough Africa's leading\nagribusiness academy.",
+    },
     description:
       "Explore expert-led webinars, practical courses, industry insights, and networking opportunities designed to prepare Africa's next generation of agribusiness leaders.",
+    searchPlaceholder: "Search trainings, webinars, courses…",
+    searchLabel: "Search",
+    searchCategories: [
+      { label: "Webinars (events)", value: "webinars" },
+      { label: "Training programmes", value: "training" },
+      { label: "Evergreen courses", value: "courses" },
+      { label: "Blog", value: "blog" },
+    ],
+    trustLabel: "Trusted by 8,400+ learners and professionals across Africa",
+    members: [
+      {
+        name: "Academy learner",
+        initials: "AL",
+        image: placeholderImages.communityMembers.one,
+      },
+      {
+        name: "Academy learner",
+        initials: "BK",
+        image: placeholderImages.communityMembers.two,
+      },
+      {
+        name: "Academy learner",
+        initials: "CM",
+        image: placeholderImages.communityMembers.three,
+      },
+    ],
+    image: "/images/academy/academy-hero.webp",
+    imageAlt: "Agripreneur tending crops on a farm",
+    nextLive: {
+      label: "AfriAgri Leadership Forum · Aug 2026",
+      date: "2026-08-12T09:00:00Z",
+      href: "#featured-event",
+    },
   },
-} as const satisfies { hero: PageHeroContent };
+  tabs: [
+    { label: "Overview", targetId: "overview" },
+    { label: "Webinars & Events", targetId: "webinars-events" },
+    { label: "Evergreen courses", targetId: "courses" },
+    { label: "Blog", targetId: "blog" },
+  ],
+  featuredEvent: {
+    eyebrow: "Featured Event",
+    sectionTitle: "Don't miss what's next",
+    category: "Agribusiness Development",
+    format: "Hybrid · Virtual + Lagos",
+    title: "AfriAgri Leadership Forum 2026",
+    description:
+      "A high-level gathering of African agribusiness leaders, policymakers, investors and development partners shaping the continent's agricultural transformation agenda.",
+    image: placeholderImages.academySpotlight.presentation,
+    imageAlt: "Audience seated at an agribusiness conference",
+    date: "2026-08-12T09:00:00Z",
+    dateLabel: "August 12–14, 2026 · 9:00 AM – 4:00 PM WAT",
+    location: "Landmark Centre, Lagos · Livestream available",
+    speakers:
+      "Speakers: Dr. Amina Bello, Kofi Mensah, Aïssatou Diallo + 6 more",
+    registerHref: "#featured-event",
+    registerLabel: "Register Now",
+  },
+  opportunities: {
+    eyebrow: "Learning Opportunities",
+    title: "Learning Designed for Real-World Impact",
+    items: [
+      {
+        icon: "graduation-cap",
+        title: "Webinars",
+        description:
+          "Live expert-led sessions on agribusiness trends and opportunities.",
+        anchor: "#webinars-events",
+      },
+      {
+        icon: "lightbulb",
+        title: "Courses",
+        description:
+          "Structured learning programmes designed for practical impact.",
+        anchor: "#courses",
+      },
+      {
+        icon: "users",
+        title: "Events",
+        description: "Workshops, conferences and networking engagements.",
+        anchor: "#webinars-events",
+      },
+      {
+        icon: "newspaper",
+        title: "Blog",
+        description:
+          "Articles, industry updates and thought-leadership content.",
+        anchor: "#blog",
+      },
+    ],
+  },
+  participants: {
+    eyebrow: "Target Participants",
+    title: "Who can benefit from the Academy?",
+    description:
+      "The introductory courses are aimed at those who want to start farming for commercial (and even personal purposes), alongside those who need to improve their basic knowledge on farming.",
+    items: [
+      {
+        icon: "rocket",
+        title: "Startups",
+        description: "Agri businesses starting out.",
+      },
+      {
+        icon: "sprout",
+        title: "Farmers",
+        description: "Smallholder to commercial.",
+      },
+      {
+        icon: "package",
+        title: "Input Suppliers",
+        description: "Seeds, equipment & agro-inputs.",
+      },
+      {
+        icon: "truck",
+        title: "Logistics Providers",
+        description: "Storage, haulage & cold chain.",
+      },
+      {
+        icon: "ship",
+        title: "Exporters",
+        description: "Local & cross-border trade.",
+      },
+      {
+        icon: "landmark",
+        title: "Investors",
+        description: "Funds, banks & angels.",
+      },
+      {
+        icon: "heart-handshake",
+        title: "Women in Agriculture",
+        description: "Founders & operators.",
+      },
+      {
+        icon: "sparkles",
+        title: "Youth Agripreneurs",
+        description: "The next generation.",
+      },
+      {
+        icon: "building",
+        title: "Agribusiness Organisations",
+        description: "Co-ops, NGOs & associations.",
+      },
+    ],
+  },
+  scheduled: {
+    eyebrow: "Learning Opportunities",
+    title: "Webinars & Events",
+    countLabel:
+      "Showing 4 of 26 upcoming webinars & events — more load right here",
+    viewMoreLabel: "View More",
+    total: 26,
+    items: [
+      {
+        type: "WEBINAR",
+        date: "2026-06-18",
+        title: "Scaling Smallholder Farms with Data",
+        description:
+          "How farm records and precision tools help small farms lift yields and win buyers.",
+        image: placeholderImages.academySpotlight.microphone,
+        slug: "placeholder-slug-webinar-1",
+      },
+      {
+        type: "TRAINING",
+        date: "2026-06-24",
+        title: "Post-Harvest Handling Essentials",
+        description:
+          "Cut losses and protect quality with practical storage, packaging and cold-chain methods.",
+        image: placeholderImages.academySpotlight.workshop,
+        slug: "placeholder-slug-training-1",
+      },
+      {
+        type: "LIVE Q&A",
+        date: "2026-07-02",
+        title: "Ask an Agronomist: Soil Health",
+        description:
+          "A live session on soil testing, fertility and regenerative practices — bring your questions.",
+        image: placeholderImages.academySpotlight.presentation,
+        slug: "placeholder-slug-liveqa-1",
+      },
+      {
+        type: "WEBINAR",
+        date: "2026-07-09",
+        title: "Building an Export-Ready Business",
+        description:
+          "Standards, certification and the paperwork behind successful cross-border trade.",
+        image: placeholderImages.academySpotlight.market,
+        slug: "placeholder-slug-webinar-2",
+      },
+    ],
+  },
+  courses: {
+    eyebrow: "Learning Opportunities",
+    title: "Courses to Learn at your pace.",
+    countLabel: "Showing 3 of 18 courses — more load right here",
+    viewMoreLabel: "View More",
+    total: 18,
+    items: [
+      {
+        level: "BEGINNER",
+        duration: "6 WEEKS",
+        title: "Foundations of Agribusiness",
+        description:
+          "How agricultural value chains work, from inputs to market, across six guided weeks.",
+        image: placeholderImages.academySpotlight.microphone,
+        slug: "placeholder-slug-course-1",
+      },
+      {
+        level: "INTERMEDIATE",
+        duration: "8 WEEKS",
+        title: "Financing Your Agribusiness",
+        description:
+          "Funding options, grants and investor readiness for growing agricultural enterprises.",
+        image: placeholderImages.academySpotlight.workshop,
+        slug: "placeholder-slug-course-2",
+      },
+      {
+        level: "INTERMEDIATE",
+        duration: "5 WEEKS",
+        title: "Market Access & Trade",
+        description:
+          "Reaching buyers, meeting standards and trading across African borders with confidence.",
+        image: placeholderImages.academySpotlight.market,
+        slug: "placeholder-slug-course-3",
+      },
+    ],
+  },
+  blog: {
+    eyebrow: "Blog",
+    title: "Latest about AgriBusiness",
+    countLabel: "Showing 3 of 42 articles — more load right here",
+    viewMoreLabel: "View More",
+    total: 42,
+    items: [
+      {
+        category: "INNOVATION",
+        readTime: "5 min read",
+        title: "How AgriTech Is Reshaping African Farms",
+        description:
+          "From mobile advisory to precision sensors — the tools changing how the continent farms.",
+        image: placeholderImages.news.one,
+        slug: "placeholder-slug-article-1",
+      },
+      {
+        category: "TRADE",
+        readTime: "4 min read",
+        title: "Unlocking Intra-African Trade",
+        description:
+          "What the AfCFTA means for producers and traders moving goods across borders.",
+        image: placeholderImages.news.two,
+        slug: "placeholder-slug-article-2",
+      },
+      {
+        category: "SMART AGRICULTURE",
+        readTime: "6 min read",
+        title: "Climate-Smart Practices That Pay Off",
+        description:
+          "Low-cost techniques that build resilience while improving farm profitability.",
+        image: placeholderImages.news.three,
+        slug: "placeholder-slug-article-3",
+      },
+    ],
+  },
+  testimonials: {
+    eyebrow: "Our Impact",
+    title: "What our community says",
+    description:
+      "Farmers, traders and innovators on what iProduce changed for them.",
+    items: [
+      {
+        quote:
+          "iProduce connected our co-op to two new buyers in 3 months — the platform pays for itself.",
+        name: "Aïssatou Diallo",
+        role: "Cooperative Lead · Senegal",
+        image: placeholderImages.testimonials.aissatou,
+        initials: "AD",
+      },
+      {
+        quote:
+          "From the academy to the marketplace, everything we need to grow sits in one ecosystem.",
+        name: "Kofi Mensah",
+        role: "Exporter · Ghana",
+        initials: "KM",
+      },
+      {
+        quote:
+          "The bootcamp gave me my first export client. I came for the training and left with a market.",
+        name: "Zainab A.",
+        role: "Shea processor · Kano · Cohort 2",
+        initials: "ZA",
+      },
+    ],
+  },
+  faqs: {
+    eyebrow: "Frequently asked questions",
+    description:
+      "Everything about the academy, programmes and learning pathways — answered plainly.",
+    categories: ["All", "Platform", "Membership", "Partners"] as const,
+    items: [
+      {
+        question: "What is iProduce Africa?",
+        answer:
+          "iProduce Africa is an agribusiness ecosystem connecting farmers, processors, traders, investors and innovators across the continent — with learning, networking and market-access tools in one place.",
+        category: "Platform",
+      },
+      {
+        question: "Who is the platform for?",
+        answer:
+          "Anyone building or supporting an agribusiness — from individual farmers to large organisations, exporters, investors, and ecosystem partners.",
+        category: "Platform",
+      },
+      {
+        question: "Is it free to join?",
+        answer:
+          "Yes. Joining the community is free; some training programmes and partner services have associated fees disclosed up front.",
+        category: "Membership",
+      },
+      {
+        question: "Which countries do you operate in?",
+        answer:
+          "Our network spans 12 African countries today, with new corridors added as partner programmes expand.",
+        category: "Platform",
+      },
+      {
+        question: "How do I become a partner?",
+        answer:
+          "Partners collaborate through co-designed programmes, market access initiatives, capacity building, and thought leadership. Visit our Partners page to start a conversation.",
+        category: "Partners",
+      },
+    ],
+  },
+} as const satisfies AcademyContent;
+
+export const academyHomePreview = {
+  opportunities: academyContent.opportunities.items.map((item) => ({
+    icon: item.icon,
+    title: item.title,
+    description: item.description,
+    href: `/academy${item.anchor}`,
+  })),
+  spotlight: {
+    upcoming: [...academyContent.scheduled.items]
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(0, HOME_SPOTLIGHT_LIMIT)
+      .map((event) => ({
+        key: event.slug,
+        href: "/academy#webinars-events",
+        image: event.image,
+        category: event.type,
+        meta: formatShortDate(event.date),
+        title: event.title,
+        description: event.description,
+      })),
+    training: academyContent.courses.items
+      .slice(0, HOME_SPOTLIGHT_LIMIT)
+      .map((course) => ({
+        key: course.slug,
+        href: "/academy#courses",
+        image: course.image,
+        category: course.level,
+        meta: course.duration,
+        title: course.title,
+        description: course.description,
+      })),
+  },
+  blog: academyContent.blog.items.map((article) => ({
+    key: article.slug,
+    href: "/academy#blog",
+    image: article.image,
+    category: article.category,
+    categoryTone: articleToneByCategory[article.category],
+    meta: article.readTime.toUpperCase(),
+    title: article.title,
+    description: article.description,
+  })),
+} as const satisfies AcademyHomePreview;

@@ -33,13 +33,13 @@ export function ContentCard({
   return (
     <Card
       className={cn(
-        "border-border bg-subtle flex flex-col gap-0 rounded-[20px] border p-4 shadow-none ring-0",
+        "border-border bg-subtle flex flex-col gap-0 rounded-xl border p-4 shadow-none ring-0",
         className,
       )}
     >
       <CardContent className="flex flex-1 flex-col p-0">
         <Link href={href} className="group flex flex-1 flex-col">
-          <div className="relative aspect-4/3 overflow-hidden rounded-[14px]">
+          <div className="relative aspect-4/3 overflow-hidden rounded-xl">
             <Image
               src={image}
               alt={imageAlt}

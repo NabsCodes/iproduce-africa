@@ -42,10 +42,9 @@ export const siteConfig = {
       {
         title: "Academy",
         links: [
-          { label: "Webinars", href: "/academy/webinars" },
-          { label: "Courses", href: "/academy/courses" },
-          { label: "Events", href: "/academy/events" },
-          { label: "Insights", href: "/academy/insights" },
+          { label: "Webinars & Events", href: "/academy#webinars-events" },
+          { label: "Courses", href: "/academy#courses" },
+          { label: "Blog/Insights", href: "/academy#blog" },
         ],
       },
     ],

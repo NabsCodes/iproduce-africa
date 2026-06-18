@@ -12,8 +12,8 @@ export function CoreFocusCard({
   image,
 }: CoreFocusCardProps) {
   return (
-    <article className="group border-border h-full rounded-[20px] border bg-white p-4">
-      <div className="relative h-[228px] overflow-hidden rounded-[14px] sm:h-[280px]">
+    <article className="group border-border h-full rounded-xl border bg-white p-4">
+      <div className="relative h-[228px] overflow-hidden rounded-xl sm:h-[280px]">
         <Image
           src={image}
           alt={title}

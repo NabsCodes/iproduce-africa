@@ -21,7 +21,7 @@ function MvoCard({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[28px] p-6 sm:p-8 lg:p-10",
+        "relative overflow-hidden rounded-xl p-6 sm:p-8 lg:p-10",
         className,
       )}
     >

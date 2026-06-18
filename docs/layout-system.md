@@ -96,7 +96,9 @@ Keep a clear hierarchy:
 - one smaller repeated inner-card radius
 - circular elements only for intentional pills, avatars, or icon buttons
 
-Avoid mixing too many radius values on one screen.
+The radius ceiling for rounded rectangles is `rounded-xl`. Avoid Tailwind
+radius utilities and custom radii above `xl`, and avoid mixing too many radius
+values on one screen.
 
 ## Desktop And Mobile Are Different Layouts
 

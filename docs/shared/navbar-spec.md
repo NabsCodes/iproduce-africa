@@ -76,7 +76,7 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
   at `-bottom-0.5` — not full bar width
 - Academy parent active when pathname starts with `/academy`
 - Academy child items active when full route matches hash href (e.g.
-  `/academy#webinars`) via `useRouteHash`
+  `/academy#webinars-events`) via `useRouteHash`
 
 ### Focus and open state
 
@@ -99,9 +99,10 @@ and clicking the chevron opens the menu:
   so the active underline still spans the label area only
 - Panel: white, `min-w-[240px]`, light border, soft shadow, `sideOffset={8}`
 - Child links use `leaf-50` hover/active background
-- Children live at proper subroutes (`/academy/webinars`, `/academy/courses`,
-  `/academy/events`, `/academy/insights`) — not hash anchors. Each child is a
-  full page that will later be sourced from the CMS
+- Children currently live at Academy hub anchors
+  (`/academy#webinars-events`, `/academy#courses`, `/academy#insights`) until
+  dedicated listing routes ship. Restore `/academy/{type}` links only when
+  those pages exist.
 
 ### CTAs (desktop)
 

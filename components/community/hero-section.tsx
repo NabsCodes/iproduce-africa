@@ -17,13 +17,13 @@ export function CommunityHeroSection() {
     <section className="bg-subtle overflow-x-clip py-16 pb-0 lg:pb-16">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="flex max-w-3xl min-w-0 flex-col gap-8">
+          <div className="flex max-w-3xl min-w-0 flex-col gap-6">
             <div className="flex flex-col gap-4">
               <EyebrowPill tone={hero.eyebrowTone ?? "tangerine"} size="sm">
                 {hero.eyebrow}
               </EyebrowPill>
 
-              <h1 className="text-foreground font-serif text-[40px] leading-none font-semibold tracking-[-0.02em] sm:text-[52px] lg:text-[50px] lg:leading-[54px]">
+              <h1 className="text-foreground font-serif text-3xl leading-[1.1] font-semibold tracking-[-0.01em] sm:text-5xl sm:leading-[1.05]">
                 <span className="inline">{hero.title.lead}</span>
                 <span className="text-leaf-600 inline">
                   {hero.title.accent}
@@ -31,7 +31,7 @@ export function CommunityHeroSection() {
               </h1>
             </div>
 
-            <p className="text-fg-muted text-lg leading-7">
+            <p className="text-fg-muted text-base leading-7">
               {hero.description}
             </p>
 

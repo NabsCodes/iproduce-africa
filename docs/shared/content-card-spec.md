@@ -16,7 +16,7 @@ and articles on the Academy page. Built once now, consumed everywhere later.
 
 ```
 ┌───────────────────────────┐
-│  ┌─────────────────────┐  │  <- aspect-4/3 cover image, rounded-[14px]
+│  ┌─────────────────────┐  │  <- aspect-4/3 cover image, rounded-xl
 │  │      cover image    │  │
 │  └─────────────────────┘  │
 │                           │
@@ -28,7 +28,7 @@ and articles on the Academy page. Built once now, consumed everywhere later.
 └───────────────────────────┘
 ```
 
-- Outer shell: `Card` with `rounded-[20px] border-border bg-subtle p-4`.
+- Outer shell: `Card` with `rounded-xl border-border bg-subtle p-4`.
 - Image: `next/image` in `fill` mode inside an `aspect-4/3` rounded frame.
   Group hover lifts to `scale-[1.02]`.
 - Tags row: primary `<Badge>` (tone'd) + optional secondary outline pill.

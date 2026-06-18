@@ -40,6 +40,10 @@ before any CMS or backend integration work begins.
 - Keep shared navigation data in `content/navigation.ts`.
 - Keep route SEO copy and sitemap route data in `content/seo.ts`.
 - Keep page content in per-page `content/*.ts` files as the site grows.
+- When one page previews another page's domain content, the source domain owns
+  both the canonical data and a small preview/projection export. For example,
+  Home should consume an Academy-owned `academyHomePreview` shape rather than
+  duplicating Academy events or mapping Academy internals inside Home JSX.
 - Keep SEO copy separate from presentation copy. Route metadata content should
   live in `content/seo.ts` or the route metadata file, not inside hero or page
   section content.
@@ -69,6 +73,9 @@ before any CMS or backend integration work begins.
 - Consume registered semantic colors through Tailwind utilities such as
   `bg-subtle`, `text-fg-muted`, and `border-border`. Avoid direct
   `var(--...)` color utilities in component JSX when a theme utility exists.
+- Keep rounded rectangles capped at `rounded-xl`. Do not introduce Tailwind
+  radius utilities or custom radii above the `xl` scale; use `rounded-full`
+  only for true pills, avatars, and circular icon controls.
 - Reuse existing primitives before creating new abstractions.
 - Promote a new primitive only when the pattern is stable and repeated enough
   to earn reuse.

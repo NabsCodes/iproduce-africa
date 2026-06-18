@@ -27,7 +27,7 @@ export function PartnersSection() {
             {partnersList.map((partner) => (
               <div
                 key={partner.id}
-                className="border-border/60 bg-panel flex h-16 w-[180px] items-center justify-center rounded-2xl border px-6 sm:h-20 sm:w-[240px] sm:px-8"
+                className="border-border/60 bg-panel flex h-16 w-[180px] items-center justify-center rounded-xl border px-6 sm:h-20 sm:w-[240px] sm:px-8"
               >
                 <PartnerLogo partner={partner} />
               </div>

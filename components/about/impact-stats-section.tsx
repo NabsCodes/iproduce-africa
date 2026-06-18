@@ -10,7 +10,8 @@ import {
   useTransform,
 } from "motion/react";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { aboutPageContent, type AboutImpactStat } from "@/content/about";
+import { aboutPageContent } from "@/content/about";
+import type { AboutImpactStat } from "@/types/about";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 
@@ -60,7 +61,7 @@ function StatCard({
       initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       animate={start ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="border-border rounded-2xl border bg-white p-6 sm:p-8"
+      className="border-border rounded-xl border bg-white p-6 sm:p-8"
     >
       <p className="text-fg-muted text-[11px] font-semibold tracking-[0.18em] uppercase">
         {stat.label}

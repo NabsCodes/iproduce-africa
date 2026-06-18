@@ -1,19 +1,5 @@
 import { placeholderImages } from "@/lib/placeholder-images";
 
-export type AcademyEventCategory = "event" | "training";
-
-export type AcademyEvent = {
-  date: string;
-  title: string;
-  description: string;
-  image: string;
-  imageAlt: string;
-  meta: string;
-  tag: string;
-  category: AcademyEventCategory;
-  href: string;
-};
-
 /**
  * Static MVP content. Keep this file presentation-agnostic so each collection
  * can later map to a Sanity document or object without rewriting the sections.
@@ -47,34 +33,6 @@ export const homeContent = {
     image: placeholderImages.whatWeDo,
     imageAlt: "Farmers harvesting crops together",
   },
-  academyHighlights: [
-    {
-      icon: "graduation-cap",
-      title: "Webinars",
-      description:
-        "Live expert-led sessions on agribusiness trends and opportunities.",
-      href: "/academy/webinars",
-    },
-    {
-      icon: "lightbulb",
-      title: "Courses",
-      description:
-        "Structured learning programmes designed for practical impact.",
-      href: "/academy/courses",
-    },
-    {
-      icon: "users",
-      title: "Events",
-      description: "Workshops, conferences and networking engagements.",
-      href: "/academy/events",
-    },
-    {
-      icon: "trending-up",
-      title: "Insights",
-      description: "Articles, industry updates and thought-leadership content.",
-      href: "/academy/insights",
-    },
-  ],
   journeys: [
     {
       audience: "For agripreneurs & individuals",
@@ -143,80 +101,6 @@ export const homeContent = {
       image: "/images/home/aquaculture.webp",
     },
   ],
-  academyEvents: [
-    {
-      date: "2026-06-18",
-      title: "Scaling Smallholder Farms with Data",
-      description:
-        "How farm records and precision tools help small farms lift yields and win buyers.",
-      image: placeholderImages.academySpotlight.microphone,
-      imageAlt: "Microphone set up for an agribusiness webinar",
-      meta: "Webinar · Online · Free",
-      tag: "Webinar",
-      category: "event",
-      href: "/academy#webinars",
-    },
-    {
-      date: "2026-06-24",
-      title: "Post-Harvest Handling Essentials",
-      description:
-        "Cut losses and protect quality with practical storage, packaging and cold-chain methods.",
-      image: placeholderImages.academySpotlight.workshop,
-      imageAlt: "Agribusiness team learning in a workshop space",
-      meta: "Training · Kano · Members",
-      tag: "Training",
-      category: "training",
-      href: "/academy#training",
-    },
-    {
-      date: "2026-07-02",
-      title: "Ask an Agronomist: Soil Health",
-      description:
-        "A live session on soil testing, fertility and regenerative practices — bring your questions.",
-      image: placeholderImages.academySpotlight.presentation,
-      imageAlt: "Speaker presenting agribusiness training to an audience",
-      meta: "Live Q&A · Online · Free",
-      tag: "Live Q&A",
-      category: "event",
-      href: "/academy#webinars",
-    },
-    {
-      date: "2026-07-09",
-      title: "Building an Export-Ready Business",
-      description:
-        "Standards, certification and the paperwork behind successful cross-border trade.",
-      image: placeholderImages.academySpotlight.market,
-      imageAlt: "Fresh produce arranged at a market stand",
-      meta: "Webinar · Online · Free",
-      tag: "Webinar",
-      category: "event",
-      href: "/academy#webinars",
-    },
-    {
-      date: "2026-07-18",
-      title: "Pitching to agri-investors",
-      description:
-        "Shape a sharper story for agribusiness investors, funders and ecosystem partners.",
-      image: placeholderImages.academySpotlight.presentation,
-      imageAlt: "Agribusiness speaker presenting to a seated audience",
-      meta: "Webinar · Online · Free",
-      tag: "Webinar",
-      category: "event",
-      href: "/academy#webinars",
-    },
-    {
-      date: "2026-07-25",
-      title: "Cocoa fermentation & quality",
-      description:
-        "Practical quality-control lessons for cocoa processors preparing for stronger markets.",
-      image: placeholderImages.academySpotlight.workshop,
-      imageAlt: "Team collaborating during an agribusiness training session",
-      meta: "Training · Akure · Members",
-      tag: "Training",
-      category: "training",
-      href: "/academy#training",
-    },
-  ] satisfies readonly AcademyEvent[],
   testimonials: [
     {
       quote:
@@ -224,14 +108,14 @@ export const homeContent = {
       name: "Aïssatou Diallo",
       role: "Cooperative Lead · Senegal",
       image: placeholderImages.testimonials.aissatou,
-      initials: null,
+      initials: "AD",
     },
     {
       quote:
         "From the academy to the community, everything we need to grow sits in one ecosystem.",
       name: "Kofi Mensah",
       role: "Exporter · Ghana",
-      image: null,
+
       initials: "KM",
     },
     {
@@ -239,7 +123,7 @@ export const homeContent = {
         "The bootcamp gave me my first export client. I came for the training and left with a market.",
       name: "Zainab A.",
       role: "Shea processor · Kano · Cohort 2",
-      image: null,
+
       initials: "ZA",
     },
     {
@@ -247,7 +131,7 @@ export const homeContent = {
         "The partner network opened doors we'd been knocking on for years. Real introductions, not cold leads.",
       name: "Tendai Mukamuri",
       role: "Agritech Founder · Zimbabwe",
-      image: null,
+
       initials: "TM",
     },
     {
@@ -255,7 +139,7 @@ export const homeContent = {
         "Weekly webinars keep our team current on policy and AfCFTA changes — it's become part of our planning cycle.",
       name: "Fatou Ndiaye",
       role: "Operations Lead · Senegal",
-      image: null,
+
       initials: "FN",
     },
     {
@@ -263,7 +147,7 @@ export const homeContent = {
         "We joined for the market access and stayed for the community. The peer learning is unmatched.",
       name: "Samuel Okoye",
       role: "Cassava Processor · Nigeria",
-      image: null,
+
       initials: "SO",
     },
   ],
@@ -300,35 +184,6 @@ export const homeContent = {
       category: "Partners",
     },
   ],
-  articles: [
-    {
-      category: "INNOVATION",
-      readTime: "5 min read",
-      title: "How AgriTech Is Reshaping African Farms",
-      description:
-        "From mobile advisory to precision sensors — the tools changing how the continent farms.",
-      image: placeholderImages.news.one,
-      href: "/academy/insights",
-    },
-    {
-      category: "TRADE",
-      readTime: "4 min read",
-      title: "Unlocking Intra-African Trade",
-      description:
-        "What the AfCFTA means for producers and traders moving goods across borders.",
-      image: placeholderImages.news.two,
-      href: "/academy/insights",
-    },
-    {
-      category: "SMART AGRICULTURE",
-      readTime: "6 min read",
-      title: "Climate-Smart Practices That Pay Off",
-      description:
-        "Low-cost techniques that build resilience while improving farm profitability.",
-      image: placeholderImages.news.three,
-      href: "/academy/insights",
-    },
-  ],
   stayConnected: {
     eyebrow: "Stay connected",
     title: "Join the Conversation",
@@ -337,9 +192,6 @@ export const homeContent = {
     platforms: ["instagram", "facebook", "youtube"],
   },
 } as const;
-
-export type HomeArticle = (typeof homeContent.articles)[number];
-export type HomeArticleCategory = HomeArticle["category"];
 
 export type HomeFaqCategory = (typeof homeContent.faqCategories)[number];
 

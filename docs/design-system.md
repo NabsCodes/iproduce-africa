@@ -129,14 +129,16 @@ Rules:
 
 ## Radius
 
-The foundations show a full radius ladder, but we only need the values we
-actually reuse in code.
+The foundations may show a full radius ladder, but this site uses a tighter
+radius cap so the UI stays refined and consistent.
 
 Default posture:
 
-- `rounded-xl` for smaller UI and controls
-- `rounded-2xl` for most cards and modules
-- `rounded-3xl` for larger hero or CTA shells
+- `rounded-sm` through `rounded-xl` are available when a rectangular surface
+  needs corners
+- `rounded-xl` is the maximum radius for cards, panels, image frames, hero
+  blocks, CTA shells, buttons, chips, inputs, and badges
+- do not use Tailwind radius utilities or custom radii above the `xl` scale
 - `rounded-full` for pills, avatars, and circular icon buttons
 
 Avoid section-specific radius drift unless the approved design truly depends on
@@ -201,6 +203,13 @@ Keep content portable and future-CMS-friendly.
 - Home copy and repeated collections live in `content/home.ts`
 - secondary page copy lives in its own `content/*.ts` file
 - components should consume content, not bury copy in JSX
+- cross-page previews should be shaped by the source domain, not by the
+  consuming component. If Home previews Academy, Academy exports a
+  `academyHomePreview` projection from `content/academy.ts`; Home renders that
+  projection without duplicating Academy collections or mapping deep Academy
+  internals in JSX.
+- when Sanity arrives, these static projections become targeted CMS queries
+  returning the same simple card/view models.
 
 ## Motion
 

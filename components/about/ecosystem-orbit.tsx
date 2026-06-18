@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import type { AboutOrbitContent } from "@/types/content";
+import type { AboutOrbitContent } from "@/types/about";
 import type { PillarIconKey } from "@/lib/pillar-icons";
 import { pillarIcons } from "@/lib/pillar-icons";
 import { BrowserMockup } from "@/components/shared/browser-mockup";

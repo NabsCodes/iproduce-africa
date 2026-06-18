@@ -24,7 +24,7 @@ export function TwoJourneysSection() {
                 <article
                   key={journey.title}
                   className={cn(
-                    "flex flex-col gap-8 rounded-2xl p-6 sm:gap-10 sm:p-7",
+                    "flex flex-col gap-8 rounded-xl p-6 sm:gap-10 sm:p-7",
                     isDark ? "bg-forest-600 text-white" : "bg-leaf-subtle",
                   )}
                 >

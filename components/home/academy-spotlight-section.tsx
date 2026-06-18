@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
 import { ArrowUpRight, Calendar, GraduationCap } from "lucide-react";
 import { ContentCard } from "@/components/shared/content-card";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { homeContent } from "@/content/home";
+import { academyHomePreview } from "@/content/academy";
 
 type AcademySpotlightTab = "upcoming" | "training";
 
@@ -19,42 +18,20 @@ const tabs = [
   icon: typeof Calendar;
 }[];
 
-const SPOTLIGHT_LIMIT = 4;
-
-const dateFormat = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "2-digit",
-  timeZone: "UTC",
-});
-
-function formatSpotlightDate(iso: string) {
-  return dateFormat.format(new Date(iso)).toUpperCase();
-}
-
 function SpotlightGrid({ tabId }: { tabId: AcademySpotlightTab }) {
-  const visibleEvents = useMemo(
-    () =>
-      [...homeContent.academyEvents]
-        .filter((event) =>
-          tabId === "training" ? event.category === "training" : true,
-        )
-        .sort((a, b) => a.date.localeCompare(b.date))
-        .slice(0, SPOTLIGHT_LIMIT),
-    [tabId],
-  );
+  const cards = academyHomePreview.spotlight[tabId];
 
   return (
     <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-      {visibleEvents.map((event) => (
+      {cards.map((card) => (
         <ContentCard
-          key={`${event.date}-${event.title}`}
-          image={event.image}
-          imageAlt={event.imageAlt}
-          href={event.href}
-          category={event.tag.toUpperCase()}
-          meta={formatSpotlightDate(event.date)}
-          title={event.title}
-          description={event.description}
+          key={card.key}
+          image={card.image}
+          href={card.href}
+          category={card.category}
+          meta={card.meta}
+          title={card.title}
+          description={card.description}
           className="bg-white"
         />
       ))}

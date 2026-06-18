@@ -1,18 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 
-import {
-  ContentCard,
-  type ContentCardTone,
-} from "@/components/shared/content-card";
+import { ContentCard } from "@/components/shared/content-card";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { homeContent, type HomeArticleCategory } from "@/content/home";
-
-const articleToneByCategory: Record<HomeArticleCategory, ContentCardTone> = {
-  INNOVATION: "forest",
-  TRADE: "tangerine",
-  "SMART AGRICULTURE": "leaf",
-};
+import { academyHomePreview } from "@/content/academy";
 
 export function FeaturedArticlesSection() {
   return (
@@ -26,7 +17,7 @@ export function FeaturedArticlesSection() {
             </h2>
           </div>
           <ButtonLink
-            href="/academy/insights"
+            href="/academy#blog"
             variant="green-link"
             size="sm"
             className="h-10 shrink-0 self-start px-2"
@@ -37,14 +28,14 @@ export function FeaturedArticlesSection() {
         </div>
 
         <div className="mt-8 grid gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-3">
-          {homeContent.articles.map((article) => (
+          {academyHomePreview.blog.map((article) => (
             <ContentCard
-              key={article.title}
+              key={article.key}
               image={article.image}
               href={article.href}
               category={article.category}
-              categoryTone={articleToneByCategory[article.category]}
-              meta={article.readTime.toUpperCase()}
+              categoryTone={article.categoryTone}
+              meta={article.meta}
               title={article.title}
               description={article.description}
             />

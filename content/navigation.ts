@@ -8,23 +8,18 @@ export const mainNavigation = [
     href: "/academy",
     children: [
       {
-        label: "Webinars",
-        href: "/academy/webinars",
-        description: "Live expert-led sessions on agribusiness trends",
+        label: "Webinars & Events",
+        href: "/academy#webinars-events",
+        description: "Live expert-led sessions, trainings and meetups",
       },
       {
         label: "Courses",
-        href: "/academy/courses",
+        href: "/academy#courses",
         description: "Structured learning programmes for practical impact",
       },
       {
-        label: "Events",
-        href: "/academy/events",
-        description: "Workshops, conferences and networking",
-      },
-      {
-        label: "Insights",
-        href: "/academy/insights",
+        label: "Blog/Insights",
+        href: "/academy#blog",
         description: "Articles, industry updates and thought-leadership",
       },
     ],

@@ -75,7 +75,7 @@ content-heavy.
 Variant components own their own visual tokens. Do **not** override them
 inline via `className`.
 
-- ❌ `<ButtonLink variant="green" size="lg" className="h-14 rounded-2xl" />`
+- ❌ `<ButtonLink variant="green" size="lg" className="h-14 px-8" />`
 - ✅ `<ButtonLink variant="green" size="lg" />`
 
 If a button needs a different height, corner radius, or palette than any
@@ -83,12 +83,10 @@ existing variant, add a new variant to `components/ui/button.tsx`
 (`buttonVariants`) — don't patch it from the consumer. Same rule for any
 other primitive that ships variants.
 
-Project radius cap: components that look like controls (buttons, chips, inputs,
-small badges) cap at `rounded-lg` (8px). Larger radii (`rounded-2xl`,
-`rounded-3xl`, custom `rounded-[20px]`) are only valid on bespoke layout
-containers — cards, panels, image frames, hero blocks — where the design
-explicitly calls for them. If you find yourself reaching for `rounded-2xl` on
-a `ButtonLink`, that's the signal to add a variant instead.
+Project radius cap: rounded rectangles must not exceed `rounded-xl`. Do not
+use any Tailwind radius utility or custom radius above the `xl` scale for cards,
+panels, image frames, hero blocks, buttons, chips, inputs, or badges.
+`rounded-full` is still valid for true pills, avatars, and circular icon controls.
 
 Likewise for sizes: don't pass `h-14`, `px-6`, etc. onto a variant button.
 Pick the right `size` prop or add a new one.
@@ -132,6 +130,17 @@ the app genuinely needs different route shells or behaviors.
 - Treat custom `loading.tsx`, `error.tsx`, `not-found.tsx`, and a broader
   motion system as later scope unless the current milestone explicitly needs
   them.
+
+## Cross-Page Content Previews
+
+When a page previews another page's domain content, keep ownership with the
+source page. Export a small preview/projection shape from that source content
+module, then let the consuming component render it directly.
+
+Example: Home can render Academy cards from `academyHomePreview`, but it should
+not duplicate Academy event/article collections in `content/home.ts` or map
+deep Academy internals inside Home JSX. In Sanity, this same boundary becomes a
+targeted preview query.
 
 ## Verification
 

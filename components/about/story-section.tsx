@@ -18,7 +18,7 @@ export function StorySection() {
               strokeWidth={6}
               className="text-tangerine-300 -top-8 -right-6 size-[180px] sm:-top-10 sm:-right-8 sm:size-[220px]"
             />
-            <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-[28px]">
+            <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-xl">
               <Image
                 src={story.image}
                 alt="Our story"
@@ -28,7 +28,7 @@ export function StorySection() {
               />
               <span
                 aria-hidden
-                className="bg-leaf-subtle text-leaf-700 pointer-events-none absolute top-1/2 left-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl"
+                className="bg-leaf-subtle text-leaf-700 pointer-events-none absolute top-1/2 left-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl"
               >
                 <Play className="size-5 fill-current" />
               </span>

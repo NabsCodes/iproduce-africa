@@ -1,0 +1,160 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { academyContent } from "@/content/academy";
+
+type Countdown = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
+
+const ZERO_COUNTDOWN: Countdown = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
+
+function computeCountdown(targetIso: string): Countdown {
+  const diff = new Date(targetIso).getTime() - Date.now();
+  if (Number.isNaN(diff) || diff <= 0) return ZERO_COUNTDOWN;
+
+  const totalSeconds = Math.floor(diff / 1000);
+  return {
+    days: Math.floor(totalSeconds / 86_400),
+    hours: Math.floor((totalSeconds % 86_400) / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
+}
+
+function CountdownCard({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="bg-forest-900 flex min-w-[68px] flex-col items-center justify-center rounded-lg px-3 py-3 text-white sm:min-w-[76px] sm:py-4">
+      <span className="font-serif text-2xl leading-none font-semibold tabular-nums sm:text-3xl">
+        {String(value).padStart(2, "0")}
+      </span>
+      <span className="text-leaf-300 mt-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+export function FeaturedEventSection() {
+  const featured = academyContent.featuredEvent;
+  const [countdown, setCountdown] = useState<Countdown>(ZERO_COUNTDOWN);
+
+  useEffect(() => {
+    const tick = () => setCountdown(computeCountdown(featured.date));
+    tick();
+    const intervalId = window.setInterval(tick, 1000);
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [featured.date]);
+
+  return (
+    <section
+      id="featured-event"
+      className="scroll-mt-36 bg-white py-14 sm:py-16 md:scroll-mt-48 lg:scroll-mt-52 lg:py-20"
+    >
+      <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
+        <EyebrowBadge>{featured.eyebrow}</EyebrowBadge>
+        <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+          {featured.sectionTitle}
+        </h2>
+
+        <div className="border-default bg-subtle mt-10 grid overflow-hidden rounded-xl border lg:grid-cols-2">
+          <div className="bg-muted relative aspect-4/3 min-h-[280px] lg:aspect-auto">
+            <Image
+              src={featured.image}
+              alt={featured.imageAlt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+
+          <div className="flex flex-col gap-5 p-6 sm:gap-6 sm:p-8 lg:p-10">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="leaf">{featured.category}</Badge>
+              <Badge
+                variant="forest"
+                className="bg-forest-900 border-transparent text-white"
+              >
+                {featured.format}
+              </Badge>
+            </div>
+
+            <div>
+              <h3 className="text-foreground font-serif text-2xl leading-tight font-semibold sm:text-3xl">
+                {featured.title}
+              </h3>
+              <p className="text-fg-muted mt-3 text-base leading-7">
+                {featured.description}
+              </p>
+            </div>
+
+            <ul className="text-fg-muted flex flex-col gap-3 border-t border-b border-(--border-subtle) py-5 text-sm leading-6">
+              <li className="flex items-start gap-3">
+                <CalendarDays
+                  className="text-fg-subtle mt-0.5 size-4 shrink-0"
+                  aria-hidden
+                />
+                <span>{featured.dateLabel}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin
+                  className="text-fg-subtle mt-0.5 size-4 shrink-0"
+                  aria-hidden
+                />
+                <span>{featured.location}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Users
+                  className="text-fg-subtle mt-0.5 size-4 shrink-0"
+                  aria-hidden
+                />
+                <span>{featured.speakers}</span>
+              </li>
+            </ul>
+
+            <div>
+              <p className="text-fg-subtle text-[11px] font-semibold tracking-[0.18em] uppercase">
+                Next event begins in
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2 sm:gap-3">
+                <CountdownCard value={countdown.days} label="Days" />
+                <CountdownCard value={countdown.hours} label="Hours" />
+                <CountdownCard value={countdown.minutes} label="Minutes" />
+                <CountdownCard value={countdown.seconds} label="Seconds" />
+              </div>
+            </div>
+
+            <Button
+              asChild
+              variant="tangerine"
+              size="lg"
+              className="self-start"
+            >
+              <Link href={featured.registerHref}>
+                {featured.registerLabel}
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

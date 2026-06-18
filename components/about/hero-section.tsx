@@ -15,17 +15,17 @@ export function AboutHeroSection() {
                 {hero.eyebrow}
               </EyebrowPill>
 
-              <h1 className="text-foreground font-serif text-[40px] leading-none font-semibold tracking-[-0.02em] sm:text-[52px]">
-                <span className="block leading-[1.07] lg:leading-16">
+              <h1 className="text-foreground font-serif text-3xl leading-[1.1] font-semibold tracking-[-0.01em] sm:text-5xl sm:leading-[1.05]">
+                <span className="block leading-[1.07]">
                   {hero.title.lineOne.lead}
                   <span className="text-leaf-600">
                     {hero.title.lineOne.accent}
                   </span>
                 </span>
-                <span className="text-leaf-600 block leading-[1.07] lg:leading-16">
+                <span className="text-leaf-600 block leading-[1.07]">
                   {hero.title.lineTwo}
                 </span>
-                <span className="block leading-[1.07] lg:leading-16">
+                <span className="block leading-[1.07]">
                   {hero.title.lineThree}
                 </span>
               </h1>

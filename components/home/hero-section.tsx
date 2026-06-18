@@ -61,7 +61,7 @@ export function HeroSection() {
             </ButtonLink>
           </div>
 
-          <div className="relative aspect-5/4 overflow-hidden rounded-3xl">
+          <div className="relative aspect-5/4 overflow-hidden rounded-xl">
             <Image
               src={hero.image}
               alt={hero.imageAlt}

@@ -5,12 +5,9 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import {
-  aboutPageContent,
-  type AboutJourneyMilestone,
-  type AboutJourneyStat,
-} from "@/content/about";
+import { aboutPageContent } from "@/content/about";
 import { cn } from "@/lib/utils";
+import type { AboutJourneyMilestone, AboutJourneyStat } from "@/types/about";
 
 function MilestoneRow({
   milestone,
