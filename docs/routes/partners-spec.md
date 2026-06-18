@@ -68,10 +68,65 @@ section instead.
     - label: `Sustainable development`
     - value: `10+ Industry Collaborations`
     - leaf circular icon chip
-- Implementation decision: render the Africa photo, north-map backdrop, and
-  Madagascar accent as one baked composite WebP
-  (`public/images/partners/partners-map-composite.webp`) so those exported map
-  layers cannot drift independently across responsive layouts.
+
+### Implementation (shipped 2026-06-18)
+
+The hero visual is composed from **three independent assets layered in DOM**,
+not a baked composite. This was reworked after the first pass because the
+backdrop needed to break out of the page's `max-w-8xl` content container and
+touch the viewport's right edge — which a single inline image inside the
+layered wrapper cannot do.
+
+**Asset map** (sources in `content/partners.ts` → `hero.map`):
+
+| Layer | Asset                                 | Native dim | Owner                                        | Notes                                                                                       |
+| ----- | ------------------------------------- | ---------- | -------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| 0     | `/svgs/north-map.svg` (`backdrop`)    | 567×260    | `<PartnersHeroSection>` (full-bleed sibling) | Light leaf-green silhouette of northern Africa. Extends to viewport's right edge.           |
+| 1     | `/images/partners/africa-map.webp`    | 1001×1123  | `<PartnersAfricaMap>` wrapper                | Masked photo of the agripreneur inside an Africa silhouette. Sets the wrapper aspect.       |
+| 2     | `/svgs/madagascar.svg` (`madagascar`) | 67×117     | `<PartnersAfricaMap>`                        | Tangerine accent island. Sized as % of wrapper so it scales geographically with the photo.  |
+| 3     | Sustainable Development card          | —          | `<PartnersAfricaMap>`                        | Floating leaf icon + stat copy. Sits inside the photo's bottom-left, slightly outset on lg. |
+
+**Backdrop hoisting pattern (key rule).** The backdrop is rendered as a direct
+absolute child of the `<section>` (not inside the layered wrapper or the
+content container) so it can escape the `max-w-8xl px-4..xl:px-10` content
+constraints and touch the viewport's right edge:
+
+```tsx
+<section className="bg-subtle relative overflow-x-clip ...">
+  {/* Decorative backdrop — full-bleed, top-right anchored, behind everything */}
+  <Image src={hero.map.backdrop} ... className="absolute top-0 right-0 z-0 ..." />
+  <div className="max-w-8xl relative z-10 mx-auto w-full px-4 ...">
+    {/* normal content grid */}
+  </div>
+</section>
+```
+
+> **General rule for decorative elements that need to break the content
+> container:** hoist them out of the layout grid, position them `absolute`
+> relative to the `relative overflow-x-clip` section, and z-index them below
+> the content. Keep `priority` on the LCP image only (the masked photo), not
+> on the decorative backdrop.
+
+**Sizing the backdrop responsively without horizontal scroll:** the section
+already carries `overflow-x-clip`, so any minor overshoot at odd viewport
+widths gets clipped at the viewport edge rather than introducing horizontal
+scroll. Width scales `w-[60vw] sm:w-[55vw] lg:w-[42vw] xl:w-[43vw]` and caps
+at `max-w-[760px]` so it never explodes on ultrawides. Height is auto-locked
+by the SVG's 2.18:1 ratio.
+
+**Layered wrapper sizing.** `<PartnersAfricaMap>` caps at
+`max-w-[400px] sm:max-w-[460px] lg:w-[min(38vw,520px)] xl:w-[min(38vw,580px)]`.
+The masked photo's intrinsic 1001×1123 aspect drives the wrapper's effective
+height, which Madagascar and the sustainable card reference via percentages
+(`h-[19%]`, `top-[68%]`, `bottom-[5%] sm:bottom-[7%]`).
+
+**Z-index stack:** backdrop `z-0` → photo `z-10` → Madagascar `z-20` →
+sustainable card `z-30`.
+
+**Mobile (390px):** backdrop stays visible per the supplied mobile design
+(it sits behind the upper-right of the text content when stacked), Madagascar
+stays visible, sustainable card sits inside the photo's bottom-left at a
+slightly smaller scale (`p-3 + size-10` icon).
 
 ### Mobile / Tablet
 
@@ -301,6 +356,72 @@ from the shared CTA rules.
 - Follow the project radius rule: max `rounded-xl` for rounded rectangles.
 - Make 390px and tablet decisions in the same implementation pass.
 
+## Implementation status (sections 2-8 shipped 2026-06-18)
+
+### New shadcn-style UI primitives
+
+| Path                            | Purpose                                                                        |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| `components/ui/form.tsx`        | Wraps `react-hook-form` (`FormProvider`, `Controller`) with shadcn API surface |
+| `components/ui/select.tsx`      | Radix Select (umbrella `radix-ui` import) with project tokens                  |
+| `components/ui/textarea.tsx`    | Basic `<textarea>` wrapper matching `<Input>` border/focus tokens              |
+| `components/ui/phone-input.tsx` | `react-phone-number-input` wrapper styled to project tokens via globals.css    |
+
+New dependencies: `react-hook-form`, `zod`, `@hookform/resolvers`,
+`react-phone-number-input`. The library's CSS overrides live at the bottom of
+`app/globals.css` under the `Phone input overrides` heading.
+
+### Shared `<ImpactStatsSection>` is now prop-driven
+
+Same neutral-types-with-defaults pattern as `<TestimonialsSection>` /
+`<FaqSection>`. `types/content.ts` now exports `ImpactStatItem`, and the
+section accepts optional `{ eyebrow, title, description, items }` props.
+About page consumer unchanged (falls back to `aboutPageContent.impactStats`);
+Partners consumer passes `partnersPageContent.impact`.
+
+### Shared `<CtaSection>` is now prop-driven
+
+Optional `{ eyebrow, title, description, leadDescription, buttons }` props,
+with Home defaults preserved. Partners passes a single-button override
+(`Partner with us` → `#partnership-enquiry`).
+
+### Partners section components
+
+| Path                                                        | Notes                                                                                         |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `components/partners/why-partner-section.tsx`               | 6-card grid; first card has solid tangerine chip, rest soft. Header split layout.             |
+| `components/partners/partner-voices-section.tsx`            | Testimonial card + 3×4 logo grid; tangerine `DecorativeRing` top-right (md+ only).            |
+| `components/partners/partnership-opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.            |
+| `components/partners/partnership-inquiry-form.tsx`          | Client form with `react-hook-form` + `zod`; phone via `react-phone-number-input`.             |
+| `components/partners/partnership-inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`. |
+
+### Anchor migration: `#partner` → `#partnership-enquiry`
+
+The old internal action-anchor `#partner` (rendered by the deleted
+`partner-section.tsx`) is replaced site-wide by `#partnership-enquiry` (the
+new inquiry section's id):
+
+- `content/home.ts`: two CTAs updated
+- `components/layout/header.tsx`: "Partner with us" desktop link
+- `components/layout/mobile-nav.tsx`: "Partner with us" mobile link
+
+### Form behaviour (static MVP)
+
+- All fields required; zod schema enforces basic constraints (min lengths,
+  email format, valid international phone number via
+  `isValidPhoneNumber` from `react-phone-number-input`).
+- `onSubmit` simulates 800ms latency, then swaps the form for a success card.
+  No backend call, no email send. The success card's copy makes the static
+  scope explicit.
+- Phone field defaults to Nigeria (`NG`), country code editable via the
+  library's built-in country selector.
+- Validation mode is `onBlur` so errors don't show on first focus.
+
+### Files removed
+
+- `components/partners/partner-section.tsx` (replaced by inquiry section)
+- `partnersPageContent.partner` content block (replaced by `inquiry`)
+
 ## Checklist
 
 - [x] Screenshots supplied
@@ -309,7 +430,11 @@ from the shared CTA rules.
 - [x] CTA hierarchy documented
 - [x] Placeholder stats/testimonial risks listed
 - [x] Static form scope documented
-- [ ] Copy confirmations resolved for partner form wording
-- [ ] Route implemented against screenshots
 - [x] Hero browser QA at desktop, tablet, and 390px
+- [x] All sections built against screenshots
+- [x] Form primitives shipped (`form.tsx`, `select.tsx`, `textarea.tsx`, `phone-input.tsx`)
+- [x] Shared `ImpactStatsSection` and `CtaSection` refactored to prop-driven
+- [x] `#partner` → `#partnership-enquiry` anchor migration complete
 - [ ] Full route browser QA at desktop, tablet, and 390px
+- [ ] Dialog/modal work (separate follow-up pass once screenshots supplied)
+- [ ] Motion polish on chosen sections (separate plan after static UI approved)

@@ -34,7 +34,7 @@ function ParticipantCard({ item }: { item: AcademyParticipant }) {
   const Icon = participantIcons[item.icon];
   return (
     <article className="group border-default hover:border-tangerine-300 flex items-start gap-4 rounded-lg border bg-white p-5 transition-colors duration-300 sm:p-6">
-      <span className="bg-leaf-subtle text-leaf-700 group-hover:bg-tangerine-400 flex size-10 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 group-hover:text-white">
+      <span className="bg-leaf-subtle text-leaf-700 group-hover:bg-tangerine-400 flex size-10 shrink-0 items-center justify-center rounded-md transition-colors duration-300 group-hover:text-white">
         <Icon className="size-5" aria-hidden />
       </span>
       <div className="min-w-0">

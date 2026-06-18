@@ -17,7 +17,6 @@ export function PartnersHeroSection() {
         aria-hidden
         width={567}
         height={260}
-        priority
         sizes="(min-width: 1280px) 760px, (min-width: 1024px) 50vw, 55vw"
         className="pointer-events-none absolute top-0 right-0 z-0 h-auto w-[60vw] max-w-[760px] select-none sm:w-[55vw] lg:w-[42vw] xl:w-[43vw]"
       />

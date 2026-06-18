@@ -249,7 +249,7 @@ export function MobileNav({
             </ButtonLink>
             <SheetClose asChild>
               <Link
-                href="/partners#partner"
+                href="/partners#partnership-enquiry"
                 className="text-leaf-700 hover:text-forest-700 focus-visible:ring-leaf-400 block py-3 text-center text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
                 Partner with us

@@ -1,10 +1,23 @@
 import { cn } from "@/lib/utils";
 
+type CarouselDotsTone = "leaf" | "tangerine";
+
 type CarouselDotsProps = {
   total: number;
   active?: number;
   onSelect?: (index: number) => void;
   className?: string;
+  tone?: CarouselDotsTone;
+};
+
+const activeToneClass: Record<CarouselDotsTone, string> = {
+  leaf: "bg-leaf-emphasized",
+  tangerine: "bg-tangerine-500",
+};
+
+const focusToneClass: Record<CarouselDotsTone, string> = {
+  leaf: "focus-visible:outline-leaf-emphasized",
+  tangerine: "focus-visible:outline-tangerine-500",
 };
 
 export function CarouselDots({
@@ -12,6 +25,7 @@ export function CarouselDots({
   active = 0,
   onSelect,
   className,
+  tone = "leaf",
 }: CarouselDotsProps) {
   return (
     <div
@@ -22,7 +36,7 @@ export function CarouselDots({
         const isActive = index === active;
         const indicatorClassName = cn(
           "block h-2 rounded-full transition-[width,background-color] duration-300 ease-out",
-          isActive ? "bg-leaf-emphasized w-10" : "w-2 bg-[#dde5da]",
+          isActive ? cn(activeToneClass[tone], "w-10") : "w-2 bg-[#dde5da]",
         );
 
         if (!onSelect) {
@@ -35,7 +49,10 @@ export function CarouselDots({
           <button
             key={index}
             type="button"
-            className="focus-visible:outline-leaf-emphasized flex min-h-6 min-w-6 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
+            className={cn(
+              "flex min-h-6 min-w-6 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2",
+              focusToneClass[tone],
+            )}
             aria-label={`Go to carousel page ${index + 1}`}
             aria-current={isActive ? "true" : undefined}
             onClick={() => onSelect(index)}

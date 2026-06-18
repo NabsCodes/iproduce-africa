@@ -107,7 +107,13 @@ export function CarouselItem({
   );
 }
 
-export function CarouselDots({ className }: { className?: string }) {
+export function CarouselDots({
+  className,
+  tone,
+}: {
+  className?: string;
+  tone?: "leaf" | "tangerine";
+}) {
   const { selectedIndex, scrollSnaps, scrollTo } = useCarousel();
 
   if (scrollSnaps.length <= 1) return null;
@@ -118,6 +124,7 @@ export function CarouselDots({ className }: { className?: string }) {
       active={selectedIndex}
       onSelect={scrollTo}
       className={className}
+      tone={tone}
     />
   );
 }

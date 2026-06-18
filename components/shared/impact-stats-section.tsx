@@ -11,7 +11,7 @@ import {
 } from "motion/react";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
-import type { AboutImpactStat } from "@/types/about";
+import type { ImpactStatItem } from "@/types/content";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 
@@ -27,7 +27,7 @@ function StatCard({
   index,
   start,
 }: {
-  stat: AboutImpactStat;
+  stat: ImpactStatItem;
   index: number;
   start: boolean;
 }) {
@@ -76,8 +76,25 @@ function StatCard({
   );
 }
 
-export function ImpactStatsSection() {
-  const impact = aboutPageContent.impactStats;
+type ImpactStatsSectionProps = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  items?: readonly ImpactStatItem[];
+};
+
+export function ImpactStatsSection({
+  eyebrow,
+  title,
+  description,
+  items,
+}: ImpactStatsSectionProps = {}) {
+  const fallback = aboutPageContent.impactStats;
+  const headerEyebrow = eyebrow ?? fallback.eyebrow;
+  const headerTitle = title ?? fallback.title;
+  const headerDescription = description ?? fallback.description;
+  const stats = items ?? fallback.items;
+
   const gridRef = useRef<HTMLDivElement>(null);
   const inView = useInView(gridRef, { once: true, margin: "-15% 0px" });
 
@@ -86,13 +103,13 @@ export function ImpactStatsSection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="text-center">
           <EyebrowBadge className="justify-center">
-            {impact.eyebrow}
+            {headerEyebrow}
           </EyebrowBadge>
           <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-            {impact.title}
+            {headerTitle}
           </h2>
           <p className="text-fg-muted mx-auto mt-4 max-w-2xl text-base leading-6">
-            {impact.description}
+            {headerDescription}
           </p>
         </div>
 
@@ -100,7 +117,7 @@ export function ImpactStatsSection() {
           ref={gridRef}
           className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:mt-12 lg:grid-cols-4"
         >
-          {impact.items.map((stat, index) => (
+          {stats.map((stat, index) => (
             <StatCard
               key={stat.label}
               stat={stat}

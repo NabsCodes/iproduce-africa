@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type { CommunityOrbitIconKey } from "@/lib/community-orbit-icons";
 
 export type EyebrowTone = "leaf" | "tangerine";
@@ -83,4 +85,25 @@ export type FaqItem = {
   question: string;
   answer: string;
   category: FaqCategory;
+};
+
+export type ImpactStatItem = {
+  label: string;
+  value: number;
+  accent?: string;
+};
+
+export type FaqSectionContent = {
+  eyebrow: string;
+  title?: ReactNode;
+  description: string;
+  categories: readonly FaqCategory[];
+  items: readonly FaqItem[];
+};
+
+export type TestimonialsSectionContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  items: readonly TestimonialItem[];
 };

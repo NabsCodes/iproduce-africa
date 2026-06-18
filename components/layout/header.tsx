@@ -211,7 +211,7 @@ export function Header() {
 
           <div className="flex shrink-0 items-center gap-2 justify-self-end sm:gap-3 md:gap-5">
             <Link
-              href="/partners#partner"
+              href="/partners#partnership-enquiry"
               className="text-leaf-600 hover:text-leaf-700 focus-visible:bg-leaf-50 focus-visible:text-leaf-700 hidden px-2 py-1 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-none lg:inline-flex"
             >
               Partner with us

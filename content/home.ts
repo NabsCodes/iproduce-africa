@@ -19,7 +19,7 @@ export const homeContent = {
     },
     secondaryCta: {
       label: "Partner with us",
-      href: "/partners#partner",
+      href: "/partners#partnership-enquiry",
     },
     stats: [
       { value: "2,400", suffix: "+", label: "Agripreneurs" },
@@ -64,7 +64,7 @@ export const homeContent = {
         "Strategic ecosystem partnerships",
         "Impact measurement & reporting",
       ],
-      href: "/partners#partner",
+      href: "/partners#partnership-enquiry",
       cta: "Become a partner",
       tone: "dark",
     },

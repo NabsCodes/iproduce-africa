@@ -334,37 +334,43 @@ export const academyContent = {
     eyebrow: "Frequently asked questions",
     description:
       "Everything about the academy, programmes and learning pathways — answered plainly.",
-    categories: ["All", "Platform", "Membership", "Partners"] as const,
+    categories: ["All", "Courses", "Webinars & Events", "Membership"] as const,
     items: [
       {
-        question: "What is iProduce Africa?",
+        question: "How do I enrol in a course?",
         answer:
-          "iProduce Africa is an agribusiness ecosystem connecting farmers, processors, traders, investors and innovators across the continent — with learning, networking and market-access tools in one place.",
-        category: "Platform",
+          "Browse the courses section, pick one that matches your interest, and follow the enrolment button. Free courses unlock immediately; paid programmes route you through a brief intake step before you start.",
+        category: "Courses",
       },
       {
-        question: "Who is the platform for?",
+        question: "Are the courses free?",
         answer:
-          "Anyone building or supporting an agribusiness — from individual farmers to large organisations, exporters, investors, and ecosystem partners.",
-        category: "Platform",
+          "Most introductory courses and webinars are free for members. Advanced or cohort-based programmes may carry a fee, which is disclosed clearly on the course page before you commit.",
+        category: "Courses",
       },
       {
-        question: "Is it free to join?",
+        question: "Do I get a certificate when I complete a course?",
         answer:
-          "Yes. Joining the community is free; some training programmes and partner services have associated fees disclosed up front.",
+          "Yes. Completing all modules and assessments in a course earns you a digital certificate of completion that you can share on LinkedIn and other professional surfaces.",
+        category: "Courses",
+      },
+      {
+        question: "How do I attend a live webinar or event?",
+        answer:
+          "Register on the event page and you'll receive a calendar invite plus a join link by email an hour before the session. Most webinars are also recorded and added to the on-demand library afterwards.",
+        category: "Webinars & Events",
+      },
+      {
+        question: "Can I propose a topic or speak at a future event?",
+        answer:
+          "Absolutely. Use the Contact page to reach the academy team with a short pitch covering the topic, audience, and any supporting materials — we curate community-led sessions across the year.",
+        category: "Webinars & Events",
+      },
+      {
+        question: "Is academy membership free?",
+        answer:
+          "Joining the iProduce community is free and unlocks the academy. Specific paid courses or sponsored cohorts are billed separately and clearly labelled on the course listing.",
         category: "Membership",
-      },
-      {
-        question: "Which countries do you operate in?",
-        answer:
-          "Our network spans 12 African countries today, with new corridors added as partner programmes expand.",
-        category: "Platform",
-      },
-      {
-        question: "How do I become a partner?",
-        answer:
-          "Partners collaborate through co-designed programmes, market access initiatives, capacity building, and thought leadership. Visit our Partners page to start a conversation.",
-        category: "Partners",
       },
     ],
   },

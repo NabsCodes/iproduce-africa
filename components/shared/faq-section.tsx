@@ -13,9 +13,24 @@ import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { homeContent } from "@/content/home";
-import type { FaqCategory, FaqItem } from "@/types/content";
+import type { FaqCategory, FaqItem, FaqSectionContent } from "@/types/content";
 
 const ALL_CATEGORY: FaqCategory = "All";
+
+const defaultContent: FaqSectionContent = {
+  eyebrow: "Frequently asked questions",
+  title: (
+    <>
+      Questions,
+      <br />
+      answered.
+    </>
+  ),
+  description:
+    "Everything about the platform, membership and partnerships — answered plainly.",
+  categories: homeContent.faqCategories,
+  items: homeContent.faqs,
+};
 
 function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
   return (
@@ -58,48 +73,31 @@ function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
 }
 
 type FaqSectionProps = {
-  eyebrow?: string;
-  title?: React.ReactNode;
-  description?: string;
-  categories?: readonly FaqCategory[];
-  items?: readonly FaqItem[];
+  content?: FaqSectionContent;
 };
 
-export function FaqSection({
-  eyebrow = "Frequently asked questions",
-  title,
-  description = "Everything about the platform, membership and partnerships — answered plainly.",
-  categories = homeContent.faqCategories,
-  items = homeContent.faqs,
-}: FaqSectionProps = {}) {
+export function FaqSection({ content = defaultContent }: FaqSectionProps = {}) {
+  const heading = content.title ?? defaultContent.title;
   const [activeCategory, setActiveCategory] = useState<FaqCategory>(
-    categories[0] ?? ALL_CATEGORY,
+    content.categories[0] ?? ALL_CATEGORY,
   );
 
   const filtered =
     activeCategory === ALL_CATEGORY
-      ? items
-      : items.filter((faq) => faq.category === activeCategory);
-
-  const heading = title ?? (
-    <>
-      Questions,
-      <br />
-      answered.
-    </>
-  );
+      ? content.items
+      : content.items.filter((faq) => faq.category === activeCategory);
 
   return (
     <section id="faq" className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:gap-20">
           <div className="max-w-[380px] shrink-0">
-            <EyebrowBadge>{eyebrow}</EyebrowBadge>
+            <EyebrowBadge>{content.eyebrow}</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {heading}
             </h2>
             <p className="text-fg-muted mt-4 text-base leading-6">
-              {description}
+              {content.description}
             </p>
 
             <div className="bg-forest-800 mt-8 rounded-xl p-5 text-white sm:mt-10 sm:p-6">
@@ -126,7 +124,7 @@ export function FaqSection({
               className="flex w-full flex-col gap-5"
             >
               <TabsList className="h-auto w-full scrollbar-none flex-nowrap justify-start gap-3 overflow-x-auto bg-transparent p-0 pb-1 [-ms-overflow-style:none] sm:w-fit sm:flex-wrap sm:gap-2 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
-                {categories.map((category) => (
+                {content.categories.map((category) => (
                   <TabsTrigger
                     key={category}
                     value={category}

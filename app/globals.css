@@ -388,3 +388,36 @@ h6 {
   transform-origin: top left;
   transform: scale(calc(100cqw / var(--orbit-design-size, 598px)));
 }
+
+/* ─── Phone input overrides ─────────────────────────────── */
+
+.phone-input.PhoneInput {
+  --PhoneInputCountryFlag-borderColor: transparent;
+  --PhoneInputCountrySelectArrow-color: var(--fg-subtle);
+  --PhoneInputCountrySelectArrow-opacity: 0.7;
+}
+
+.phone-input .PhoneInputInput {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: var(--foreground);
+  padding: 0;
+  min-width: 0;
+}
+
+.phone-input .PhoneInputInput::placeholder {
+  color: var(--fg-subtle);
+}
+
+.phone-input .PhoneInputCountry {
+  margin-right: 0.25rem;
+}
+
+.phone-input .PhoneInputCountrySelectArrow {
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.4em;
+}

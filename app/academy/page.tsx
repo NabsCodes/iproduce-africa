@@ -128,12 +128,7 @@ export default function AcademyPage() {
         items={testimonials.items}
       />
 
-      <FaqSection
-        eyebrow={faqs.eyebrow}
-        description={faqs.description}
-        categories={faqs.categories}
-        items={faqs.items}
-      />
+      <FaqSection content={faqs} />
 
       <CtaSection overlapNext={false} />
     </>
