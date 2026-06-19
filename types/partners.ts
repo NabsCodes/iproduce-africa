@@ -1,4 +1,5 @@
 import type {
+  CtaSectionContent,
   EyebrowTone,
   FaqCategory,
   FaqItem,
@@ -155,13 +156,7 @@ export type PartnersFaqContent = {
   items: readonly FaqItem[];
 };
 
-export type PartnersCtaContent = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  ctaLabel: string;
-  ctaHref: string;
-};
+export type PartnersCtaContent = CtaSectionContent;
 
 export type BecomePartnerStepContent = {
   label: string;

@@ -3,12 +3,45 @@ import { Handshake, Users } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { cn } from "@/lib/utils";
+import type { CtaSectionContent, CtaSectionIcon } from "@/types/content";
+
+const defaultContent: CtaSectionContent = {
+  eyebrow: "Be part of the future",
+  title: "Join the Future of African Agriculture",
+  descriptionLead:
+    "Whether you're an agripreneur building your enterprise or an organisation looking to create lasting agricultural impact — your pathway starts here.",
+  description:
+    "Join free, connect across borders, and turn conversations into alliances.",
+  ctas: [
+    {
+      label: "Join our community",
+      href: "/community",
+      variant: "green",
+      icon: "users",
+    },
+    {
+      label: "Partner with us",
+      href: "/partners",
+      variant: "tangerine",
+      icon: "handshake",
+    },
+  ],
+};
+
+const ctaIcons: Record<CtaSectionIcon, typeof Users> = {
+  users: Users,
+  handshake: Handshake,
+};
 
 type CtaSectionProps = {
   overlapNext?: boolean;
+  content?: CtaSectionContent;
 };
 
-export function CtaSection({ overlapNext = true }: CtaSectionProps) {
+export function CtaSection({
+  overlapNext = true,
+  content = defaultContent,
+}: CtaSectionProps) {
   return (
     <section
       className={cn(
@@ -101,43 +134,44 @@ export function CtaSection({ overlapNext = true }: CtaSectionProps) {
                 aria-hidden
               />
               <span className="text-leaf-emphasized text-xs font-semibold tracking-[0.18em] uppercase">
-                Be part of the future
+                {content.eyebrow}
               </span>
             </div>
 
             <h2 className="mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-              Join the Future of African Agriculture
+              {content.title}
             </h2>
 
-            <p className="mt-4 hidden text-lg leading-7 text-[#dde5da] sm:block">
-              Whether you&apos;re an agripreneur building your enterprise or an
-              organisation looking to create lasting agricultural impact — your
-              pathway starts here.
-            </p>
-            <p className="mt-4 text-base leading-6 text-[#dde5da] sm:mt-2 sm:text-lg sm:leading-7">
-              Join free, connect across borders, and turn conversations into
-              alliances.
+            {content.descriptionLead ? (
+              <p className="mt-4 hidden text-lg leading-7 text-[#dde5da] sm:block">
+                {content.descriptionLead}
+              </p>
+            ) : null}
+            <p
+              className={cn(
+                "text-base leading-6 text-[#dde5da] sm:text-lg sm:leading-7",
+                content.descriptionLead ? "mt-4 sm:mt-2" : "mt-4",
+              )}
+            >
+              {content.description}
             </p>
 
             <div className="mt-7 flex flex-col justify-center gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
-              <ButtonLink
-                href="/community"
-                variant="green"
-                size="lg"
-                className="w-full sm:w-auto"
-              >
-                <Users className="hidden size-6 sm:block" />
-                Join our community
-              </ButtonLink>
-              <ButtonLink
-                href="/partners"
-                variant="tangerine"
-                size="lg"
-                className="w-full sm:w-auto"
-              >
-                <Handshake className="hidden size-6 sm:block" />
-                Partner with us
-              </ButtonLink>
+              {content.ctas.map((cta) => {
+                const Icon = cta.icon ? ctaIcons[cta.icon] : null;
+                return (
+                  <ButtonLink
+                    key={cta.href + cta.label}
+                    href={cta.href}
+                    variant={cta.variant}
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    {Icon ? <Icon className="hidden size-6 sm:block" /> : null}
+                    {cta.label}
+                  </ButtonLink>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ export default function PartnersPage() {
       <OpportunitiesSection />
       <InquirySection />
       <FaqSection content={partnersPageContent.faqs} />
-      <CtaSection overlapNext={false} />
+      <CtaSection content={partnersPageContent.cta} overlapNext={false} />
     </>
   );
 }

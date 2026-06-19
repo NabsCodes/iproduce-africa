@@ -107,3 +107,21 @@ export type TestimonialsSectionContent = {
   description: string;
   items: readonly TestimonialItem[];
 };
+
+export type CtaSectionVariant = "green" | "tangerine";
+export type CtaSectionIcon = "users" | "handshake";
+
+export type CtaSectionCta = {
+  label: string;
+  href: string;
+  variant: CtaSectionVariant;
+  icon?: CtaSectionIcon;
+};
+
+export type CtaSectionContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  descriptionLead?: string;
+  ctas: readonly CtaSectionCta[];
+};

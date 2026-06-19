@@ -23,15 +23,18 @@ components/[page]/    Page-specific sections, such as Home and About
 components/layout/    Shared site chrome and page-intro patterns
 components/ui/        Small reusable UI primitives
 content/              Static MVP content, site config, and page copy
+schemas/              Zod/runtime validation and schema-derived form value types
 types/                Shared content and navigation shapes
 lib/                  Metadata helpers, temporary imagery helpers, and utilities
 public/               Final exported assets, including route-based images
 ```
 
 Keep copy and collection data in `content/`. Components own presentation and
-interaction. Temporary imagery stays in `lib/placeholder-images.ts` until final
-assets are exported into `public/images/`, organized by route or shared usage
-such as `public/images/home/` and `public/images/shared/`.
+interaction. Runtime validation lives in `schemas/`, while content/component
+contracts live in `types/`. Temporary imagery stays in
+`lib/placeholder-images.ts` until final assets are exported into
+`public/images/`, organized by route or shared usage such as
+`public/images/home/` and `public/images/shared/`.
 
 Shared content ownership should stay simple:
 

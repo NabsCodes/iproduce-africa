@@ -142,6 +142,18 @@ not duplicate Academy event/article collections in `content/home.ts` or map
 deep Academy internals inside Home JSX. In Sanity, this same boundary becomes a
 targeted preview query.
 
+## Form Schema Ownership
+
+Runtime validation lives in the root `schemas/` folder. Put Zod schemas,
+schema-derived form value types, default values, and step validation maps there
+instead of trapping them inside page components.
+
+- `schemas/` owns validation mechanics and form value types
+- `types/` owns content/component contracts
+- `content/` owns editable copy, options, and repeated collections
+- shared multi-step dialog chrome belongs in `components/shared/` once future
+  page dialogs are expected to reuse it
+
 ## Verification
 
 Before handoff on code changes, run:

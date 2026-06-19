@@ -232,6 +232,7 @@ These are the structure choices now agreed for this repo:
 3. Keep editable content in `content/`
 4. Keep shared shapes in a small root `types/` folder
 5. Keep final exported assets under `public/images/`
+6. Use a root `schemas/` folder once forms need reusable Zod/runtime validation
 
 ## What I Would Change Next
 
@@ -249,7 +250,7 @@ These would be premature right now:
 - introducing a heavy `features/` architecture
 - creating a `src/` folder just for aesthetics
 - splitting every section into its own nested micro-folder
-- adding `hooks/`, `services/`, or `schemas/` folders before real usage exists
+- adding `hooks/` or `services/` folders before real usage exists
 
 ## Future Structure Rules
 
@@ -257,7 +258,8 @@ Create later folders only when there is real code to justify them.
 
 - add `sanity/` when the CMS phase actually starts
 - add `lib/sanity/` when the app needs Sanity fetch, image, or query helpers
-- add `schemas/` when validation moves beyond simple local UI handling
+- keep `schemas/` focused on runtime validation and schema-derived form value
+  types; do not use it for Sanity document definitions
 - add `email/` or `lib/email/` when email templates or delivery helpers exist
 - add `analytics/` only when tracking grows beyond a tiny provider snippet
 - avoid empty placeholder folders that make the repo look larger than it is

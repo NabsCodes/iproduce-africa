@@ -35,6 +35,8 @@ before any CMS or backend integration work begins.
 - `components/layout/` owns shared site chrome and shared page-intro patterns.
 - `components/ui/` owns reusable primitives.
 - `content/` owns editable site copy and repeated collections.
+- `schemas/` owns Zod/runtime validation and schema-derived form value types.
+- `types/` owns content and component contracts, not runtime validation.
 - Keep site identity, contact details, hours, and social links in
   `content/site.ts`.
 - Keep shared navigation data in `content/navigation.ts`.
@@ -51,6 +53,9 @@ before any CMS or backend integration work begins.
 - `app/globals.css` owns visual tokens and theme variables.
 - Shared component variants should stay in the component primitive that owns
   them, such as `components/ui/button.tsx`.
+- Shared multi-step dialog primitives live outside page folders once more than
+  one page is expected to need the same shell, stepper, footer, or success
+  chrome.
 - `public/images/` is the destination for final exported assets, organized by
   route or shared usage.
 

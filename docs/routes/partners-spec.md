@@ -388,13 +388,13 @@ with Home defaults preserved. Partners passes a single-button override
 
 ### Partners section components
 
-| Path                                            | Notes                                                                                         |
-| ----------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `components/partners/benefits-section.tsx`      | 6-card grid; icon chips stay inactive until card hover. Header split layout.                  |
-| `components/partners/voices-section.tsx`        | Testimonial card + 3×4 logo grid; tangerine `DecorativeRing` top-right (md+ only).            |
-| `components/partners/opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.            |
-| `components/partners/inquiry-form.tsx`          | Client form with `react-hook-form` + `zod`; phone via `react-phone-number-input`.             |
-| `components/partners/inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`. |
+| Path                                            | Notes                                                                                          |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `components/partners/benefits-section.tsx`      | 6-card grid; icon chips stay inactive until card hover. Header split layout.                   |
+| `components/partners/voices-section.tsx`        | Testimonial card + 3×4 logo grid; tangerine `DecorativeRing` top-right (md+ only).             |
+| `components/partners/opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.             |
+| `components/partners/inquiry-form.tsx`          | Client form consuming shared field wrappers and `schemas/partners.ts`; phone via shared input. |
+| `components/partners/inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`.  |
 
 ### Anchor migration: `#partner` → `#partnership-enquiry`
 
@@ -418,6 +418,28 @@ new inquiry section's id):
   library's built-in country selector.
 - Validation mode is `onBlur` so errors don't show on first focus.
 
+### Form schema and shared dialog refactor (shipped 2026-06-19)
+
+Validation and repeated dialog mechanics have been moved out of
+`components/partners/`:
+
+- `schemas/fields.ts` owns reusable Zod helpers such as trimmed text, email,
+  optional URL, international phone, and "Other requires detail" refinements.
+- `schemas/partners.ts` owns the Partners inquiry and Become Partner dialog
+  schemas, schema-derived value types, default values, step keys, step schemas,
+  and step field maps.
+- `components/shared/form-fields.tsx` owns the repeated RHF text, select,
+  textarea, phone, and checkbox-group wrappers.
+- `components/shared/multi-step-dialog/` owns reusable dialog chrome:
+  shell, stepper, heading, footer, and success panel.
+- Partners-specific step bodies and copy remain in
+  `components/partners/become-partner-dialog.tsx` and `content/partners.ts`.
+
+Keep this ownership split for future Contact/Community dialogs: page folders
+own the fields and copy that are unique to the page, while `schemas/` owns
+validation and `components/shared/multi-step-dialog/` owns reusable modal
+structure.
+
 ### Files removed
 
 - `components/partners/partner-section.tsx` (replaced by inquiry section)
@@ -436,6 +458,7 @@ new inquiry section's id):
 - [x] Form primitives shipped (`form.tsx`, `select.tsx`, `textarea.tsx`, `phone-input.tsx`)
 - [x] Shared `ImpactStatsSection` and `CtaSection` refactored to prop-driven
 - [x] `#partner` → `#partnership-enquiry` anchor migration complete
+- [x] Partners forms moved to root `schemas/` and shared multi-step dialog primitives
 - [ ] Full route browser QA at desktop, tablet, and 390px
-- [ ] Dialog/modal work (separate follow-up pass once screenshots supplied)
+- [ ] Dialog/form browser QA for validation states and close/reset behaviour
 - [ ] Motion polish on chosen sections (separate plan after static UI approved)

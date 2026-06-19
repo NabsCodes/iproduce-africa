@@ -203,6 +203,11 @@ Keep content portable and future-CMS-friendly.
 - Home copy and repeated collections live in `content/home.ts`
 - secondary page copy lives in its own `content/*.ts` file
 - components should consume content, not bury copy in JSX
+- Zod schemas, schema-derived form value types, form defaults, and step
+  validation maps live in `schemas/`; content/component contracts stay in
+  `types/`
+- form select options and editable labels stay in `content/` so they can map to
+  Sanity fields later without rewriting components
 - cross-page previews should be shaped by the source domain, not by the
   consuming component. If Home previews Academy, Academy exports a
   `academyHomePreview` projection from `content/academy.ts`; Home renders that

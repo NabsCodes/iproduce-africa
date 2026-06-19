@@ -3,74 +3,22 @@
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { isValidPhoneNumber } from "react-phone-number-input";
 
+import {
+  PhoneFormField,
+  SelectFormField,
+  TextareaFormField,
+  TextFormField,
+} from "@/components/shared/form-fields";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+  partnerInquiryDefaultValues,
+  partnerInquirySchema,
+  type PartnerInquiryValues,
+} from "@/schemas/partners";
 import type { PartnerInquiryFormContent } from "@/types/partners";
-
-function buildInquirySchema(otherValue: string) {
-  return z
-    .object({
-      fullName: z.string().min(2, "Please share your full name"),
-      organisation: z.string().min(2, "Organisation is required"),
-      role: z.string().min(1, "Pick a role"),
-      roleOther: z.string().optional(),
-      country: z.string().min(2, "Pick your country"),
-      countryOther: z.string().optional(),
-      sector: z.string().min(1, "Pick a sector"),
-      sectorOther: z.string().optional(),
-      email: z.email("Use a valid email"),
-      phone: z
-        .string()
-        .min(1, "Phone is required")
-        .refine((v) => isValidPhoneNumber(v), "Use a valid phone number"),
-      areaOfInterest: z.string().min(1, "Pick an area of interest"),
-      areaOfInterestOther: z.string().optional(),
-      reason: z.string().min(10, "A short reason helps us route your inquiry"),
-    })
-    .superRefine((data, ctx) => {
-      const needsOther: [keyof typeof data, keyof typeof data, string][] = [
-        ["role", "roleOther", "Please specify your role"],
-        ["country", "countryOther", "Please specify your country"],
-        ["sector", "sectorOther", "Please specify your sector"],
-        [
-          "areaOfInterest",
-          "areaOfInterestOther",
-          "Please specify your area of interest",
-        ],
-      ];
-      for (const [parent, child, message] of needsOther) {
-        if (data[parent] === otherValue) {
-          const value = data[child];
-          if (typeof value !== "string" || value.trim().length < 2) {
-            ctx.addIssue({ code: "custom", path: [child], message });
-          }
-        }
-      }
-    });
-}
-
-type InquiryValues = z.infer<ReturnType<typeof buildInquirySchema>>;
 
 type InquiryFormProps = {
   content: PartnerInquiryFormContent;
@@ -78,25 +26,11 @@ type InquiryFormProps = {
 
 export function InquiryForm({ content }: InquiryFormProps) {
   const [submitted, setSubmitted] = useState(false);
-  const OTHER = content.otherOptionValue;
+  const otherValue = content.otherOptionValue;
 
-  const form = useForm<InquiryValues>({
-    resolver: zodResolver(buildInquirySchema(OTHER)),
-    defaultValues: {
-      fullName: "",
-      organisation: "",
-      role: "",
-      roleOther: "",
-      country: "",
-      countryOther: "",
-      sector: "",
-      sectorOther: "",
-      email: "",
-      phone: "",
-      areaOfInterest: "",
-      areaOfInterestOther: "",
-      reason: "",
-    },
+  const form = useForm<PartnerInquiryValues>({
+    resolver: zodResolver(partnerInquirySchema),
+    defaultValues: partnerInquiryDefaultValues,
     mode: "onBlur",
   });
 
@@ -108,7 +42,7 @@ export function InquiryForm({ content }: InquiryFormProps) {
     name: "areaOfInterest",
   });
 
-  async function onSubmit(_values: InquiryValues) {
+  async function onSubmit(_values: PartnerInquiryValues) {
     // TODO(partner-inquiry): wire to real submission endpoint.
     //   Same backend route the BecomePartnerDialog will eventually call.
     //   On non-2xx response, use form.setError("root", { message }) and
@@ -154,312 +88,101 @@ export function InquiryForm({ content }: InquiryFormProps) {
           className="mt-6 flex flex-col gap-5 sm:mt-7"
           noValidate
         >
-          <FormField
+          <TextFormField
             control={form.control}
             name="fullName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">
-                  {content.placeholders.fullName}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder={content.placeholders.fullName}
-                    autoComplete="name"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder={content.placeholders.fullName}
+            autoComplete="name"
           />
 
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-            <FormField
+            <TextFormField
               control={form.control}
               name="organisation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.organisation}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder={content.placeholders.organisation}
-                      autoComplete="organization"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.organisation}
+              autoComplete="organization"
             />
-            <FormField
+            <SelectFormField
               control={form.control}
               name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.role}
-                  </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={content.placeholders.role} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {content.options.roles.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.role}
+              options={content.options.roles}
             />
           </div>
 
-          {watchedRole === OTHER ? (
-            <FormField
+          {watchedRole === otherValue ? (
+            <TextFormField
               control={form.control}
               name="roleOther"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.roleOther}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder={content.placeholders.roleOther}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.roleOther}
             />
           ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-            <FormField
+            <SelectFormField
               control={form.control}
               name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.country}
-                  </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={content.placeholders.country}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {content.options.countries.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.country}
+              options={content.options.countries}
             />
-            <FormField
+            <SelectFormField
               control={form.control}
               name="sector"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.sector}
-                  </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={content.placeholders.sector}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {content.options.sectors.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.sector}
+              options={content.options.sectors}
             />
           </div>
 
-          {watchedCountry === OTHER ? (
-            <FormField
+          {watchedCountry === otherValue ? (
+            <TextFormField
               control={form.control}
               name="countryOther"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.countryOther}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder={content.placeholders.countryOther}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.countryOther}
             />
           ) : null}
 
-          {watchedSector === OTHER ? (
-            <FormField
+          {watchedSector === otherValue ? (
+            <TextFormField
               control={form.control}
               name="sectorOther"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.sectorOther}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder={content.placeholders.sectorOther}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.sectorOther}
             />
           ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-            <FormField
+            <TextFormField
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.email}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder={content.placeholders.email}
-                      autoComplete="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="email"
+              placeholder={content.placeholders.email}
+              autoComplete="email"
             />
-            <FormField
+            <PhoneFormField
               control={form.control}
               name="phone"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.phone}
-                  </FormLabel>
-                  <FormControl>
-                    <PhoneInput
-                      value={field.value || undefined}
-                      onChange={(v) => field.onChange(v ?? "")}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      placeholder={content.placeholders.phone}
-                      aria-invalid={fieldState.invalid ? "true" : "false"}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.phone}
             />
           </div>
 
-          <FormField
+          <SelectFormField
             control={form.control}
             name="areaOfInterest"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">
-                  {content.placeholders.areaOfInterest}
-                </FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={content.placeholders.areaOfInterest}
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {content.options.areasOfInterest.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder={content.placeholders.areaOfInterest}
+            options={content.options.areasOfInterest}
           />
 
-          {watchedAreaOfInterest === OTHER ? (
-            <FormField
+          {watchedAreaOfInterest === otherValue ? (
+            <TextFormField
               control={form.control}
               name="areaOfInterestOther"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only">
-                    {content.placeholders.areaOfInterestOther}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder={content.placeholders.areaOfInterestOther}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder={content.placeholders.areaOfInterestOther}
             />
           ) : null}
 
-          <FormField
+          <TextareaFormField
             control={form.control}
             name="reason"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">
-                  {content.placeholders.reason}
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    placeholder={content.placeholders.reason}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder={content.placeholders.reason}
           />
 
           <Button
@@ -469,7 +192,9 @@ export function InquiryForm({ content }: InquiryFormProps) {
             disabled={form.formState.isSubmitting}
             className="bg-forest-900 hover:bg-forest-800 mt-2 h-12 w-full rounded-md text-base"
           >
-            {form.formState.isSubmitting ? "Submitting…" : content.submitLabel}
+            {form.formState.isSubmitting
+              ? "Submitting..."
+              : content.submitLabel}
             <ArrowRight className="size-4" />
           </Button>
 

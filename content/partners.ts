@@ -1,4 +1,5 @@
 import type { PartnersPageContent } from "@/types/partners";
+import { OTHER_OPTION_VALUE } from "@/schemas/constants";
 
 export type Partner = {
   id: string;
@@ -153,12 +154,14 @@ export const partnersPageContent = {
         name: "Musa Fajuyi",
         role: "Partnerships Director, DGT Ltd",
       },
+      // PLACEHOLDER — replace with a real partner quote
       {
         quote:
           "Working with iProduce gave our programme reach into communities we had never been able to support directly. The trust they've built across the continent is hard to replicate.",
         name: "Hauwa Bello",
         role: "Programme Lead, Sahara Foundation",
       },
+      // PLACEHOLDER — replace with a real partner quote
       {
         quote:
           "A rare partner that brings both depth on the ground and discipline in how they measure outcomes. Our co-designed cohort exceeded every target we set.",
@@ -231,10 +234,10 @@ export const partnersPageContent = {
       submitLabel: "Submit Inquiry",
       consentText:
         "By making inquiry you agree to receive community updates and event invitations by email.",
-      successTitle: "Thanks — we've received your inquiry.",
+      successTitle: "Inquiry draft captured.",
       successDescription:
-        "A member of our team will be in touch within 5 working days.",
-      otherOptionValue: "other",
+        "This is a demo, so nothing was sent. Once submissions are wired up, the partnerships team will follow up within 5 working days.",
+      otherOptionValue: OTHER_OPTION_VALUE,
       placeholders: {
         fullName: "Full name",
         organisation: "Organisation",
@@ -257,7 +260,7 @@ export const partnersPageContent = {
           { value: "investment-partner", label: "Investment Partner" },
           { value: "researcher", label: "Researcher" },
           { value: "operations-lead", label: "Operations Lead" },
-          { value: "other", label: "Other" },
+          { value: OTHER_OPTION_VALUE, label: "Other" },
         ],
         countries: [
           { value: "NG", label: "Nigeria" },
@@ -275,7 +278,7 @@ export const partnersPageContent = {
           { value: "CM", label: "Cameroon" },
           { value: "BJ", label: "Benin" },
           { value: "TG", label: "Togo" },
-          { value: "other", label: "Other" },
+          { value: OTHER_OPTION_VALUE, label: "Other" },
         ],
         sectors: [
           { value: "agribusiness", label: "Agribusiness" },
@@ -285,7 +288,7 @@ export const partnersPageContent = {
           { value: "ngo", label: "NGO / Development" },
           { value: "media", label: "Media" },
           { value: "technology", label: "Technology" },
-          { value: "other", label: "Other" },
+          { value: OTHER_OPTION_VALUE, label: "Other" },
         ],
         areasOfInterest: [
           { value: "training", label: "Training & Capacity Building" },
@@ -294,7 +297,7 @@ export const partnersPageContent = {
           { value: "research", label: "Research & Knowledge Sharing" },
           { value: "strategic", label: "Strategic Partnerships" },
           { value: "community", label: "Community Development" },
-          { value: "other", label: "Other" },
+          { value: OTHER_OPTION_VALUE, label: "Other" },
         ],
       },
     },
@@ -305,7 +308,7 @@ export const partnersPageContent = {
     continueLabel: "Continue",
     backLabel: "Back",
     submitLabel: "Submit Partnership Inquiry",
-    otherOptionValue: "other",
+    otherOptionValue: OTHER_OPTION_VALUE,
     steps: {
       organisation: {
         label: "About Organisation",
@@ -353,7 +356,7 @@ export const partnersPageContent = {
       { value: "foundation", label: "Foundation" },
       { value: "investor", label: "Investor / VC" },
       { value: "media", label: "Media" },
-      { value: "other", label: "Other" },
+      { value: OTHER_OPTION_VALUE, label: "Other" },
     ],
     partnershipInterests: [
       { value: "event-sponsorship", label: "Event Sponsorship" },
@@ -364,7 +367,7 @@ export const partnersPageContent = {
       { value: "market-access", label: "Market Access & Trade" },
       { value: "research", label: "Research & Insights" },
       { value: "youth-women", label: "Youth & Women Empowerment" },
-      { value: "other", label: "Other" },
+      { value: OTHER_OPTION_VALUE, label: "Other" },
     ],
     success: {
       title: "Partnership Inquiry Submitted 🎉",
@@ -424,7 +427,13 @@ export const partnersPageContent = {
     title: "Let's Build the Future of Agriculture Together",
     description:
       "Join a growing network of organisations committed to innovation, capacity building, and sustainable growth across Africa.",
-    ctaLabel: "Partner with us",
-    ctaHref: "#partnership-enquiry",
+    ctas: [
+      {
+        label: "Partner with us",
+        href: "#partnership-enquiry",
+        variant: "tangerine",
+        icon: "handshake",
+      },
+    ],
   },
 } as const satisfies PartnersPageContent;
