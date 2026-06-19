@@ -37,6 +37,7 @@ type TextFormFieldProps<TFieldValues extends FieldValues> =
   FieldWrapperProps<TFieldValues> & {
     type?: HTMLInputTypeAttribute;
     autoComplete?: string;
+    showLabel?: boolean;
   };
 
 export function TextFormField<TFieldValues extends FieldValues>({
@@ -45,6 +46,7 @@ export function TextFormField<TFieldValues extends FieldValues>({
   placeholder,
   type,
   autoComplete,
+  showLabel = false,
 }: TextFormFieldProps<TFieldValues>) {
   return (
     <FormField
@@ -52,7 +54,9 @@ export function TextFormField<TFieldValues extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="sr-only">{placeholder}</FormLabel>
+          <FormLabel className={showLabel ? undefined : "sr-only"}>
+            {placeholder}
+          </FormLabel>
           <FormControl>
             <Input
               {...field}
@@ -114,6 +118,7 @@ export function SelectFormField<TFieldValues extends FieldValues>({
 type TextareaFormFieldProps<TFieldValues extends FieldValues> =
   FieldWrapperProps<TFieldValues> & {
     rows?: number;
+    showLabel?: boolean;
   };
 
 export function TextareaFormField<TFieldValues extends FieldValues>({
@@ -121,6 +126,7 @@ export function TextareaFormField<TFieldValues extends FieldValues>({
   name,
   placeholder,
   rows = 4,
+  showLabel = false,
 }: TextareaFormFieldProps<TFieldValues>) {
   return (
     <FormField
@@ -128,7 +134,9 @@ export function TextareaFormField<TFieldValues extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="sr-only">{placeholder}</FormLabel>
+          <FormLabel className={showLabel ? undefined : "sr-only"}>
+            {placeholder}
+          </FormLabel>
           <FormControl>
             <Textarea
               {...field}

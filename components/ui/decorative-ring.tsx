@@ -27,11 +27,13 @@ export function DecorativeRing({
   );
 }
 
+export const darkPanelDashedRingClass =
+  "-top-28 -right-24 size-[260px] sm:-top-40 sm:-right-28 sm:size-[380px] lg:-top-52 lg:-right-24 lg:size-[500px]";
+
 type DashedDecorativeRingProps = {
   className?: string;
 };
 
-/** Dashed circle accent used on dark panels (Stay Connected, Three Steps, etc.). */
 export function DashedDecorativeRing({ className }: DashedDecorativeRingProps) {
   return (
     <div

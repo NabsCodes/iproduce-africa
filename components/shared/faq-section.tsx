@@ -69,9 +69,13 @@ function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
 
 type FaqSectionProps = {
   content?: FaqSectionContent;
+  supportCardHref?: string;
 };
 
-export function FaqSection({ content = defaultContent }: FaqSectionProps = {}) {
+export function FaqSection({
+  content = defaultContent,
+  supportCardHref = "/contact",
+}: FaqSectionProps = {}) {
   const heading = content.title ?? defaultContent.title;
   const [activeCategory, setActiveCategory] = useState<FaqCategory>(
     content.categories[0] ?? ALL_CATEGORY,
@@ -101,7 +105,7 @@ export function FaqSection({ content = defaultContent }: FaqSectionProps = {}) {
                 Our team replies within one business day.
               </p>
               <ButtonLink
-                href="/contact"
+                href={supportCardHref}
                 variant="tangerine"
                 size="sm"
                 className="mt-6"

@@ -169,6 +169,48 @@ CTA language should stay consistent:
 - `Join our community`
 - `Partner with us`
 
+## Decorative Rings
+
+`components/ui/decorative-ring.tsx` owns both accent types. Do not re-inline
+equivalent markup in section components.
+
+### Solid ring (`DecorativeRing`)
+
+- SVG circle stroke using `currentColor`.
+- Use on **light or mixed surfaces** where a bold brand arc adds depth without
+  competing with copy — shared `CtaSection`, testimonials, About story/MVO,
+  Partners voices, Community membership orbit.
+- Size and color come from the consumer via `className` + optional
+  `strokeWidth`. Typical palette: `text-tangerine-500`, `text-leaf-700`.
+- Multiple rings on one surface are fine when the approved design calls for
+  them (CTA band uses tangerine + leaf at different positions).
+
+### Dashed ring (`DashedDecorativeRing`)
+
+- CSS `border-2 border-dashed border-white/15` on a `rounded-full` div.
+- Use on **dark forest panels** only — the accent bleeds off the top-right
+  corner inside an `overflow-hidden` / `overflow-clip` container.
+- Prefer the shared preset constant rather than duplicating position classes:
+
+```tsx
+import {
+  darkPanelDashedRingClass,
+  DashedDecorativeRing,
+} from "@/components/ui/decorative-ring";
+
+<DashedDecorativeRing className={darkPanelDashedRingClass} />;
+```
+
+Current consumers: Home Stay Connected, Community Three Steps. Add a new
+consumer only when a section matches that same dark-panel + corner-bleed pattern.
+
+### Do not
+
+- Swap dashed for solid (or vice versa) to “reuse something”.
+- Override ring primitives with ad-hoc inline borders in section JSX.
+- Use dashed rings on the Contact hero or map — those surfaces use photography,
+  split layout, or embed chrome instead.
+
 ## Cards And Surfaces
 
 Surfaces should feel related across the site.

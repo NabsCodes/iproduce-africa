@@ -17,9 +17,7 @@ function CommunityApplyBannerCta({ cta }: { cta: ApplyBannerCta }) {
       className="w-full sm:w-auto"
     >
       {cta.label}
-      {cta.variant === "green" ? (
-        <ArrowUpRight className="size-5" />
-      ) : null}
+      {cta.variant === "green" ? <ArrowUpRight className="size-5" /> : null}
     </SiteCtaButton>
   );
 }

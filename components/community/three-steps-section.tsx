@@ -1,6 +1,9 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 
-import { DashedDecorativeRing } from "@/components/ui/decorative-ring";
+import {
+  darkPanelDashedRingClass,
+  DashedDecorativeRing,
+} from "@/components/ui/decorative-ring";
 import { communityPageContent } from "@/content/community";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +14,7 @@ export function ThreeStepsSection() {
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bg-forest-900 relative overflow-clip rounded-xl px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
-          <DashedDecorativeRing className="-top-28 -right-24 size-[260px] sm:-top-40 sm:-right-28 sm:size-[380px] lg:-top-52 lg:-right-24 lg:size-[500px]" />
+          <DashedDecorativeRing className={darkPanelDashedRingClass} />
 
           <div className="relative flex flex-col gap-10 lg:gap-12">
             <h2 className="max-w-md font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] text-white sm:text-3xl lg:max-w-lg lg:text-4xl">

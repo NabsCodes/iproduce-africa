@@ -74,7 +74,9 @@ export function TwoJourneysSection() {
                     variant={isDark ? "green-soft" : "neutral"}
                     size="lg"
                     fullWidth
-                    className={cn(!isDark && "bg-forest-600 hover:bg-forest-700")}
+                    className={cn(
+                      !isDark && "bg-forest-600 hover:bg-forest-700",
+                    )}
                   >
                     {journey.cta}
                     <ArrowUpRight className="size-5" />
