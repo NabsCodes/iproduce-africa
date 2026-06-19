@@ -7,9 +7,17 @@ export function requiredTrimmedText(min: number, message: string) {
 
 export const emailSchema = z.email("Use a valid email");
 
+// Accepts bare domains (`vextralimited.com`) and silently prepends `https://`
+// before validating. Keeps the form forgiving without nagging the user about
+// the protocol the way most modern forms (Stripe, Linear, Vercel) do.
 export const optionalUrlSchema = z
-  .union([z.url("Use a valid URL"), z.literal("")])
-  .optional();
+  .string()
+  .transform((value) => {
+    const trimmed = value.trim();
+    if (!trimmed) return "";
+    return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  })
+  .pipe(z.union([z.literal(""), z.url("Use a valid URL")]));
 
 export const internationalPhoneSchema = z
   .string()
