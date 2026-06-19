@@ -35,7 +35,7 @@ export type PartnersHeroContent = {
   stat: PartnersHeroStat;
 };
 
-export type PartnerWhyIconKey =
+export type PartnerBenefitIconKey =
   | "globe"
   | "graduation-cap"
   | "network"
@@ -43,21 +43,20 @@ export type PartnerWhyIconKey =
   | "bike"
   | "sprout";
 
-export type PartnerWhyItem = {
-  icon: PartnerWhyIconKey;
+export type PartnerBenefitItem = {
+  icon: PartnerBenefitIconKey;
   title: string;
   description: string;
-  tone?: "solid" | "soft";
 };
 
-export type PartnerWhySection = {
+export type PartnerBenefitsContent = {
   eyebrow: string;
   title: string;
   description: string;
-  items: readonly PartnerWhyItem[];
+  items: readonly PartnerBenefitItem[];
 };
 
-export type PartnersImpactSection = {
+export type PartnersImpactContent = {
   eyebrow: string;
   title: string;
   description: string;
@@ -76,7 +75,7 @@ export type PartnerLogoCell = {
   logo: string;
 };
 
-export type PartnerVoicesSection = {
+export type PartnerVoicesContent = {
   eyebrow: string;
   title: string;
   items: readonly PartnerVoice[];
@@ -97,7 +96,7 @@ export type PartnerOpportunity = {
   description: string;
 };
 
-export type PartnerOpportunitiesSection = {
+export type PartnerOpportunitiesContent = {
   eyebrow: string;
   title: string;
   description: string;
@@ -116,15 +115,20 @@ export type PartnerInquiryFormContent = {
   consentText: string;
   successTitle: string;
   successDescription: string;
+  otherOptionValue: string;
   placeholders: {
     fullName: string;
     organisation: string;
     role: string;
+    roleOther: string;
     country: string;
+    countryOther: string;
     sector: string;
+    sectorOther: string;
     email: string;
     phone: string;
     areaOfInterest: string;
+    areaOfInterestOther: string;
     reason: string;
   };
   options: {
@@ -135,7 +139,7 @@ export type PartnerInquiryFormContent = {
   };
 };
 
-export type PartnerInquirySection = {
+export type PartnerInquiryContent = {
   id: string;
   eyebrow: string;
   title: string;
@@ -144,7 +148,7 @@ export type PartnerInquirySection = {
   form: PartnerInquiryFormContent;
 };
 
-export type PartnersFaqSection = {
+export type PartnersFaqContent = {
   eyebrow: string;
   description: string;
   categories: readonly FaqCategory[];
@@ -159,13 +163,63 @@ export type PartnersCtaContent = {
   ctaHref: string;
 };
 
+export type BecomePartnerStepContent = {
+  label: string;
+  title: string;
+  description: string;
+};
+
+export type BecomePartnerDialogContent = {
+  title: string;
+  triggerLabel: string;
+  continueLabel: string;
+  backLabel: string;
+  submitLabel: string;
+  otherOptionValue: string;
+  steps: {
+    organisation: BecomePartnerStepContent & {
+      placeholders: {
+        organisationName: string;
+        organisationType: string;
+        organisationTypeOther: string;
+        country: string;
+        countryOther: string;
+        website: string;
+        description: string;
+      };
+    };
+    interests: BecomePartnerStepContent & {
+      goalsPlaceholder: string;
+      otherInterestPlaceholder: string;
+    };
+    contact: BecomePartnerStepContent & {
+      placeholders: {
+        fullName: string;
+        jobTitle: string;
+        email: string;
+        phone: string;
+      };
+    };
+  };
+  organisationTypes: readonly PartnerInquiryOption[];
+  partnershipInterests: readonly PartnerInquiryOption[];
+  success: {
+    title: string;
+    description: string;
+    doneLabel: string;
+    secondaryLabel: string;
+    secondaryHref: string;
+  };
+};
+
 export type PartnersPageContent = {
   hero: PartnersHeroContent;
-  whyPartner: PartnerWhySection;
-  impact: PartnersImpactSection;
-  voices: PartnerVoicesSection;
-  opportunities: PartnerOpportunitiesSection;
-  inquiry: PartnerInquirySection;
-  faqs: PartnersFaqSection;
+  whyPartner: PartnerBenefitsContent;
+  impact: PartnersImpactContent;
+  voices: PartnerVoicesContent;
+  opportunities: PartnerOpportunitiesContent;
+  inquiry: PartnerInquiryContent;
+  becomePartner: BecomePartnerDialogContent;
+  faqs: PartnersFaqContent;
   cta: PartnersCtaContent;
 };

@@ -9,10 +9,12 @@ import {
 } from "lucide-react";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
-import { cn } from "@/lib/utils";
-import type { PartnerWhyIconKey, PartnerWhyItem } from "@/types/partners";
+import type {
+  PartnerBenefitIconKey,
+  PartnerBenefitItem,
+} from "@/types/partners";
 
-const iconMap: Record<PartnerWhyIconKey, LucideIcon> = {
+const iconMap: Record<PartnerBenefitIconKey, LucideIcon> = {
   globe: Globe,
   "graduation-cap": GraduationCap,
   network: Network,
@@ -21,22 +23,11 @@ const iconMap: Record<PartnerWhyIconKey, LucideIcon> = {
   sprout: Sprout,
 };
 
-const chipToneClass: Record<"solid" | "soft", string> = {
-  solid: "bg-tangerine-500 text-white",
-  soft: "bg-tangerine-subtle text-tangerine-700 group-hover:bg-tangerine-400 group-hover:text-white",
-};
-
-function WhyCard({ item }: { item: PartnerWhyItem }) {
+function BenefitCard({ item }: { item: PartnerBenefitItem }) {
   const Icon = iconMap[item.icon];
-  const tone = item.tone ?? "soft";
   return (
     <div className="group border-default hover:border-tangerine-300 flex flex-col gap-5 rounded-xl border bg-white p-6 transition-colors duration-300 sm:p-7">
-      <span
-        className={cn(
-          "flex size-12 items-center justify-center rounded-md transition-colors duration-300",
-          chipToneClass[tone],
-        )}
-      >
+      <span className="bg-tangerine-subtle text-tangerine-700 group-hover:bg-tangerine-400 flex size-12 items-center justify-center rounded-md transition-colors duration-300 group-hover:text-white">
         <Icon className="size-5" aria-hidden />
       </span>
       <div className="flex flex-col gap-2">
@@ -49,7 +40,7 @@ function WhyCard({ item }: { item: PartnerWhyItem }) {
   );
 }
 
-export function WhyPartnerSection() {
+export function BenefitsSection() {
   const section = partnersPageContent.whyPartner;
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
@@ -57,7 +48,7 @@ export function WhyPartnerSection() {
         <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-12">
           <div>
             <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px] lg:text-5xl lg:leading-[1.1]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {section.title}
             </h2>
           </div>
@@ -68,7 +59,7 @@ export function WhyPartnerSection() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
           {section.items.map((item) => (
-            <WhyCard key={item.title} item={item} />
+            <BenefitCard key={item.title} item={item} />
           ))}
         </div>
       </div>

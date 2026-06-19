@@ -4,17 +4,13 @@ import { TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { PartnersHeroMap, PartnersHeroStat } from "@/types/partners";
 
-type PartnersAfricaMapProps = {
+type AfricaMapProps = {
   map: PartnersHeroMap;
   stat: PartnersHeroStat;
   className?: string;
 };
 
-export function PartnersAfricaMap({
-  map,
-  stat,
-  className,
-}: PartnersAfricaMapProps) {
+export function AfricaMap({ map, stat, className }: AfricaMapProps) {
   return (
     <div
       className={cn(

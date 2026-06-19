@@ -41,7 +41,7 @@ function OpportunityCard({ item }: { item: PartnerOpportunity }) {
   );
 }
 
-export function PartnershipOpportunitiesSection() {
+export function OpportunitiesSection() {
   const section = partnersPageContent.opportunities;
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
@@ -49,7 +49,7 @@ export function PartnershipOpportunitiesSection() {
         <div className="bg-leaf-subtle rounded-xl px-5 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
           <div className="max-w-2xl">
             <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {section.title}
             </h2>
             <p className="text-fg-muted mt-4 text-base leading-7">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -28,51 +28,91 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { PartnerInquiryFormContent } from "@/types/partners";
 
-const inquirySchema = z.object({
-  fullName: z.string().min(2, "Please share your full name"),
-  organisation: z.string().min(2, "Organisation is required"),
-  role: z.string().min(1, "Pick a role"),
-  country: z.string().min(2, "Pick your country"),
-  sector: z.string().min(1, "Pick a sector"),
-  email: z.email("Use a valid email"),
-  phone: z
-    .string()
-    .min(1, "Phone is required")
-    .refine((v) => isValidPhoneNumber(v), "Use a valid phone number"),
-  areaOfInterest: z.string().min(1, "Pick an area of interest"),
-  reason: z.string().min(20, "A short reason helps us route your inquiry"),
-});
+function buildInquirySchema(otherValue: string) {
+  return z
+    .object({
+      fullName: z.string().min(2, "Please share your full name"),
+      organisation: z.string().min(2, "Organisation is required"),
+      role: z.string().min(1, "Pick a role"),
+      roleOther: z.string().optional(),
+      country: z.string().min(2, "Pick your country"),
+      countryOther: z.string().optional(),
+      sector: z.string().min(1, "Pick a sector"),
+      sectorOther: z.string().optional(),
+      email: z.email("Use a valid email"),
+      phone: z
+        .string()
+        .min(1, "Phone is required")
+        .refine((v) => isValidPhoneNumber(v), "Use a valid phone number"),
+      areaOfInterest: z.string().min(1, "Pick an area of interest"),
+      areaOfInterestOther: z.string().optional(),
+      reason: z.string().min(10, "A short reason helps us route your inquiry"),
+    })
+    .superRefine((data, ctx) => {
+      const needsOther: [keyof typeof data, keyof typeof data, string][] = [
+        ["role", "roleOther", "Please specify your role"],
+        ["country", "countryOther", "Please specify your country"],
+        ["sector", "sectorOther", "Please specify your sector"],
+        [
+          "areaOfInterest",
+          "areaOfInterestOther",
+          "Please specify your area of interest",
+        ],
+      ];
+      for (const [parent, child, message] of needsOther) {
+        if (data[parent] === otherValue) {
+          const value = data[child];
+          if (typeof value !== "string" || value.trim().length < 2) {
+            ctx.addIssue({ code: "custom", path: [child], message });
+          }
+        }
+      }
+    });
+}
 
-type InquiryValues = z.infer<typeof inquirySchema>;
+type InquiryValues = z.infer<ReturnType<typeof buildInquirySchema>>;
 
-type PartnershipInquiryFormProps = {
+type InquiryFormProps = {
   content: PartnerInquiryFormContent;
 };
 
-export function PartnershipInquiryForm({
-  content,
-}: PartnershipInquiryFormProps) {
+export function InquiryForm({ content }: InquiryFormProps) {
   const [submitted, setSubmitted] = useState(false);
+  const OTHER = content.otherOptionValue;
 
   const form = useForm<InquiryValues>({
-    resolver: zodResolver(inquirySchema),
+    resolver: zodResolver(buildInquirySchema(OTHER)),
     defaultValues: {
       fullName: "",
       organisation: "",
       role: "",
+      roleOther: "",
       country: "",
+      countryOther: "",
       sector: "",
+      sectorOther: "",
       email: "",
       phone: "",
       areaOfInterest: "",
+      areaOfInterestOther: "",
       reason: "",
     },
     mode: "onBlur",
   });
 
+  const watchedRole = useWatch({ control: form.control, name: "role" });
+  const watchedCountry = useWatch({ control: form.control, name: "country" });
+  const watchedSector = useWatch({ control: form.control, name: "sector" });
+  const watchedAreaOfInterest = useWatch({
+    control: form.control,
+    name: "areaOfInterest",
+  });
+
   async function onSubmit(_values: InquiryValues) {
-    // Static MVP: simulate latency, then surface a local success state.
-    // Replace with a real backend call when one ships.
+    // TODO(partner-inquiry): wire to real submission endpoint.
+    //   Same backend route the BecomePartnerDialog will eventually call.
+    //   On non-2xx response, use form.setError("root", { message }) and
+    //   keep the form mounted. On success, optionally surface a reference id.
     await new Promise((resolve) => setTimeout(resolve, 800));
     setSubmitted(true);
   }
@@ -182,6 +222,28 @@ export function PartnershipInquiryForm({
             />
           </div>
 
+          {watchedRole === OTHER ? (
+            <FormField
+              control={form.control}
+              name="roleOther"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">
+                    {content.placeholders.roleOther}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={content.placeholders.roleOther}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
+
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
             <FormField
               control={form.control}
@@ -240,6 +302,50 @@ export function PartnershipInquiryForm({
               )}
             />
           </div>
+
+          {watchedCountry === OTHER ? (
+            <FormField
+              control={form.control}
+              name="countryOther"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">
+                    {content.placeholders.countryOther}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={content.placeholders.countryOther}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
+
+          {watchedSector === OTHER ? (
+            <FormField
+              control={form.control}
+              name="sectorOther"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">
+                    {content.placeholders.sectorOther}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={content.placeholders.sectorOther}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
             <FormField
@@ -314,6 +420,28 @@ export function PartnershipInquiryForm({
               </FormItem>
             )}
           />
+
+          {watchedAreaOfInterest === OTHER ? (
+            <FormField
+              control={form.control}
+              name="areaOfInterestOther"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">
+                    {content.placeholders.areaOfInterestOther}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={content.placeholders.areaOfInterestOther}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
 
           <FormField
             control={form.control}

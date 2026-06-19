@@ -39,11 +39,11 @@ function computeCountdown(targetIso: string): Countdown {
 
 function CountdownCard({ value, label }: { value: number; label: string }) {
   return (
-    <div className="bg-forest-900 flex min-w-[68px] flex-col items-center justify-center rounded-lg px-3 py-3 text-white sm:min-w-[76px] sm:py-4">
+    <div className="bg-forest-900 flex flex-col items-center justify-center rounded-lg px-2 py-3 text-white sm:px-3 sm:py-4">
       <span className="font-serif text-2xl leading-none font-semibold tabular-nums sm:text-3xl">
         {String(value).padStart(2, "0")}
       </span>
-      <span className="text-leaf-300 mt-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase">
+      <span className="text-leaf-300 mt-1.5 text-[10px] font-semibold tracking-[0.16em] uppercase sm:tracking-[0.18em]">
         {label}
       </span>
     </div>
@@ -133,7 +133,7 @@ export function FeaturedEventSection() {
               <p className="text-fg-subtle text-[11px] font-semibold tracking-[0.18em] uppercase">
                 Next event begins in
               </p>
-              <div className="mt-3 flex flex-wrap gap-2 sm:gap-3">
+              <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
                 <CountdownCard value={countdown.days} label="Days" />
                 <CountdownCard value={countdown.hours} label="Hours" />
                 <CountdownCard value={countdown.minutes} label="Minutes" />

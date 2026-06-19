@@ -98,7 +98,6 @@ export const partnersPageContent = {
         title: "Pan-African Reach",
         description:
           "Connect with stakeholders across African markets and value chains.",
-        tone: "solid",
       },
       {
         icon: "graduation-cap",
@@ -235,15 +234,20 @@ export const partnersPageContent = {
       successTitle: "Thanks — we've received your inquiry.",
       successDescription:
         "A member of our team will be in touch within 5 working days.",
+      otherOptionValue: "other",
       placeholders: {
         fullName: "Full name",
         organisation: "Organisation",
         role: "Role",
+        roleOther: "Specify role",
         country: "Country",
+        countryOther: "Specify country",
         sector: "Sector",
+        sectorOther: "Specify sector",
         email: "Email",
         phone: "Phone",
         areaOfInterest: "Area of Interest",
+        areaOfInterestOther: "Specify area of interest",
         reason: "Why do you want to join?",
       },
       options: {
@@ -290,8 +294,85 @@ export const partnersPageContent = {
           { value: "research", label: "Research & Knowledge Sharing" },
           { value: "strategic", label: "Strategic Partnerships" },
           { value: "community", label: "Community Development" },
+          { value: "other", label: "Other" },
         ],
       },
+    },
+  },
+  becomePartner: {
+    title: "Become a Partner",
+    triggerLabel: "Become a Partner",
+    continueLabel: "Continue",
+    backLabel: "Back",
+    submitLabel: "Submit Partnership Inquiry",
+    otherOptionValue: "other",
+    steps: {
+      organisation: {
+        label: "About Organisation",
+        title: "Tell Us About Your Organisation",
+        description:
+          "Help us understand who you are and the type of organisation you represent.",
+        placeholders: {
+          organisationName: "Organisation Name",
+          organisationType: "Organisation Type",
+          organisationTypeOther: "Specify organisation type",
+          country: "Country of Operation",
+          countryOther: "Specify country",
+          website: "Organisation Website (optional)",
+          description:
+            "Briefly describe your organisation, mission, and areas of focus.",
+        },
+      },
+      interests: {
+        label: "Partnership Interests",
+        title: "How Would You Like to Collaborate?",
+        description:
+          "Select the areas that best align with your partnership interests.",
+        goalsPlaceholder:
+          "Tell us what your organisation hopes to achieve through a partnership with iProduce Africa.",
+        otherInterestPlaceholder: "Specify other partnership interest",
+      },
+      contact: {
+        label: "Contact",
+        title: "How Do We Contact You?",
+        description:
+          "Please provide a point of contact so we can continue the conversation.",
+        placeholders: {
+          fullName: "Full Name",
+          jobTitle: "Job Title",
+          email: "Email Address",
+          phone: "Phone",
+        },
+      },
+    },
+    organisationTypes: [
+      { value: "for-profit", label: "For-Profit Company" },
+      { value: "ngo", label: "NGO / Non-profit" },
+      { value: "government", label: "Government / Public Sector" },
+      { value: "academic", label: "Academic / Research Institution" },
+      { value: "foundation", label: "Foundation" },
+      { value: "investor", label: "Investor / VC" },
+      { value: "media", label: "Media" },
+      { value: "other", label: "Other" },
+    ],
+    partnershipInterests: [
+      { value: "event-sponsorship", label: "Event Sponsorship" },
+      { value: "training", label: "Training & Capacity Building" },
+      { value: "strategic", label: "Strategic Collaboration" },
+      { value: "knowledge", label: "Knowledge Partnership" },
+      { value: "innovation", label: "Innovation & Technology" },
+      { value: "market-access", label: "Market Access & Trade" },
+      { value: "research", label: "Research & Insights" },
+      { value: "youth-women", label: "Youth & Women Empowerment" },
+      { value: "other", label: "Other" },
+    ],
+    success: {
+      title: "Partnership Inquiry Submitted 🎉",
+      description:
+        "Thank you for your interest in partnering with iProduce Africa. Our team will review your submission and reach out to discuss potential opportunities for collaboration.",
+      doneLabel: "Done",
+      secondaryLabel: "Explore Academy",
+      secondaryHref: "/academy",
     },
   },
   faqs: {

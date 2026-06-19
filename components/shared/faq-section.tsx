@@ -34,12 +34,7 @@ const defaultContent: FaqSectionContent = {
 
 function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
   return (
-    <Accordion
-      type="single"
-      collapsible
-      defaultValue={items[0] ? "faq-0" : undefined}
-      className="gap-2"
-    >
+    <Accordion type="single" collapsible defaultValue="faq-0" className="gap-2">
       {items.map((faq, index) => {
         const number = String(index + 1).padStart(2, "0");
         return (
@@ -123,7 +118,7 @@ export function FaqSection({ content = defaultContent }: FaqSectionProps = {}) {
               onValueChange={setActiveCategory}
               className="flex w-full flex-col gap-5"
             >
-              <TabsList className="h-auto w-full scrollbar-none flex-nowrap justify-start gap-3 overflow-x-auto bg-transparent p-0 pb-1 [-ms-overflow-style:none] sm:w-fit sm:flex-wrap sm:gap-2 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
+              <TabsList className="h-auto w-full touch-pan-x scrollbar-none flex-nowrap justify-start gap-3 overflow-x-auto overflow-y-hidden bg-transparent p-0 pb-1 [-ms-overflow-style:none] sm:w-fit sm:flex-wrap sm:gap-2 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
                 {content.categories.map((category) => (
                   <TabsTrigger
                     key={category}
@@ -136,7 +131,7 @@ export function FaqSection({ content = defaultContent }: FaqSectionProps = {}) {
               </TabsList>
 
               <TabsContent value={activeCategory} className="mt-0">
-                <FaqAccordion items={filtered} />
+                <FaqAccordion key={activeCategory} items={filtered} />
               </TabsContent>
             </Tabs>
           </div>

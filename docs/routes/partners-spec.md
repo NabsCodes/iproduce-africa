@@ -34,11 +34,11 @@ live partner portal.
 ## Target Section Order
 
 1. `PartnersHeroSection`
-2. `WhyPartnerSection`
-3. `PartnershipImpactSection`
-4. `PartnerVoicesSection`
-5. `PartnershipOpportunitiesSection`
-6. `PartnershipInquirySection`
+2. `BenefitsSection`
+3. shared `ImpactStatsSection`
+4. `VoicesSection`
+5. `OpportunitiesSection`
+6. `InquirySection`
 7. Shared/prop-driven `FaqSection`
 8. Partners-specific CTA band
 
@@ -160,8 +160,9 @@ slightly smaller scale (`p-3 + size-10` icon).
 
 - Header stacks into one column.
 - Cards: 1 column on 390px, 2 columns on tablet, 3 columns on desktop.
-- Icon chips use tangerine/peach fills from the design; first card uses a
-  stronger tangerine chip.
+- Icon chips use the peach/tangerine inactive state by default and only move to
+  the stronger tangerine treatment on card hover. Do not mark the first card as
+  active by default.
 
 ## 3. Partnership Impact
 
@@ -387,13 +388,13 @@ with Home defaults preserved. Partners passes a single-button override
 
 ### Partners section components
 
-| Path                                                        | Notes                                                                                         |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `components/partners/why-partner-section.tsx`               | 6-card grid; first card has solid tangerine chip, rest soft. Header split layout.             |
-| `components/partners/partner-voices-section.tsx`            | Testimonial card + 3×4 logo grid; tangerine `DecorativeRing` top-right (md+ only).            |
-| `components/partners/partnership-opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.            |
-| `components/partners/partnership-inquiry-form.tsx`          | Client form with `react-hook-form` + `zod`; phone via `react-phone-number-input`.             |
-| `components/partners/partnership-inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`. |
+| Path                                            | Notes                                                                                         |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `components/partners/benefits-section.tsx`      | 6-card grid; icon chips stay inactive until card hover. Header split layout.                  |
+| `components/partners/voices-section.tsx`        | Testimonial card + 3×4 logo grid; tangerine `DecorativeRing` top-right (md+ only).            |
+| `components/partners/opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.            |
+| `components/partners/inquiry-form.tsx`          | Client form with `react-hook-form` + `zod`; phone via `react-phone-number-input`.             |
+| `components/partners/inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`. |
 
 ### Anchor migration: `#partner` → `#partnership-enquiry`
 

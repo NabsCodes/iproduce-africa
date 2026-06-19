@@ -61,12 +61,12 @@ function StatCard({
       initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       animate={start ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="border-border rounded-xl border bg-white p-6 sm:p-8"
+      className="border-border flex min-h-[180px] flex-col rounded-xl border bg-white p-5 sm:min-h-[220px] sm:p-8"
     >
-      <p className="text-fg-muted text-[11px] font-semibold tracking-[0.18em] uppercase">
+      <p className="text-fg-muted text-[10px] leading-4 font-semibold tracking-[0.16em] uppercase sm:text-[11px] sm:tracking-[0.18em]">
         {stat.label}
       </p>
-      <p className="text-foreground mt-6 font-serif text-5xl leading-none font-semibold tracking-tight tabular-nums sm:mt-8 sm:text-6xl">
+      <p className="text-foreground mt-auto pt-6 font-serif text-4xl leading-none font-semibold tracking-tight tabular-nums sm:pt-8 sm:text-5xl">
         <motion.span>{formatted}</motion.span>
         {stat.accent ? (
           <span className="text-tangerine-500">{stat.accent}</span>

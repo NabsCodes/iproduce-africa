@@ -1,8 +1,8 @@
 import { PartnersHeroSection } from "@/components/partners/hero-section";
-import { PartnerVoicesSection } from "@/components/partners/partner-voices-section";
-import { PartnershipInquirySection } from "@/components/partners/partnership-inquiry-section";
-import { PartnershipOpportunitiesSection } from "@/components/partners/partnership-opportunities-section";
-import { WhyPartnerSection } from "@/components/partners/why-partner-section";
+import { VoicesSection } from "@/components/partners/voices-section";
+import { InquirySection } from "@/components/partners/inquiry-section";
+import { OpportunitiesSection } from "@/components/partners/opportunities-section";
+import { BenefitsSection } from "@/components/partners/benefits-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
 import { ImpactStatsSection } from "@/components/shared/impact-stats-section";
@@ -18,16 +18,16 @@ export default function PartnersPage() {
   return (
     <>
       <PartnersHeroSection />
-      <WhyPartnerSection />
+      <BenefitsSection />
       <ImpactStatsSection
         eyebrow={impact.eyebrow}
         title={impact.title}
         description={impact.description}
         items={impact.items}
       />
-      <PartnerVoicesSection />
-      <PartnershipOpportunitiesSection />
-      <PartnershipInquirySection />
+      <VoicesSection />
+      <OpportunitiesSection />
+      <InquirySection />
       <FaqSection content={partnersPageContent.faqs} />
       <CtaSection overlapNext={false} />
     </>

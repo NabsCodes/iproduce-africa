@@ -10,13 +10,13 @@ import type { AboutAdvisor } from "@/types/about";
 
 function AdvisorCard({ advisor }: { advisor: AboutAdvisor }) {
   return (
-    <Card className="border-default h-full flex-row gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0">
-      <div className="bg-muted relative aspect-square w-24 shrink-0 self-stretch sm:w-32 lg:w-40">
+    <Card className="border-default h-full flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 sm:flex-row">
+      <div className="bg-muted relative aspect-[5/3] w-full shrink-0 sm:aspect-square sm:w-32 sm:self-stretch lg:w-40">
         <Image
           src={advisor.photo}
           alt={advisor.name}
           fill
-          sizes="(max-width: 1024px) 160px, 200px"
+          sizes="(min-width: 1024px) 160px, (min-width: 640px) 128px, 100vw"
           className="object-cover"
         />
       </div>

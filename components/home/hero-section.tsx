@@ -97,7 +97,7 @@ export function HeroSection() {
           fill
           priority
           className="object-cover"
-          sizes="100vw"
+          sizes="(min-width: 768px) 100vw, 0px"
         />
         <div
           className="absolute inset-0"

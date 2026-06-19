@@ -86,12 +86,12 @@ export function EcosystemOrbit({ orbit, className }: EcosystemOrbitProps) {
           <BrowserMockup url={orbit.url} />
         </div>
 
-        <div className="bg-panel border-border text-foreground absolute bottom-[4%] left-[2%] z-20 flex items-center gap-2 rounded-full border px-4 py-2.5 shadow-[0_4px_8px_-2px_rgb(15_20_10/0.1),0_2px_4px_-2px_rgb(15_20_10/0.06)]">
+        <div className="bg-panel border-border text-foreground absolute bottom-[2%] left-[2%] z-20 flex items-center gap-2.5 rounded-full border px-5 py-3 shadow-[0_4px_8px_-2px_rgb(15_20_10/0.1),0_2px_4px_-2px_rgb(15_20_10/0.06)]">
           <span
             aria-hidden
-            className="bg-leaf-600 size-2 shrink-0 rounded-full"
+            className="bg-leaf-600 size-2.5 shrink-0 rounded-full"
           />
-          <p className="font-serif text-[12.5px] leading-none font-semibold whitespace-nowrap">
+          <p className="font-serif text-[15px] leading-none font-semibold whitespace-nowrap">
             {orbit.statsLabel}
           </p>
         </div>

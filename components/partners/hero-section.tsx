@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
-import { PartnersAfricaMap } from "@/components/partners/partners-africa-map";
-import { ButtonLink } from "@/components/ui/button";
+import { AfricaMap } from "@/components/partners/africa-map";
+import { BecomePartnerDialog } from "@/components/partners/become-partner-dialog";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { partnersPageContent } from "@/content/partners";
 
@@ -42,14 +43,16 @@ export function PartnersHeroSection() {
             </p>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <ButtonLink
-                href={hero.primaryCta.href}
-                variant="green"
-                size="lg"
-                className="w-full sm:w-auto"
-              >
-                {hero.primaryCta.label}
-              </ButtonLink>
+              <BecomePartnerDialog>
+                <Button
+                  type="button"
+                  variant="green"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
+                  {hero.primaryCta.label}
+                </Button>
+              </BecomePartnerDialog>
               <ButtonLink
                 href={hero.secondaryCta.href}
                 variant="green-soft"
@@ -63,7 +66,7 @@ export function PartnersHeroSection() {
           </div>
 
           <div className="relative z-10 flex min-w-0 justify-center lg:justify-end">
-            <PartnersAfricaMap map={hero.map} stat={hero.stat} />
+            <AfricaMap map={hero.map} stat={hero.stat} />
           </div>
         </div>
       </div>

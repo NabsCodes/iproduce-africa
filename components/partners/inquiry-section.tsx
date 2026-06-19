@@ -1,10 +1,10 @@
 import { CircleCheck } from "lucide-react";
 
-import { PartnershipInquiryForm } from "@/components/partners/partnership-inquiry-form";
+import { InquiryForm } from "@/components/partners/inquiry-form";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
 
-export function PartnershipInquirySection() {
+export function InquirySection() {
   const section = partnersPageContent.inquiry;
   return (
     <section
@@ -15,7 +15,7 @@ export function PartnershipInquirySection() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-14">
           <div>
             <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {section.title}
             </h2>
             <p className="text-fg-muted mt-4 max-w-md text-base leading-7">
@@ -38,7 +38,7 @@ export function PartnershipInquirySection() {
             </ul>
           </div>
 
-          <PartnershipInquiryForm content={section.form} />
+          <InquiryForm content={section.form} />
         </div>
       </div>
     </section>
