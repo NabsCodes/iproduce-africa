@@ -59,7 +59,11 @@ export const aboutPageContent = {
       "The world is moving to smart, technology-led agriculture — and Africa will not be left behind. iProduce is where that future is taught, connected and traded.",
     ],
     image: placeholderImages.about.story,
-    primaryCta: { label: "Join our community", href: "/community#join" },
+    primaryCta: {
+      label: "Join our community",
+      href: "/community#membership-application",
+      action: "membership-dialog",
+    },
     secondaryCta: { label: "Explore the Academy", href: "/academy" },
   },
   missionVisionObjective: {

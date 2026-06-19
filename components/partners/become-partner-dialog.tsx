@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -37,6 +37,13 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   const [open, setOpen] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const stepIndexRef = useRef(stepIndex);
+
+  useEffect(() => {
+    stepIndexRef.current = stepIndex;
+  }, [stepIndex]);
+
+  const lastStepIndex = becomePartnerStepKeys.length - 1;
 
   const form = useForm<BecomePartnerValues>({
     resolver: zodResolver(becomePartnerSchema),
@@ -49,7 +56,7 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
 
   const currentStep = becomePartnerStepKeys[stepIndex];
   const currentStepContent = content.steps[currentStep];
-  const isLastStep = stepIndex === becomePartnerStepKeys.length - 1;
+  const isLastStep = stepIndex === lastStepIndex;
   const watchedValues = useWatch({ control: form.control });
   const isStepValid =
     becomePartnerStepSchemas[currentStep].safeParse(watchedValues).success;
@@ -73,8 +80,11 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   }
 
   async function handleNext() {
-    const valid = await form.trigger(becomePartnerStepFields[currentStep]);
-    if (valid) setStepIndex((index) => Math.min(index + 1, steps.length - 1));
+    const step = becomePartnerStepKeys[stepIndexRef.current];
+    const valid = await form.trigger(becomePartnerStepFields[step]);
+    if (valid) {
+      setStepIndex((index) => Math.min(index + 1, lastStepIndex));
+    }
   }
 
   function handleBack() {
@@ -82,6 +92,8 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   }
 
   async function onSubmit(_values: BecomePartnerValues) {
+    if (stepIndexRef.current !== lastStepIndex) return;
+
     // TODO(partner-inquiry): wire to real submission endpoint.
     //   Currently simulates 800ms latency then surfaces the local success
     //   panel. When the backend ships:
@@ -93,6 +105,28 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
     //   Also wire an email transactional template (welcome + internal ping).
     await new Promise((resolve) => setTimeout(resolve, 800));
     setSubmitted(true);
+  }
+
+  function handleConfirmSubmit() {
+    if (stepIndexRef.current !== lastStepIndex) return;
+    void form.handleSubmit(onSubmit)();
+  }
+
+  function handleFormKeyDown(event: KeyboardEvent<HTMLFormElement>) {
+    if (event.key !== "Enter") return;
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.tagName === "TEXTAREA") return;
+
+    event.preventDefault();
+
+    if (stepIndexRef.current === lastStepIndex) {
+      handleConfirmSubmit();
+      return;
+    }
+
+    void handleNext();
   }
 
   return (
@@ -109,7 +143,8 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
         success={content.success}
         onSuccessDone={() => handleOpenChange(false)}
         formProps={{
-          onSubmit: form.handleSubmit(onSubmit),
+          onSubmit: (event) => event.preventDefault(),
+          onKeyDown: handleFormKeyDown,
           noValidate: true,
         }}
         footer={
@@ -123,7 +158,8 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
             continueLabel={content.continueLabel}
             submitLabel={content.submitLabel}
             onBack={handleBack}
-            onNext={handleNext}
+            onNext={() => void handleNext()}
+            onSubmit={handleConfirmSubmit}
           />
         }
       >

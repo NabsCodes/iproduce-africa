@@ -20,7 +20,7 @@ import {
 type MultiStepDialogShellProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  trigger: ReactNode;
+  trigger?: ReactNode;
   title: string;
   description: string;
   steps: readonly MultiStepDialogStep[];
@@ -54,7 +54,7 @@ export function MultiStepDialogShell({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent
         className={cn(
           "max-h-[calc(100vh-2rem)] gap-0 overflow-hidden p-0 sm:max-w-[640px]",

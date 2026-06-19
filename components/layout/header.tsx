@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown, Clock3, Mail, Phone, UsersRound } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { ChevronDown, Clock3, Mail, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
@@ -11,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { CommunityJoinButton } from "@/components/layout/community-join-button";
 import { SiteLogo } from "@/components/layout/site-logo";
 import { SocialIcon } from "@/components/layout/social-icon";
 import { mainNavigation } from "@/content/navigation";
@@ -216,21 +216,15 @@ export function Header() {
             >
               Partner with us
             </Link>
-            <ButtonLink
-              href="/community#join"
-              variant="green"
+            <CommunityJoinButton
+              showIcon
               className="hidden h-[52px] px-6 text-[15px] font-semibold xl:inline-flex"
             >
-              <UsersRound className="size-4" />
               Join our community
-            </ButtonLink>
-            <ButtonLink
-              href="/community#join"
-              variant="green"
-              className="h-11 min-w-11 px-4 text-sm font-semibold xl:hidden"
-            >
+            </CommunityJoinButton>
+            <CommunityJoinButton className="h-11 min-w-11 px-4 text-sm font-semibold xl:hidden">
               Join
-            </ButtonLink>
+            </CommunityJoinButton>
             <MobileNav activePath={activePath} currentRoute={currentRoute} />
           </div>
         </div>

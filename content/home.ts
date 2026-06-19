@@ -15,7 +15,8 @@ export const homeContent = {
     imageAlt: "Smiling agripreneur harvesting tomatoes in a greenhouse",
     primaryCta: {
       label: "Join our community",
-      href: "/community#join",
+      href: "/community#membership-application",
+      action: "membership-dialog",
     },
     secondaryCta: {
       label: "Partner with us",
@@ -47,8 +48,9 @@ export const homeContent = {
         "Structured training programmes",
         "Market and partner introductions",
       ],
-      href: "/community#join",
+      href: "/community#membership-application",
       cta: "Join our community",
+      action: "membership-dialog",
       tone: "light",
     },
     {

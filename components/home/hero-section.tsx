@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { homeContent } from "@/content/home";
 
@@ -42,23 +42,23 @@ export function HeroSection() {
           </p>
 
           <div className="flex flex-col gap-3">
-            <ButtonLink
+            <SiteCtaButton
               href={hero.primaryCta.href}
-              variant="green"
+              action={hero.primaryCta.action}
               size="lg"
               fullWidth
             >
               {hero.primaryCta.label}
               <ArrowUpRight className="size-5" />
-            </ButtonLink>
-            <ButtonLink
+            </SiteCtaButton>
+            <SiteCtaButton
               href={hero.secondaryCta.href}
               variant="green-soft"
               size="lg"
               fullWidth
             >
               {hero.secondaryCta.label}
-            </ButtonLink>
+            </SiteCtaButton>
           </div>
 
           <div className="relative aspect-5/4 overflow-hidden rounded-xl">
@@ -123,21 +123,21 @@ export function HeroSection() {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
-                <ButtonLink
+                <SiteCtaButton
                   href={hero.primaryCta.href}
-                  variant="green"
+                  action={hero.primaryCta.action}
                   size="lg"
                 >
                   {hero.primaryCta.label}
                   <ArrowUpRight className="size-5" />
-                </ButtonLink>
-                <ButtonLink
+                </SiteCtaButton>
+                <SiteCtaButton
                   href={hero.secondaryCta.href}
                   variant="green-soft"
                   size="lg"
                 >
                   {hero.secondaryCta.label}
-                </ButtonLink>
+                </SiteCtaButton>
               </div>
             </div>
 

@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Handshake, Users } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { cn } from "@/lib/utils";
 import type { CtaSectionContent, CtaSectionIcon } from "@/types/content";
@@ -18,6 +20,7 @@ const defaultContent: CtaSectionContent = {
       href: "/community",
       variant: "green",
       icon: "users",
+      action: "membership-dialog",
     },
     {
       label: "Partner with us",
@@ -159,17 +162,19 @@ export function CtaSection({
             <div className="mt-7 flex flex-col justify-center gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
               {content.ctas.map((cta) => {
                 const Icon = cta.icon ? ctaIcons[cta.icon] : null;
+
                 return (
-                  <ButtonLink
+                  <SiteCtaButton
                     key={cta.href + cta.label}
                     href={cta.href}
+                    action={cta.action}
                     variant={cta.variant}
                     size="lg"
                     className="w-full sm:w-auto"
                   >
                     {Icon ? <Icon className="hidden size-6 sm:block" /> : null}
                     {cta.label}
-                  </ButtonLink>
+                  </SiteCtaButton>
                 );
               })}
             </div>

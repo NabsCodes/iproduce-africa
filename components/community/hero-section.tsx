@@ -1,12 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
+
 import { MembershipOrbit } from "@/components/community/membership-orbit";
+import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import {
   Avatar,
   AvatarFallback,
   AvatarGroup,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { ButtonLink } from "@/components/ui/button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { communityPageContent } from "@/content/community";
 
@@ -37,21 +38,21 @@ export function CommunityHeroSection() {
 
             <div className="flex flex-col gap-6">
               <div className="flex flex-wrap gap-4">
-                <ButtonLink
+                <SiteCtaButton
                   href={hero.primaryCta.href}
-                  variant="green"
+                  action={hero.primaryCta.action}
                   size="lg"
                 >
                   {hero.primaryCta.label}
                   <ArrowUpRight className="size-5" />
-                </ButtonLink>
-                <ButtonLink
+                </SiteCtaButton>
+                <SiteCtaButton
                   href={hero.secondaryCta.href}
                   variant="green-soft"
                   size="lg"
                 >
                   {hero.secondaryCta.label}
-                </ButtonLink>
+                </SiteCtaButton>
               </div>
 
               <div className="flex items-center gap-3">

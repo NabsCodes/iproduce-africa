@@ -1,5 +1,5 @@
-import { ArrowUpRight, CheckCircle2 } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { CheckCircle2, ArrowUpRight } from "lucide-react";
+import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import { cn } from "@/lib/utils";
@@ -68,18 +68,17 @@ export function TwoJourneysSection() {
                       ))}
                     </ul>
                   </div>
-                  <ButtonLink
+                  <SiteCtaButton
                     href={journey.href}
+                    action={"action" in journey ? journey.action : undefined}
                     variant={isDark ? "green-soft" : "neutral"}
                     size="lg"
                     fullWidth
-                    className={cn(
-                      !isDark && "bg-forest-600 hover:bg-forest-700",
-                    )}
+                    className={cn(!isDark && "bg-forest-600 hover:bg-forest-700")}
                   >
                     {journey.cta}
                     <ArrowUpRight className="size-5" />
-                  </ButtonLink>
+                  </SiteCtaButton>
                 </article>
               );
             })}

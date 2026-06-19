@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { GraduationCap, Play, UsersRound } from "lucide-react";
 
-import { ButtonLink } from "@/components/ui/button";
+import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
@@ -46,22 +46,22 @@ export function StorySection() {
               ))}
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink
+              <SiteCtaButton
                 href={story.primaryCta.href}
-                variant="green"
+                action={story.primaryCta.action}
                 size="md"
               >
                 <UsersRound />
                 {story.primaryCta.label}
-              </ButtonLink>
-              <ButtonLink
+              </SiteCtaButton>
+              <SiteCtaButton
                 href={story.secondaryCta.href}
                 variant="tangerine-outline"
                 size="md"
               >
                 <GraduationCap />
                 {story.secondaryCta.label}
-              </ButtonLink>
+              </SiteCtaButton>
             </div>
           </div>
         </div>

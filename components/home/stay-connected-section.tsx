@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { SocialIcon } from "@/components/layout/social-icon";
+import { DashedDecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import { siteConfig } from "@/content/site";
@@ -64,10 +65,7 @@ export function StayConnectedSection() {
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bg-forest-950 relative overflow-hidden rounded-xl px-5 py-12 text-center sm:px-8 sm:py-14 lg:px-16 lg:py-20">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-28 -right-24 size-[260px] rounded-full border-2 border-dashed border-white/15 sm:-top-40 sm:-right-28 sm:size-[380px] lg:-top-52 lg:-right-24 lg:size-[500px]"
-          />
+          <DashedDecorativeRing className="-top-28 -right-24 size-[260px] sm:-top-40 sm:-right-28 sm:size-[380px] lg:-top-52 lg:-right-24 lg:size-[500px]" />
 
           <div className="relative mx-auto max-w-3xl">
             <EyebrowBadge className="justify-center">

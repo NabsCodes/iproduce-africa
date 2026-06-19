@@ -9,7 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ButtonLink } from "@/components/ui/button";
+import { CommunityJoinButton } from "@/components/layout/community-join-button";
 import {
   Sheet,
   SheetClose,
@@ -238,15 +238,14 @@ export function MobileNav({
             style={rowDelay(mainNavigation.length)}
             className={cn("space-y-3 px-5 pt-7 pb-2 sm:px-6", rowEntryClass)}
           >
-            <ButtonLink
-              href="/community#join"
-              variant="green"
+            <CommunityJoinButton
               size="lg"
               fullWidth
               className="h-14 rounded-xl text-base font-semibold"
+              onActivate={() => setOpen(false)}
             >
               Join our community
-            </ButtonLink>
+            </CommunityJoinButton>
             <SheetClose asChild>
               <Link
                 href="/partners#partnership-enquiry"

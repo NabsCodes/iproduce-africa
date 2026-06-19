@@ -16,6 +16,7 @@ type MultiStepDialogFooterProps = {
   submitLabel: string;
   onBack: () => void;
   onNext: () => void;
+  onSubmit: () => void;
 };
 
 export function MultiStepDialogFooter({
@@ -29,6 +30,7 @@ export function MultiStepDialogFooter({
   submitLabel,
   onBack,
   onNext,
+  onSubmit,
 }: MultiStepDialogFooterProps) {
   const isFirstStep = stepIndex === 0;
   const submittingLabel = "Submitting...";
@@ -67,10 +69,11 @@ export function MultiStepDialogFooter({
       <div className="justify-self-end">
         {isLastStep ? (
           <Button
-            type="submit"
+            type="button"
             variant="neutral"
             size="sm"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isStepValid}
+            onClick={onSubmit}
             className={advanceClass}
           >
             <span className="hidden sm:inline">

@@ -6,12 +6,18 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
+export type MultiStepDialogSuccessStep = {
+  title: string;
+  description: string;
+};
+
 export type MultiStepDialogSuccess = {
   title: string;
   description: string;
   doneLabel: string;
   secondaryLabel?: string;
   secondaryHref?: string;
+  nextSteps?: readonly MultiStepDialogSuccessStep[];
 };
 
 type MultiStepDialogSuccessPanelProps = {
@@ -48,13 +54,36 @@ export function MultiStepDialogSuccessPanel({
         <p className="text-fg-muted mt-3 max-w-full text-sm leading-6 sm:text-base">
           {success.description}
         </p>
+
+        {success.nextSteps && success.nextSteps.length > 0 ? (
+          <div className="bg-leaf-50 mt-6 w-full rounded-xl p-5 text-left sm:p-6">
+            <ol className="flex flex-col gap-4">
+              {success.nextSteps.map((step, index) => (
+                <li key={step.title} className="flex gap-3">
+                  <span className="border-leaf-400 text-leaf-700 flex size-7 shrink-0 items-center justify-center rounded-full border bg-white text-xs font-semibold">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="text-foreground text-sm font-semibold">
+                      {step.title}
+                    </p>
+                    <p className="text-fg-muted mt-0.5 text-sm leading-6">
+                      {step.description}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ) : null}
+
         <div className="mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <Button
             type="button"
             variant="neutral"
             size="sm"
             onClick={onDone}
-            className="bg-forest-900 hover:bg-forest-800 h-10 rounded-md px-6 text-sm sm:px-8"
+            className="bg-forest-900 hover:bg-forest-800 h-10 w-full rounded-md px-6 text-sm sm:w-auto sm:px-8"
           >
             {success.doneLabel}
           </Button>
@@ -63,7 +92,7 @@ export function MultiStepDialogSuccessPanel({
               asChild
               variant="outline"
               size="sm"
-              className="h-10 px-6 text-sm sm:px-8"
+              className="h-10 w-full px-6 text-sm sm:w-auto sm:px-8"
             >
               <Link href={success.secondaryHref} onClick={onDone}>
                 {success.secondaryLabel}

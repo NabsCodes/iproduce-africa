@@ -2,8 +2,10 @@ import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Footer } from "@/components/layout/footer";
+import { HashScrollHandler } from "@/components/layout/hash-scroll-handler";
 import { Header } from "@/components/layout/header";
 import { createSiteMetadata, viewport } from "@/lib/metadata";
+import { AppProviders } from "@/providers/app-providers";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -30,12 +32,15 @@ export default function RootLayout({
       className={`${fraunces.variable} ${plusJakarta.variable} h-full scroll-smooth antialiased`}
     >
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">
-        <div className="flex min-h-full flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <AppProviders>
+          <div className="flex min-h-full flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </AppProviders>
         <Analytics />
+        <HashScrollHandler />
       </body>
     </html>
   );

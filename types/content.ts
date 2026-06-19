@@ -62,7 +62,7 @@ export type CommunityHeroContent = {
   eyebrowTone?: EyebrowTone;
   title: CommunityHeroTitle;
   description: string;
-  primaryCta: { label: string; href: string };
+  primaryCta: SiteCta;
   secondaryCta: { label: string; href: string };
   membersLabel: string;
   members: readonly CommunityHeroMember[];
@@ -108,12 +108,19 @@ export type TestimonialsSectionContent = {
   items: readonly TestimonialItem[];
 };
 
+/** How a CTA behaves. CMS should set this explicitly once wired up. */
+export type SiteCtaAction = "link" | "membership-dialog";
+
+export type SiteCta = {
+  label: string;
+  href: string;
+  action?: SiteCtaAction;
+};
+
 export type CtaSectionVariant = "green" | "tangerine";
 export type CtaSectionIcon = "users" | "handshake";
 
-export type CtaSectionCta = {
-  label: string;
-  href: string;
+export type CtaSectionCta = SiteCta & {
   variant: CtaSectionVariant;
   icon?: CtaSectionIcon;
 };
@@ -124,4 +131,47 @@ export type CtaSectionContent = {
   description: string;
   descriptionLead?: string;
   ctas: readonly CtaSectionCta[];
+};
+
+export type ApplyBannerContent = {
+  title: string;
+  subtitle: string;
+  ctas: readonly ApplyBannerCta[];
+};
+
+export type ApplyBannerCta = {
+  label: string;
+  href: string;
+  variant: "green" | "green-outline" | "green-soft";
+  action?: SiteCtaAction;
+};
+
+export type BenefitIconKey =
+  | "globe"
+  | "graduation-cap"
+  | "network"
+  | "lightbulb"
+  | "bike"
+  | "sprout"
+  | "mail"
+  | "users"
+  | "handshake"
+  | "trending-up"
+  | "clock"
+  | "send";
+
+export type BenefitTone = "leaf" | "tangerine";
+
+export type BenefitItem = {
+  icon: BenefitIconKey;
+  title: string;
+  description: string;
+  tone?: BenefitTone;
+};
+
+export type BenefitsSectionContent = {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  items: readonly BenefitItem[];
 };

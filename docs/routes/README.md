@@ -13,7 +13,7 @@ Current mapping:
 - Home: `../homepage-static-spec.md`
 - About: `about-spec.md`
 - Academy: `academy-spec.md`
-- Community: `community-spec.md`
+- Community: `community-spec.md` (+ wizard: `community-membership-dialog-spec.md`)
 - Partners: `partners-spec.md`
 - Contact: `contact-spec.md`
 

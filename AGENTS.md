@@ -37,6 +37,10 @@ before any CMS or backend integration work begins.
 - `content/` owns editable site copy and repeated collections.
 - `schemas/` owns Zod/runtime validation and schema-derived form value types.
 - `types/` owns content and component contracts, not runtime validation.
+- `providers/` owns the app-wide provider composition root (`app-providers.tsx`)
+  that the root layout wraps. Add future cross-cutting providers (theme, query
+  client, auth, analytics) here. Domain-specific providers keep their
+  implementation in their own folder and are only composed in `providers/`.
 - Keep site identity, contact details, hours, and social links in
   `content/site.ts`.
 - Keep shared navigation data in `content/navigation.ts`.

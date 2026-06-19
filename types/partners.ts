@@ -1,4 +1,7 @@
 import type {
+  BenefitIconKey,
+  BenefitItem,
+  BenefitsSectionContent,
   CtaSectionContent,
   EyebrowTone,
   FaqCategory,
@@ -36,26 +39,11 @@ export type PartnersHeroContent = {
   stat: PartnersHeroStat;
 };
 
-export type PartnerBenefitIconKey =
-  | "globe"
-  | "graduation-cap"
-  | "network"
-  | "lightbulb"
-  | "bike"
-  | "sprout";
+export type PartnerBenefitIconKey = BenefitIconKey;
 
-export type PartnerBenefitItem = {
-  icon: PartnerBenefitIconKey;
-  title: string;
-  description: string;
-};
+export type PartnerBenefitItem = BenefitItem;
 
-export type PartnerBenefitsContent = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  items: readonly PartnerBenefitItem[];
-};
+export type PartnerBenefitsContent = BenefitsSectionContent;
 
 export type PartnersImpactContent = {
   eyebrow: string;

@@ -26,3 +26,20 @@ export function DecorativeRing({
     </svg>
   );
 }
+
+type DashedDecorativeRingProps = {
+  className?: string;
+};
+
+/** Dashed circle accent used on dark panels (Stay Connected, Three Steps, etc.). */
+export function DashedDecorativeRing({ className }: DashedDecorativeRingProps) {
+  return (
+    <div
+      aria-hidden
+      className={cn(
+        "pointer-events-none absolute rounded-full border-2 border-dashed border-white/15",
+        className,
+      )}
+    />
+  );
+}

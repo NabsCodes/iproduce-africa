@@ -1,5 +1,5 @@
 import type { PillarIconKey } from "@/lib/pillar-icons";
-import type { EyebrowTone } from "@/types/content";
+import type { EyebrowTone, SiteCta } from "@/types/content";
 
 export type AboutHeroTitle = {
   lineOne: {
@@ -48,7 +48,7 @@ export type AboutStory = {
   title: string;
   paragraphs: readonly string[];
   image: string;
-  primaryCta: { label: string; href: string };
+  primaryCta: SiteCta;
   secondaryCta: { label: string; href: string };
 };
 
