@@ -93,7 +93,7 @@ export function ContactIntroSection() {
             alt={hero.image.alt}
             fill
             priority
-            sizes="100vw"
+            sizes="(max-width: 640px) calc(100vw - 2rem), calc(100vw - 3rem)"
             className="object-cover object-top"
           />
         </div>
