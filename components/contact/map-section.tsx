@@ -18,7 +18,7 @@ export function ContactMapSection() {
             className="border-default h-[360px] w-full border-0 sm:h-[420px] lg:h-[480px]"
           />
 
-          <div className="border-default absolute top-4 right-4 max-w-[260px] rounded-xl border bg-white p-4 sm:top-5 sm:right-5 sm:max-w-xs sm:p-5">
+          <div className="border-default absolute top-4 right-4 hidden max-w-[260px] rounded-xl border bg-white p-4 sm:top-5 sm:right-5 sm:block sm:max-w-xs sm:p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1">
                 <p className="text-foreground text-sm font-semibold sm:text-base">
@@ -47,6 +47,17 @@ export function ContactMapSection() {
               View larger map
             </a>
           </div>
+        </div>
+
+        <div className="mt-4 sm:hidden">
+          <a
+            href={map.viewLargerUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="border-default bg-background text-foreground hover:bg-muted focus-visible:ring-leaf-300 inline-flex w-full items-center justify-center rounded-xl border px-4 py-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
+          >
+            Open in Google Maps
+          </a>
         </div>
       </div>
     </section>

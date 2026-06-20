@@ -99,26 +99,24 @@ export function ContactIntroSection() {
         </div>
       </div>
 
-      {/* Desktop: full-bleed split hero */}
+      {/* Desktop: full-bleed image with left-weighted green overlay */}
       <div className="relative hidden overflow-x-clip lg:block lg:min-h-[580px]">
+        <Image
+          src={hero.image.src}
+          alt={hero.image.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center lg:object-[center_34%]"
+        />
         <div
           aria-hidden
-          className="bg-forest-950 absolute inset-y-0 left-0 w-1/2"
+          className="bg-forest-950/40 pointer-events-none absolute inset-0"
         />
-        <div className="absolute inset-y-0 right-0 w-1/2">
-          <Image
-            src={hero.image.src}
-            alt={hero.image.alt}
-            fill
-            priority
-            sizes="50vw"
-            className="object-cover object-center"
-          />
-          <div
-            aria-hidden
-            className="from-forest-950 via-forest-950/50 pointer-events-none absolute inset-0 bg-linear-to-r to-transparent"
-          />
-        </div>
+        <div
+          aria-hidden
+          className="from-forest-950 via-forest-950/78 pointer-events-none absolute inset-0 bg-linear-to-r to-transparent"
+        />
 
         <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
           <div className="grid min-h-[580px] grid-cols-2">
