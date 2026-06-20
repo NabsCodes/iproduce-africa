@@ -258,15 +258,42 @@ Keep content portable and future-CMS-friendly.
 - when Sanity arrives, these static projections become targeted CMS queries
   returning the same simple card/view models.
 
+## System pages
+
+Brand-styled `not-found`, `error`, and `global-error` surfaces, plus the
+brand icon set, live in [`routes/system-pages-spec.md`](routes/system-pages-spec.md).
+High-level rules:
+
+- System pages render inside the root layout and inherit Header + Footer.
+  This is the marketing-site default (Stripe, Notion, Airbnb) — header
+  gives free recovery via nav, brand context is preserved, and visitors
+  never feel bounced to a different site.
+- All three system pages share the same centered-card shape
+  (`rounded-xl`, eyebrow pill + serif h1) so the family reads as one set.
+- 404 uses a leaf eyebrow + the logo-mark watermark; recoverable error
+  uses a tangerine eyebrow + `RefreshCw` chip — same shape, distinct at a
+  glance.
+- `global-error.tsx` is fully inline-styled (no Tailwind dependency) since
+  it runs when the root layout itself has crashed.
+- Brand icons follow the Next.js file convention (`app/icon.svg`,
+  `app/favicon.ico`), not `.tsx` route handlers, so swapping the mark is
+  a one-file change.
+
 ## Motion
 
-Motion is deferred as a system decision for now.
+Motion plan lives in [`motion-spec.md`](motion-spec.md). High-level rules:
 
-When added later:
+- `motion/react` is the only animation library; CSS-first for hover, focus,
+  dropdown, and accordion chrome.
+- Every `motion/react` use must collapse to a static equivalent under
+  `prefers-reduced-motion`.
+- Never animate body copy, form fields, or focus rings.
+- Title-only fade/rise on section entrance is fine; full text doesn't type,
+  slide, or stagger word-by-word.
+- Animate `transform` and `opacity` only — no animated `box-shadow` or
+  `filter: blur()` on large elements.
 
-- keep it purposeful
-- prioritize nav, dropdown, and accordion polish first
-- avoid decorative motion that does not improve clarity
+Read the spec before adding motion to any new section.
 
 ## Practical Recommendation
 

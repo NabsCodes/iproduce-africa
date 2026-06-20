@@ -1,6 +1,6 @@
 import { AdvisorsSection } from "@/components/about/advisors-section";
 import { AboutHeroSection } from "@/components/about/hero-section";
-import { ImpactStatsSection } from "@/components/shared/impact-stats-section";
+// import { ImpactStatsSection } from "@/components/shared/impact-stats-section";
 import { JourneySection } from "@/components/about/journey-section";
 import { MvoSection } from "@/components/about/mvo-section";
 import { StorySection } from "@/components/about/story-section";
@@ -17,7 +17,8 @@ export default function AboutPage() {
       <AboutHeroSection />
       <StorySection />
       <MvoSection />
-      <ImpactStatsSection />
+      {/* Client said take the impact stats section out for now. I will add it back in later.*/}
+      {/* <ImpactStatsSection /> */}
       <JourneySection />
       <TeamSection />
       <AdvisorsSection />

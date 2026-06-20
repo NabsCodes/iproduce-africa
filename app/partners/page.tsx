@@ -5,7 +5,7 @@ import { OpportunitiesSection } from "@/components/partners/opportunities-sectio
 import { BenefitsSection } from "@/components/partners/benefits-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
-import { ImpactStatsSection } from "@/components/shared/impact-stats-section";
+// import { ImpactStatsSection } from "@/components/shared/impact-stats-section";
 import { partnersPageContent } from "@/content/partners";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
@@ -13,18 +13,19 @@ import { createPageMetadata } from "@/lib/metadata";
 export const metadata = createPageMetadata(pageSeo.partners);
 
 export default function PartnersPage() {
-  const impact = partnersPageContent.impact;
+  // const impact = partnersPageContent.impact;
 
   return (
     <>
       <PartnersHeroSection />
       <BenefitsSection />
-      <ImpactStatsSection
+      {/* Client said take the impact stats section out for now. I will add it back in later.*/}
+      {/* <ImpactStatsSection
         eyebrow={impact.eyebrow}
         title={impact.title}
         description={impact.description}
         items={impact.items}
-      />
+      /> */}
       <VoicesSection />
       <OpportunitiesSection />
       <InquirySection />

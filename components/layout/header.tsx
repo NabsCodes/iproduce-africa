@@ -223,7 +223,7 @@ export function Header() {
               Join our community
             </CommunityJoinButton>
             <CommunityJoinButton className="h-11 min-w-11 px-4 text-sm font-semibold xl:hidden">
-              Join
+              Join our community
             </CommunityJoinButton>
             <MobileNav activePath={activePath} currentRoute={currentRoute} />
           </div>
