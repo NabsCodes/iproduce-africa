@@ -71,7 +71,15 @@ function MilestoneRow({
   );
 }
 
-function StickyImage({ src, alt }: { src: string; alt: string }) {
+function StickyImage({
+  src,
+  alt,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  priority?: boolean;
+}) {
   return (
     <div className="bg-muted relative aspect-4/5 overflow-hidden rounded-xl">
       <AnimatePresence initial={false}>
@@ -87,6 +95,7 @@ function StickyImage({ src, alt }: { src: string; alt: string }) {
             src={src}
             alt={alt}
             fill
+            priority={priority}
             sizes="(max-width: 1024px) 100vw, 33vw"
             className="object-cover"
           />
@@ -184,7 +193,11 @@ export function JourneySection() {
             </h2>
 
             <div className="mt-8 hidden lg:block">
-              <StickyImage src={active.leftImage} alt={active.title} />
+              <StickyImage
+                src={active.leftImage}
+                alt={active.title}
+                priority={activeIndex === 0}
+              />
             </div>
           </div>
 

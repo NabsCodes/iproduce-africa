@@ -291,26 +291,25 @@ fallback is still on-brand even if Tailwind never runs. Document the source
 of those hex values inline above the style object so they get updated when
 the palette does.
 
-### Brand icons (`app/icon.svg`, `app/apple-icon.png`, `app/favicon.ico`)
+### Brand icons (`app/icon.png`, `app/apple-icon.png`)
 
 **Pattern (mirroring vextra)** — file-convention only. No `.tsx` route
 handlers, so the icons cache hard and ship as static assets.
 
-- `app/icon.svg` — copy of `public/svgs/logo-mark.svg`. Next.js serves it
-  as the modern favicon at any pixel density; no rasterization needed.
-- `app/favicon.ico` — keep existing as the legacy IE/Safari pinned-tab
-  fallback. If the current `favicon.ico` is the old generic Next.js mark,
-  flag for re-export from the brand mark; otherwise leave alone.
-- `app/apple-icon.png` — 180×180 PNG export of the logo mark on a leaf-100
-  background with comfortable padding. Apple home-screen requires a
-  rasterized PNG; SVG is not honored here. **This is the one file the user
-  needs to export** unless we want to add a build-time export step (out of
-  scope for this pass).
+- `app/icon.png` — 360×360 brand mark PNG. Next.js serves it as the
+  modern favicon at every browser-required density (16/32/192/512). No
+  `favicon.ico` needed; that's a legacy IE/old-Safari format we don't
+  support.
+- `app/apple-icon.png` — same 360×360 source. Apple home-screen ideally
+  wants 180×180, but Next.js + the browser downscale cleanly from a
+  larger square. If a dedicated 180×180 with leaf-100 padding is exported
+  later, drop it here to replace.
 
-If a clean 180×180 PNG isn't available yet, we ship `icon.svg` + the
-existing `favicon.ico` now and add `apple-icon.png` as a follow-up. The
-absence of an `apple-icon` simply means Apple falls back to a screenshot,
-which is acceptable interim.
+The user-supplied 360×360 source replaces the earlier plan to use
+`logo-mark.svg` (which was 200KB with embedded raster data) as `icon.svg`.
+The raster route is lighter for browser tabs and avoids the SVG payload
+hit. If a vector mark is exported later, drop `app/icon.svg` alongside —
+Next.js prefers SVG when both exist.
 
 ## File-by-file delta
 
@@ -319,9 +318,8 @@ which is acceptable interim.
 | `app/not-found.tsx`                             | **New** — server component, brand 404                                               |
 | `app/error.tsx`                                 | **New** — client component, recoverable error                                       |
 | `app/global-error.tsx`                          | **New** — client component, layout crash fallback                                   |
-| `app/icon.svg`                                  | **New** — copy of `public/svgs/logo-mark.svg`                                       |
-| `app/apple-icon.png`                            | **New** _(deferred until export ready)_                                             |
-| `app/favicon.ico`                               | Audit — replace only if it's still the Next.js default                              |
+| `app/icon.png`                                  | **New** — 360×360 brand mark (shipped 2026-06-20)                                   |
+| `app/apple-icon.png`                            | **New** — same 360×360 source (shipped 2026-06-20)                                  |
 | `content/system-pages.ts`                       | **New** — copy block for 404 + error pages so a Sanity migration is one query later |
 | `types/content.ts` _or_ `types/system-pages.ts` | Add `SystemPageContent` type                                                        |
 | `docs/routes/system-pages-spec.md`              | **This file**                                                                       |
@@ -342,8 +340,7 @@ Do **not** introduce a `loading.tsx` in this pass.
    - Temporarily throw inside `app/layout.tsx` to trigger `global-error.tsx`
      → confirm the inline-styled fallback renders. Remove the throw before
      committing.
-3. Devtools network: confirm `/icon.svg` is requested and served (200), and
-   `/favicon.ico` is served from the new mark, not the Next default.
+3. Devtools network: confirm `/icon.png` and `/apple-icon.png` are requested and served (200).
 4. Lighthouse a11y on `/does-not-exist` — must score the same as the rest
    of the site (no missing landmarks, headings, link text).
 5. View-source check on each system page — confirm `<title>` and
@@ -354,9 +351,11 @@ Do **not** introduce a `loading.tsx` in this pass.
 - `loading.tsx` — site is SSG.
 - `manifest.ts` / PWA install — not needed for an institutional marketing
   site.
-- OG / Twitter share image files — depends on the in-progress design.
-  Metadata factory already reserves the slot; dropping
-  `app/opengraph-image.png` (1200×630) later is a zero-code change.
+- ~~OG / Twitter share image files~~ — shipped 2026-06-20 as
+  `app/opengraph-image.png` (2400×1260) and `app/twitter-image.png`
+  (2400×1200). Both are 2x source assets that downscale cleanly to the
+  1200×630 / 1200×600 platform standards. Per-page override is a one-file
+  drop into the route folder.
 - Real telemetry wiring inside `error.tsx` — TODO marker only until a
   monitoring tool is picked.
 
@@ -386,11 +385,11 @@ generalize during this pass.
 - [ ] Add the four convention files (`not-found.tsx`, `error.tsx`,
       `global-error.tsx`, `icon.svg`)
 - [ ] Add `content/system-pages.ts` + type
-- [ ] Audit / replace `favicon.ico`
+- [x] Replace placeholder icons with branded `app/icon.png` + `app/apple-icon.png`
 - [ ] Pointer in `docs/design-system.md`
 - [ ] Verify locally (bad URL + forced throw)
 - [ ] Run full check suite
 - [ ] Log entry in `docs/implementation-log.md`
 - [ ] Tick the system-pages item in the Notion dev notes
 - [ ] (Follow-up) Drop `app/apple-icon.png` once the 180×180 export is ready
-- [ ] (Follow-up) Drop `app/opengraph-image.png` once the share asset is ready
+- [x] Drop `app/opengraph-image.png` + `app/twitter-image.png` (shipped 2026-06-20)

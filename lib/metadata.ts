@@ -55,13 +55,17 @@ export function createDefaultOpenGraph({
   path = "/",
   ...rest
 }: OpenGraphInput): OpenGraphMetadata {
+  // Share images come from the file convention:
+  //   app/opengraph-image.png  → opengraph
+  //   app/twitter-image.png    → twitter
+  // Next.js auto-injects them into every page's <head>. Override per route
+  // by dropping the same filename inside that route's folder.
   return {
     type: "website",
     siteName: siteConfig.name,
     url: buildAbsoluteUrl(path),
     title,
     description,
-    // TODO: Add the final default Open Graph image once the approved social-share asset is exported.
     ...rest,
   };
 }
@@ -75,7 +79,6 @@ export function createDefaultTwitter({
     card: "summary_large_image",
     title,
     description,
-    // TODO: Add the final default Twitter image once the approved social-share asset is exported.
     ...rest,
   };
 }
