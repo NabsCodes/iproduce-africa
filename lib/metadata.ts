@@ -27,15 +27,6 @@ type PageMetadataInput = {
   keywords?: string[];
 };
 
-const defaultOpenGraphImage = {
-  url: "/opengraph-image.png",
-  width: 2400,
-  height: 1260,
-  alt: `${siteConfig.name} social share image`,
-} as const;
-
-const defaultTwitterImage = "/twitter-image.png";
-
 function normalizeSiteUrl(url: string): string {
   return url.endsWith("/") ? url.slice(0, -1) : url;
 }
@@ -49,9 +40,19 @@ function resolveTitle(title?: string): string {
 }
 
 export function getSiteUrl(): string {
-  return normalizeSiteUrl(
-    process.env.NEXT_PUBLIC_SITE_URL || FALLBACK_SITE_URL,
-  );
+  // 1. Explicit override always wins (useful for staging, custom domains).
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
+  }
+  // 2. On Vercel preview/branch deploys, use the unique deployment URL so
+  //    OG, canonical, and absolute links point at the deployment that's
+  //    actually serving the page — not the production domain (which may
+  //    still be the old site until DNS cuts over).
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
+    return normalizeSiteUrl(`https://${process.env.VERCEL_URL}`);
+  }
+  // 3. Production fallback — the configured canonical domain.
+  return normalizeSiteUrl(FALLBACK_SITE_URL);
 }
 
 export function getMetadataBase(): URL {
@@ -64,11 +65,15 @@ export function createDefaultOpenGraph({
   path = "/",
   ...rest
 }: OpenGraphInput): OpenGraphMetadata {
+  // Share images come from the file convention:
+  //   app/opengraph-image.png  → opengraph
+  //   app/twitter-image.png    → twitter
+  // Next.js auto-injects them into every page's <head>. Override per route
+  // by dropping the same filename inside that route's folder.
   return {
     type: "website",
     siteName: siteConfig.name,
     url: buildAbsoluteUrl(path),
-    images: [defaultOpenGraphImage],
     title,
     description,
     ...rest,
@@ -82,7 +87,6 @@ export function createDefaultTwitter({
 }: TwitterInput): TwitterMetadata {
   return {
     card: "summary_large_image",
-    images: [defaultTwitterImage],
     title,
     description,
     ...rest,
