@@ -27,6 +27,15 @@ type PageMetadataInput = {
   keywords?: string[];
 };
 
+const defaultOpenGraphImage = {
+  url: "/opengraph-image.png",
+  width: 2400,
+  height: 1260,
+  alt: `${siteConfig.name} social share image`,
+} as const;
+
+const defaultTwitterImage = "/twitter-image.png";
+
 function normalizeSiteUrl(url: string): string {
   return url.endsWith("/") ? url.slice(0, -1) : url;
 }
@@ -55,15 +64,11 @@ export function createDefaultOpenGraph({
   path = "/",
   ...rest
 }: OpenGraphInput): OpenGraphMetadata {
-  // Share images come from the file convention:
-  //   app/opengraph-image.png  → opengraph
-  //   app/twitter-image.png    → twitter
-  // Next.js auto-injects them into every page's <head>. Override per route
-  // by dropping the same filename inside that route's folder.
   return {
     type: "website",
     siteName: siteConfig.name,
     url: buildAbsoluteUrl(path),
+    images: [defaultOpenGraphImage],
     title,
     description,
     ...rest,
@@ -77,6 +82,7 @@ export function createDefaultTwitter({
 }: TwitterInput): TwitterMetadata {
   return {
     card: "summary_large_image",
+    images: [defaultTwitterImage],
     title,
     description,
     ...rest,
