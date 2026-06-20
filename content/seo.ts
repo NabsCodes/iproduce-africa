@@ -6,7 +6,7 @@ import type { SitemapRoute } from "@/types/site";
 // one entry that needs an explicit tagline-style title.
 export const pageSeo = {
   home: {
-    title: "Building Africa's Agribusiness Ecosystem",
+    title: "Africa's Agribusiness Hub",
     description:
       "Africa's agribusiness hub — connecting agripreneurs, partners, and innovators with training, community, and market access.",
     path: "/",
