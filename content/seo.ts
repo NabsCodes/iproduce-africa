@@ -1,39 +1,44 @@
 import type { SitemapRoute } from "@/types/site";
 
+// Descriptions are tuned to ~115–125 characters so social previews don't
+// truncate on mobile (LinkedIn / WhatsApp cap around 125). Titles compose
+// as `{title} | iProduce Africa` via the metadata factory, so home is the
+// one entry that needs an explicit tagline-style title.
 export const pageSeo = {
   home: {
+    title: "Building Africa's Agribusiness Ecosystem",
     description:
-      "iProduce Africa connects agripreneurs, partners, and agricultural innovators with training, community, and market-access opportunities across Africa.",
+      "Africa's agribusiness hub — connecting agripreneurs, partners, and innovators with training, community, and market access.",
     path: "/",
   },
   about: {
     title: "About Us",
     description:
-      "Learn how iProduce Africa is building an agribusiness ecosystem that supports African agripreneurs through collaboration, learning, and market opportunities.",
+      "How iProduce Africa is building an agribusiness ecosystem that supports African agripreneurs through learning and market access.",
     path: "/about",
   },
   academy: {
     title: "Academy",
     description:
-      "Explore iProduce Africa Academy programmes, webinars, and training opportunities built to help agripreneurs grow practical skills and stronger businesses.",
+      "Programmes, webinars, and training built to help African agripreneurs grow practical skills and stronger agribusinesses.",
     path: "/academy",
   },
   community: {
     title: "Community",
     description:
-      "Join the iProduce Africa community to connect with agripreneurs, discover opportunities, and grow through shared learning and collaboration.",
+      "Join African agripreneurs in a community built for shared learning, opportunities, and collaboration across the continent.",
     path: "/community",
   },
   partners: {
     title: "Partners",
     description:
-      "See how organisations can partner with iProduce Africa to expand agricultural impact, support agripreneurs, and co-create ecosystem programmes.",
+      "Partner with iProduce Africa to expand agricultural impact, support agripreneurs, and co-create ecosystem programmes.",
     path: "/partners",
   },
   contact: {
     title: "Contact",
     description:
-      "Contact iProduce Africa to discuss partnerships, community opportunities, Academy programmes, or other agribusiness collaboration needs.",
+      "Contact iProduce Africa about partnerships, community membership, Academy programmes, or agribusiness collaboration.",
     path: "/contact",
   },
 } as const;

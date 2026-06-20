@@ -10,7 +10,7 @@ export function StorySection() {
   const story = aboutPageContent.story;
 
   return (
-    <section className="bg-white py-14 sm:py-16 lg:py-20">
+    <section className="overflow-hidden bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="relative">

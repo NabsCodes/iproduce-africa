@@ -40,18 +40,26 @@ function resolveTitle(title?: string): string {
 }
 
 export function getSiteUrl(): string {
-  // 1. Explicit override always wins (useful for staging, custom domains).
+  // 1. Explicit override always wins (useful for staging, custom domains
+  //    that aren't on Vercel, or local OG testing via ngrok).
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
   }
-  // 2. On Vercel preview/branch deploys, use the unique deployment URL so
-  //    OG, canonical, and absolute links point at the deployment that's
-  //    actually serving the page — not the production domain (which may
-  //    still be the old site until DNS cuts over).
-  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
-    return normalizeSiteUrl(`https://${process.env.VERCEL_URL}`);
+  // 2. On Vercel, prefer the auto-injected URL so OG, canonical, and
+  //    absolute links always point at the domain that's actually serving
+  //    the page. VERCEL_PROJECT_PRODUCTION_URL resolves to the configured
+  //    production domain (custom domain if set, otherwise *.vercel.app);
+  //    VERCEL_URL is the per-deployment URL for previews/branch deploys.
+  //    This means once `iproduceafrica.com` is cut over to Vercel, the
+  //    meta tags will automatically follow without any code change.
+  const vercelUrl =
+    (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL;
+  if (vercelUrl) {
+    return normalizeSiteUrl(`https://${vercelUrl}`);
   }
-  // 3. Production fallback — the configured canonical domain.
+  // 3. Local dev fallback — the configured canonical domain.
   return normalizeSiteUrl(FALLBACK_SITE_URL);
 }
 
