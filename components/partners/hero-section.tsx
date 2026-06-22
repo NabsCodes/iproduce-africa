@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 import { AfricaMap } from "@/components/partners/africa-map";
 import { BecomePartnerDialog } from "@/components/partners/become-partner-dialog";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { partnersPageContent } from "@/content/partners";
@@ -25,7 +26,7 @@ export function PartnersHeroSection() {
       <div className="max-w-8xl relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20">
           <div className="relative z-10 flex max-w-3xl min-w-0 flex-col gap-6 lg:max-w-none">
-            <div className="flex flex-col gap-4">
+            <MotionFade className="flex flex-col gap-4">
               <EyebrowPill tone={hero.eyebrowTone ?? "tangerine"} size="sm">
                 {hero.eyebrow}
               </EyebrowPill>
@@ -36,7 +37,7 @@ export function PartnersHeroSection() {
                 {hero.title.middle}{" "}
                 <span className="text-leaf-600">{hero.title.accentTwo}</span>
               </h1>
-            </div>
+            </MotionFade>
 
             <p className="text-fg-muted max-w-xl text-base leading-7">
               {hero.description}
@@ -65,9 +66,13 @@ export function PartnersHeroSection() {
             </div>
           </div>
 
-          <div className="relative z-10 flex min-w-0 justify-center lg:justify-end">
+          <MotionFade
+            delay={0.12}
+            scaleFrom={0.98}
+            className="relative z-10 flex min-w-0 justify-center lg:justify-end"
+          >
             <AfricaMap map={hero.map} stat={hero.stat} />
-          </div>
+          </MotionFade>
         </div>
       </div>
     </section>

@@ -1,4 +1,6 @@
 import { CheckCircle2, ArrowUpRight } from "lucide-react";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
@@ -9,14 +11,14 @@ export function TwoJourneysSection() {
     <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:items-start lg:gap-16">
-          <div className="max-w-xs shrink-0">
+          <MotionFade className="max-w-xs shrink-0">
             <EyebrowBadge>Your pathway</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               Two Journeys. One Ecosystem.
             </h2>
-          </div>
+          </MotionFade>
 
-          <div className="grid flex-1 gap-5 sm:gap-8 lg:grid-cols-2">
+          <MotionStagger className="grid flex-1 gap-5 sm:gap-8 lg:grid-cols-2">
             {homeContent.journeys.map((journey) => {
               const isDark = journey.tone === "dark";
 
@@ -24,7 +26,7 @@ export function TwoJourneysSection() {
                 <article
                   key={journey.title}
                   className={cn(
-                    "flex flex-col gap-8 rounded-xl p-6 sm:gap-10 sm:p-7",
+                    "flex h-full flex-col gap-8 rounded-xl p-6 sm:gap-10 sm:p-7",
                     isDark ? "bg-forest-600 text-white" : "bg-leaf-subtle",
                   )}
                 >
@@ -84,7 +86,7 @@ export function TwoJourneysSection() {
                 </article>
               );
             })}
-          </div>
+          </MotionStagger>
         </div>
       </div>
     </section>

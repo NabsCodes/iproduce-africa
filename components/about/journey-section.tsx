@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { aboutPageContent } from "@/content/about";
 import { cn } from "@/lib/utils";
 import type { AboutJourneyMilestone, AboutJourneyStat } from "@/types/about";
@@ -185,38 +186,40 @@ export function JourneySection() {
   return (
     <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr_1fr] lg:gap-10">
-          <div className="lg:sticky lg:top-34 lg:self-start">
-            <EyebrowBadge>{journey.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-              {journey.title}
-            </h2>
+        <MotionFade>
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr_1fr] lg:gap-10">
+            <div className="lg:sticky lg:top-34 lg:self-start">
+              <EyebrowBadge>{journey.eyebrow}</EyebrowBadge>
+              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+                {journey.title}
+              </h2>
 
-            <div className="mt-8 hidden lg:block">
-              <StickyImage
-                src={active.leftImage}
-                alt={active.title}
-                priority={activeIndex === 0}
-              />
+              <div className="mt-8 hidden lg:block">
+                <StickyImage
+                  src={active.leftImage}
+                  alt={active.title}
+                  priority={activeIndex === 0}
+                />
+              </div>
+            </div>
+
+            <div>
+              {journey.milestones.map((milestone, index) => (
+                <MilestoneRow
+                  key={milestone.year}
+                  milestone={milestone}
+                  index={index}
+                  isActive={index === activeIndex}
+                  registerRef={registerRef}
+                />
+              ))}
+            </div>
+
+            <div className="hidden lg:sticky lg:top-34 lg:block lg:self-start">
+              <StickyStatsCard year={active.year} stats={active.stats} />
             </div>
           </div>
-
-          <div>
-            {journey.milestones.map((milestone, index) => (
-              <MilestoneRow
-                key={milestone.year}
-                milestone={milestone}
-                index={index}
-                isActive={index === activeIndex}
-                registerRef={registerRef}
-              />
-            ))}
-          </div>
-
-          <div className="hidden lg:sticky lg:top-34 lg:block lg:self-start">
-            <StickyStatsCard year={active.year} stats={active.stats} />
-          </div>
-        </div>
+        </MotionFade>
       </div>
     </section>
   );

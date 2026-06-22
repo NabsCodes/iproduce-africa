@@ -11,6 +11,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
 import type { WhoShouldJoinIconKey } from "@/types/community";
@@ -33,17 +35,19 @@ export function WhoShouldJoinSection() {
   return (
     <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="max-w-[640px]">
-          <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-            {section.title}
-          </h2>
-          <p className="text-fg-muted mt-4 text-base leading-7">
-            {section.description}
-          </p>
-        </div>
+        <MotionFade>
+          <div className="max-w-[640px]">
+            <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+              {section.title}
+            </h2>
+            <p className="text-fg-muted mt-4 text-base leading-7">
+              {section.description}
+            </p>
+          </div>
+        </MotionFade>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
+        <MotionStagger className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
           {section.items.map((item) => {
             const Icon = iconMap[item.icon];
             return (
@@ -65,7 +69,7 @@ export function WhoShouldJoinSection() {
               </div>
             );
           })}
-        </div>
+        </MotionStagger>
       </div>
     </section>
   );

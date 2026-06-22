@@ -5,6 +5,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
 import type { CommunityPreviewFeature } from "@/types/community";
@@ -24,10 +26,12 @@ export function CommunityPreviewSection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="order-2 lg:order-1">
-            <ChatMockup chat={section.chat} />
+            <MotionFade delay={0.12}>
+              <ChatMockup chat={section.chat} />
+            </MotionFade>
           </div>
 
-          <div className="order-1 flex flex-col gap-8 lg:order-2">
+          <MotionFade className="order-1 flex flex-col gap-8 lg:order-2">
             <div>
               <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
               <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
@@ -75,10 +79,16 @@ export function CommunityPreviewSection() {
                     </span>
                     <span
                       className={cn(
-                        "text-[11px] font-semibold tracking-wide uppercase",
+                        "inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase",
                         statusClass,
                       )}
                     >
+                      {channel.status === "live" ? (
+                        <span
+                          className="bg-leaf-500 size-1.5 shrink-0 rounded-full motion-safe:animate-pulse"
+                          aria-hidden
+                        />
+                      ) : null}
                       {statusLabel}
                     </span>
                   </>
@@ -109,7 +119,7 @@ export function CommunityPreviewSection() {
                 );
               })}
             </div>
-          </div>
+          </MotionFade>
         </div>
       </div>
     </section>
@@ -144,7 +154,7 @@ function ChatMockup({
         </p>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <MotionStagger cap={5} className="flex flex-col gap-5">
         {chat.messages.map((message) => (
           <div
             key={message.id}
@@ -195,7 +205,7 @@ function ChatMockup({
             </div>
           </div>
         ))}
-      </div>
+      </MotionStagger>
     </div>
   );
 }

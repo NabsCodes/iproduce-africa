@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { academyContent } from "@/content/academy";
+import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 
 type Countdown = {
   days: number;
@@ -37,12 +40,40 @@ function computeCountdown(targetIso: string): Countdown {
   };
 }
 
+function CountdownValue({ value }: { value: number }) {
+  const reduce = useReducedMotionSafe();
+  const display = String(value).padStart(2, "0");
+
+  if (reduce) {
+    return (
+      <span className="font-serif text-2xl leading-none font-semibold tabular-nums sm:text-3xl">
+        {display}
+      </span>
+    );
+  }
+
+  return (
+    <span className="relative inline-flex h-[1em] min-w-[2ch] items-center justify-center overflow-hidden font-serif text-2xl leading-none font-semibold tabular-nums sm:text-3xl">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={display}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6, transition: { duration: 0.15 } }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-block"
+        >
+          {display}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
 function CountdownCard({ value, label }: { value: number; label: string }) {
   return (
     <div className="bg-forest-900 flex flex-col items-center justify-center rounded-lg px-2 py-3 text-white sm:px-3 sm:py-4">
-      <span className="font-serif text-2xl leading-none font-semibold tabular-nums sm:text-3xl">
-        {String(value).padStart(2, "0")}
-      </span>
+      <CountdownValue value={value} />
       <span className="text-leaf-300 mt-1.5 text-[10px] font-semibold tracking-[0.16em] uppercase sm:tracking-[0.18em]">
         {label}
       </span>
@@ -69,12 +100,19 @@ export function FeaturedEventSection() {
       className="scroll-mt-36 bg-white py-14 sm:py-16 md:scroll-mt-48 lg:scroll-mt-52 lg:py-20"
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <EyebrowBadge>{featured.eyebrow}</EyebrowBadge>
-        <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-          {featured.sectionTitle}
-        </h2>
+        <MotionFade>
+          <EyebrowBadge>{featured.eyebrow}</EyebrowBadge>
+          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            {featured.sectionTitle}
+          </h2>
+        </MotionFade>
 
-        <div className="border-default bg-subtle mt-10 grid overflow-hidden rounded-xl border lg:grid-cols-2">
+        <MotionFade
+          delay={0.16}
+          yFrom={12}
+          duration={0.48}
+          className="border-default bg-subtle mt-10 grid overflow-hidden rounded-xl border lg:grid-cols-2"
+        >
           <div className="bg-muted relative aspect-4/3 min-h-[280px] lg:aspect-auto">
             <Image
               src={featured.image}
@@ -153,7 +191,7 @@ export function FeaturedEventSection() {
               </Link>
             </Button>
           </div>
-        </div>
+        </MotionFade>
       </div>
     </section>
   );

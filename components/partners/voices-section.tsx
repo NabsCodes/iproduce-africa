@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Quote } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import {
   Carousel,
   CarouselContent,
@@ -23,44 +25,48 @@ export function VoicesSection() {
       <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-start lg:gap-14">
           <div className="min-w-0">
-            <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-              {section.title}
-            </h2>
+            <MotionFade>
+              <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
+              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+                {section.title}
+              </h2>
+            </MotionFade>
 
-            <Carousel className="mt-8" aria-label="Partner testimonials">
-              <CarouselContent>
-                {section.items.map((item) => (
-                  <CarouselItem key={item.name} className="basis-full">
-                    <article className="elevation-1 relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-md bg-white p-5 sm:p-9">
-                      <Quote
-                        className="text-fg-subtle/5 pointer-events-none absolute top-5 left-5 size-14 -rotate-180 sm:top-6 sm:left-6 sm:size-16"
-                        aria-hidden
-                      />
-                      <Quote
-                        className="text-fg-subtle/15 pointer-events-none absolute right-5 bottom-5 size-14 sm:right-6 sm:bottom-6 sm:size-16"
-                        aria-hidden
-                      />
-                      <p className="text-foreground relative flex-1 pt-10 font-serif text-lg leading-[1.65] sm:pt-12 sm:text-xl">
-                        {item.quote}
-                      </p>
-                      <div className="relative mt-6 sm:mt-8">
-                        <p className="text-foreground font-serif text-base font-semibold">
-                          {item.name}
+            <MotionFade delay={0.08}>
+              <Carousel className="mt-8" aria-label="Partner testimonials">
+                <CarouselContent>
+                  {section.items.map((item) => (
+                    <CarouselItem key={item.name} className="basis-full">
+                      <article className="elevation-1 relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-md bg-white p-5 sm:p-9">
+                        <Quote
+                          className="text-fg-subtle/5 pointer-events-none absolute top-5 left-5 size-14 -rotate-180 sm:top-6 sm:left-6 sm:size-16"
+                          aria-hidden
+                        />
+                        <Quote
+                          className="text-fg-subtle/15 pointer-events-none absolute right-5 bottom-5 size-14 sm:right-6 sm:bottom-6 sm:size-16"
+                          aria-hidden
+                        />
+                        <p className="text-foreground relative flex-1 pt-10 font-serif text-lg leading-[1.65] sm:pt-12 sm:text-xl">
+                          {item.quote}
                         </p>
-                        <p className="text-fg-muted mt-1 text-sm">
-                          {item.role}
-                        </p>
-                      </div>
-                    </article>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselDots className="mt-6" tone="tangerine" />
-            </Carousel>
+                        <div className="relative mt-6 sm:mt-8">
+                          <p className="text-foreground font-serif text-base font-semibold">
+                            {item.name}
+                          </p>
+                          <p className="text-fg-muted mt-1 text-sm">
+                            {item.role}
+                          </p>
+                        </div>
+                      </article>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselDots className="mt-6" tone="tangerine" />
+              </Carousel>
+            </MotionFade>
           </div>
 
-          <div className="grid min-w-0 grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+          <MotionStagger className="grid min-w-0 grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {section.logos.slice(0, 6).map((logo) => (
               <div
                 key={logo.id}
@@ -89,7 +95,7 @@ export function VoicesSection() {
                 />
               </div>
             ))}
-          </div>
+          </MotionStagger>
         </div>
       </div>
     </section>

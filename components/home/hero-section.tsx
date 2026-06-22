@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { homeContent } from "@/content/home";
@@ -27,19 +28,21 @@ export function HeroSection() {
       {/* Mobile: stacked white layout */}
       <div className="bg-subtle px-4 pt-10 pb-12 sm:px-6 md:hidden">
         <div className="mx-auto flex flex-col gap-6">
-          <EyebrowPill tone={hero.eyebrowTone} size="sm">
-            {hero.eyebrow}
-          </EyebrowPill>
+          <MotionFade className="flex flex-col gap-6">
+            <EyebrowPill tone={hero.eyebrowTone} size="sm">
+              {hero.eyebrow}
+            </EyebrowPill>
 
-          <h1 className="text-foreground font-serif text-[34px] leading-[1.1] font-semibold tracking-[-0.02em] sm:text-4xl">
-            {lead}
-            <span className="text-leaf-700">{accent}</span>
-            {trail}
-          </h1>
+            <h1 className="text-foreground font-serif text-[34px] leading-[1.1] font-semibold tracking-[-0.02em] sm:text-4xl">
+              {lead}
+              <span className="text-leaf-700">{accent}</span>
+              {trail}
+            </h1>
 
-          <p className="text-fg-muted text-base leading-6">
-            {hero.description}
-          </p>
+            <p className="text-fg-muted text-base leading-6">
+              {hero.description}
+            </p>
+          </MotionFade>
 
           <div className="flex flex-col gap-3">
             <SiteCtaButton
@@ -61,7 +64,11 @@ export function HeroSection() {
             </SiteCtaButton>
           </div>
 
-          <div className="relative aspect-5/4 overflow-hidden rounded-xl">
+          <MotionFade
+            delay={0.12}
+            scaleFrom={0.98}
+            className="relative aspect-5/4 overflow-hidden rounded-xl"
+          >
             <Image
               src={hero.image}
               alt={hero.imageAlt}
@@ -70,7 +77,7 @@ export function HeroSection() {
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 0"
             />
-          </div>
+          </MotionFade>
 
           <div className="grid grid-cols-3 gap-3">
             {hero.stats.map((stat) => (
@@ -110,18 +117,21 @@ export function HeroSection() {
         <div className="max-w-8xl relative mx-auto flex min-h-[720px] w-full items-end px-4 pt-16 pb-[72px] sm:px-6 lg:px-8 xl:px-10">
           <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <EyebrowPill tone={hero.eyebrowTone} size="sm">
-                {hero.eyebrow}
-              </EyebrowPill>
+              <MotionFade>
+                <EyebrowPill tone={hero.eyebrowTone} size="sm">
+                  {hero.eyebrow}
+                </EyebrowPill>
 
-              <h1 className="mt-6 font-serif text-4xl leading-[1.06] font-semibold tracking-[-0.02em] text-white sm:text-5xl lg:text-[72px] lg:leading-[76px]">
-                {hero.title}
-              </h1>
+                <h1 className="mt-6 font-serif text-4xl leading-[1.06] font-semibold tracking-[-0.02em] text-white sm:text-5xl lg:text-[72px] lg:leading-[76px]">
+                  {hero.title}
+                </h1>
 
-              <p className="mt-8 max-w-[618px] text-lg leading-7 text-white">
-                {hero.description}
-              </p>
+                <p className="mt-8 max-w-[618px] text-lg leading-7 text-white">
+                  {hero.description}
+                </p>
+              </MotionFade>
 
+              {/* CTAs stay outside the MotionFade per spec — CTA pair does not animate. */}
               <div className="mt-8 flex flex-wrap gap-4">
                 <SiteCtaButton
                   href={hero.primaryCta.href}
@@ -141,7 +151,10 @@ export function HeroSection() {
               </div>
             </div>
 
-            <div className="w-full max-w-md rounded-lg border border-white/20 bg-white/20 p-6 backdrop-blur-sm lg:w-auto lg:max-w-none">
+            <MotionFade
+              delay={0.18}
+              className="w-full max-w-md rounded-lg border border-white/20 bg-white/20 p-6 backdrop-blur-sm lg:w-auto lg:max-w-none"
+            >
               <div className="mb-4 flex items-center gap-2">
                 <span
                   className="bg-leaf-emphasized size-1.5 shrink-0 rounded-full"
@@ -168,7 +181,7 @@ export function HeroSection() {
                   </div>
                 ))}
               </div>
-            </div>
+            </MotionFade>
           </div>
         </div>
       </div>

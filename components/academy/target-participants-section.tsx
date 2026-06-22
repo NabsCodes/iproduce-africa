@@ -11,6 +11,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { academyContent } from "@/content/academy";
 import type {
@@ -33,7 +35,7 @@ const participantIcons: Record<AcademyParticipantIconKey, LucideIcon> = {
 function ParticipantCard({ item }: { item: AcademyParticipant }) {
   const Icon = participantIcons[item.icon];
   return (
-    <article className="group border-default hover:border-tangerine-300 flex items-start gap-4 rounded-lg border bg-white p-5 transition-colors duration-300 sm:p-6">
+    <article className="group border-default hover:border-tangerine-300 flex h-full items-start gap-4 rounded-lg border bg-white p-5 transition-colors duration-300 sm:p-6">
       <span className="bg-leaf-subtle text-leaf-700 group-hover:bg-tangerine-400 flex size-10 shrink-0 items-center justify-center rounded-md transition-colors duration-300 group-hover:text-white">
         <Icon className="size-5" aria-hidden />
       </span>
@@ -55,23 +57,25 @@ export function TargetParticipantsSection() {
   return (
     <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-2xl">
-            <EyebrowBadge>{participants.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-              {participants.title}
-            </h2>
+        <MotionFade>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-2xl">
+              <EyebrowBadge>{participants.eyebrow}</EyebrowBadge>
+              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+                {participants.title}
+              </h2>
+            </div>
+            <p className="text-fg-muted max-w-md text-base leading-7">
+              {participants.description}
+            </p>
           </div>
-          <p className="text-fg-muted max-w-md text-base leading-7">
-            {participants.description}
-          </p>
-        </div>
+        </MotionFade>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+        <MotionStagger className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-12 lg:grid-cols-3 lg:gap-6">
           {participants.items.map((item) => (
             <ParticipantCard key={item.title} item={item} />
           ))}
-        </div>
+        </MotionStagger>
       </div>
     </section>
   );

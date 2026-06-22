@@ -1,6 +1,7 @@
 import { CircleCheck } from "lucide-react";
 
 import { InquiryForm } from "@/components/partners/inquiry-form";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
 
@@ -13,7 +14,7 @@ export function InquirySection() {
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-14">
-          <div>
+          <MotionFade>
             <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {section.title}
@@ -36,7 +37,7 @@ export function InquirySection() {
                 </li>
               ))}
             </ul>
-          </div>
+          </MotionFade>
 
           <InquiryForm content={section.form} />
         </div>

@@ -53,7 +53,7 @@ export function JumpSectionCard({
     <Link
       href={href}
       className={cn(
-        "group focus-visible:ring-leaf-200 border-default flex flex-col rounded-xl border bg-white p-5 transition-colors focus-visible:ring-2 focus-visible:outline-none sm:p-6",
+        "group focus-visible:ring-leaf-200 border-default flex h-full flex-col rounded-xl border bg-white p-5 transition-colors focus-visible:ring-2 focus-visible:outline-none sm:p-6",
         cardHoverBorderClass[variant],
         className,
       )}
@@ -69,7 +69,9 @@ export function JumpSectionCard({
       <h3 className="text-foreground mt-5 font-serif text-lg font-semibold sm:mt-6">
         {title}
       </h3>
-      <p className="text-fg-subtle mt-2 text-sm leading-5">{description}</p>
+      <p className="text-fg-subtle mt-2 flex-1 text-sm leading-5">
+        {description}
+      </p>
       <span className="text-leaf-700 group-hover:text-leaf-800 mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-colors">
         {ctaLabel}
         <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />

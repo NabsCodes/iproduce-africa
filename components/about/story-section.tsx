@@ -2,6 +2,7 @@ import Image from "next/image";
 import { GraduationCap, Play, UsersRound } from "lucide-react";
 
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
@@ -35,7 +36,7 @@ export function StorySection() {
             </div>
           </div>
 
-          <div>
+          <MotionFade>
             <EyebrowBadge>{story.eyebrow}</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {story.title}
@@ -63,7 +64,7 @@ export function StorySection() {
                 {story.secondaryCta.label}
               </SiteCtaButton>
             </div>
-          </div>
+          </MotionFade>
         </div>
       </div>
     </section>

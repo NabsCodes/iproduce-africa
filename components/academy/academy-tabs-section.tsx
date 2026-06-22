@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { LayoutGroup, motion } from "motion/react";
 
 import { academyContent } from "@/content/academy";
+import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
 
 export function AcademyTabsSection() {
   const tabs = academyContent.tabs;
+  const reduce = useReducedMotionSafe();
   const [activeId, setActiveId] = useState<string>(
     tabs[0]?.targetId ?? "overview",
   );
@@ -38,29 +41,42 @@ export function AcademyTabsSection() {
   return (
     <div className="border-default sticky top-[72px] z-30 border-y bg-white/95 backdrop-blur md:top-[114px] lg:top-[118px]">
       <div className="max-w-8xl mx-auto w-full overflow-x-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <nav
-          aria-label="Academy sections"
-          className="flex min-w-max items-center justify-center gap-2 py-3 sm:gap-4"
-        >
-          {tabs.map((tab) => {
-            const isActive = activeId === tab.targetId;
-            return (
-              <a
-                key={tab.targetId}
-                href={`#${tab.targetId}`}
-                aria-current={isActive ? "true" : undefined}
-                className={cn(
-                  "inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold whitespace-nowrap transition-colors",
-                  isActive
-                    ? "bg-leaf-200 text-foreground"
-                    : "text-fg-muted hover:bg-muted hover:text-foreground",
-                )}
-              >
-                {tab.label}
-              </a>
-            );
-          })}
-        </nav>
+        <LayoutGroup>
+          <nav
+            aria-label="Academy sections"
+            className="flex min-w-max items-center justify-center gap-2 py-3 sm:gap-4"
+          >
+            {tabs.map((tab) => {
+              const isActive = activeId === tab.targetId;
+              return (
+                <a
+                  key={tab.targetId}
+                  href={`#${tab.targetId}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className={cn(
+                    "relative inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold whitespace-nowrap transition-colors",
+                    isActive && reduce && "bg-leaf-200 text-foreground",
+                    !isActive &&
+                      "text-fg-muted hover:bg-muted hover:text-foreground",
+                    isActive && !reduce && "text-foreground",
+                  )}
+                >
+                  {isActive && !reduce ? (
+                    <motion.span
+                      layoutId="academy-active-tab"
+                      className="bg-leaf-200 absolute inset-0 rounded-full"
+                      transition={{
+                        duration: 0.25,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    />
+                  ) : null}
+                  <span className="relative z-10">{tab.label}</span>
+                </a>
+              );
+            })}
+          </nav>
+        </LayoutGroup>
       </div>
     </div>
   );

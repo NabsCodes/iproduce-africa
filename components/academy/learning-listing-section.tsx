@@ -6,6 +6,7 @@ import {
   ContentCard,
   type ContentCardTone,
 } from "@/components/shared/content-card";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { cn } from "@/lib/utils";
 
@@ -59,41 +60,43 @@ export function LearningListingSection({
       )}
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="max-w-2xl">
-          <EyebrowBadge>{eyebrow}</EyebrowBadge>
-          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-            {title}
-          </h2>
-          {headerSlot}
-        </div>
+        <MotionFade>
+          <div className="max-w-2xl">
+            <EyebrowBadge>{eyebrow}</EyebrowBadge>
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+              {title}
+            </h2>
+            {headerSlot}
+          </div>
 
-        <div
-          className={cn(
-            "mt-10 grid gap-5 sm:gap-6 lg:mt-12",
-            columnClassByCount[columns],
-          )}
-        >
-          {items.map((item) => (
-            <ContentCard
-              key={item.title}
-              image={item.image}
-              imageAlt={item.imageAlt}
-              href={item.href}
-              category={item.category}
-              categoryTone={item.categoryTone}
-              meta={item.meta}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
-        </div>
+          <div
+            className={cn(
+              "mt-10 grid gap-5 sm:gap-6 lg:mt-12",
+              columnClassByCount[columns],
+            )}
+          >
+            {items.map((item) => (
+              <ContentCard
+                key={item.title}
+                image={item.image}
+                imageAlt={item.imageAlt}
+                href={item.href}
+                category={item.category}
+                categoryTone={item.categoryTone}
+                meta={item.meta}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
+          </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3 sm:mt-12">
-          <ViewMoreControl href={viewMoreHref} label={viewMoreLabel} />
-          {countLabel ? (
-            <p className="text-fg-subtle text-center text-sm">{countLabel}</p>
-          ) : null}
-        </div>
+          <div className="mt-10 flex flex-col items-center gap-3 sm:mt-12">
+            <ViewMoreControl href={viewMoreHref} label={viewMoreLabel} />
+            {countLabel ? (
+              <p className="text-fg-subtle text-center text-sm">{countLabel}</p>
+            ) : null}
+          </div>
+        </MotionFade>
       </div>
     </section>
   );

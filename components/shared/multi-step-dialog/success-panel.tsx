@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 
 export type MultiStepDialogSuccessStep = {
   title: string;
@@ -31,8 +33,18 @@ export function MultiStepDialogSuccessPanel({
   success,
   onDone,
 }: MultiStepDialogSuccessPanelProps) {
+  const reduce = useReducedMotionSafe();
+
   return (
-    <div className="flex flex-col">
+    <motion.div
+      initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: reduce ? 0 : 0.28,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="flex flex-col"
+    >
       <div className="border-grey-200 border-b px-5 pt-5 pb-4 sm:px-7 sm:pt-6 sm:pb-5">
         <DialogTitle className="text-foreground pr-10 font-serif text-lg font-semibold sm:text-xl">
           {title}
@@ -101,6 +113,6 @@ export function MultiStepDialogSuccessPanel({
           ) : null}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

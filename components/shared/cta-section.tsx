@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Handshake, Users } from "lucide-react";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { cn } from "@/lib/utils";
@@ -130,7 +131,7 @@ export function CtaSection({
             />
           </div>
 
-          <div className="relative mx-auto max-w-3xl">
+          <MotionFade className="relative mx-auto max-w-3xl">
             <div className="inline-flex items-center gap-3 py-2">
               <span
                 className="bg-leaf-emphasized hidden h-px w-9 sm:block"
@@ -178,7 +179,7 @@ export function CtaSection({
                 );
               })}
             </div>
-          </div>
+          </MotionFade>
         </div>
       </div>
     </section>

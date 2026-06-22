@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock3 } from "lucide-react";
+import { ArrowRight, Clock3 } from "lucide-react";
 
 import { AcademyHeroSearchForm } from "@/components/academy/academy-hero-search-form";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import {
   Avatar,
   AvatarFallback,
@@ -23,20 +24,24 @@ export function AcademyHeroSection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
           <div>
-            <EyebrowPill tone={hero.eyebrowTone}>{hero.eyebrow}</EyebrowPill>
-            <h1 className="text-foreground mt-5 font-serif text-3xl leading-[1.1] font-semibold tracking-[-0.01em] whitespace-pre-line sm:text-5xl sm:leading-[1.05]">
-              {hero.title.lead}
-              <span className="text-leaf-600">{hero.title.accent}</span>
-              {hero.title.trail}
-            </h1>
+            <MotionFade>
+              <EyebrowPill tone={hero.eyebrowTone}>{hero.eyebrow}</EyebrowPill>
+              <h1 className="text-foreground mt-5 font-serif text-3xl leading-[1.1] font-semibold tracking-[-0.01em] whitespace-pre-line sm:text-5xl sm:leading-[1.05]">
+                {hero.title.lead}
+                <span className="text-leaf-600">{hero.title.accent}</span>
+                {hero.title.trail}
+              </h1>
+            </MotionFade>
             <p className="text-fg-muted mt-5 max-w-xl text-base leading-7">
               {hero.description}
             </p>
 
-            <AcademyHeroSearchForm
-              placeholder={hero.searchPlaceholder}
-              label={hero.searchLabel}
-            />
+            <MotionFade delay={0.2}>
+              <AcademyHeroSearchForm
+                placeholder={hero.searchPlaceholder}
+                label={hero.searchLabel}
+              />
+            </MotionFade>
 
             <div className="mt-8 flex items-center gap-3">
               <AvatarGroup className="*:data-[slot=avatar]:ring-background *:data-[slot=avatar]:size-8 *:data-[slot=avatar]:ring-2">
@@ -57,7 +62,7 @@ export function AcademyHeroSection() {
             </div>
           </div>
 
-          <div className="relative min-w-0">
+          <MotionFade className="relative min-w-0" delay={0.12}>
             <div
               className="bg-tangerine-100 absolute -top-8 -right-8 hidden size-[120px] rounded-full lg:block"
               aria-hidden
@@ -74,21 +79,25 @@ export function AcademyHeroSection() {
             </div>
             <Link
               href={hero.nextLive.href}
-              className="border-default group/next absolute right-4 bottom-4 left-4 flex items-center gap-4 rounded-lg border bg-white p-4 shadow-lg transition-colors hover:bg-white sm:right-auto sm:-bottom-10 sm:left-8 sm:max-w-[380px]"
+              className="border-default group/next focus-visible:ring-tangerine-400 hover:border-tangerine-400 hover:bg-white absolute right-4 bottom-4 left-4 flex items-center gap-4 rounded-lg border bg-white p-4 transition-[border-color,background-color] duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none sm:right-auto sm:-bottom-10 sm:left-8 sm:max-w-[380px]"
             >
-              <span className="bg-leaf-subtle text-leaf-700 flex size-12 shrink-0 items-center justify-center rounded-md">
+              <span className="bg-leaf-subtle text-leaf-700 group-hover/next:bg-tangerine-400 flex size-12 shrink-0 items-center justify-center rounded-md transition-colors duration-300 group-hover/next:text-white">
                 <Clock3 className="size-5" aria-hidden />
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-tangerine-600 text-[11px] font-semibold tracking-[0.18em] uppercase">
                   Next Live Session
                 </p>
-                <p className="text-foreground mt-1 text-base leading-5 font-semibold sm:text-[17px]">
+                <p className="text-foreground group-hover/next:text-tangerine-800 mt-1 text-base leading-5 font-semibold transition-colors duration-300 sm:text-[17px]">
                   {hero.nextLive.label}
                 </p>
               </div>
+              <ArrowRight
+                className="text-tangerine-600 size-5 shrink-0 transition-transform duration-300 group-hover/next:translate-x-0.5"
+                aria-hidden
+              />
             </Link>
-          </div>
+          </MotionFade>
         </div>
       </div>
     </section>

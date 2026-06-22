@@ -1,26 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import {
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-} from "motion/react";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
+
+import { MotionCountUp } from "@/components/shared/motion/motion-count-up";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
+import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import type { ImpactStatItem } from "@/types/content";
-
-const numberFormatter = new Intl.NumberFormat("en-US");
-
-/** Larger numbers count for a touch longer so the motion reads as deliberate. */
-function durationFor(value: number) {
-  if (value >= 1000) return 2.4;
-  if (value >= 100) return 2;
-  return 1.7;
-}
 
 function StatCard({
   stat,
@@ -31,30 +19,8 @@ function StatCard({
   index: number;
   start: boolean;
 }) {
-  const reduceMotion = useReducedMotion();
-  const count = useMotionValue(0);
-  const formatted = useTransform(count, (latest) =>
-    numberFormatter.format(Math.round(latest)),
-  );
-
+  const reduceMotion = useReducedMotionSafe();
   const delay = index * 0.12;
-
-  useEffect(() => {
-    if (!start) return;
-
-    if (reduceMotion) {
-      count.set(stat.value);
-      return;
-    }
-
-    const controls = animate(count, stat.value, {
-      duration: durationFor(stat.value),
-      delay,
-      ease: [0.22, 1, 0.36, 1],
-    });
-
-    return () => controls.stop();
-  }, [start, reduceMotion, stat.value, count, delay]);
 
   return (
     <motion.div
@@ -67,7 +33,7 @@ function StatCard({
         {stat.label}
       </p>
       <p className="text-foreground mt-auto pt-6 font-serif text-4xl leading-none font-semibold tracking-tight tabular-nums sm:pt-8 sm:text-5xl">
-        <motion.span>{formatted}</motion.span>
+        <MotionCountUp value={stat.value} inView={start} delay={delay} />
         {stat.accent ? (
           <span className="text-tangerine-500">{stat.accent}</span>
         ) : null}
@@ -101,7 +67,7 @@ export function ImpactStatsSection({
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="text-center">
+        <MotionFade className="text-center">
           <EyebrowBadge className="justify-center">
             {headerEyebrow}
           </EyebrowBadge>
@@ -111,7 +77,7 @@ export function ImpactStatsSection({
           <p className="text-fg-muted mx-auto mt-4 max-w-2xl text-base leading-6">
             {headerDescription}
           </p>
-        </div>
+        </MotionFade>
 
         <div
           ref={gridRef}

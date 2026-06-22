@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import {
   darkPanelDashedRingClass,
   DashedDecorativeRing,
@@ -17,9 +18,11 @@ export function ThreeStepsSection() {
           <DashedDecorativeRing className={darkPanelDashedRingClass} />
 
           <div className="relative flex flex-col gap-10 lg:gap-12">
-            <h2 className="max-w-md font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] text-white sm:text-3xl lg:max-w-lg lg:text-4xl">
-              {section.title}
-            </h2>
+            <MotionFade>
+              <h2 className="max-w-md font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] text-white sm:text-3xl lg:max-w-lg lg:text-4xl">
+                {section.title}
+              </h2>
+            </MotionFade>
 
             <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-0">
               {section.steps.map((step, index) => (
@@ -27,7 +30,10 @@ export function ThreeStepsSection() {
                   key={step.title}
                   className="flex min-h-0 flex-col lg:flex-1 lg:flex-row lg:items-stretch"
                 >
-                  <div className="border-forest-700 bg-forest-800/60 flex h-full min-h-[168px] flex-1 flex-col gap-3 rounded-xl border p-5 sm:min-h-[180px] sm:p-6">
+                  <MotionFade
+                    delay={index * 0.08}
+                    className="border-forest-700 bg-forest-800/60 flex h-full min-h-[168px] flex-1 flex-col gap-3 rounded-xl border p-5 sm:min-h-[180px] sm:p-6"
+                  >
                     <span className="text-tangerine-400 text-xs font-semibold tracking-[0.14em] uppercase">
                       {step.label}
                     </span>
@@ -37,7 +43,7 @@ export function ThreeStepsSection() {
                     <p className="text-leaf-200/80 mt-auto text-sm leading-6 sm:text-base">
                       {step.description}
                     </p>
-                  </div>
+                  </MotionFade>
 
                   {index < section.steps.length - 1 ? (
                     <>

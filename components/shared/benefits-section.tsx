@@ -14,6 +14,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { cn } from "@/lib/utils";
 import type {
@@ -93,7 +95,7 @@ function BenefitCard({
   return (
     <div
       className={cn(
-        "border-default flex flex-col gap-5 rounded-xl border bg-white p-6 sm:p-7",
+        "border-default flex h-full flex-col gap-5 rounded-xl border bg-white p-6 sm:p-7",
         cardHoverClasses,
       )}
     >
@@ -135,35 +137,37 @@ export function BenefitsSection({
       className={cn("bg-white py-14 sm:py-16 lg:py-20", className)}
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        {headerLayout === "split" ? (
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-12">
-            <div>
+        <MotionFade>
+          {headerLayout === "split" ? (
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-12">
+              <div>
+                <EyebrowBadge>{content.eyebrow}</EyebrowBadge>
+                <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+                  {content.title}
+                </h2>
+              </div>
+              {content.description ? (
+                <p className="text-fg-muted text-base leading-7 sm:text-lg lg:max-w-md lg:justify-self-end">
+                  {content.description}
+                </p>
+              ) : null}
+            </div>
+          ) : (
+            <div className="max-w-[640px]">
               <EyebrowBadge>{content.eyebrow}</EyebrowBadge>
               <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
                 {content.title}
               </h2>
+              {content.description ? (
+                <p className="text-fg-muted mt-4 text-base leading-7 sm:text-lg">
+                  {content.description}
+                </p>
+              ) : null}
             </div>
-            {content.description ? (
-              <p className="text-fg-muted text-base leading-7 sm:text-lg lg:max-w-md lg:justify-self-end">
-                {content.description}
-              </p>
-            ) : null}
-          </div>
-        ) : (
-          <div className="max-w-[640px]">
-            <EyebrowBadge>{content.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-              {content.title}
-            </h2>
-            {content.description ? (
-              <p className="text-fg-muted mt-4 text-base leading-7 sm:text-lg">
-                {content.description}
-              </p>
-            ) : null}
-          </div>
-        )}
+          )}
+        </MotionFade>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
+        <MotionStagger className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
           {content.items.map((item, index) => (
             <BenefitCard
               key={item.title}
@@ -173,7 +177,7 @@ export function BenefitsSection({
               interactive={interactive}
             />
           ))}
-        </div>
+        </MotionStagger>
       </div>
     </section>
   );

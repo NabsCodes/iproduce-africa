@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MessageCircle, Minus, Plus } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import {
   Accordion,
   AccordionContent,
@@ -89,7 +90,7 @@ export function FaqSection({
   return (
     <section id="faq" className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:gap-20">
+        <MotionFade className="flex flex-col gap-10 sm:gap-14 lg:flex-row lg:gap-20">
           <div className="max-w-[380px] shrink-0">
             <EyebrowBadge>{content.eyebrow}</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
@@ -139,7 +140,7 @@ export function FaqSection({
               </TabsContent>
             </Tabs>
           </div>
-        </div>
+        </MotionFade>
       </div>
     </section>
   );

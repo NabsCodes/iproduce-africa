@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedinIn } from "react-icons/fa6";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { Card, CardContent } from "@/components/ui/card";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
@@ -54,24 +56,26 @@ export function AdvisorsSection() {
         className="text-tangerine-300 top-28 right-10 hidden size-[300px] translate-x-[60%] -translate-y-1/2 opacity-80 lg:block lg:size-[300px]"
       />
       <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="max-w-2xl">
-          <EyebrowBadge>{advisors.eyebrow}</EyebrowBadge>
-          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-            {advisors.title}
-          </h2>
-          <p className="text-fg-muted mt-4 text-base leading-7">
-            {advisors.description}
-          </p>
-        </div>
+        <MotionFade>
+          <div className="max-w-2xl">
+            <EyebrowBadge>{advisors.eyebrow}</EyebrowBadge>
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+              {advisors.title}
+            </h2>
+            <p className="text-fg-muted mt-4 text-base leading-7">
+              {advisors.description}
+            </p>
+          </div>
+        </MotionFade>
 
-        <div className="mt-10 grid gap-4 sm:gap-5 lg:grid-cols-2">
+        <MotionStagger className="mt-10 grid gap-4 sm:gap-5 lg:grid-cols-2">
           {advisors.members.map((advisor) => (
             <AdvisorCard
               key={`${advisor.name}-${advisor.role}`}
               advisor={advisor}
             />
           ))}
-        </div>
+        </MotionStagger>
       </div>
     </section>
   );

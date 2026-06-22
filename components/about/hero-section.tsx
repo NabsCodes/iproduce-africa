@@ -1,4 +1,5 @@
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EcosystemOrbit } from "@/components/about/ecosystem-orbit";
 import { aboutPageContent } from "@/content/about";
 
@@ -10,7 +11,7 @@ export function AboutHeroSection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="flex max-w-3xl min-w-0 flex-col gap-8">
-            <div className="flex flex-col gap-4">
+            <MotionFade className="flex flex-col gap-4">
               <EyebrowPill tone="tangerine" size="sm">
                 {hero.eyebrow}
               </EyebrowPill>
@@ -29,7 +30,7 @@ export function AboutHeroSection() {
                   {hero.title.lineThree}
                 </span>
               </h1>
-            </div>
+            </MotionFade>
 
             <p className="text-fg-muted text-base leading-7">
               {hero.description}

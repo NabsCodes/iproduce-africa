@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { MembershipOrbit } from "@/components/community/membership-orbit";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import {
   Avatar,
@@ -19,7 +20,7 @@ export function CommunityHeroSection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="flex max-w-3xl min-w-0 flex-col gap-6">
-            <div className="flex flex-col gap-4">
+            <MotionFade className="flex flex-col gap-4">
               <EyebrowPill tone={hero.eyebrowTone ?? "tangerine"} size="sm">
                 {hero.eyebrow}
               </EyebrowPill>
@@ -30,7 +31,7 @@ export function CommunityHeroSection() {
                   {hero.title.accent}
                 </span>
               </h1>
-            </div>
+            </MotionFade>
 
             <p className="text-fg-muted text-base leading-7">
               {hero.description}
@@ -55,7 +56,7 @@ export function CommunityHeroSection() {
                 </SiteCtaButton>
               </div>
 
-              <div className="flex items-center gap-3">
+              <MotionFade delay={0.24} className="flex items-center gap-3">
                 <AvatarGroup className="*:data-[slot=avatar]:ring-background *:data-[slot=avatar]:size-8 *:data-[slot=avatar]:ring-2">
                   {hero.members.map((member) => (
                     <Avatar key={member.initials}>
@@ -71,7 +72,7 @@ export function CommunityHeroSection() {
                 <p className="text-fg-subtle text-sm leading-5 font-semibold">
                   {hero.membersLabel}
                 </p>
-              </div>
+              </MotionFade>
             </div>
           </div>
 

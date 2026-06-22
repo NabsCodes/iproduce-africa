@@ -1,6 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { SocialIcon } from "@/components/layout/social-icon";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import {
   darkPanelDashedRingClass,
   DashedDecorativeRing,
@@ -71,21 +73,23 @@ export function StayConnectedSection() {
           <DashedDecorativeRing className={darkPanelDashedRingClass} />
 
           <div className="relative mx-auto max-w-3xl">
-            <EyebrowBadge className="justify-center">
-              {homeContent.stayConnected.eyebrow}
-            </EyebrowBadge>
-            <h2 className="mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] text-white sm:text-4xl sm:leading-[48px]">
-              {homeContent.stayConnected.title}
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-white/70">
-              {homeContent.stayConnected.description}
-            </p>
-          </div>
+            <MotionFade>
+              <EyebrowBadge className="justify-center">
+                {homeContent.stayConnected.eyebrow}
+              </EyebrowBadge>
+              <h2 className="mt-3 font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] text-white sm:text-4xl sm:leading-[48px]">
+                {homeContent.stayConnected.title}
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-white/70">
+                {homeContent.stayConnected.description}
+              </p>
+            </MotionFade>
 
-          <div className="relative mt-9 grid gap-4 text-left sm:grid-cols-2 sm:gap-5 lg:mt-12 lg:grid-cols-3 lg:gap-6">
-            {socialCards.map((social) => (
-              <SocialCard key={social.platform} social={social} />
-            ))}
+            <MotionStagger className="relative mt-9 grid gap-4 text-left sm:grid-cols-2 sm:gap-5 lg:mt-12 lg:grid-cols-3 lg:gap-6">
+              {socialCards.map((social) => (
+                <SocialCard key={social.platform} social={social} />
+              ))}
+            </MotionStagger>
           </div>
         </div>
       </div>

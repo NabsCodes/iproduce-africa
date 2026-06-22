@@ -8,6 +8,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
 import type {
@@ -47,21 +49,23 @@ export function OpportunitiesSection() {
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bg-leaf-subtle rounded-xl px-5 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
-          <div className="max-w-2xl">
-            <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-              {section.title}
-            </h2>
-            <p className="text-fg-muted mt-4 text-base leading-7">
-              {section.description}
-            </p>
-          </div>
+          <MotionFade>
+            <div className="max-w-2xl">
+              <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
+              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+                {section.title}
+              </h2>
+              <p className="text-fg-muted mt-4 text-base leading-7">
+                {section.description}
+              </p>
+            </div>
+          </MotionFade>
 
-          <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-2 lg:gap-6">
+          <MotionStagger className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-2 lg:gap-6">
             {section.items.map((item) => (
               <OpportunityCard key={item.title} item={item} />
             ))}
-          </div>
+          </MotionStagger>
         </div>
       </div>
     </section>

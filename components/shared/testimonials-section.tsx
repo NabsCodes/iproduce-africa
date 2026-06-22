@@ -1,5 +1,6 @@
 import { Quote } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Carousel,
@@ -33,7 +34,7 @@ export function TestimonialsSection({
         className="text-tangerine-300 top-0 right-0 hidden size-[320px] translate-x-[60%] -translate-y-1/2 md:block lg:size-[380px]"
       />
       <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="max-w-xl">
+        <MotionFade className="max-w-xl">
           <EyebrowBadge>{eyebrow}</EyebrowBadge>
           <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
             {title}
@@ -41,44 +42,49 @@ export function TestimonialsSection({
           <p className="text-fg-muted mt-3 text-base leading-6">
             {description}
           </p>
-        </div>
+        </MotionFade>
 
-        <Carousel className="mt-8 sm:mt-10" aria-label="Community testimonials">
-          <CarouselContent className="-ml-4 sm:-ml-6">
-            {items.map((item) => (
-              <CarouselItem
-                key={item.name}
-                className="basis-full pl-4 sm:basis-1/2 sm:pl-6 lg:basis-1/3"
-              >
-                <Card className="bg-subtle flex min-h-[300px] flex-col gap-0 rounded-xl border-0 py-0 shadow-none ring-0">
-                  <CardContent className="flex flex-1 flex-col gap-4 px-6 pt-6 sm:px-8 sm:pt-8">
-                    <Quote className="text-leaf-600 size-6" aria-hidden />
-                    <p className="text-foreground font-serif text-[20px] leading-[30px] font-semibold sm:text-xl sm:leading-7">
-                      {item.quote}
-                    </p>
-                  </CardContent>
-                  <CardFooter className="mt-auto flex items-center gap-3 border-0 bg-transparent px-6 pt-4 pb-6 sm:px-8 sm:pb-8">
-                    <Avatar>
-                      {item.image ? (
-                        <AvatarImage src={item.image} alt={item.name} />
-                      ) : null}
-                      <AvatarFallback className="bg-leaf-muted text-forest-600 text-[11px] font-semibold tracking-wide">
-                        {item.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-foreground text-[13px] font-medium">
-                        {item.name}
+        <MotionFade delay={0.08}>
+          <Carousel
+            className="mt-8 sm:mt-10"
+            aria-label="Community testimonials"
+          >
+            <CarouselContent className="-ml-4 sm:-ml-6">
+              {items.map((item) => (
+                <CarouselItem
+                  key={item.name}
+                  className="basis-full pl-4 sm:basis-1/2 sm:pl-6 lg:basis-1/3"
+                >
+                  <Card className="bg-subtle flex min-h-[300px] flex-col gap-0 rounded-xl border-0 py-0 shadow-none ring-0">
+                    <CardContent className="flex flex-1 flex-col gap-4 px-6 pt-6 sm:px-8 sm:pt-8">
+                      <Quote className="text-leaf-600 size-6" aria-hidden />
+                      <p className="text-foreground font-serif text-[20px] leading-[30px] font-semibold sm:text-xl sm:leading-7">
+                        {item.quote}
                       </p>
-                      <p className="text-fg-subtle text-xs">{item.role}</p>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselDots className="mt-8 justify-center sm:mt-10" />
-        </Carousel>
+                    </CardContent>
+                    <CardFooter className="mt-auto flex items-center gap-3 border-0 bg-transparent px-6 pt-4 pb-6 sm:px-8 sm:pb-8">
+                      <Avatar>
+                        {item.image ? (
+                          <AvatarImage src={item.image} alt={item.name} />
+                        ) : null}
+                        <AvatarFallback className="bg-leaf-muted text-forest-600 text-[11px] font-semibold tracking-wide">
+                          {item.initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-foreground text-[13px] font-medium">
+                          {item.name}
+                        </p>
+                        <p className="text-fg-subtle text-xs">{item.role}</p>
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselDots className="mt-8 justify-center sm:mt-10" />
+          </Carousel>
+        </MotionFade>
       </div>
     </section>
   );

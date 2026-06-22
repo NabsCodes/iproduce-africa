@@ -1,3 +1,4 @@
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
@@ -47,27 +48,36 @@ export function MvoSection() {
     <section className="bg-white pb-14 sm:pb-16 lg:pb-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-4 lg:grid-cols-2 lg:grid-rows-[auto_auto] lg:gap-6">
-          <MvoCard
-            eyebrow={mission.eyebrow}
-            body={mission.body}
-            className="bg-leaf-subtle lg:col-start-1 lg:row-start-1"
-          />
-          <MvoCard
-            eyebrow={vision.eyebrow}
-            body={vision.body}
-            bodyClassName="lg:max-w-[36ch]"
-            className="bg-tangerine-subtle min-h-[260px] lg:col-start-2 lg:row-span-2 lg:row-start-1"
-          >
-            <DecorativeRing
-              strokeWidth={6}
-              className="text-tangerine-400 -right-16 -bottom-16 hidden size-[260px] opacity-40 lg:block"
+          <MotionFade className="lg:col-start-1 lg:row-start-1">
+            <MvoCard
+              eyebrow={mission.eyebrow}
+              body={mission.body}
+              className="bg-leaf-subtle h-full"
             />
-          </MvoCard>
-          <MvoCard
-            eyebrow={objective.eyebrow}
-            body={objective.body}
-            className="bg-muted lg:col-start-1 lg:row-start-2"
-          />
+          </MotionFade>
+          <MotionFade
+            className="lg:col-start-2 lg:row-span-2 lg:row-start-1"
+            delay={0.14}
+          >
+            <MvoCard
+              eyebrow={vision.eyebrow}
+              body={vision.body}
+              bodyClassName="lg:max-w-[36ch]"
+              className="bg-tangerine-subtle h-full min-h-[260px]"
+            >
+              <DecorativeRing
+                strokeWidth={6}
+                className="text-tangerine-400 -right-16 -bottom-16 hidden size-[260px] opacity-40 lg:block"
+              />
+            </MvoCard>
+          </MotionFade>
+          <MotionFade className="lg:col-start-1 lg:row-start-2" delay={0.28}>
+            <MvoCard
+              eyebrow={objective.eyebrow}
+              body={objective.body}
+              className="bg-muted h-full"
+            />
+          </MotionFade>
         </div>
       </div>
     </section>

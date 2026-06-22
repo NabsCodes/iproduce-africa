@@ -3,6 +3,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 import { ContactForm } from "@/components/contact/contact-form";
 import { ContactSocialIcon } from "@/components/contact/contact-social-icon";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { contactPageContent } from "@/content/contact";
 import { siteConfig } from "@/content/site";
@@ -86,7 +87,9 @@ export function ContactIntroSection() {
     >
       {/* Mobile: stacked hero */}
       <div className="bg-forest-950 px-4 py-10 sm:px-6 sm:py-12 lg:hidden">
-        <HeroCopy />
+        <MotionFade>
+          <HeroCopy />
+        </MotionFade>
         <div className="relative mt-8 aspect-4/3 overflow-hidden rounded-xl">
           <Image
             src={hero.image.src}
@@ -121,7 +124,9 @@ export function ContactIntroSection() {
         <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
           <div className="grid min-h-[580px] grid-cols-2">
             <div className="flex flex-col justify-center py-16">
-              <HeroCopy />
+              <MotionFade>
+                <HeroCopy />
+              </MotionFade>
             </div>
             <div aria-hidden />
           </div>
@@ -131,7 +136,7 @@ export function ContactIntroSection() {
       {/* Reach out + overlapping form */}
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-14">
-          <div className="pt-10 sm:pt-12 lg:col-start-1 lg:row-start-1 lg:pt-14">
+          <MotionFade className="pt-10 sm:pt-12 lg:col-start-1 lg:row-start-1 lg:pt-14">
             <h2 className="text-foreground font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {reachOut.title}
             </h2>
@@ -200,10 +205,12 @@ export function ContactIntroSection() {
                 </div>
               </li>
             </ul>
-          </div>
+          </MotionFade>
 
           <div className="relative z-10 mt-8 lg:col-start-2 lg:row-start-1 lg:-mt-36">
-            <ContactForm content={form} />
+            <MotionFade yFrom={32} delay={0.12}>
+              <ContactForm content={form} />
+            </MotionFade>
           </div>
         </div>
       </div>

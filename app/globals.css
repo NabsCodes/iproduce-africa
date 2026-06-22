@@ -361,6 +361,28 @@ h6 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /*
+   * Global CSS-animation override. Catches every keyframe-driven animation
+   * in the tree — Radix `animate-in / animate-out` from tailwindcss-animate
+   * (dialogs, sheets, popovers, tooltips, selects), our own keyframes
+   * (marquee, orbit), and any future library's. We deliberately do NOT
+   * touch `transition-*` rules — hover / focus colour shifts should stay
+   * usable even under reduced motion.
+   */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  /*
+   * Explicit overrides retained for the two surfaces that need a specific
+   * end-state (orbit must hold its starting angle; marquee must not
+   * continue scrolling). The rules above would zero them out anyway, but
+   * documenting the intent is worth the extra lines.
+   */
   .orbit-item {
     animation: none;
     transform: rotate(calc(var(--orbit-angle) * 1deg))

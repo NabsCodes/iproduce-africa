@@ -1,6 +1,7 @@
 "use client";
 
 import type { FormHTMLAttributes, ReactNode } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 import {
   Dialog,
@@ -9,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
 
 import { MultiStepDialogStepper, type MultiStepDialogStep } from "./stepper";
@@ -50,6 +52,7 @@ export function MultiStepDialogShell({
   footer,
   className,
 }: MultiStepDialogShellProps) {
+  const reduce = useReducedMotionSafe();
   const { className: formClassName, ...restFormProps } = formProps;
 
   return (
@@ -86,7 +89,24 @@ export function MultiStepDialogShell({
             </div>
 
             <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-7 sm:py-7">
-              {children}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={stepIndex}
+                  initial={reduce ? false : { opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={
+                    reduce
+                      ? undefined
+                      : { opacity: 0, y: -4, transition: { duration: 0.12 } }
+                  }
+                  transition={{
+                    duration: reduce ? 0 : 0.18,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  {children}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {footer}

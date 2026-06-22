@@ -1,6 +1,7 @@
 import { CircleCheck } from "lucide-react";
 
 import { MembershipApplicationForm } from "@/components/community/application-form";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
 
@@ -14,7 +15,7 @@ export function MembershipApplicationSection() {
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-14">
-          <div>
+          <MotionFade>
             <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {section.title}
@@ -37,7 +38,7 @@ export function MembershipApplicationSection() {
                 </li>
               ))}
             </ul>
-          </div>
+          </MotionFade>
 
           <MembershipApplicationForm content={section.form} />
         </div>

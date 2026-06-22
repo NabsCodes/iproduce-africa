@@ -1,5 +1,7 @@
 import { TrendingUp } from "lucide-react";
 
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
 
@@ -9,18 +11,23 @@ export function MemberStoriesSection() {
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="max-w-[640px]">
-          <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
-          <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-            {section.title}
-          </h2>
-        </div>
+        <MotionFade>
+          <div className="max-w-[640px]">
+            <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+              {section.title}
+            </h2>
+          </div>
+        </MotionFade>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:mt-14 lg:grid-cols-4 lg:gap-5">
+        <MotionStagger
+          cap={4}
+          className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:mt-14 lg:grid-cols-4 lg:gap-5"
+        >
           {section.items.map((story) => (
             <article
               key={story.name}
-              className="group border-default hover:border-leaf-300 flex flex-col rounded-xl border bg-white transition-colors duration-300"
+              className="group border-default hover:border-leaf-300 flex h-full flex-col rounded-xl border bg-white transition-colors duration-300"
             >
               <div className="flex flex-1 flex-col p-5 sm:p-6">
                 <div className="flex items-center gap-1.5">
@@ -74,7 +81,7 @@ export function MemberStoriesSection() {
               </div>
             </article>
           ))}
-        </div>
+        </MotionStagger>
       </div>
     </section>
   );

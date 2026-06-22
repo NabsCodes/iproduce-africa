@@ -72,7 +72,7 @@ export function MultiStepDialogFooter({
             type="button"
             variant="neutral"
             size="sm"
-            disabled={isSubmitting || !isStepValid}
+            disabled={isSubmitting}
             onClick={onSubmit}
             className={advanceClass}
           >

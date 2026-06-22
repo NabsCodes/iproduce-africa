@@ -2,9 +2,35 @@
 
 ## Status
 
-Drafted 2026-06-19. Static UI is complete across all six routes; this is the
-plan for the motion pass that ships next. Build section by section against
+Drafted 2026-06-19. Refreshed 2026-06-22 after client MVP sign-off and the
+system-pages / OG-share work shipped. Build section by section against
 this spec.
+
+**Where we are**
+
+- Motion pass Slices A–E shipped in code (primitives, all six routes, dialogs,
+  Academy tabs/countdown, scroll reveals).
+- Remaining: browser QA + reduced-motion sweep. Lighthouse optional.
+- CMS migration does **not** block or change motion — primitives wrap JSX
+  regardless of whether copy comes from `content/*.ts` or Sanity later.
+
+**Order this fits inside (post-MVP queue):**
+
+1. **Motion pass** _(this spec)_ — system-level, restrained, brand-on.
+2. **Combobox swap** — _one_ shared searchable select pattern, used only
+   where it earns its keep (countries, sectors, future Academy filters).
+   Do not blanket-replace small selects.
+3. **Blog / article pages** — designs are now available. Build static
+   surfaces first, wire to Sanity later. The motion primitives from
+   step 1 apply here on day one.
+4. **CMS migration alignment doc** — content-shape map + what stays
+   static (see "Out of scope" below for a hint at the boundary).
+5. **Sanity setup** — `sanity/` + `lib/sanity/` only. Sanity schemas
+   must NOT live in root `schemas/` because that folder now owns
+   Zod / runtime validation.
+6. **Resend wiring** — server-side validation reuses the root Zod
+   schemas so client and server can't drift. Account + DNS work can
+   start in parallel with step 5.
 
 ## Purpose
 
@@ -76,10 +102,11 @@ motion choice should justify the bytes it costs and the focus it pulls.
 Co-locate in `components/shared/motion/` so every page consumes the same
 helpers:
 
-- `motion-fade.tsx` — fade + small rise on enter; collapses to plain div under
-  reduced motion. Props: `delay`, `as`, `className`.
-- `motion-stagger.tsx` — wraps children with a `staggerChildren` parent and
-  exposes a `<MotionStagger.Item>` for the rise children.
+- `motion-fade.tsx` — fade + small rise on enter; uses no-op variants under
+  reduced motion. Props: `delay`, `as`, `className`, `duration`, `yFrom`,
+  `scaleFrom`.
+- `motion-stagger.tsx` — wraps peer children with a capped stagger parent; the
+  primitive owns each child wrapper so callers cannot bypass the cap.
 - `motion-count-up.tsx` — extract the existing count-up logic from
   `impact-stats-section.tsx` so future stat surfaces can reuse it without
   copy-paste.
@@ -89,6 +116,123 @@ helpers:
 
 Do **not** add a generic `<AnimateOnScroll>` god-component; it always ends up
 overgrown. Keep each primitive narrow.
+
+## UX rhythm — scroll reveals
+
+This is the default mental model for the whole site. When in doubt, follow
+this section before inventing a one-off.
+
+### Motion decision tree (site-wide rule)
+
+Two primitives cover almost everything — no third abstraction needed:
+
+| Primitive       | Use when                                                                                 |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| `MotionFade`    | Section headers, copy bands, single panels, carousel items (with `delay={index * 0.08}`) |
+| `MotionStagger` | Grids of **peer cards** (benefits, people, content cards, icon tiles)                    |
+
+**Ask in order:**
+
+1. **Does the section have a title/header?** → `MotionFade` on the header block first.
+2. **How many peer cards are visible at once (≤6)?** → `MotionStagger` on the grid, **or** per-item `MotionFade` with staggered `delay` inside a carousel.
+3. **More than 6 cards (listings, long grids)?** → Header fade only; cards rely on `<ContentCard>` hover. `MotionStagger` caps at 6 by default — items past the cap appear instantly.
+4. **Single featured panel** (event hero card, overlap form)? → One `MotionFade` only: **opacity + small rise (`yFrom` 12–16px), no scale**. Slightly slower (`duration` ~0.48s, `delay` ~0.16s). Scale reads as a “pop” on marketing pages — reserve it for dialogs/success states.
+5. **Already kinetic inside** (marquee, orbit, countdown tick)? → Header fade; do not stagger inner motion.
+6. **Live forms / map embeds?** → Copy column fades; fields stay static (Contact overlap card is the one exception).
+
+This matches what most polished marketing sites do (Stripe, Linear, Vercel-style): **section confirms hierarchy, cards confirm structure, nothing bounces for attention**. Stagger gaps stay at **80ms** (`MotionStagger` default); total entrance under **~600ms** for a 6-card row.
+
+### Timing ownership (sibling triggers)
+
+> If a section’s cards, logos, tiles, or carousel are the main content, animate the **major section header** and the **component group** as **separate sibling triggers** — not one wrapper around both.
+>
+> If the section is copy-first, form-first, FAQ, map, listing-heavy, or CTA-only, keep it as **one calm band** or static.
+
+**Do:**
+
+```tsx
+<MotionFade>{/* eyebrow + h2 (+ description) */}</MotionFade>
+<MotionStagger>{/* card grid */}</MotionStagger>
+```
+
+**Avoid:**
+
+```tsx
+<MotionFade>
+  {/* header */}
+  <MotionStagger>{/* cards */}</MotionStagger>
+</MotionFade>
+```
+
+Nested fade + stagger shares one viewport trigger; the grid can finish animating before the user scrolls to it. Split columns (Voices, Preview) get independent triggers per column or block.
+
+**Non-clickable surfaces** (logo walls, decorative tiles) may entrance-animate but must **not** get hover affordances — motion must not imply interactivity.
+
+### Interaction + motion behavior
+
+Scroll entrance says “this section exists.” Hover/focus says “this item can be acted on.” Keep both layers distinct:
+
+1. **Motion guides attention, not decoration** — calmer after motion, not busier.
+2. **Hero content feels instant** — title may fade; CTAs stay immediately clickable; no aggressive scale on hero cards (`scaleFrom` max `0.98`, prefer rise-only).
+3. **Interactive elements need micro-feedback** — border tint, 2–4px lift, arrow/icon move on clickable cards (`JumpSectionCard` pattern).
+4. **Forms stay calm** — no field animation; dialog step transitions are fine.
+5. **Motion density decreases as content density increases** — listings, FAQ, forms are quietest.
+6. **One personality** — calm, organic, premium: rise/fade, soft pill morph, gentle count-up. No bounce, elastic, or dramatic scale (except dialog success).
+7. **Hover carries more UX weight than entrance** on marketing card grids.
+8. **Reduced motion** — static final states; hover/focus color transitions remain.
+
+### What “slide fade in on scroll” means here
+
+`MotionFade` is **opacity + 16px rise** (`y: 16 → 0`) triggered by
+`whileInView` once. It is deliberately subtle — not a dramatic slide. Users
+feel “the section arrived” without the motion pulling focus from copy.
+
+### Default rule: every major section band fades up
+
+Wrap each section's **header / copy** in `MotionFade`. Card bodies use
+`MotionStagger` or per-card delayed fade when the decision tree above says so.
+
+| Pattern                   | Motion                                                                   | Example                                                              |
+| ------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| **Section header**        | `MotionFade` on eyebrow + title (+ description)                          | All major sections                                                   |
+| **Card grid (≤6 peers)**  | Header `MotionFade` + `MotionStagger` on grid                            | Benefits, Advisors, Member Stories, Home ContentCards, Opportunities |
+| **Card carousel (≤6)**    | Header `MotionFade` + per-slide `MotionFade` with `delay={index * 0.08}` | Team, Core Focus                                                     |
+| **Card grid (7+)**        | Header fade only; cards use `<ContentCard>` hover                        | Academy listing pages                                                |
+| **Single featured panel** | Slow `MotionFade` — rise only, ~0.48s, no scale                          | Featured Event card, Contact overlap form                            |
+| **Kinetic section**       | Header `MotionFade`; marquee/orbit/carousel inner motion unchanged       | Home Partners marquee, About orbit                                   |
+| **Hero**                  | Title block fades; CTAs static; image/stat may delay                     | All route heroes                                                     |
+| **Forms**                 | Copy column fades; form fields static except Contact overlap card        | Inquiry, Membership Application, Contact                             |
+| **Map / embed**           | No motion                                                                | Contact map                                                          |
+
+### Gaps we closed (2026-06-19 polish)
+
+- **Full section-band pass** — unified scroll reveal across sections that
+  previously only faded headers: Benefits (all consumers), Learning
+  Opportunities / Participants / Listings, Who Should Join, Member Stories,
+  Opportunities, Team, Advisors, Journey, Impact Stats header, Stay Connected
+  (incl. social tiles), Voices (testimonial + logo grid), Community Preview
+  chat column, Home Partners marquee, Featured Articles.
+- **Academy Featured Event** — header fade + slow rise on event card (no scale).
+- **About Team / Advisors** — header fade + card stagger (carousel delay / grid stagger).
+- **Community Who Should Join** — header fade + stagger (cap 6 on 9 tiles).
+- **Timing ownership pass** — sibling triggers for Voices, Stay Connected, Two Journeys, Testimonials; un-nested fade+stagger in Benefits, Learning Opportunities, Participants, Opportunities, Member Stories; Academy hero card rise-only (removed `scaleFrom={0.95}`).
+- **Academy hero Next Live card** — hover affordance (border, lift, arrow,
+  icon chip) so the overlay reads as a link.
+
+### When _not_ to add more motion
+
+- **Do not** stagger every card on long listing pages — Academy has three
+  listing grids; staggering 12+ cards feels busy and slows scanning.
+- **Do not** re-animate on scroll back (`viewport once: true` is locked).
+- **Do not** animate body paragraphs, form fields, or CTA buttons on their
+  own — fade the band they sit in, or leave CTAs static in heroes.
+- **Marquee / orbit** already carry kinetic weight; don't add stagger on top.
+
+### Partners page note
+
+`BenefitsSection` (first section after hero) **does** scroll-reveal via shared
+`MotionFade` + `MotionStagger`. If it felt static, the animation is subtle
+(360ms, 16px rise) and fires once — not a bug.
 
 ## Per-section plan
 
@@ -106,17 +250,19 @@ alone, and the smallest change that hits the goal**.
 
 ### Home
 
-1. **Hero** — title fade-up (140ms delay between lead and accent), image
-   container settles from `scale-[0.98] opacity-0` to `1 / 1` once. CTA pair
-   does not animate.
-2. **What we do / Core focus / Two journeys** — section-level entrance fade
-   only (`MotionFade`). No per-card stagger; the marquee and carousel already
-   carry the kinetic weight.
-3. **Featured Articles** — card images get the standard hover lift (already
-   present via `<ContentCard>`); no entrance animation needed.
-4. **Stay Connected (dark)** — eyebrow + h2 fade-up; social tiles do not
-   stagger.
-5. **CTA section** — fade-up only; the decorative ring should _not_ spin.
+1. **Hero** — title fade-up; mobile image `scaleFrom={0.98}`; desktop stats
+   card delayed fade. CTA pair does not animate.
+2. **Partners marquee** — section band fade-up (`MotionFade`); marquee logos
+   do not stagger individually.
+3. **What we do / Core focus** — section-level entrance fade only
+   (`MotionFade`). No per-card stagger; internal marquee/carousel carries
+   kinetic weight.
+4. **Two journeys** — header fade + two-panel `MotionStagger` as sibling
+   triggers.
+5. **Featured Articles** — section band fade-up; individual cards rely on
+   `<ContentCard>` hover (no per-card stagger).
+6. **Stay Connected (dark)** — header fade + social tile `MotionStagger`.
+7. **CTA section** — fade-up only; the decorative ring should _not_ spin.
 
 ### About
 
@@ -128,22 +274,22 @@ alone, and the smallest change that hits the goal**.
 5. **Journey** — already shipped (sticky cross-fade). Re-test under reduced
    motion and document the contract in this file as the upper bound for
    scroll-driven work.
-6. **Team / Advisors** — section fade-up; cards do not individually animate
-   because the carousel/grid is the focus.
+6. **Team / Advisors** — header fade; team carousel uses per-card delayed
+   fade; advisors grid uses `MotionStagger`.
 
 ### Academy
 
-1. **Hero** — title fade-up; search bar settles with a 200ms delay so it
-   reads as a second beat. NEXT LIVE SESSION card scales in from
-   `scale-[0.95]` once.
-2. **Sticky Tabs** — active pill morphs with `layoutId` for the underline
-   indicator. Falls back to instant color swap under reduced motion.
-3. **Featured Event countdown** — digits already tick; add a `tabular-nums`
-   crossfade between values (`AnimatePresence` keyed on the number) so the
-   change reads cleanly. Keep tick interval at 1s.
+1. **Hero** — title fade-up; search bar settles with a 200ms delay. NEXT LIVE
+   SESSION image block uses rise-only `MotionFade`; the next-live overlay link
+   uses hover affordance (border tint, slight lift, trailing arrow, icon chip
+   activation) — it must read as clickable.
+2. **Sticky Tabs** — active pill morphs with `layoutId`. Falls back to instant
+   color swap under reduced motion.
+3. **Featured Event** — header fade-up; event card slow rise only (~0.48s,
+   `yFrom` 12px, no scale). Countdown digits crossfade on tick (`tabular-nums`).
 4. **Learning Opportunities + Participants** — `MotionStagger` on the card
    grid, 80ms between children, capped at 6.
-5. **Listings** — section fade-up; individual cards rely on `<ContentCard>`
+5. **Listings** — header fade-up only; individual cards rely on `<ContentCard>`
    hover.
 
 ### Community
@@ -155,7 +301,7 @@ alone, and the smallest change that hits the goal**.
    independently animate.
 4. **Three Steps** — dashed ring stays static; cards rise in left-to-right
    stagger (`whileInView`).
-5. **Who Should Join** — fade-up only.
+5. **Who Should Join** — header fade + `MotionStagger` on icon tiles (cap 6).
 6. **Community Preview chat mockup** — bubbles rise with stagger (max 5
    visible bubbles, others render instant). Channel chips do not animate.
    "LIVE" pill gets a subtle `animate-pulse` on the dot only, not the text.
@@ -228,14 +374,27 @@ For each page after the motion pass:
 - Animated SVG illustrations beyond the existing decorative ring rotation.
 - Lottie or video-backed motion.
 - A motion design system beyond the four primitives listed above.
+- **System pages** (`not-found.tsx`, `error.tsx`, `global-error.tsx`).
+  These are recovery surfaces — adding animation would make a broken
+  state feel performative. They stay static. `global-error.tsx`
+  especially cannot rely on Tailwind or `motion/react` (renders when
+  the root layout has crashed).
+- **OG / Twitter share images.** Static raster, by definition.
+- **Forms in active use.** Never animate inputs, labels, or messages
+  while a user is filling out a form. Step _transitions_ in the two
+  multi-step dialogs (Become Partner, Membership Application) are in
+  scope; field-level motion is not.
 
 ## Checklist
 
-- [ ] Add the four motion primitives in `components/shared/motion/` + hook
-- [ ] Refactor `impact-stats-section.tsx` to consume `motion-count-up`
-- [ ] Apply per-section plan: Home → About → Academy → Community → Partners → Contact
-- [ ] Add `AnimatePresence` to multi-step dialogs (Partner + Membership)
-- [ ] Update `docs/design-system.md` to point at this spec
-- [ ] Run verification (build + visual + reduced-motion + Lighthouse) per page
-- [ ] Log the motion pass in `docs/implementation-log.md`
-- [ ] Tick the Motion item in the Notion dev notes
+- [x] Add the three motion primitives in `components/shared/motion/` + reduced-motion hook
+- [x] Refactor `impact-stats-section.tsx` to consume `motion-count-up`
+- [x] Apply per-section plan: Home → About → Academy → Community → Partners → Contact
+- [x] Add `AnimatePresence` to multi-step dialogs (Partner + Membership)
+- [x] Academy tabs `layoutId` + featured countdown crossfade
+- [x] Scroll-reveal gaps: Home Partners marquee, Featured Articles, Academy Featured Event
+- [x] Update `docs/design-system.md` to point at this spec
+- [ ] Browser QA + reduced-motion sweep (all routes + dialogs)
+- [x] Log the motion pass in `docs/implementation-log.md`
+- [ ] Tick the Motion item in the Notion dev notes (QA remaining)
+- [ ] Lighthouse baseline + delta (optional / deferred)
