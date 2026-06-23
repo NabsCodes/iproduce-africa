@@ -18,14 +18,22 @@ export const homeContent = {
       href: "/community#membership-application",
       action: "membership-dialog",
     },
-    secondaryCta: {
-      label: "Partner with us",
-      href: "/partners#partnership-enquiry",
-    },
-    stats: [
-      { value: "2,400", suffix: "+", label: "Agripreneurs" },
-      { value: "100", suffix: "+", label: "Partner Orgs" },
-      { value: "100", suffix: "%", label: "Training success" },
+    proofPoints: [
+      {
+        label: "Practical learning",
+        description:
+          "Training, webinars and resources for real agribusiness work.",
+      },
+      {
+        label: "Market access",
+        description:
+          "Connections to opportunities, buyers and support pathways.",
+      },
+      {
+        label: "Community support",
+        description:
+          "A growing network for agripreneurs and ecosystem builders.",
+      },
     ],
   },
   about: {

@@ -56,9 +56,9 @@ Bespoke hero, **not** a `PageHero` wrap. Composition:
   (`AcademyHeroSearchForm`: shadcn `DropdownMenu` category selector hidden on
   mobile and inline-flex from `sm:` + `<Input type="search">` + dark
   `bg-forest-900` search button, all wrapped in a rounded `border` shell with
-  mock submit + spinner + inline success/error feedback), and a **learner
-  trust row** (avatar stack + "Trusted by 8,400+ learners and professionals
-  across Africa").
+  mock submit + spinner + inline success/error feedback), and a qualitative
+  **learner trust row** (avatar stack + practical learning copy, with no public
+  learner count until verified metrics are approved).
 - **Right column**: `aspect-4/5` image with a tangerine **decorative ring**
   (`size-[220px]`, `lg:` only) anchored top-right, and a floating
   **"NEXT LIVE SESSION" card** absolutely positioned bottom-right on desktop

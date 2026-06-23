@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
@@ -54,14 +54,6 @@ export function HeroSection() {
               {hero.primaryCta.label}
               <ArrowUpRight className="size-5" />
             </SiteCtaButton>
-            <SiteCtaButton
-              href={hero.secondaryCta.href}
-              variant="green-soft"
-              size="lg"
-              fullWidth
-            >
-              {hero.secondaryCta.label}
-            </SiteCtaButton>
           </div>
 
           <MotionFade
@@ -79,17 +71,19 @@ export function HeroSection() {
             />
           </MotionFade>
 
-          <div className="grid grid-cols-3 gap-3">
-            {hero.stats.map((stat) => (
+          <div className="grid gap-3 sm:grid-cols-3">
+            {hero.proofPoints.map((point) => (
               <div
-                key={stat.label}
-                className="border-border rounded-lg border bg-white px-3 py-4 text-center"
+                key={point.label}
+                className="border-border rounded-lg border bg-white px-4 py-4"
               >
-                <p className="text-foreground font-serif text-xl font-semibold">
-                  {stat.value}
-                  <span className="font-normal">{stat.suffix}</span>
+                <CheckCircle2 className="text-leaf-600 size-5" aria-hidden />
+                <p className="text-foreground mt-3 font-serif text-lg leading-6 font-semibold">
+                  {point.label}
                 </p>
-                <p className="text-fg-subtle mt-1 text-[11px]">{stat.label}</p>
+                <p className="text-fg-muted mt-1 text-sm leading-5">
+                  {point.description}
+                </p>
               </div>
             ))}
           </div>
@@ -131,7 +125,7 @@ export function HeroSection() {
                 </p>
               </MotionFade>
 
-              {/* CTAs stay outside the MotionFade per spec — CTA pair does not animate. */}
+              {/* CTA stays outside the MotionFade per spec — it does not animate. */}
               <div className="mt-8 flex flex-wrap gap-4">
                 <SiteCtaButton
                   href={hero.primaryCta.href}
@@ -141,43 +135,57 @@ export function HeroSection() {
                   {hero.primaryCta.label}
                   <ArrowUpRight className="size-5" />
                 </SiteCtaButton>
-                <SiteCtaButton
-                  href={hero.secondaryCta.href}
-                  variant="green-soft"
-                  size="lg"
-                >
-                  {hero.secondaryCta.label}
-                </SiteCtaButton>
+              </div>
+
+              <div className="mt-6 flex max-w-2xl flex-wrap gap-x-6 gap-y-3 lg:hidden">
+                {hero.proofPoints.map((point) => (
+                  <div
+                    key={point.label}
+                    className="flex min-w-0 items-center gap-2.5"
+                  >
+                    <CheckCircle2
+                      className="text-leaf-emphasized size-5 shrink-0"
+                      aria-hidden
+                    />
+                    <span className="text-sm leading-5 font-semibold text-white">
+                      {point.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
 
             <MotionFade
               delay={0.18}
-              className="w-full max-w-md rounded-lg border border-white/20 bg-white/20 p-6 backdrop-blur-sm lg:w-auto lg:max-w-none"
+              className="bg-forest-950/45 hidden w-full max-w-[360px] rounded-xl border border-white/20 p-5 text-white shadow-[0_24px_70px_-36px_rgba(0,0,0,0.7)] backdrop-blur-md lg:block"
             >
-              <div className="mb-4 flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <span
-                  className="bg-leaf-emphasized size-1.5 shrink-0 rounded-full"
+                  className="bg-leaf-emphasized size-2 shrink-0 rounded-full"
                   aria-hidden
                 />
-                <div className="h-px flex-1 bg-[#e2dfda]" aria-hidden />
+                <p className="text-leaf-emphasized text-xs font-semibold tracking-[0.16em] uppercase">
+                  Start here
+                </p>
               </div>
-              <div className="flex gap-8 sm:gap-10">
-                {hero.stats.map((stat, index) => (
-                  <div key={stat.label}>
-                    <p className="font-serif text-[32px] leading-10 tracking-[-0.01em] text-white">
-                      <span className="font-semibold">{stat.value}</span>
-                      <span
-                        className={
-                          index === 2
-                            ? "text-leaf-emphasized font-normal italic"
-                            : undefined
-                        }
-                      >
-                        {stat.suffix}
-                      </span>
-                    </p>
-                    <p className="mt-1 text-xs text-white">{stat.label}</p>
+              <h2 className="mt-4 font-serif text-2xl leading-8 font-semibold">
+                Community pathway
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-white/85">
+                Join the network for learning, market access and practical
+                support as the ecosystem grows.
+              </p>
+
+              <div className="mt-5 flex flex-col gap-3">
+                {hero.proofPoints.map((point) => (
+                  <div key={point.label} className="flex items-center gap-2.5">
+                    <CheckCircle2
+                      className="text-leaf-emphasized size-4 shrink-0"
+                      aria-hidden
+                    />
+                    <span className="text-sm leading-5 font-medium">
+                      {point.label}
+                    </span>
                   </div>
                 ))}
               </div>

@@ -1,5 +1,5 @@
 import type { PillarIconKey } from "@/lib/pillar-icons";
-import type { EyebrowTone, SiteCta } from "@/types/content";
+import type { EyebrowTone, ImpactStatItem, SiteCta } from "@/types/content";
 
 export type AboutHeroTitle = {
   lineOne: {
@@ -31,7 +31,7 @@ export type AboutOrbitRing = {
 
 export type AboutOrbitContent = {
   url: string;
-  statsLabel: string;
+  summaryLabel: string;
   rings: readonly AboutOrbitRing[];
 };
 
@@ -58,11 +58,7 @@ export type AboutMissionVisionObjective = {
   objective: { eyebrow: string; body: string };
 };
 
-export type AboutImpactStat = {
-  label: string;
-  value: number;
-  accent?: string;
-};
+export type AboutImpactStat = ImpactStatItem;
 
 export type AboutImpactStats = {
   eyebrow: string;

@@ -24,7 +24,7 @@ export const communityPageContent = {
       label: "Explore Member Benefits",
       href: "/community#member-benefits",
     },
-    membersLabel: "Members across 20+ African countries",
+    membersLabel: "Agripreneurs, operators and ecosystem builders",
     members: [
       {
         name: "Community member",
@@ -301,8 +301,7 @@ export const communityPageContent = {
       "Inside the community, members share opportunities, announce events and find the people they need — then take deals forward together.",
     chat: {
       title: "iProduce Africa · Community",
-      // PLACEHOLDER — replace with real member count when available
-      membersOnlineLabel: "312 members online",
+      membersOnlineLabel: "Member discussions",
       pinnedBanner: "Opportunity board · This week",
       messages: [
         {
@@ -311,7 +310,7 @@ export const communityPageContent = {
           senderRole: "Processor, Nigeria",
           senderTone: "leaf",
           initials: "NO",
-          text: "Looking for shea suppliers who can deliver 5 tonnes monthly — any members in Ghana or Burkina Faso?",
+          text: "Looking for shea suppliers who can support steady monthly volume — any members in Ghana or Burkina Faso?",
           align: "left",
           bubbleTone: "grey",
         },
@@ -386,7 +385,6 @@ export const communityPageContent = {
         withIProduce:
           "Joined youth channels, attended two Academy webinars, found a mentor.",
         name: "Tunde",
-        age: 26,
         initials: "TD",
         role: "Young Agripreneur",
         country: "Nigeria",

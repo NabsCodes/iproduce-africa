@@ -71,7 +71,7 @@ export function PartnersHeroSection() {
             scaleFrom={0.98}
             className="relative z-10 flex min-w-0 justify-center lg:justify-end"
           >
-            <AfricaMap map={hero.map} stat={hero.stat} />
+            <AfricaMap map={hero.map} badge={hero.badge} />
           </MotionFade>
         </div>
       </div>

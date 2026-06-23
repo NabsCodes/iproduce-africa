@@ -25,7 +25,9 @@ positioning the org as the credible operator behind the wider site.
 Two-column on desktop, stacked on mobile. Left: tangerine eyebrow pill,
 mixed-color serif title, muted body copy. Right: ecosystem orbit visual
 with browser mockup, three orbit rings, icon badges, decorative dots, and
-stats pill.
+summary pill. Client feedback on 2026-06-23 removed public traction numbers
+for now, so the pill should stay qualitative until verified metrics are
+approved.
 
 ### 2. Story — `components/about/story-section.tsx`
 
@@ -41,15 +43,13 @@ Three coloured cards in a `lg:grid-cols-2 lg:grid-rows-2` grid. Mission
 row 2 col 1. Tangerine `DecorativeRing` bottom-right of the Vision card.
 Mobile: single-column stack.
 
-### 4. Impact Stats — `components/about/impact-stats-section.tsx`
+### 4. Impact Proof — `components/about/impact-stats-section.tsx`
 
 Centered header (eyebrow + h2 + description). Then 2x2 on mobile / 1x4 on
-desktop of bordered stat cards. Each card: small uppercase label and big
-serif number, with the `+`/`%` suffix in `text-tangerine-500`. Numbers
-count up from zero with `motion/react` (`useInView` + `useMotionValue` +
-`animate`) the first time the grid scrolls into view; `useReducedMotion`
-snaps straight to the final value. Stat `value` is numeric in
-`content/about.ts` so the counter can format with `Intl.NumberFormat`.
+desktop of bordered proof cards. While public metrics are not approved, each
+card uses a small uppercase label, check icon, and qualitative serif
+description. The shared section still supports numeric count-up cards when a
+future verified `value` is supplied.
 
 ### 5. Journey — `components/about/journey-section.tsx`
 
@@ -86,10 +86,11 @@ content stacked below — same internal pieces, achieved with
 
 This page is the first home for `motion/react` (the post-Framer package).
 Scope is intentionally narrow: **Journey section** (sticky scroll image
-cross-fades) and **Impact Stats** (count-up on scroll). We use
+cross-fades) and the shared impact/proof cards when numeric values are
+approved. We use
 `useInView` per milestone, `AnimatePresence` for image cross-fades,
-`motion.div` for the cross-fading sticky panel, and
-`useMotionValue` + `animate` for the stat counters.
+`motion.div` for the cross-fading sticky panel, and `useMotionValue` +
+`animate` for future stat counters.
 
 **Rule for future agents:** do not extend `motion/react` to other sections
 without a specific UX justification. CSS transitions plus
@@ -119,13 +120,12 @@ rather than dead icons.
 `story`, `journey.{idea,cohort,expansion,platform,continent,speaker}`,
 and `portrait`. Swap out as final assets arrive.
 
-## Placeholder Copy / Stats
+## Placeholder Copy / Metrics
 
-All stats (members, countries, partners, percentages), team and advisor
-names + bios, and the journey milestone copy are **placeholders pending
-client data**. They were deliberately seeded by the user during the
-design-review phase so the UI could be polished against realistic-shaped
-content. Replace with real values before any production release.
+Public traction metrics are intentionally removed from the hero, story, and
+impact proof cards until the client approves verified numbers. Team/advisor
+names + bios and the journey milestone copy remain placeholders pending client
+data. Replace with real values before any production release.
 
 ## Checklist
 

@@ -46,7 +46,8 @@ export const academyContent = {
       { label: "Evergreen courses", value: "courses" },
       { label: "Blog", value: "blog" },
     ],
-    trustLabel: "Trusted by 8,400+ learners and professionals across Africa",
+    trustLabel:
+      "Practical learning for agripreneurs and professionals across Africa",
     members: [
       {
         name: "Academy learner",

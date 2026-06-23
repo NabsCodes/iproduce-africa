@@ -89,8 +89,9 @@ export type FaqItem = {
 
 export type ImpactStatItem = {
   label: string;
-  value: number;
+  value?: number;
   accent?: string;
+  description?: string;
 };
 
 export type FaqSectionContent = {

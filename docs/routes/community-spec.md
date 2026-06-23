@@ -34,7 +34,7 @@ member portal.
 ## Target section order
 
 1. `CommunityHeroSection` — already shipped (Membership eyebrow, "Join our
-   Agribusiness community.", member avatars + 20+ countries label, orbit).
+   Agribusiness community.", member avatars + qualitative member label, orbit).
 2. `WhyJoinSection` — 6-card benefits grid.
 3. `ApplyBanner` (instance #1) — "It only takes two minutes" leaf-100 band.
 4. `ThreeStepsSection` — dark forest rounded-xl panel with Join → Connect →
@@ -73,8 +73,9 @@ No marquee on this page. The orbit lives in the hero only.
 ## 1. Hero (shipped)
 
 Existing `CommunityHeroSection` + `MembershipOrbit`. Verify against the new
-screenshot that the orbit chips, member avatars, "Members across 20+ African
-countries" microcopy, and dual CTAs all match. No structural changes expected.
+screenshot that the orbit chips, member avatars, qualitative member microcopy,
+and dual CTAs all match. Client review on 2026-06-23 removed public traction
+numbers for now, so do not restore a country/member count until verified.
 
 ## 2. Why Join
 
@@ -161,13 +162,13 @@ content, single `Join our Community` CTA.
 `bg-subtle` section, two-column on lg.
 
 - **Left**: chat mockup card (`bg-white rounded-xl border-default elevation-1`)
-  - Header row: green dot + `iProduce Africa · Community` left, `312 members
-online` right.
+  - Header row: green dot + `iProduce Africa · Community` left, `Member
+discussions` right.
   - Pinned banner pill: peach `bg-tangerine-100` with `📌 Opportunity board ·
 This week` (emoji ok inside content, not in code identifiers).
   - 3 message bubbles:
     - `Ngozi · Processor, Nigeria` (avatar NO, grey bubble) — shea suppliers
-      ask
+      ask, without a volume number
     - `Kwame · Farmer co-op, Ghana` (avatar KA, green bubble) — sends
       connection request
     - `iProduce Africa · Events` (avatar iP, grey bubble) — webinar

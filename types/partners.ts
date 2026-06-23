@@ -16,7 +16,7 @@ export type PartnersHeroTitle = {
   accentTwo: string;
 };
 
-export type PartnersHeroStat = {
+export type PartnersHeroBadge = {
   label: string;
   value: string;
 };
@@ -36,7 +36,7 @@ export type PartnersHeroContent = {
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
   map: PartnersHeroMap;
-  stat: PartnersHeroStat;
+  badge: PartnersHeroBadge;
 };
 
 export type PartnerBenefitIconKey = BenefitIconKey;

@@ -1,16 +1,16 @@
 import Image from "next/image";
-import { TrendingUp } from "lucide-react";
+import { Handshake } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import type { PartnersHeroMap, PartnersHeroStat } from "@/types/partners";
+import type { PartnersHeroBadge, PartnersHeroMap } from "@/types/partners";
 
 type AfricaMapProps = {
   map: PartnersHeroMap;
-  stat: PartnersHeroStat;
+  badge: PartnersHeroBadge;
   className?: string;
 };
 
-export function AfricaMap({ map, stat, className }: AfricaMapProps) {
+export function AfricaMap({ map, badge, className }: AfricaMapProps) {
   return (
     <div
       className={cn(
@@ -40,14 +40,14 @@ export function AfricaMap({ map, stat, className }: AfricaMapProps) {
 
       <div className="border-default elevation-3 absolute bottom-[5%] left-[-2%] z-30 flex items-center gap-3 rounded-lg border bg-white p-3 sm:bottom-[7%] sm:left-[-4%] sm:max-w-[300px] sm:p-3.5 lg:left-[14%]">
         <span className="bg-leaf-subtle text-leaf-700 flex size-10 shrink-0 items-center justify-center rounded-full sm:size-11">
-          <TrendingUp className="size-4 sm:size-5" aria-hidden />
+          <Handshake className="size-4 sm:size-5" aria-hidden />
         </span>
         <div className="min-w-0">
           <p className="text-fg-muted text-[11px] leading-4 sm:text-xs">
-            {stat.label}
+            {badge.label}
           </p>
           <p className="text-foreground mt-0.5 text-sm leading-5 font-semibold">
-            {stat.value}
+            {badge.value}
           </p>
         </div>
       </div>

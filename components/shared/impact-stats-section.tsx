@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { CheckCircle2 } from "lucide-react";
 
 import { MotionCountUp } from "@/components/shared/motion/motion-count-up";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
@@ -21,6 +22,8 @@ function StatCard({
 }) {
   const reduceMotion = useReducedMotionSafe();
   const delay = index * 0.12;
+  const metricValue = stat.value;
+  const hasMetric = typeof metricValue === "number";
 
   return (
     <motion.div
@@ -32,12 +35,21 @@ function StatCard({
       <p className="text-fg-muted text-[10px] leading-4 font-semibold tracking-[0.16em] uppercase sm:text-[11px] sm:tracking-[0.18em]">
         {stat.label}
       </p>
-      <p className="text-foreground mt-auto pt-6 font-serif text-4xl leading-none font-semibold tracking-tight tabular-nums sm:pt-8 sm:text-5xl">
-        <MotionCountUp value={stat.value} inView={start} delay={delay} />
-        {stat.accent ? (
-          <span className="text-tangerine-500">{stat.accent}</span>
-        ) : null}
-      </p>
+      {hasMetric ? (
+        <p className="text-foreground mt-auto pt-6 font-serif text-4xl leading-none font-semibold tracking-tight tabular-nums sm:pt-8 sm:text-5xl">
+          <MotionCountUp value={metricValue} inView={start} delay={delay} />
+          {stat.accent ? (
+            <span className="text-tangerine-500">{stat.accent}</span>
+          ) : null}
+        </p>
+      ) : (
+        <div className="mt-auto pt-6 sm:pt-8">
+          <CheckCircle2 className="text-tangerine-500 size-6" aria-hidden />
+          <p className="text-foreground mt-4 font-serif text-xl leading-7 font-semibold sm:text-2xl sm:leading-8">
+            {stat.description}
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 }

@@ -19,7 +19,7 @@ export const aboutPageContent = {
       "iProduce Africa is creating a digital ecosystem that empowers agripreneurs with the tools, partnerships, knowledge, and market access needed to build sustainable and profitable agricultural businesses.",
     orbit: {
       url: "iproduce.africa",
-      statsLabel: "2,400+ members · 12 countries",
+      summaryLabel: "Learning, trade and partnership pathways",
       rings: [
         {
           radius: 165,
@@ -55,7 +55,7 @@ export const aboutPageContent = {
     eyebrow: "Our Story",
     title: "From one webinar to a pan-African hub.",
     paragraphs: [
-      "We started with a simple observation: agriculture was changing faster than the people in it could keep up. Our first webinars trained a handful of young agripreneurs; today the hub spans trainings, evergreen courses and a member network across 12 countries.",
+      "We started with a simple observation: agriculture was changing faster than the people in it could keep up. What began with early webinars is growing into a hub for training, evergreen courses and a developing member network.",
       "The world is moving to smart, technology-led agriculture — and Africa will not be left behind. iProduce is where that future is taught, connected and traded.",
     ],
     image: placeholderImages.about.story,
@@ -82,14 +82,30 @@ export const aboutPageContent = {
   },
   impactStats: {
     eyebrow: "Our Impact",
-    title: "Numbers That Tell the Story",
+    title: "Proof Points Behind the Platform",
     description:
-      "Our trainings, network and alliances are organised around high-opportunity value chains — with more being added.",
+      "Our work is organised around the practical support agripreneurs need before growth metrics are published.",
     items: [
-      { label: "Members served", value: 2400, accent: "+" },
-      { label: "Sessions delivered", value: 80, accent: "+" },
-      { label: "Partner organisations", value: 45, accent: "+" },
-      { label: "Client satisfaction rate", value: 96, accent: "%" },
+      {
+        label: "Learning & capacity",
+        description:
+          "Programmes, webinars and evergreen resources built for practical agribusiness growth.",
+      },
+      {
+        label: "Community access",
+        description:
+          "A member pathway for agripreneurs, operators and ecosystem builders to connect.",
+      },
+      {
+        label: "Market connections",
+        description:
+          "A platform direction centred on opportunities, buyers, partners and support pathways.",
+      },
+      {
+        label: "Strategic collaboration",
+        description:
+          "Partnership conversations shaped around capacity building and ecosystem impact.",
+      },
     ],
   },
   journey: {

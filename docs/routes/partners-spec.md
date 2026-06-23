@@ -23,9 +23,9 @@ live partner portal.
   `Partner with us`, with `Speak With Our Team` as a secondary action.
 - Static MVP boundaries still apply: no backend submission, no auth, no partner
   dashboard, no CRM workflow, no payments, no donations, and no deal room.
-- Screenshots show stats and testimonial copy. Treat these as design-provided
-  placeholder/proof copy that must remain editable in `content/partners.ts`;
-  confirm before presenting them as final verified metrics.
+- Client review on 2026-06-23 removed public traction numbers for now.
+  Partnership proof copy must stay qualitative until verified metrics are
+  approved.
 - The final page should not include the generic shared `PageHero`. It needs a
   route-specific hero composition.
 - Existing partner logo assets in `public/images/partners/` may be reused, but
@@ -35,7 +35,7 @@ live partner portal.
 
 1. `PartnersHeroSection`
 2. `BenefitsSection`
-3. shared `ImpactStatsSection`
+3. shared `ImpactStatsSection` only when the impact/proof section is restored
 4. `VoicesSection`
 5. `OpportunitiesSection`
 6. `InquirySection`
@@ -64,9 +64,9 @@ section instead.
   - large Africa-map mask filled with partner/agripreneur imagery
   - muted world-map backdrop behind the Africa shape
   - Madagascar accent shape in tangerine
-  - floating stat card:
-    - label: `Sustainable development`
-    - value: `10+ Industry Collaborations`
+  - floating pathway badge:
+    - label: `Partnership pathway`
+    - value: `For organisations, sponsors and institutions`
     - leaf circular icon chip
 
 ### Implementation (shipped 2026-06-18)
@@ -79,12 +79,12 @@ layered wrapper cannot do.
 
 **Asset map** (sources in `content/partners.ts` → `hero.map`):
 
-| Layer | Asset                                 | Native dim | Owner                                        | Notes                                                                                       |
-| ----- | ------------------------------------- | ---------- | -------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| 0     | `/svgs/north-map.svg` (`backdrop`)    | 567×260    | `<PartnersHeroSection>` (full-bleed sibling) | Light leaf-green silhouette of northern Africa. Extends to viewport's right edge.           |
-| 1     | `/images/partners/africa-map.webp`    | 1001×1123  | `<PartnersAfricaMap>` wrapper                | Masked photo of the agripreneur inside an Africa silhouette. Sets the wrapper aspect.       |
-| 2     | `/svgs/madagascar.svg` (`madagascar`) | 67×117     | `<PartnersAfricaMap>`                        | Tangerine accent island. Sized as % of wrapper so it scales geographically with the photo.  |
-| 3     | Sustainable Development card          | —          | `<PartnersAfricaMap>`                        | Floating leaf icon + stat copy. Sits inside the photo's bottom-left, slightly outset on lg. |
+| Layer | Asset                                 | Native dim | Owner                                        | Notes                                                                                                      |
+| ----- | ------------------------------------- | ---------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 0     | `/svgs/north-map.svg` (`backdrop`)    | 567×260    | `<PartnersHeroSection>` (full-bleed sibling) | Light leaf-green silhouette of northern Africa. Extends to viewport's right edge.                          |
+| 1     | `/images/partners/africa-map.webp`    | 1001×1123  | `<PartnersAfricaMap>` wrapper                | Masked photo of the agripreneur inside an Africa silhouette. Sets the wrapper aspect.                      |
+| 2     | `/svgs/madagascar.svg` (`madagascar`) | 67×117     | `<PartnersAfricaMap>`                        | Tangerine accent island. Sized as % of wrapper so it scales geographically with the photo.                 |
+| 3     | Partnership pathway badge             | —          | `<PartnersAfricaMap>`                        | Floating leaf icon + qualitative pathway copy. Sits inside the photo's bottom-left, slightly outset on lg. |
 
 **Backdrop hoisting pattern (key rule).** The backdrop is rendered as a direct
 absolute child of the `<section>` (not inside the layered wrapper or the
@@ -117,15 +117,15 @@ by the SVG's 2.18:1 ratio.
 **Layered wrapper sizing.** `<PartnersAfricaMap>` caps at
 `max-w-[400px] sm:max-w-[460px] lg:w-[min(38vw,520px)] xl:w-[min(38vw,580px)]`.
 The masked photo's intrinsic 1001×1123 aspect drives the wrapper's effective
-height, which Madagascar and the sustainable card reference via percentages
+height, which Madagascar and the partnership badge reference via percentages
 (`h-[19%]`, `top-[68%]`, `bottom-[5%] sm:bottom-[7%]`).
 
 **Z-index stack:** backdrop `z-0` → photo `z-10` → Madagascar `z-20` →
-sustainable card `z-30`.
+partnership badge `z-30`.
 
 **Mobile (390px):** backdrop stays visible per the supplied mobile design
 (it sits behind the upper-right of the text content when stacked), Madagascar
-stays visible, sustainable card sits inside the photo's bottom-left at a
+stays visible, partnership badge sits inside the photo's bottom-left at a
 slightly smaller scale (`p-3 + size-10` icon).
 
 ### Mobile / Tablet
@@ -133,7 +133,7 @@ slightly smaller scale (`p-3 + size-10` icon).
 - Stack copy before map visual.
 - CTAs become full-width or comfortably stacked on 390px.
 - Africa/map visual should remain inspectable, not tiny decoration.
-- Floating stat card can sit below or overlap the lower edge of the map, but
+- Floating pathway badge can sit below or overlap the lower edge of the map, but
   must not cover the face or create horizontal overflow.
 - Keep all rounded rectangles capped at `rounded-xl`; map/mask shapes are
   imagery, not rectangle radii.
@@ -164,28 +164,27 @@ slightly smaller scale (`p-3 + size-10` icon).
   the stronger tangerine treatment on card hover. Do not mark the first card as
   active by default.
 
-## 3. Partnership Impact
+## 3. Partnership Focus
 
 ### Desktop Composition
 
 - White section with centered header.
 - Eyebrow: `Our Impact`
-- H2: `Partnership Impact`
+- H2: `Partnership Focus`
 - Paragraph:
-  `Our trainings, network and alliances are organised around high-opportunity value chains — with more being added.`
-- Four stat cards in one row:
-  1. `Participants Trained` — `5,000+`
-  2. `Countries Reached` — `20+`
-  3. `Events Hosted` — `100+`
-  4. `Active Community Members` — `500+`
+  `Partnerships are shaped around practical collaboration areas while verified impact metrics are still being formalised.`
+- Four proof cards in one row:
+  1. `Capacity building`
+  2. `Market access`
+  3. `Events & convening`
+  4. `Knowledge exchange`
 
 ### Implementation Notes
 
-- These metrics are shown in the design but should stay editable and clearly
-  centralized in `content/partners.ts`.
-- If final metrics are not confirmed, label them in code/docs as placeholder
-  design copy rather than invented business truth.
-- Cards can reuse a generic stat-card helper if one already exists, but avoid
+- This section is currently commented out on the route per client request.
+- If restored before verified metrics exist, render qualitative proof cards
+  instead of public numbers.
+- Cards can reuse the shared impact/proof helper if useful, but avoid
   over-abstracting just for this page.
 
 ## 4. Hear From Our Valuable Partners
@@ -451,7 +450,7 @@ structure.
 - [x] Desktop composition documented
 - [x] Mobile/tablet decisions documented
 - [x] CTA hierarchy documented
-- [x] Placeholder stats/testimonial risks listed
+- [x] Placeholder metrics/testimonial risks listed
 - [x] Static form scope documented
 - [x] Hero browser QA at desktop, tablet, and 390px
 - [x] All sections built against screenshots

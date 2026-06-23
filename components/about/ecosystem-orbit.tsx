@@ -92,7 +92,7 @@ export function EcosystemOrbit({ orbit, className }: EcosystemOrbitProps) {
             className="bg-leaf-600 size-2.5 shrink-0 rounded-full"
           />
           <p className="font-serif text-[15px] leading-none font-semibold whitespace-nowrap">
-            {orbit.statsLabel}
+            {orbit.summaryLabel}
           </p>
         </div>
       </div>

@@ -84,9 +84,9 @@ export const partnersPageContent = {
       backdrop: "/svgs/north-map.svg",
       madagascar: "/svgs/madagascar.svg",
     },
-    stat: {
-      label: "Sustainable development",
-      value: "10+ Industry Collaborations",
+    badge: {
+      label: "Partnership pathway",
+      value: "For organisations, sponsors and institutions",
     },
   },
   whyPartner: {
@@ -135,14 +135,30 @@ export const partnersPageContent = {
   },
   impact: {
     eyebrow: "Our Impact",
-    title: "Partnership Impact",
+    title: "Partnership Focus",
     description:
-      "Our trainings, network and alliances are organised around high-opportunity value chains — with more being added.",
+      "Partnerships are shaped around practical collaboration areas while verified impact metrics are still being formalised.",
     items: [
-      { label: "Participants Trained", value: 5000, accent: "+" },
-      { label: "Countries Reached", value: 20, accent: "+" },
-      { label: "Events Hosted", value: 100, accent: "+" },
-      { label: "Active Community Members", value: 500, accent: "+" },
+      {
+        label: "Capacity building",
+        description:
+          "Co-created programmes, workshops and learning initiatives for agribusiness actors.",
+      },
+      {
+        label: "Market access",
+        description:
+          "Collaboration around trade readiness, buyer access and ecosystem introductions.",
+      },
+      {
+        label: "Events & convening",
+        description:
+          "Industry sessions, forums and community moments that bring stakeholders together.",
+      },
+      {
+        label: "Knowledge exchange",
+        description:
+          "Research, insights and practical expertise shared through partner-led initiatives.",
+      },
     ],
   },
   voices: {

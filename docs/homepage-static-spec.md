@@ -32,7 +32,9 @@ implementation with strong desktop and mobile fidelity.
 - Use temporary centralized imagery where final assets are unavailable
 - Preserve `/about`, `/academy`, `/community`, `/partners`, and `/contact`
   scaffolds
-- Use `Join our community` and `Partner with us` as the primary CTAs
+- Use `Join our community` as the Home hero CTA while client review is focused
+  on the member pathway. Keep partner interest available through lower-page,
+  nav, footer, or Partners/Contact routes where the audience has more context.
 
 ## Do Not Add In This Milestone
 
@@ -66,6 +68,9 @@ Current fidelity notes from the approved hero and what-we-do references:
 - the hero eyebrow uses a shared pill treatment, not one-off inline markup
 - the Home hero uses the provided local public asset when available instead of a
   placeholder image source
+- the Home hero now carries a single `Join our community` CTA. Its former
+  numeric traction cards have been replaced with qualitative proof points
+  until the client approves real metrics for public use.
 - the what-we-do section should keep its original left editorial panel and
   right capability grid structure unless a new approved screenshot says
   otherwise
