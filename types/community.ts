@@ -115,7 +115,6 @@ export type MembershipApplicationFormContent = {
     role: string;
     roleOther: string;
     country: string;
-    countryOther: string;
     sector: string;
     sectorOther: string;
     email: string;
@@ -151,7 +150,6 @@ export type MembershipApplicationDialogContent = {
       placeholders: {
         fullName: string;
         country: string;
-        countryOther: string;
         email: string;
         phone: string;
       };

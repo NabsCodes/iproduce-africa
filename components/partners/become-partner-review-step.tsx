@@ -2,81 +2,103 @@
 
 import {
   Building2,
+  Briefcase,
+  Globe2,
   Mail,
   MapPin,
   Phone,
   Quote,
-  Tag,
   User,
   type LucideIcon,
 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 
-import type { MembershipApplicationDialogReviewField } from "@/types/community";
-import type { MembershipApplicationDialogValues } from "@/schemas/community";
+import type { BecomePartnerReviewField } from "@/types/partners";
+import type { BecomePartnerValues } from "@/schemas/partners";
 import {
   getCountryLabel,
   resolveSelectOptionLabel,
 } from "@/lib/form-option-labels";
 import type { PartnerInquiryOption } from "@/types/partners";
 
-const fieldIcons: Record<
-  MembershipApplicationDialogReviewField["key"],
-  LucideIcon
-> = {
-  fullName: User,
+const fieldIcons: Record<BecomePartnerReviewField["key"], LucideIcon> = {
+  organisationName: Building2,
+  organisationType: Briefcase,
   country: MapPin,
+  fullName: User,
+  jobTitle: Briefcase,
   email: Mail,
   phone: Phone,
-  organisation: Building2,
-  sector: Tag,
 };
 
-function getInitials(fullName: string) {
-  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "??";
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
 }
 
-type MembershipApplicationReviewStepProps = {
-  reviewFields: readonly MembershipApplicationDialogReviewField[];
-  whyJoinLabel: string;
+function formatInterestLabels(
+  options: readonly PartnerInquiryOption[],
+  selected: readonly string[] | undefined,
+  otherValue: string,
+  otherDetail?: string,
+) {
+  const labels = (selected ?? [])
+    .map((value) => {
+      if (value === otherValue && otherDetail?.trim()) {
+        return otherDetail.trim();
+      }
+      return options.find((option) => option.value === value)?.label ?? value;
+    })
+    .filter(Boolean);
+
+  return labels.length > 0 ? labels.join(", ") : "—";
+}
+
+type BecomePartnerReviewStepProps = {
+  reviewFields: readonly BecomePartnerReviewField[];
+  goalsLabel: string;
   defaultBadge: string;
-  sectors: readonly PartnerInquiryOption[];
+  organisationTypes: readonly PartnerInquiryOption[];
+  partnershipInterests: readonly PartnerInquiryOption[];
   otherOptionValue: string;
 };
 
-export function MembershipApplicationReviewStep({
+export function BecomePartnerReviewStep({
   reviewFields,
-  whyJoinLabel,
+  goalsLabel,
   defaultBadge,
-  sectors,
+  organisationTypes,
+  partnershipInterests,
   otherOptionValue,
-}: MembershipApplicationReviewStepProps) {
-  const { control } = useFormContext<MembershipApplicationDialogValues>();
+}: BecomePartnerReviewStepProps) {
+  const { control } = useFormContext<BecomePartnerValues>();
   const values = useWatch({ control });
 
-  const fullName = values.fullName?.trim() ?? "";
-  const organisation = values.organisation?.trim() ?? "";
-  const sectorLabel = resolveSelectOptionLabel(
-    sectors,
-    values.sector ?? "",
+  const organisationName = values.organisationName?.trim() ?? "";
+  const organisationTypeLabel = resolveSelectOptionLabel(
+    organisationTypes,
+    values.organisationType ?? "",
     otherOptionValue,
-    values.sectorOther,
+    values.organisationTypeOther,
   );
   const countryLabel = getCountryLabel(values.country ?? "");
+  const interestLabels = formatInterestLabels(
+    partnershipInterests,
+    values.partnershipInterests,
+    otherOptionValue,
+    values.partnershipInterestsOther,
+  );
 
-  const displayValues: Record<
-    MembershipApplicationDialogReviewField["key"],
-    string
-  > = {
-    fullName,
+  const displayValues: Record<BecomePartnerReviewField["key"], string> = {
+    organisationName,
+    organisationType: organisationTypeLabel,
     country: countryLabel,
+    fullName: values.fullName?.trim() ?? "",
+    jobTitle: values.jobTitle?.trim() ?? "",
     email: values.email ?? "",
     phone: values.phone ?? "",
-    organisation,
-    sector: sectorLabel,
   };
 
   return (
@@ -84,15 +106,20 @@ export function MembershipApplicationReviewStep({
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
           <span className="bg-leaf-100 text-leaf-700 flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold">
-            {getInitials(fullName)}
+            {getInitials(organisationName)}
           </span>
           <div className="min-w-0">
             <p className="text-foreground truncate font-serif text-lg font-semibold">
-              {fullName || "Your name"}
+              {organisationName || "Your organisation"}
             </p>
-            <p className="text-fg-muted mt-0.5 truncate text-sm">
-              {[organisation, sectorLabel].filter(Boolean).join(" · ") ||
-                "Your organisation · Sector"}
+            <p className="text-fg-muted mt-0.5 text-sm leading-6 wrap-break-word">
+              {[organisationTypeLabel, countryLabel]
+                .filter(Boolean)
+                .join(" · ") || "Organisation type · Country"}
+            </p>
+            <p className="text-fg-muted mt-1 flex items-start gap-1.5 text-sm leading-6">
+              <Globe2 className="mt-0.5 size-4 shrink-0" aria-hidden />
+              <span className="wrap-break-word">{interestLabels}</span>
             </p>
           </div>
         </div>
@@ -127,11 +154,11 @@ export function MembershipApplicationReviewStep({
         <div className="text-leaf-700 flex items-center gap-2">
           <Quote className="size-4 shrink-0" aria-hidden />
           <span className="text-[11px] font-semibold tracking-[0.12em] uppercase">
-            {whyJoinLabel}
+            {goalsLabel}
           </span>
         </div>
         <p className="text-foreground mt-2 text-sm leading-6">
-          {values.reason?.trim() || "—"}
+          {values.goals?.trim() || "—"}
         </p>
       </div>
     </div>

@@ -79,7 +79,7 @@ export function AcademyHeroSection() {
             </div>
             <Link
               href={hero.nextLive.href}
-              className="border-default group/next focus-visible:ring-tangerine-400 hover:border-tangerine-400 hover:bg-white absolute right-4 bottom-4 left-4 flex items-center gap-4 rounded-lg border bg-white p-4 transition-[border-color,background-color] duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none sm:right-auto sm:-bottom-10 sm:left-8 sm:max-w-[380px]"
+              className="border-default group/next focus-visible:ring-tangerine-400 hover:border-tangerine-400 absolute right-4 bottom-4 left-4 flex items-center gap-4 rounded-lg border bg-white p-4 transition-[border-color,background-color] duration-200 ease-out hover:bg-white focus-visible:ring-2 focus-visible:outline-none sm:right-auto sm:-bottom-10 sm:left-8 sm:max-w-[380px]"
             >
               <span className="bg-leaf-subtle text-leaf-700 group-hover/next:bg-tangerine-400 flex size-12 shrink-0 items-center justify-center rounded-md transition-colors duration-300 group-hover/next:text-white">
                 <Clock3 className="size-5" aria-hidden />

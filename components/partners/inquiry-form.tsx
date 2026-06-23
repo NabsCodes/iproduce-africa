@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import {
+  ComboboxFormField,
   PhoneFormField,
   SelectFormField,
   TextareaFormField,
@@ -13,6 +14,10 @@ import {
 } from "@/components/shared/form-fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import {
+  countryComboboxCopy,
+  countryComboboxGroups,
+} from "@/content/countries";
 import {
   partnerInquiryDefaultValues,
   partnerInquirySchema,
@@ -35,7 +40,6 @@ export function InquiryForm({ content }: InquiryFormProps) {
   });
 
   const watchedRole = useWatch({ control: form.control, name: "role" });
-  const watchedCountry = useWatch({ control: form.control, name: "country" });
   const watchedSector = useWatch({ control: form.control, name: "sector" });
   const watchedAreaOfInterest = useWatch({
     control: form.control,
@@ -119,11 +123,14 @@ export function InquiryForm({ content }: InquiryFormProps) {
           ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-            <SelectFormField
+            <ComboboxFormField
               control={form.control}
               name="country"
               placeholder={content.placeholders.country}
-              options={content.options.countries}
+              groups={countryComboboxGroups}
+              searchPlaceholder={countryComboboxCopy.searchPlaceholder}
+              emptyMessage={countryComboboxCopy.emptyMessage}
+              emptyHint={countryComboboxCopy.emptyHint}
             />
             <SelectFormField
               control={form.control}
@@ -132,14 +139,6 @@ export function InquiryForm({ content }: InquiryFormProps) {
               options={content.options.sectors}
             />
           </div>
-
-          {watchedCountry === otherValue ? (
-            <TextFormField
-              control={form.control}
-              name="countryOther"
-              placeholder={content.placeholders.countryOther}
-            />
-          ) : null}
 
           {watchedSector === otherValue ? (
             <TextFormField

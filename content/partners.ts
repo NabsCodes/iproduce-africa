@@ -1,4 +1,5 @@
 import type { PartnersPageContent } from "@/types/partners";
+import { countryOptions } from "@/content/countries";
 import { OTHER_OPTION_VALUE } from "@/schemas/constants";
 
 export type Partner = {
@@ -244,7 +245,6 @@ export const partnersPageContent = {
         role: "Role",
         roleOther: "Specify role",
         country: "Country",
-        countryOther: "Specify country",
         sector: "Sector",
         sectorOther: "Specify sector",
         email: "Email",
@@ -262,24 +262,7 @@ export const partnersPageContent = {
           { value: "operations-lead", label: "Operations Lead" },
           { value: OTHER_OPTION_VALUE, label: "Other" },
         ],
-        countries: [
-          { value: "NG", label: "Nigeria" },
-          { value: "GH", label: "Ghana" },
-          { value: "KE", label: "Kenya" },
-          { value: "SN", label: "Senegal" },
-          { value: "CI", label: "Côte d'Ivoire" },
-          { value: "RW", label: "Rwanda" },
-          { value: "UG", label: "Uganda" },
-          { value: "TZ", label: "Tanzania" },
-          { value: "ET", label: "Ethiopia" },
-          { value: "EG", label: "Egypt" },
-          { value: "MA", label: "Morocco" },
-          { value: "ZA", label: "South Africa" },
-          { value: "CM", label: "Cameroon" },
-          { value: "BJ", label: "Benin" },
-          { value: "TG", label: "Togo" },
-          { value: OTHER_OPTION_VALUE, label: "Other" },
-        ],
+        countries: countryOptions,
         sectors: [
           { value: "agribusiness", label: "Agribusiness" },
           { value: "finance", label: "Finance" },
@@ -320,7 +303,6 @@ export const partnersPageContent = {
           organisationType: "Organisation Type",
           organisationTypeOther: "Specify organisation type",
           country: "Country of Operation",
-          countryOther: "Specify country",
           website: "Organisation Website (optional)",
           description:
             "Briefly describe your organisation, mission, and areas of focus.",
@@ -346,6 +328,23 @@ export const partnersPageContent = {
           email: "Email Address",
           phone: "Phone",
         },
+      },
+      review: {
+        label: "Review",
+        title: "Review your inquiry",
+        description:
+          "Check everything looks right before sending it to our partnerships team.",
+        defaultBadge: "Partner inquiry",
+        goalsLabel: "Partnership goals",
+        reviewFields: [
+          { key: "organisationName", label: "Organisation" },
+          { key: "organisationType", label: "Organisation type" },
+          { key: "country", label: "Country of operation" },
+          { key: "fullName", label: "Contact name" },
+          { key: "jobTitle", label: "Job title" },
+          { key: "email", label: "Email" },
+          { key: "phone", label: "Phone" },
+        ],
       },
     },
     organisationTypes: [

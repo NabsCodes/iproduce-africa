@@ -458,7 +458,6 @@ export const communityPageContent = {
         role: "Role",
         roleOther: "Specify role",
         country: "Country",
-        countryOther: "Specify country",
         sector: "Sector",
         sectorOther: "Specify sector",
         email: "Email",
@@ -485,7 +484,6 @@ export const communityPageContent = {
           placeholders: {
             fullName: "Full name",
             country: "Country",
-            countryOther: "Specify country",
             email: "Email",
             phone: "Phone",
           },

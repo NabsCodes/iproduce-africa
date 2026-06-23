@@ -12,16 +12,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   CheckboxGroupFormField,
+  ComboboxFormField,
   PhoneFormField,
   SelectFormField,
   TextareaFormField,
   TextFormField,
 } from "@/components/shared/form-fields";
+import { BecomePartnerReviewStep } from "@/components/partners/become-partner-review-step";
 import { MultiStepDialogFooter } from "@/components/shared/multi-step-dialog/footer";
 import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/heading";
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import type { MultiStepDialogStep } from "@/components/shared/multi-step-dialog/stepper";
 import { Form } from "@/components/ui/form";
+import {
+  countryComboboxCopy,
+  countryComboboxGroups,
+} from "@/content/countries";
 import { partnersPageContent } from "@/content/partners";
 import {
   becomePartnerDefaultValues,
@@ -38,7 +44,6 @@ type BecomePartnerDialogProps = {
 
 export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   const content = partnersPageContent.becomePartner;
-  const countries = partnersPageContent.inquiry.form.options.countries;
 
   const [open, setOpen] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
@@ -179,7 +184,6 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
             <OrganisationStep
               content={content.steps.organisation}
               organisationTypes={content.organisationTypes}
-              countries={countries}
               otherOptionValue={content.otherOptionValue}
             />
           )}
@@ -196,6 +200,16 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
           {currentStep === "contact" && (
             <ContactStep content={content.steps.contact} />
           )}
+          {currentStep === "review" && (
+            <BecomePartnerReviewStep
+              reviewFields={content.steps.review.reviewFields}
+              goalsLabel={content.steps.review.goalsLabel}
+              defaultBadge={content.steps.review.defaultBadge}
+              organisationTypes={content.organisationTypes}
+              partnershipInterests={content.partnershipInterests}
+              otherOptionValue={content.otherOptionValue}
+            />
+          )}
         </div>
       </MultiStepDialogShell>
     </Form>
@@ -205,17 +219,14 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
 function OrganisationStep({
   content,
   organisationTypes,
-  countries,
   otherOptionValue,
 }: {
   content: typeof partnersPageContent.becomePartner.steps.organisation;
   organisationTypes: typeof partnersPageContent.becomePartner.organisationTypes;
-  countries: typeof partnersPageContent.inquiry.form.options.countries;
   otherOptionValue: string;
 }) {
   const { control } = useFormContext<BecomePartnerValues>();
   const orgType = useWatch({ control, name: "organisationType" });
-  const country = useWatch({ control, name: "country" });
 
   return (
     <>
@@ -232,11 +243,14 @@ function OrganisationStep({
           placeholder={content.placeholders.organisationType}
           options={organisationTypes}
         />
-        <SelectFormField
+        <ComboboxFormField
           control={control}
           name="country"
           placeholder={content.placeholders.country}
-          options={countries}
+          groups={countryComboboxGroups}
+          searchPlaceholder={countryComboboxCopy.searchPlaceholder}
+          emptyMessage={countryComboboxCopy.emptyMessage}
+          emptyHint={countryComboboxCopy.emptyHint}
         />
       </div>
       {orgType === otherOptionValue ? (
@@ -244,13 +258,6 @@ function OrganisationStep({
           control={control}
           name="organisationTypeOther"
           placeholder={content.placeholders.organisationTypeOther}
-        />
-      ) : null}
-      {country === otherOptionValue ? (
-        <TextFormField
-          control={control}
-          name="countryOther"
-          placeholder={content.placeholders.countryOther}
         />
       ) : null}
       <TextFormField

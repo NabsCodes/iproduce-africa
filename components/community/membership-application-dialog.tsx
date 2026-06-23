@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { MembershipApplicationReviewStep } from "@/components/community/membership-application-review-step";
 import {
+  ComboboxFormField,
   PhoneFormField,
   SelectFormField,
   TextareaFormField,
@@ -16,6 +17,10 @@ import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/he
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import type { MultiStepDialogStep } from "@/components/shared/multi-step-dialog/stepper";
 import { Form } from "@/components/ui/form";
+import {
+  countryComboboxCopy,
+  countryComboboxGroups,
+} from "@/content/countries";
 import { communityPageContent } from "@/content/community";
 import {
   membershipApplicationDialogDefaultValues,
@@ -39,7 +44,6 @@ export function MembershipApplicationDialog({
 }: MembershipApplicationDialogProps) {
   const application = communityPageContent.application;
   const content = application.dialog;
-  const countries = application.form.options.countries;
   const sectors = application.form.options.sectors;
 
   const [stepIndex, setStepIndex] = useState(0);
@@ -188,11 +192,7 @@ export function MembershipApplicationDialog({
 
         <div className="mt-6 flex flex-col gap-4 sm:gap-5">
           {currentStep === "about" ? (
-            <AboutStep
-              content={content.steps.about}
-              countries={countries}
-              otherOptionValue={content.otherOptionValue}
-            />
+            <AboutStep content={content.steps.about} />
           ) : null}
           {currentStep === "work" ? (
             <WorkStep
@@ -206,7 +206,6 @@ export function MembershipApplicationDialog({
               reviewFields={content.steps.review.reviewFields}
               whyJoinLabel={content.steps.review.whyJoinLabel}
               defaultBadge={content.steps.review.defaultBadge}
-              countries={countries}
               sectors={sectors}
               otherOptionValue={content.otherOptionValue}
             />
@@ -219,15 +218,10 @@ export function MembershipApplicationDialog({
 
 function AboutStep({
   content,
-  countries,
-  otherOptionValue,
 }: {
   content: typeof communityPageContent.application.dialog.steps.about;
-  countries: typeof communityPageContent.application.form.options.countries;
-  otherOptionValue: string;
 }) {
   const { control } = useFormContext<MembershipApplicationDialogValues>();
-  const country = useWatch({ control, name: "country" });
 
   return (
     <>
@@ -238,20 +232,16 @@ function AboutStep({
           placeholder={content.placeholders.fullName}
           autoComplete="name"
         />
-        <SelectFormField
+        <ComboboxFormField
           control={control}
           name="country"
           placeholder={content.placeholders.country}
-          options={countries}
+          groups={countryComboboxGroups}
+          searchPlaceholder={countryComboboxCopy.searchPlaceholder}
+          emptyMessage={countryComboboxCopy.emptyMessage}
+          emptyHint={countryComboboxCopy.emptyHint}
         />
       </div>
-      {country === otherOptionValue ? (
-        <TextFormField
-          control={control}
-          name="countryOther"
-          placeholder={content.placeholders.countryOther}
-        />
-      ) : null}
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
         <TextFormField
           control={control}

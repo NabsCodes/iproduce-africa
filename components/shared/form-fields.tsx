@@ -21,6 +21,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  ComboboxSelect,
+  type ComboboxSelectGroup,
+  type ComboboxSelectOption,
+} from "@/components/ui/combobox-select";
 
 export type SelectOption = {
   value: string;
@@ -77,6 +82,54 @@ type SelectFormFieldProps<TFieldValues extends FieldValues> =
   FieldWrapperProps<TFieldValues> & {
     options: readonly SelectOption[];
   };
+
+type ComboboxFormFieldProps<TFieldValues extends FieldValues> =
+  FieldWrapperProps<TFieldValues> & {
+    options?: readonly ComboboxSelectOption[];
+    groups?: readonly ComboboxSelectGroup[];
+    searchPlaceholder?: string;
+    emptyMessage?: string;
+    emptyHint?: string;
+  };
+
+export function ComboboxFormField<TFieldValues extends FieldValues>({
+  control,
+  name,
+  placeholder,
+  options,
+  groups,
+  searchPlaceholder = "Search...",
+  emptyMessage = "No results found.",
+  emptyHint,
+}: ComboboxFormFieldProps<TFieldValues>) {
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field, fieldState }) => (
+        <FormItem>
+          <FormLabel className="sr-only">{placeholder}</FormLabel>
+          <FormControl>
+            <ComboboxSelect
+              value={(field.value as string | undefined) ?? ""}
+              onValueChange={field.onChange}
+              onBlur={field.onBlur}
+              placeholder={placeholder}
+              searchPlaceholder={searchPlaceholder}
+              emptyMessage={emptyMessage}
+              emptyHint={emptyHint}
+              options={options ? [...options] : undefined}
+              groups={groups ? [...groups] : undefined}
+              invalid={fieldState.invalid}
+              triggerAriaLabel={placeholder}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
 
 export function SelectFormField<TFieldValues extends FieldValues>({
   control,

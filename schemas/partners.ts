@@ -15,8 +15,7 @@ const partnerInquiryShape = {
   organisation: requiredTrimmedText(2, "Organisation is required"),
   role: z.string().min(1, "Pick a role"),
   roleOther: z.string().optional(),
-  country: requiredTrimmedText(2, "Pick your country"),
-  countryOther: z.string().optional(),
+  country: z.string().min(1, "Pick your country"),
   sector: z.string().min(1, "Pick a sector"),
   sectorOther: z.string().optional(),
   email: emailSchema,
@@ -35,13 +34,6 @@ export const partnerInquirySchema = z
       detailValue: data.roleOther,
       path: "roleOther",
       message: "Please specify your role",
-    });
-    requireOtherDetail(ctx, {
-      selectedValue: data.country,
-      otherValue: OTHER_OPTION_VALUE,
-      detailValue: data.countryOther,
-      path: "countryOther",
-      message: "Please specify your country",
     });
     requireOtherDetail(ctx, {
       selectedValue: data.sector,
@@ -67,7 +59,6 @@ export const partnerInquiryDefaultValues: PartnerInquiryValues = {
   role: "",
   roleOther: "",
   country: "",
-  countryOther: "",
   sector: "",
   sectorOther: "",
   email: "",
@@ -82,7 +73,6 @@ const becomePartnerOrganisationShape = {
   organisationType: z.string().min(1, "Pick an organisation type"),
   organisationTypeOther: z.string().optional(),
   country: z.string().min(1, "Pick a country"),
-  countryOther: z.string().optional(),
   website: optionalUrlSchema,
   organisationDescription: requiredTrimmedText(
     10,
@@ -110,7 +100,6 @@ function refineBecomePartnerOrganisation(
     organisationType: string;
     organisationTypeOther?: string;
     country: string;
-    countryOther?: string;
   },
   ctx: z.RefinementCtx,
 ) {
@@ -120,13 +109,6 @@ function refineBecomePartnerOrganisation(
     detailValue: data.organisationTypeOther,
     path: "organisationTypeOther",
     message: "Please specify your organisation type",
-  });
-  requireOtherDetail(ctx, {
-    selectedValue: data.country,
-    otherValue: OTHER_OPTION_VALUE,
-    detailValue: data.countryOther,
-    path: "countryOther",
-    message: "Please specify your country",
   });
 }
 
@@ -171,6 +153,7 @@ export const becomePartnerStepKeys = [
   "organisation",
   "interests",
   "contact",
+  "review",
 ] as const;
 
 export type BecomePartnerStepKey = (typeof becomePartnerStepKeys)[number];
@@ -182,6 +165,7 @@ export const becomePartnerStepSchemas: Record<
   organisation: becomePartnerOrganisationStepSchema,
   interests: becomePartnerInterestsStepSchema,
   contact: becomePartnerContactStepSchema,
+  review: becomePartnerSchema,
 };
 
 export const becomePartnerStepFields: Record<
@@ -193,12 +177,26 @@ export const becomePartnerStepFields: Record<
     "organisationType",
     "organisationTypeOther",
     "country",
-    "countryOther",
     "website",
     "organisationDescription",
   ],
   interests: ["partnershipInterests", "partnershipInterestsOther", "goals"],
   contact: ["fullName", "jobTitle", "email", "phone"],
+  review: [
+    "organisationName",
+    "organisationType",
+    "organisationTypeOther",
+    "country",
+    "website",
+    "organisationDescription",
+    "partnershipInterests",
+    "partnershipInterestsOther",
+    "goals",
+    "fullName",
+    "jobTitle",
+    "email",
+    "phone",
+  ],
 };
 
 export const becomePartnerDefaultValues: BecomePartnerValues = {
@@ -206,7 +204,6 @@ export const becomePartnerDefaultValues: BecomePartnerValues = {
   organisationType: "",
   organisationTypeOther: "",
   country: "",
-  countryOther: "",
   website: "",
   organisationDescription: "",
   partnershipInterests: [],

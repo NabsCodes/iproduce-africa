@@ -11,7 +11,6 @@ import {
 const membershipAboutShape = {
   fullName: requiredTrimmedText(2, "Please share your full name"),
   country: z.string().min(1, "Pick your country"),
-  countryOther: z.string().optional(),
   email: emailSchema,
   phone: internationalPhoneSchema,
 };
@@ -27,19 +26,6 @@ const membershipRoleShape = {
   role: z.string().min(1, "Pick a role"),
   roleOther: z.string().optional(),
 };
-
-function refineCountryOther(
-  data: { country: string; countryOther?: string },
-  ctx: z.RefinementCtx,
-) {
-  requireOtherDetail(ctx, {
-    selectedValue: data.country,
-    otherValue: OTHER_OPTION_VALUE,
-    detailValue: data.countryOther,
-    path: "countryOther",
-    message: "Please specify your country",
-  });
-}
 
 function refineSectorOther(
   data: { sector: string; sectorOther?: string },
@@ -75,7 +61,6 @@ export const membershipApplicationSchema = z
     ...membershipRoleShape,
   })
   .superRefine((data, ctx) => {
-    refineCountryOther(data, ctx);
     refineSectorOther(data, ctx);
     refineRoleOther(data, ctx);
   });
@@ -87,7 +72,6 @@ export const membershipApplicationDialogSchema = z
     ...membershipWorkShape,
   })
   .superRefine((data, ctx) => {
-    refineCountryOther(data, ctx);
     refineSectorOther(data, ctx);
   });
 
@@ -105,7 +89,6 @@ export const membershipApplicationDefaultValues: MembershipApplicationValues = {
   role: "",
   roleOther: "",
   country: "",
-  countryOther: "",
   sector: "",
   sectorOther: "",
   email: "",
@@ -118,7 +101,6 @@ export const membershipApplicationDialogDefaultValues: MembershipApplicationDial
     fullName: "",
     organisation: "",
     country: "",
-    countryOther: "",
     sector: "",
     sectorOther: "",
     email: "",
@@ -135,9 +117,7 @@ export const membershipApplicationDialogStepKeys = [
 export type MembershipApplicationDialogStepKey =
   (typeof membershipApplicationDialogStepKeys)[number];
 
-const membershipAboutStepSchema = z
-  .object(membershipAboutShape)
-  .superRefine(refineCountryOther);
+const membershipAboutStepSchema = z.object(membershipAboutShape);
 
 const membershipWorkStepSchema = z
   .object(membershipWorkShape)
@@ -156,12 +136,11 @@ export const membershipApplicationDialogStepFields: Record<
   MembershipApplicationDialogStepKey,
   (keyof MembershipApplicationDialogValues)[]
 > = {
-  about: ["fullName", "country", "countryOther", "email", "phone"],
+  about: ["fullName", "country", "email", "phone"],
   work: ["organisation", "sector", "sectorOther", "reason"],
   review: [
     "fullName",
     "country",
-    "countryOther",
     "email",
     "phone",
     "organisation",

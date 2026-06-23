@@ -111,7 +111,6 @@ export type PartnerInquiryFormContent = {
     role: string;
     roleOther: string;
     country: string;
-    countryOther: string;
     sector: string;
     sectorOther: string;
     email: string;
@@ -152,6 +151,18 @@ export type BecomePartnerStepContent = {
   description: string;
 };
 
+export type BecomePartnerReviewField = {
+  key:
+    | "organisationName"
+    | "organisationType"
+    | "country"
+    | "fullName"
+    | "jobTitle"
+    | "email"
+    | "phone";
+  label: string;
+};
+
 export type BecomePartnerDialogContent = {
   title: string;
   triggerLabel: string;
@@ -166,7 +177,6 @@ export type BecomePartnerDialogContent = {
         organisationType: string;
         organisationTypeOther: string;
         country: string;
-        countryOther: string;
         website: string;
         description: string;
       };
@@ -182,6 +192,11 @@ export type BecomePartnerDialogContent = {
         email: string;
         phone: string;
       };
+    };
+    review: BecomePartnerStepContent & {
+      defaultBadge: string;
+      goalsLabel: string;
+      reviewFields: readonly BecomePartnerReviewField[];
     };
   };
   organisationTypes: readonly PartnerInquiryOption[];
