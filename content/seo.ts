@@ -41,6 +41,24 @@ export const pageSeo = {
       "Contact iProduce Africa about partnerships, community membership, Academy programmes, or agribusiness collaboration.",
     path: "/contact",
   },
+  blog: {
+    title: "Blog & Insights",
+    description:
+      "Trends, perspectives, and practical insights driving innovation and growth across Africa's agricultural ecosystem.",
+    path: "/academy/blog",
+  },
+  webinars: {
+    title: "Webinars & Events",
+    description:
+      "Live expert-led webinars, trainings, and events to help African agripreneurs build skills and stronger networks.",
+    path: "/academy/webinars",
+  },
+  courses: {
+    title: "Courses",
+    description:
+      "Self-paced Academy courses that turn agricultural know-how into practical business skills across the value chain.",
+    path: "/academy/courses",
+  },
 } as const;
 
 export const sitemapRoutes = [

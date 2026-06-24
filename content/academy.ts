@@ -268,9 +268,9 @@ export const academyContent = {
   blog: {
     eyebrow: "Blog",
     title: "Latest about AgriBusiness",
-    countLabel: "Showing 3 of 42 articles — more load right here",
+    countLabel: "Showing 3 of 10 articles — more on the blog",
     viewMoreLabel: "View More",
-    total: 42,
+    total: 10,
     items: [
       {
         category: "INNOVATION",
@@ -279,7 +279,7 @@ export const academyContent = {
         description:
           "From mobile advisory to precision sensors — the tools changing how the continent farms.",
         image: placeholderImages.news.one,
-        slug: "placeholder-slug-article-1",
+        slug: "agritech-reshaping-african-farms",
       },
       {
         category: "TRADE",
@@ -288,7 +288,7 @@ export const academyContent = {
         description:
           "What the AfCFTA means for producers and traders moving goods across borders.",
         image: placeholderImages.news.two,
-        slug: "placeholder-slug-article-2",
+        slug: "unlocking-intra-african-trade",
       },
       {
         category: "SMART AGRICULTURE",
@@ -297,7 +297,7 @@ export const academyContent = {
         description:
           "Low-cost techniques that build resilience while improving farm profitability.",
         image: placeholderImages.news.three,
-        slug: "placeholder-slug-article-3",
+        slug: "climate-smart-practices-that-pay-off",
       },
     ],
   },
@@ -411,7 +411,7 @@ export const academyHomePreview = {
   },
   blog: academyContent.blog.items.map((article) => ({
     key: article.slug,
-    href: "/academy#blog",
+    href: `/academy/blog/${article.slug}`,
     image: article.image,
     category: article.category,
     categoryTone: articleToneByCategory[article.category],
@@ -420,3 +420,23 @@ export const academyHomePreview = {
     description: article.description,
   })),
 } as const satisfies AcademyHomePreview;
+
+/**
+ * Course preview projection for the blog detail's "Continue Learning" section.
+ * Academy stays the canonical owner of course data — blog content modules
+ * never re-declare or duplicate course fields. Mirrors the
+ * `academyHomePreview` pattern.
+ *
+ * Cards link to `/academy#courses` until course detail routes ship.
+ */
+export const academyBlogRelatedCourses = academyContent.courses.items
+  .slice(0, 3)
+  .map((course) => ({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    image: course.image,
+    level: course.level,
+    duration: course.duration,
+    href: "/academy#courses",
+  }));

@@ -26,6 +26,7 @@ const badgeVariants = cva(
           "bg-forest-subtle text-forest-600 h-5 rounded-full px-2 text-[11px] font-semibold tracking-wide",
         tangerine:
           "bg-tangerine-subtle text-tangerine-700 h-5 rounded-full px-2 text-[11px] font-semibold tracking-wide",
+        meta: "border-border text-fg-muted h-5 rounded-full border bg-transparent px-2 text-[11px] font-semibold tracking-wide",
         "leaf-outline":
           "border-leaf-emphasized text-leaf-600 h-5 rounded-full bg-transparent px-2 text-[11px] font-semibold tracking-wide",
 

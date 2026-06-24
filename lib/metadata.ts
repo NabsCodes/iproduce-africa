@@ -165,6 +165,57 @@ export function createPageMetadata({
   };
 }
 
+type ArticleMetadataInput = {
+  title: string;
+  description: string;
+  path: string;
+  publishedAt: string;
+  image: string;
+};
+
+function resolveShareImageUrl(image: string): string {
+  if (image.startsWith("http://") || image.startsWith("https://")) {
+    return image;
+  }
+
+  return buildAbsoluteUrl(image);
+}
+
+export function createArticleMetadata({
+  title,
+  description,
+  path,
+  publishedAt,
+  image,
+}: ArticleMetadataInput): Metadata {
+  const resolvedTitle = resolveTitle(title);
+  const imageUrl = resolveShareImageUrl(image);
+
+  return {
+    title: {
+      absolute: resolvedTitle,
+    },
+    description,
+    alternates: {
+      canonical: path,
+    },
+    openGraph: {
+      type: "article",
+      siteName: siteConfig.name,
+      url: buildAbsoluteUrl(path),
+      title: resolvedTitle,
+      description,
+      publishedTime: publishedAt,
+      images: [{ url: imageUrl, alt: title }],
+    },
+    twitter: createDefaultTwitter({
+      title: resolvedTitle,
+      description,
+      images: [imageUrl],
+    }),
+  };
+}
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,

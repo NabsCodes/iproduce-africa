@@ -9,17 +9,17 @@ export const mainNavigation = [
     children: [
       {
         label: "Webinars & Events",
-        href: "/academy#webinars-events",
+        href: "/academy/webinars",
         description: "Live expert-led sessions, trainings and meetups",
       },
       {
         label: "Courses",
-        href: "/academy#courses",
+        href: "/academy/courses",
         description: "Structured learning programmes for practical impact",
       },
       {
         label: "Blog/Insights",
-        href: "/academy#blog",
+        href: "/academy/blog",
         description: "Articles, industry updates and thought-leadership",
       },
     ],

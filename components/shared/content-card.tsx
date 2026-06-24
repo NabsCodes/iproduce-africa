@@ -51,11 +51,7 @@ export function ContentCard({
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Badge variant={categoryTone}>{category}</Badge>
-            {meta ? (
-              <span className="border-border text-fg-muted inline-flex h-5 items-center rounded-full border bg-transparent px-2 text-[11px] font-semibold tracking-wide">
-                {meta}
-              </span>
-            ) : null}
+            {meta ? <Badge variant="meta">{meta}</Badge> : null}
           </div>
 
           <h3 className="text-foreground group-hover:text-leaf-700 mt-3 font-serif text-lg leading-[26px] font-semibold transition-colors">

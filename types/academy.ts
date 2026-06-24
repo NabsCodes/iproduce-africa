@@ -146,6 +146,12 @@ export type AcademyHomeCard = {
   description?: string;
 };
 
+export type AcademyTrackHeroContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+};
+
 export type AcademyHomePreview = {
   opportunities: readonly AcademyHomeOpportunityCard[];
   spotlight: {
@@ -153,6 +159,17 @@ export type AcademyHomePreview = {
     training: readonly AcademyHomeCard[];
   };
   blog: readonly AcademyHomeCard[];
+};
+
+/** Course preview row for the blog detail "Continue Learning" section. */
+export type AcademyBlogRelatedCourse = {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  level: string;
+  duration: string;
+  href: string;
 };
 
 export type AcademyListing<TItem> = {

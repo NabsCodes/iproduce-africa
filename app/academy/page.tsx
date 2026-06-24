@@ -82,6 +82,7 @@ export default function AcademyPage() {
           description: item.description,
         }))}
         viewMoreLabel={scheduled.viewMoreLabel}
+        viewMoreHref="/academy/webinars"
         countLabel={scheduled.countLabel}
       />
 
@@ -100,6 +101,7 @@ export default function AcademyPage() {
           description: item.description,
         }))}
         viewMoreLabel={courses.viewMoreLabel}
+        viewMoreHref="/academy/courses"
         countLabel={courses.countLabel}
       />
 
@@ -109,7 +111,7 @@ export default function AcademyPage() {
         title={blog.title}
         columns={3}
         items={blog.items.map((item) => ({
-          href: "#blog",
+          href: `/academy/blog/${item.slug}`,
           image: item.image,
           category: item.category,
           categoryTone: articleCategoryToneMap[item.category],
@@ -118,6 +120,7 @@ export default function AcademyPage() {
           description: item.description,
         }))}
         viewMoreLabel={blog.viewMoreLabel}
+        viewMoreHref="/academy/blog"
         countLabel={blog.countLabel}
       />
 

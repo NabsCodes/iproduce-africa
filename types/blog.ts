@@ -1,0 +1,98 @@
+import type { AcademyTrackHeroContent } from "@/types/academy";
+import type { CtaSectionContent } from "@/types/content";
+
+/**
+ * Editable category labels for the static MVP. Append here when editorial
+ * adds a category — `BlogCategory` follows automatically.
+ */
+export const BLOG_CATEGORIES = [
+  "Innovation",
+  "Trade",
+  "Smart Agriculture",
+  "Agribusiness",
+  "Policy",
+  "Market Insights",
+  "Sustainability",
+  "Community",
+] as const;
+
+export type BlogCategory = (typeof BLOG_CATEGORIES)[number];
+
+/**
+ * Structured blocks for article bodies. Tagged union — the
+ * `<ArticleBody />` renderer dispatches by `kind`. Not a drop-in
+ * Portable Text shape; see `blog-spec.md` → Sanity migration for the
+ * adapter rule.
+ */
+export type BlogArticleBlock =
+  | { kind: "paragraph"; text: string }
+  | { kind: "heading2"; text: string }
+  | { kind: "list_unordered"; items: readonly string[] }
+  | {
+      kind: "list_ordered";
+      items: readonly { title: string; body: string }[];
+    };
+
+export type BlogArticle = {
+  slug: string;
+  title: string;
+  category: BlogCategory;
+  /** Authored value — renders as e.g. "5 MIN READ". Auto-calc later (post-Sanity). */
+  readTimeMinutes: number;
+  /** ISO 8601 — formatted at render time via `Intl.DateTimeFormat`. */
+  publishedAt: string;
+  /** Listing / grid card image. */
+  cardImage: string;
+  cardImageAlt: string;
+  /** Detail hero + featured panel. Falls back to card image when omitted. */
+  heroImage?: string;
+  heroImageAlt?: string;
+  /** Listing card description (~140 chars). */
+  excerpt: string;
+  body: readonly BlogArticleBlock[];
+};
+
+export type BlogHeroContent = AcademyTrackHeroContent;
+
+export type BlogNewsletterContent = {
+  eyebrow: string;
+  description: string;
+  inputLabel: string;
+  inputPlaceholder: string;
+  submitLabel: string;
+  comingSoonMessage: string;
+};
+
+export type BlogShareControlsContent = {
+  heading: string;
+  copyConfirmation: string;
+};
+
+export type BlogContinueLearningContent = {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  viewAllLabel: string;
+  viewAllHref: string;
+};
+
+export type BlogPageContent = {
+  hero: BlogHeroContent;
+  newsletter: BlogNewsletterContent;
+  shareControls: BlogShareControlsContent;
+  continueLearning: BlogContinueLearningContent;
+  /** Editor pointer to the featured article. Falls back to most recent if null or unknown. */
+  featuredArticleSlug: string | null;
+  articles: readonly BlogArticle[];
+  cta: CtaSectionContent;
+};
+
+export function getBlogHeroImage(article: BlogArticle): {
+  src: string;
+  alt: string;
+} {
+  return {
+    src: article.heroImage ?? article.cardImage,
+    alt: article.heroImageAlt ?? article.cardImageAlt,
+  };
+}

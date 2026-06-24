@@ -446,7 +446,7 @@ export const partnersPageContent = {
       {
         label: "Partner with us",
         href: "#partnership-enquiry",
-        variant: "tangerine",
+        variant: "green",
         icon: "handshake",
       },
     ],

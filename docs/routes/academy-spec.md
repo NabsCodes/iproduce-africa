@@ -3,8 +3,11 @@
 ## Status
 
 Hub page (`/academy`) built against the supplied Figma frame (2026-06-17).
-Dedicated listing routes (`/academy/{type}`) and slug pages are scoped for
-the **next phase** and intentionally not built here.
+**Academy track listing routes** (`/academy/webinars`, `/academy/courses`,
+`/academy/blog`) share one dark-band hero pattern (`AcademyTrackHeroSection`)
+and a `ContentCard` grid; only eyebrow copy and the body below the hero
+differ per track. Slug detail pages are incremental — Blog detail ships
+first; webinars/courses/event detail reuse `AcademyDetailShell` next.
 
 ## Purpose
 
@@ -19,9 +22,14 @@ dedicated listing pages are built.
 - **Hub anchors**: `overview`, `webinars-events`, `courses`, `blog`.
   (Events fold into the Webinars & Events section on the hub; nothing
   lives at `#training` or `#events` in this build.)
-- **Future routes** (next phase): `/academy/webinars`, `/academy/events`,
-  `/academy/courses`, `/academy/blog`, plus
-  `/academy/{type}/[slug]` for individual items.
+- **Track listing routes** (in scope): `/academy/webinars` (webinars +
+  events catalogue), `/academy/courses`, `/academy/blog`. Each uses
+  `AcademyTrackHeroSection` + track-owned grid; Blog adds featured article
+  - category filter on top of the shared grid primitive.
+- **Track detail routes** (incremental): `/academy/blog/[slug]` ships first.
+  `/academy/webinars/[slug]`, `/academy/courses/[slug]` reuse
+  `AcademyDetailShell` when designs are wired — same slots, different
+  metadata + main renderers.
 
 ### Naming rule: `blog` everywhere in code, "Blog/Insights" in nav
 
@@ -39,6 +47,28 @@ content mix of how-to + analysis + commentary than the more corporate
 "Insights", and (3) the Figma was already hedging with "Blog / insights" —
 picking one and committing in code while keeping the descriptive nav label
 gives both audiences the clearest signal.
+
+## Track listing routes (shared pattern)
+
+Figma ships one listing template; each track swaps hero copy and grid
+data. Implemented primitives:
+
+| Primitive                 | Path                                        | Role                                                                          |
+| ------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------- |
+| `AcademyTrackHeroSection` | `components/academy/track-hero-section.tsx` | Dark `bg-forest-900` band, leaf `EyebrowPill`, centred serif h1 + description |
+| `TrackCardGrid`           | `components/academy/track-card-grid.tsx`    | `ContentCard` grid + View More + count helper                                 |
+| `AcademyDetailShell`      | `components/academy/detail-shell/`          | Detail pages only (Blog ships first)                                          |
+
+**Blog** adds track-only bands: `FeaturedArticleSection`, `CategoryFilterBar`,
+`BlogListingBody` (filter state + `ArticleGrid` → `TrackCardGrid`).
+
+**Webinars** and **Courses** listing pages are grid-only below the hero for
+now. Card `href`s point at hub anchors until `/academy/{track}/[slug]`
+detail routes ship (no dead slug URLs).
+
+Hero content shape: `AcademyTrackHeroContent` in `types/academy.ts`
+(`{ eyebrow, title, description }`). Per-track copy lives in
+`content/{blog,webinars,courses}.ts`.
 
 ## Section Composition
 
@@ -212,16 +242,116 @@ relevant section instead of 404ing. Once slug routes exist they switch to
   Next caching (`fetch({ next: { revalidate } })` or `unstable_cache`)
   handles invalidation.
 
-## Route + slug architecture (planned, not built)
+## Route + slug architecture
 
-| Route                    | Status     | Notes                                                                                                                                                                                 |
-| ------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/academy`               | **built**  | This task                                                                                                                                                                             |
-| `/academy/webinars`      | next phase | Full webinars listing                                                                                                                                                                 |
-| `/academy/courses`       | next phase | Full courses listing                                                                                                                                                                  |
-| `/academy/events`        | next phase | Full events listing                                                                                                                                                                   |
-| `/academy/blog`          | next phase | Full articles listing                                                                                                                                                                 |
-| `/academy/{type}/[slug]` | next phase | Item detail pages — SSG via `generateStaticParams` over Sanity slugs, `generateMetadata` for SEO, `notFound()` for misses. Adds `loading.tsx` per route and a global `app/error.tsx`. |
+| Route                                       | Status                     | Notes                                                                                                     |
+| ------------------------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `/academy`                                  | **built**                  | The hub. Tabs in-page link to anchors on this route until each sub-route ships.                           |
+| `/academy/blog`                             | **in progress 2026-06-24** | Full articles listing — see [`blog-spec.md`](./blog-spec.md)                                              |
+| `/academy/blog/[slug]`                      | **in progress 2026-06-24** | First consumer of the detail shell below. Per-route `not-found.tsx` lives here too.                       |
+| `/academy/webinars`                         | designs pending            | Full webinars listing                                                                                     |
+| `/academy/courses`                          | designs pending            | Full courses listing                                                                                      |
+| `/academy/events`                           | designs pending            | Full events listing                                                                                       |
+| `/academy/{webinars,courses,events}/[slug]` | designs pending            | Detail pages — each composes the shared detail shell (below) but with its own content model and renderer. |
+
+**Routes are not created speculatively.** Sub-routes appear in the build
+manifest only when their designs are implemented. Placeholder pages whose
+only purpose is calling `notFound()` are explicitly disallowed (Codex
+correction 2026-06-24) — the listing 404 surfaces ungated, the route
+slot is created when it has something to render.
+
+## Detail-page shell (shared across tracks)
+
+The Blog detail page is the **visual foundation** for future Academy
+detail pages (courses, webinars, events). Each track is a different
+editorial product — articles want prose, courses want duration / modules /
+enrolment, events want date / location / registration — so we **do not**
+collapse them into a universal "AcademyThing" schema or renderer.
+
+Reuse happens at the **layout primitive** level: a small shell component
+that defines slots, and per-track section components that fill them with
+the track's own metadata and rendering rules.
+
+### Slot composition
+
+```
+┌────────────────────────────────────────┐
+│ hero / media slot                      │ ← image (blog/courses) or
+│                                        │   media+meta band (webinars/events)
+├────────────────────────────────────────┤
+│ metadata slot                          │ ← chips: category + read-time + date
+│                                        │   (blog) / level + duration (courses) /
+│                                        │   date + location (events)
+├──────────────────────┬─────────────────┤
+│ main slot            │ sidebar slot    │ ← prose (blog), modules list (courses),
+│                      │                 │   agenda (events). Sidebar is a small
+│                      │                 │   panel column on lg:, stacks on mobile.
+├──────────────────────┴─────────────────┤
+│ related slot                           │ ← "Continue Learning" (blog),
+│                                        │   related events (course detail), etc.
+├────────────────────────────────────────┤
+│ cta slot                               │ ← shared `CtaSection`
+└────────────────────────────────────────┘
+```
+
+### Shell API (sketch)
+
+```tsx
+<AcademyDetailShell
+  hero={<BlogDetailHero article={article} />}
+  metadata={<BlogDetailMetadata article={article} />}
+  main={<ArticleBody blocks={article.body} />}
+  sidebar={
+    <>
+      <StayInformedCard />
+      <ShareArticleControls article={article} />
+    </>
+  }
+  related={<ContinueLearningSection items={relatedCourses} />}
+  cta={<CtaSection overlapNext={false} />}
+/>
+```
+
+Each track ships its own:
+
+- hero component (article = single image; course = image + level + price
+  band; event = countdown + venue map embed)
+- metadata component (different chip set per track)
+- main column renderer (prose vs modules list vs agenda)
+- sidebar contents (newsletter+share for blog; enroll panel for courses;
+  registration panel for events)
+- related projection (blog → courses; course → related courses + linked
+  events; event → upcoming events + post-event materials)
+
+The shell itself owns only the layout (max-w, columns, gaps, sticky
+behaviour on the sidebar, `MotionFade` on the hero slot). It does not
+inspect or transform the data passed to its slots.
+
+### Why this and not a universal schema
+
+- **Content models are honest.** A `BlogArticle` doesn't have a
+  `durationWeeks`, and forcing it onto a generic `AcademyThing` either
+  bloats the type with optional fields that are always null per-track or
+  leaks track-specific discriminants into every consumer.
+- **Renderers are simple.** Each track's main column gets the renderer
+  it needs (prose, modules, agenda) instead of a switch statement that
+  reads the discriminant and dispatches.
+- **Future Sanity migration is per-track.** Each track maps to its own
+  Sanity document type with its own schema. The shell stays code-only.
+
+### Per-track separation
+
+| Track    | Route                      | Content module       | Content type                 |
+| -------- | -------------------------- | -------------------- | ---------------------------- |
+| Blog     | `/academy/blog/[slug]`     | `content/blog.ts`    | `BlogArticle` (prose blocks) |
+| Courses  | `/academy/courses/[slug]`  | `content/academy.ts` | `AcademyCourse` (modules)    |
+| Webinars | `/academy/webinars/[slug]` | `content/academy.ts` | `AcademyWebinar` (presenter) |
+| Events   | `/academy/events/[slug]`   | `content/academy.ts` | `AcademyEvent` (date+venue)  |
+
+Cross-track content reuse goes through **owned projections** — e.g. the
+blog detail's `Continue Learning` section consumes a course preview
+projection exported from `content/academy.ts`, not raw `academyContent
+.courses`. Same pattern Home uses for its Academy spotlight.
 
 ## Placeholder hygiene
 

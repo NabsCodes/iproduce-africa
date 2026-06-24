@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 
 import { MembershipApplicationProvider } from "@/components/community/membership-application-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 /**
  * Composition root for app-wide client providers.
@@ -16,6 +17,9 @@ import { MembershipApplicationProvider } from "@/components/community/membership
  */
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <MembershipApplicationProvider>{children}</MembershipApplicationProvider>
+    <MembershipApplicationProvider>
+      {children}
+      <Toaster richColors closeButton position="top-center" />
+    </MembershipApplicationProvider>
   );
 }

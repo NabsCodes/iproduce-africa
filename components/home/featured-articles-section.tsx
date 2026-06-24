@@ -20,7 +20,7 @@ export function FeaturedArticlesSection() {
               </h2>
             </div>
             <ButtonLink
-              href="/academy#blog"
+              href="/academy/blog"
               variant="green-link"
               size="sm"
               className="h-10 shrink-0 self-start px-2"
