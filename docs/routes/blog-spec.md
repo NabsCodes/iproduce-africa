@@ -2,8 +2,9 @@
 
 ## Status
 
-Drafted 2026-06-24, updated after listings pass. **Static-first** — placeholder
-content under `content/blog.ts`, no Sanity in this milestone.
+Drafted 2026-06-24. **Static-first locked** for UI sign-off — editorial data in
+`content/blog-articles.ts`, page chrome + helpers in `content/blog.ts`. Sanity
+spec is the next doc, not more static UI work.
 
 Blog is one **Academy catalogue** alongside Webinars and Courses. All three
 listing routes share `AcademyListingHeroSection` (dark forest band + leaf
@@ -30,7 +31,8 @@ courses via the detail page's related section.
   repoint the Blog item now, leave the other three (Webinars / Courses /
   Events) as anchors until they ship. See [Navbar + footer migration](#navbar--footer-migration).
 - Static-first MVP: no Sanity, no live submissions, no comments, no auth.
-  Newsletter signup is placeholder UI (matches the footer newsletter form).
+  Newsletter signup uses RHF + Zod (`schemas/newsletter.ts`,
+  `NewsletterSignupForm`) but submit is still placeholder toast — no API yet.
 - Reuse existing primitives: `ContentCard`, `EyebrowPill`, `SiteCtaButton`,
   `CtaSection`. Motion primitives (`MotionFade`, `MotionStagger`) apply on
   day one — the full motion pass is shipped.
@@ -133,13 +135,10 @@ Body content is **structured blocks** (not MDX/HTML strings) — see
 
 ### Sidebar — Stay Informed + Share Article
 
-`<StayInformedCard />`: eyebrow + 1-sentence description + email input +
-tangerine send-icon button. Mirrors the footer newsletter signup exactly
-(placeholder UI; not wired).
-
-`<ShareArticleControls />`: row of round icon buttons. **Drop Instagram —
-it has no public web share intent and would be a dead control.** Ship the
-four that actually work:
+`<BlogArticleSidebar />` composes newsletter + share controls. Newsletter uses
+shared `NewsletterSignupForm` (`compact` variant) with the same Zod schema as
+the footer. Share row: WhatsApp, LinkedIn, X, copy-link (+ optional native
+share on mobile) — see table below.
 
 | Control     | Action                                                                                           |
 | ----------- | ------------------------------------------------------------------------------------------------ |
@@ -153,6 +152,17 @@ If the page is rendered inside a browser that exposes
 single "Share" button using the native sheet. Detect at runtime
 (`typeof navigator !== "undefined" && "share" in navigator`), fall back
 to the X intent otherwise.
+
+### Reading UX (blog detail only)
+
+- **Header progress bar** — `ReadingProgress` rendered inside sticky
+  `Header` when pathname matches `/academy/blog/[slug]`. Sits flush on
+  the nav bottom edge (leaf fill, grey track). Not site-wide.
+- **Scroll to top** — `ScrollToTop` via `AcademyDetailShell`
+  `showScrollToTop` on blog slug pages only. Fixed bottom-right with
+  progress ring; appears after ~400px scroll.
+- **No breadcrumbs** on detail pages — rejected after QA (cluttered the
+  hero/metadata rhythm).
 
 ### Related section
 
@@ -246,29 +256,26 @@ export type BlogPageContent = {
 };
 ```
 
-**`content/blog.ts`** — data only. Imports its types from `types/blog.ts`;
-does not declare types itself.
+**`content/blog-articles.ts`** — article catalogue only (10 items, varied
+read lengths 3–14 min for layout QA).
+
+**`content/blog.ts`** — page chrome, categories const, and helpers
+(`getArticle`, `getRelatedArticles`, `getBlogHubPreviewItems`). Imports
+`blogArticles` from `content/blog-articles.ts`.
 
 ```ts
 import type { BlogArticle, BlogPageContent } from "@/types/blog";
+import { blogArticles } from "@/content/blog-articles";
 
 export const blogCategories = [
   /* the 8 categories above */
 ] as const;
 
-const articles: readonly BlogArticle[] = [
-  /* 9–12 placeholder articles */
-];
-
 export const blogContent: BlogPageContent = {
-  hero: {
-    /* ... */
-  },
-  newsletter: {
-    /* ... */
-  },
+  hero: { /* ... */ },
+  newsletter: { /* ... */ },
   featuredArticleSlug: "unlocking-intra-african-trade",
-  articles,
+  articles: blogArticles,
 };
 ```
 
@@ -331,15 +338,18 @@ chrome — worse UX than the current anchor scroll.
 | `app/academy/blog/page.tsx`                               | **New** — listing                                                                                                    |
 | `app/academy/blog/[slug]/page.tsx`                        | **New** — detail; `generateStaticParams` over `content/blog.ts`, `notFound()` on misses                              |
 | `app/academy/blog/not-found.tsx`                          | **New** — scoped 404 (Blog-specific CTAs: browse all + back to Academy hub)                                          |
-| `content/blog.ts`                                         | **New** — data + the `blogCategories` const                                                                          |
+| `content/blog-articles.ts`                                | **New** — article bodies + card metadata (editorial catalogue)                                                       |
+| `content/blog.ts`                                         | Page chrome, categories, helpers; imports `blogArticles`                                                             |
 | `types/blog.ts`                                           | **New** — contracts (BlogCategory derived from data, BlogArticleBlock, BlogArticle, BlogPageContent)                 |
 | `components/academy/blog/blog-hero-section.tsx`           | **New** — dark band hero                                                                                             |
 | `components/academy/blog/featured-article-section.tsx`    | **New** — split layout                                                                                               |
 | `components/academy/blog/category-filter-bar.tsx`         | **New** — pill chips with `useState` for active category                                                             |
 | `components/academy/blog/article-grid.tsx`                | **New** — ContentCard grid + View More                                                                               |
 | `components/academy/blog/article-body.tsx`                | **New** — `BlogArticleBlock` renderer                                                                                |
-| `components/academy/blog/stay-informed-card.tsx`          | **New** — sidebar newsletter placeholder                                                                             |
-| `components/academy/blog/share-article-controls.tsx`      | **New** — 4 working share targets (WhatsApp / LinkedIn / X / copy-link) with optional native-share swap              |
+| `components/academy/blog/blog-article-sidebar.tsx`          | Sidebar newsletter (`NewsletterSignupForm`) + share controls                                                         |
+| `components/shared/newsletter-signup-form.tsx`              | Shared RHF newsletter (footer + blog sidebar)                                                                        |
+| `components/shared/reading-progress.tsx`                    | Header progress bar (blog slug routes via `Header`)                                                                  |
+| `components/shared/scroll-to-top.tsx`                      | Blog detail scroll-to-top (`AcademyDetailShell` opt-in)                                                              |
 | `components/academy/listings/academy-related-section.tsx` | **Shared** — related cards band (blog articles, courses, webinars)                                                   |
 | `components/academy/listings/academy-detail-shell.tsx`    | **Shared** — slot layout shell for all Academy detail routes (see `academy-spec.md`)                                 |
 | `content/blog.ts`                                         | `getRelatedArticles()` + `blogContent.relatedSection` — blog detail does not cross-import course data                |
@@ -365,7 +375,7 @@ Only ones still load-bearing after the Codex review:
 - Global search backend — hub search navigates to `/academy/search?q=`; client filter only.
 - Author / tag / archive-by-month pages.
 - Comments / reactions.
-- Real newsletter wiring.
+- Real newsletter API wiring (validation + UI shell ship in this milestone).
 - Auto-calculated read time (`readTimeMinutes` is authored).
 - RSS feed.
 
@@ -410,4 +420,8 @@ Only ones still load-bearing after the Codex review:
 - [x] Sanity migration boundary documented inline + spec note in this file's "Sanity migration" section
 - [x] Motion primitives applied per the rules above
 - [x] Implementation-log row + academy-spec aligned (listings pass 2026-06-24)
+- [x] Header reading progress + scroll-to-top on blog detail (session 7)
+- [x] Realistic editorial catalogue in `content/blog-articles.ts` (3–14 min mix)
+- [x] Newsletter RHF + `schemas/newsletter.ts` (submit still placeholder)
+- [x] Breadcrumbs explicitly out of scope (rejected in QA)
 - [ ] Verification sweep + Lighthouse row

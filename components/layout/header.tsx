@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Clock3, Mail, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -17,7 +18,10 @@ import { mainNavigation } from "@/content/navigation";
 import { siteConfig } from "@/content/site";
 import { useRouteHash } from "@/hooks/use-route-hash";
 import { useScrolled } from "@/hooks/use-scrolled";
+import { ReadingProgress } from "@/components/shared/reading-progress";
 import { cn } from "@/lib/utils";
+
+const blogArticlePath = /^\/academy\/blog\/[^/]+$/;
 
 const navLinkClass =
   "relative inline-flex shrink-0 items-center whitespace-nowrap rounded-lg px-2 py-0.5 font-sans text-[15px] font-medium tracking-[-0.01em] text-grey-800 transition-colors hover:text-forest-700 focus-visible:bg-leaf-50 focus-visible:text-forest-700 focus-visible:outline-none";
@@ -34,9 +38,11 @@ function NavIndicator({ active }: { active: boolean }) {
 }
 
 export function Header() {
+  const pathname = usePathname();
   const currentRoute = useRouteHash();
   const activePath = currentRoute.split("#")[0] || "/";
   const scrolled = useScrolled();
+  const showReadingProgress = blogArticlePath.test(pathname);
 
   return (
     <header className="sticky top-0 z-50 bg-white">
@@ -112,8 +118,9 @@ export function Header() {
 
       <div
         className={cn(
-          "border-grey-200 border-b bg-white transition-[border-color]",
-          scrolled && "border-grey-300",
+          "relative bg-white transition-[border-color]",
+          !showReadingProgress && "border-grey-200 border-b",
+          !showReadingProgress && scrolled && "border-grey-300",
         )}
       >
         <div
@@ -230,6 +237,8 @@ export function Header() {
             <MobileNav activePath={activePath} currentRoute={currentRoute} />
           </div>
         </div>
+
+        {showReadingProgress ? <ReadingProgress /> : null}
       </div>
     </header>
   );

@@ -20,6 +20,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 
 ## Integration Readiness
 
-- [ ] Static content structure is stable enough for Sanity mapping
+- [x] Static content structure is stable enough for Sanity mapping
 - [ ] Placeholder imagery list is known
 - [ ] Form integration scope is documented for later phases
+- [ ] `docs/sanity-academy-spec.md` drafted (next step before CMS setup)

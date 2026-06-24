@@ -403,8 +403,7 @@ blog detail's related section consumes `getRelatedArticles()` from
 - [x] Slug detail pages built (static scaffold — all three catalogues)
 - [x] Hub search navigates to `/academy/search?q=` (unified static search)
 - [x] Listing featured + filter bands (webinars + courses; blog already had)
-- [ ] Browser QA + Lighthouse on hub + three catalogues
-- [x] Scoped `not-found.tsx` for webinars, courses, and blog catalogue segments
-- [ ] Sanity wiring + `docs/sanity-academy-spec.md` (after UI sign-off)
+- [ ] Browser QA + Lighthouse on hub + three catalogues (+ blog long/short article UX)
+- [ ] Sanity wiring + `docs/sanity-academy-spec.md` (**next doc** — content-shape map from `types/` + `content/`)
 - [ ] Real photography for hero, courses, blog articles, participant cards
 - [ ] Search wired to Sanity / Algolia (beyond `/academy/search` client filter)

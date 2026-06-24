@@ -1,16 +1,15 @@
 "use client";
 
-import type { ComponentType, FormEvent } from "react";
-import { useState, useSyncExternalStore } from "react";
-import { Link as LinkIcon, Send, Share2 } from "lucide-react";
+import type { ComponentType } from "react";
+import { useSyncExternalStore } from "react";
+import { Link as LinkIcon, Share2 } from "lucide-react";
 import { FaLinkedinIn, FaWhatsapp, FaXTwitter } from "react-icons/fa6";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { NewsletterSignupForm } from "@/components/shared/newsletter-signup-form";
 import type {
   BlogNewsletterContent,
   BlogShareControlsContent,
@@ -81,7 +80,6 @@ export function BlogArticleSidebar({
   newsletter,
   shareControls,
 }: BlogArticleSidebarProps) {
-  const [feedback, setFeedback] = useState<string | null>(null);
   const canNativeShare = useSyncExternalStore(
     subscribe,
     getClientNativeShareSnapshot,
@@ -91,11 +89,6 @@ export function BlogArticleSidebar({
   function getCurrentUrl(): string {
     if (typeof window === "undefined") return "";
     return window.location.href;
-  }
-
-  function handleNewsletterSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setFeedback(newsletter.comingSoonMessage);
   }
 
   async function handleCopyLink() {
@@ -137,46 +130,17 @@ export function BlogArticleSidebar({
           {newsletter.description}
         </p>
 
-        <form
-          className="mt-5"
-          onSubmit={handleNewsletterSubmit}
-          aria-label={newsletter.eyebrow}
-        >
-          <Field
-            orientation="horizontal"
-            className="items-center gap-2 *:data-[slot=field-label]:sr-only"
-          >
-            <FieldLabel htmlFor="blog-sidebar-newsletter-email">
-              {newsletter.inputLabel}
-            </FieldLabel>
-            <Input
-              id="blog-sidebar-newsletter-email"
-              type="email"
-              required
-              placeholder={newsletter.inputPlaceholder}
-              className="min-w-0 flex-1 bg-white"
-            />
-            <Button
-              type="submit"
-              variant="tangerine"
-              size="icon-sm"
-              aria-label={newsletter.submitLabel}
-              title={newsletter.submitLabel}
-            >
-              <Send className="size-4" />
-            </Button>
-          </Field>
-        </form>
-
-        {feedback ? (
-          <p
-            role="status"
-            aria-live="polite"
-            className="text-fg-muted mt-3 text-sm leading-6"
-          >
-            {feedback}
-          </p>
-        ) : null}
+        <NewsletterSignupForm
+          variant="compact"
+          copy={{
+            inputId: "blog-sidebar-newsletter-email",
+            inputLabel: newsletter.inputLabel,
+            placeholder: newsletter.inputPlaceholder,
+            submitLabel: newsletter.submitLabel,
+            successMessage: newsletter.comingSoonMessage,
+            formAriaLabel: newsletter.eyebrow,
+          }}
+        />
 
         <Separator className="my-6" />
 

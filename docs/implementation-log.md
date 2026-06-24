@@ -3,6 +3,36 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Pre-Sanity lock — blog UX + editorial content (2026-06-24, session 7)
+
+**Blog reading UX**
+
+- Header-integrated reading progress on blog article slugs only (`ReadingProgress` in `components/layout/header.tsx`; pathname gate `/academy/blog/[slug]`)
+- Scroll-to-top with progress ring on blog detail via `AcademyDetailShell` `showScrollToTop` (`components/shared/scroll-to-top.tsx`)
+- Breadcrumbs on detail pages — **rejected** (visual clutter); not shipping
+- Aceternity-style side tracing beam — **rejected**; removed
+
+**Newsletter forms**
+
+- `schemas/newsletter.ts` + shared `NewsletterSignupForm` (RHF + Zod)
+- Footer + blog sidebar consume the shared form; submit still placeholder toast
+
+**Editorial content**
+
+- Article bodies moved to `content/blog-articles.ts`; `content/blog.ts` owns page chrome + helpers
+- 10 articles with realistic agribusiness copy and varied read lengths (3–14 min)
+- Featured flagship: `unlocking-intra-african-trade` (~14 min) for long-scroll QA
+
+**Verification:** `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm build` — pass (38 routes)
+
+**Before Sanity**
+
+- [ ] Browser QA on blog listing + one long + one short article (progress bar, scroll-to-top, sidebar)
+- [ ] Optional Lighthouse row on `/academy/blog` + one detail slug
+- [ ] Draft `docs/sanity-academy-spec.md` (content-shape map from `types/` + `content/`)
+
+---
+
 ## Codex review brief — Academy foundation lock (2026-06-24, session 6)
 
 **Hygiene + P2 fixes**

@@ -12,7 +12,7 @@ type ArticleBodyProps = {
  */
 export function ArticleBody({ blocks }: ArticleBodyProps) {
   return (
-    <div className="flex max-w-3xl flex-col gap-5 sm:gap-6">
+    <div className="flex w-full flex-col gap-5 sm:gap-6">
       {blocks.map((block, index) => {
         switch (block.kind) {
           case "paragraph":

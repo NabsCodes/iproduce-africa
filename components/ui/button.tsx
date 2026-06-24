@@ -56,8 +56,8 @@ const buttonVariants = cva(
         default:
           "h-12 rounded-lg px-5 text-sm [&_svg:not([class*='size-'])]:size-5",
         xs: "h-8 rounded-md px-3 text-xs [&_svg:not([class*='size-'])]:size-3.5",
-        icon: "size-12 rounded-lg [&_svg:not([class*='size-'])]:size-5",
-        "icon-sm": "size-10 rounded-lg [&_svg:not([class*='size-'])]:size-4",
+        icon: "size-12 rounded-md [&_svg:not([class*='size-'])]:size-5",
+        "icon-sm": "size-10 rounded-md [&_svg:not([class*='size-'])]:size-4",
       },
       fullWidth: {
         true: "w-full",

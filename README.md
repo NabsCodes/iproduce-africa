@@ -1,83 +1,184 @@
-# iProduce Africa Website
+<div align="center">
+  <img src="./public/images/shared/iproduce-logo.webp" alt="iProduce Africa" width="220" />
 
-Static-first implementation of the approved iProduce Africa redesign. The
-current milestone translates the Figma screens into responsive Next.js pages;
-Sanity CMS integration comes after the interface and content structure are
-approved.
+  <h1>iProduce Africa</h1>
 
-## Current Milestone
+  <p>
+    A premium digital home for Africa's agribusiness ecosystem, connecting
+    agripreneurs, partners, and innovators through learning, community, and
+    market opportunities.
+  </p>
 
-Right now the focus is foundation plus Home page fidelity:
+  <p>
+    <a href="https://nextjs.org">
+      <img src="https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js 16" />
+    </a>
+    <a href="https://react.dev">
+      <img src="https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React 19" />
+    </a>
+    <a href="https://www.typescriptlang.org">
+      <img src="https://img.shields.io/badge/TypeScript_5-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript 5" />
+    </a>
+    <a href="https://tailwindcss.com">
+      <img src="https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS 4" />
+    </a>
+    <a href="https://motion.dev">
+      <img src="https://img.shields.io/badge/Motion-FFF312?style=flat-square&logo=framer&logoColor=111111" alt="Motion" />
+    </a>
+  </p>
+</div>
 
-- establish the docs, layout system, and design system first
-- complete the Home page as a polished static experience
-- keep secondary public routes scaffolded but lightweight
-- defer Sanity, live forms, and backend integrations until the interface is
-  approved
+---
 
-## Project Structure
+## Overview
 
-```text
-app/                  Root app shell, fonts, and public routes
-components/[page]/    Page-specific sections, such as Home and About
-components/layout/    Shared site chrome and page-intro patterns
-components/ui/        Small reusable UI primitives
-content/              Static MVP content, site config, and page copy
-schemas/              Zod/runtime validation and schema-derived form value types
-types/                Shared content and navigation shapes
-lib/                  Metadata helpers, temporary imagery helpers, and utilities
-public/               Final exported assets, including route-based images
-```
+iProduce Africa is a responsive, static-first marketing platform designed to
+showcase the organisation's mission, Academy, community, partnerships, and
+agribusiness resources.
 
-Keep copy and collection data in `content/`. Components own presentation and
-interaction. Runtime validation lives in `schemas/`, while content/component
-contracts live in `types/`. Temporary imagery stays in
-`lib/placeholder-images.ts` until final assets are exported into
-`public/images/`, organized by route or shared usage such as
-`public/images/home/` and `public/images/shared/`.
+The project translates an evolving Figma system into a cohesive production
+frontend. The current implementation prioritizes visual fidelity, accessible
+interactions, responsive composition, content ownership, and a clean migration
+path to Sanity CMS.
 
-Shared content ownership should stay simple:
+## Experience
 
-- `content/site.ts` for site identity, contact details, hours, and social links
-- `content/navigation.ts` for shared navigation structure
-- `content/seo.ts` for page metadata copy and sitemap routes
-- page-specific `content/*.ts` files for presentation copy
+- Purpose-built Home, About, Community, Partners, and Contact pages
+- Academy hub with dedicated Webinar, Course, and Blog catalogues
+- Static detail pages with shareable, SEO-friendly slugs
+- Unified Academy search across learning and editorial content
+- Responsive layouts designed intentionally for mobile, tablet, and desktop
+- Accessible UI primitives, keyboard-friendly navigation, and reduced-motion support
+- Local form validation and transparent demo states for deferred submissions
+- Metadata, Open Graph, Twitter cards, sitemap, robots, and scoped 404 pages
+- Content-first architecture prepared for a future Sanity migration
 
-For now, all six public pages share the same top-level layout in `app/layout.tsx`.
-If route behavior diverges later, a route group can be introduced then.
+## Main Routes
 
-## Working Docs
+| Route               | Purpose                                          |
+| ------------------- | ------------------------------------------------ |
+| `/`                 | Main marketing experience and ecosystem overview |
+| `/about`            | Organisation story, vision, values, and people   |
+| `/academy`          | Learning and editorial hub                       |
+| `/academy/webinars` | Webinars, events, and live sessions              |
+| `/academy/courses`  | Structured agribusiness courses                  |
+| `/academy/blog`     | Articles and industry insights                   |
+| `/community`        | Community value, membership, and participation   |
+| `/partners`         | Partnership opportunities and enquiry experience |
+| `/contact`          | Contact channels, form, map, and FAQs            |
 
-Start here before making product-facing changes:
+## Tech Stack
 
-- `CLAUDE.md`
-- `AGENTS.md`
-- `docs/README.md`
-- `docs/workflow.md`
-- `docs/mvp-phases.md`
-- `docs/homepage-static-spec.md` for the active Home page milestone
-- `docs/routes/README.md`
-- `docs/layout-system.md`
-- `docs/design-system.md`
-- `docs/status-board.md`
-- `docs/implementation-log.md`
+| Area      | Technology                                                  |
+| --------- | ----------------------------------------------------------- |
+| Framework | Next.js 16 with App Router                                  |
+| UI        | React 19, Tailwind CSS 4, Radix UI, shadcn-style primitives |
+| Language  | TypeScript                                                  |
+| Motion    | Motion for React with reduced-motion safeguards             |
+| Forms     | React Hook Form and Zod                                     |
+| Carousels | Embla Carousel                                              |
+| Icons     | Lucide React and React Icons                                |
+| Tooling   | pnpm, ESLint, Prettier                                      |
 
-## Development
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20 or newer
+- pnpm 11
+
+### Installation
 
 ```bash
+git clone https://github.com/NabsCodes/iproduce-africa.git
+cd iproduce-africa
+pnpm install
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Use `pnpm format`, `pnpm lint`, `pnpm typecheck`, and `pnpm build` before
-handing off a completed page.
+## Useful Scripts
 
-## MVP Boundaries
+```bash
+pnpm dev           # Start the development server
+pnpm build         # Create a production build
+pnpm start         # Run the production build
+pnpm lint          # Run ESLint
+pnpm typecheck     # Run TypeScript checks
+pnpm format        # Format the repository
+pnpm format:check  # Check formatting without writing
+```
 
-- Build the approved static pages and responsive interactions first.
-- Keep Academy content on the single `/academy` route for the MVP.
-- Do not add Sanity, authentication, payments, e-commerce, or a deal room yet.
-- Forms may validate locally but must not imply that data has been saved.
-- Custom `loading.tsx`, `error.tsx`, `not-found.tsx`, and a wider motion system
-  are future scope unless the current design pass specifically requires them.
+## Project Structure
+
+```text
+app/                 Routes, metadata, loading states, and system pages
+components/
+  academy/           Academy hub, listings, detail pages, and registration UI
+  home/              Home-only sections
+  layout/            Header, footer, navigation, and shared chrome
+  shared/            Cross-page sections and reusable compositions
+  ui/                Accessible UI primitives
+content/             Editable page copy and canonical static collections
+schemas/             Zod schemas and schema-derived form value types
+types/               Content and component contracts
+lib/                 Search, metadata, projection, and utility helpers
+providers/           Application-wide provider composition
+public/              Images, SVG assets, and brand media
+docs/                Design, route, workflow, and implementation documentation
+```
+
+The key ownership rule is simple: `content/` owns editable data, `schemas/`
+owns runtime validation, `types/` owns contracts, and components own
+presentation.
+
+## Project Status
+
+The public frontend and static Academy content surfaces are implemented. The
+next major phase is production content and service integration:
+
+- Sanity CMS and editorial workflows
+- Resend-backed form and newsletter delivery
+- Real partner, social, programme, and organisational content
+- Analytics, content search, and launch hardening
+
+Until those services are connected, forms remain clearly labelled preview
+experiences and no submission is presented as saved or delivered.
+
+## Documentation
+
+This repository uses lightweight working specifications so contributors can
+continue without relying on chat history.
+
+- [`AGENTS.md`](./AGENTS.md) — repository rules and ownership boundaries
+- [`CLAUDE.md`](./CLAUDE.md) — implementation guidance
+- [`docs/README.md`](./docs/README.md) — documentation index
+- [`docs/design-system.md`](./docs/design-system.md) — visual language and tokens
+- [`docs/layout-system.md`](./docs/layout-system.md) — responsive layout rules
+- [`docs/routes/`](./docs/routes) — route-by-route specifications
+- [`docs/implementation-log.md`](./docs/implementation-log.md) — development history and handoffs
+
+## Quality Gate
+
+Before handing off a completed change:
+
+```bash
+pnpm format
+pnpm lint
+pnpm typecheck
+pnpm build
+```
+
+## Deployment
+
+The application is optimized for Vercel and can be deployed to any platform
+that supports Next.js. The current static-first build does not require
+environment variables; future Sanity and email integrations will introduce
+their own documented configuration.
+
+---
+
+<div align="center">
+  <strong>Building Africa's connected agribusiness ecosystem.</strong>
+</div>

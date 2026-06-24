@@ -52,7 +52,9 @@ export const siteConfig = {
       title: "Stay in the loop",
       description: "Get updates on new trainings and ecosystem news.",
       placeholder: "Your email address",
-      submitLabel: "Newsletter signup integration coming later",
+      submitLabel: "Subscribe to newsletter",
+      successMessage:
+        "Newsletter signup is coming soon. Thanks for your interest.",
     },
     legalLinks: [
       { label: "Privacy", href: undefined },
