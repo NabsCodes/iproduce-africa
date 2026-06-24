@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
 import { ArticleGrid } from "@/components/academy/blog/article-grid";
 import {
   ALL_CATEGORIES,
   CategoryFilterBar,
 } from "@/components/academy/blog/category-filter-bar";
+import { useListingFilter } from "@/hooks/use-listing-filter";
 import type { BlogArticle } from "@/types/blog";
 
 type BlogListingBodyProps = {
@@ -18,21 +17,13 @@ export function BlogListingBody({
   categories,
   articles,
 }: BlogListingBodyProps) {
-  const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORIES);
-
-  const sorted = useMemo(
-    () =>
-      [...articles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)),
-    [articles],
-  );
-
-  const filtered = useMemo(
-    () =>
-      activeCategory === ALL_CATEGORIES
-        ? sorted
-        : sorted.filter((article) => article.category === activeCategory),
-    [sorted, activeCategory],
-  );
+  const { activeFilter, setActiveFilter, filtered, resetKey } =
+    useListingFilter({
+      items: articles,
+      allValue: ALL_CATEGORIES,
+      getFilterValue: (article) => article.category,
+      sort: (a, b) => b.publishedAt.localeCompare(a.publishedAt),
+    });
 
   return (
     <section className="bg-white">
@@ -40,12 +31,12 @@ export function BlogListingBody({
         <div className="mb-10 sm:mb-12">
           <CategoryFilterBar
             categories={categories}
-            value={activeCategory}
-            onChange={setActiveCategory}
+            value={activeFilter}
+            onChange={setActiveFilter}
           />
         </div>
 
-        <ArticleGrid key={activeCategory} articles={filtered} />
+        <ArticleGrid key={resetKey} articles={filtered} />
       </div>
     </section>
   );

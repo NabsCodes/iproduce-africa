@@ -2,16 +2,15 @@
 
 ## Status
 
-Drafted 2026-06-24, revised after track-scope correction. **Static-first**:
-build with placeholder content under `content/blog.ts`, no Sanity wiring in
-this pass.
+Drafted 2026-06-24, updated after listings pass. **Static-first** — placeholder
+content under `content/blog.ts`, no Sanity in this milestone.
 
-Blog is one **Academy track** alongside Webinars and Courses. All three
-listing routes share `AcademyTrackHeroSection` (dark forest band + leaf
-eyebrow pill). Blog adds a featured-article band and category filter on
-top of the shared `TrackCardGrid` / `ContentCard` grid. See
-[`academy-spec.md` → Track listing routes](./academy-spec.md#taxonomy-locked)
-for the cross-track pattern; this file owns Blog-only behaviour (article
+Blog is one **Academy catalogue** alongside Webinars and Courses. All three
+listing routes share `AcademyListingHeroSection` (dark forest band + leaf
+eyebrow pill). Each adds a featured band and filter pills on top of the shared
+`ListingCardGrid` / `ContentCard` grid. See
+[`academy-spec.md` → Listing routes](./academy-spec.md#listing-routes-shared-pattern)
+for the cross-catalogue pattern; this file owns Blog-only behaviour (article
 body blocks, sidebar, article SEO).
 
 ## Purpose
@@ -120,7 +119,7 @@ Blog fills the slots like so:
 | **hero/media**     | Full-width hero image, ~aspect 21/9 on `lg:`, 16/9 on mobile, `rounded-xl`. No overlay text.                                                                               |
 | **metadata**       | Category chip + read time + publish date (e.g. _"Jun 12, 2026"_, formatted via `Intl.DateTimeFormat`). No `date-fns`.                                                      |
 | **main + sidebar** | Two-column on `lg:` (`grid-cols-[1fr_320px]`, `gap-12`), single column on mobile. Main = `<ArticleBody />`. Sidebar = `<StayInformedCard />` + `<ShareArticleControls />`. |
-| **related**        | **"Continue Learning"** section — 3 related _courses_, not articles. See [Related section](#related-section-continue-learning) below.                                      |
+| **related**        | **"More from the blog"** — 3 related _articles_ via shared `AcademyRelatedSection`.                                                                                        |
 | **cta**            | Shared `CtaSection`.                                                                                                                                                       |
 
 ### Article body
@@ -155,42 +154,15 @@ single "Share" button using the native sheet. Detect at runtime
 (`typeof navigator !== "undefined" && "share" in navigator`), fall back
 to the X intent otherwise.
 
-### Related section ("Continue Learning")
+### Related section
 
-The design shows three cards under what looked like "Related Articles" but
-the meta reads `BEGINNER / 4 WEEKS`, `INTERMEDIATE / 6 WEEKS` — those are
-**courses**, not articles. Resolved as: this is a cross-promotion into the
-Academy track.
+Blog detail related content is **same-track articles**, not cross-promoted
+courses. Heading and copy live in `blogContent.relatedSection`; items come
+from `getRelatedArticles(slug)` in `content/blog.ts`. Rendered via shared
+`AcademyRelatedSection` (`components/academy/listings/academy-related-section.tsx`).
 
-Heading: **"Continue Learning"** (or "Related Courses" if the user
-prefers — the section name is editorial). Source data: **a course preview
-projection from `academyContent.courses`** — same pattern used by Home
-(`academyHomePreview`). The blog content module does **not** redeclare
-course data.
-
-```ts
-// content/academy.ts — already owns courses; add a preview projection
-export const academyBlogRelatedCourses = academyContent.courses
-  .slice(0, 3)
-  .map((course) => ({
-    slug: course.slug,
-    title: course.title,
-    image: course.image,
-    level: course.level,
-    durationWeeks: course.durationWeeks,
-    href: `/academy/courses/${course.slug}`, // resolves once course routes ship
-  }));
-```
-
-If course detail routes don't exist yet, the cards' `href` should still
-point at `/academy/courses/{slug}` — those URLs will work once the courses
-section is built; until then, the blog detail page is the only thing
-linking there, and the 404 it surfaces is the correct signal (the link
-isn't dead, the route just hasn't shipped).
-
-When the related section evaluates to fewer than 3 courses (or a course
-preview needs to be omitted because its detail page hasn't shipped), the
-grid renders only the items that resolve, never a stub or skeleton.
+Course and webinar detail pages use the same related primitive with their
+own `getRelatedCourses()` / `getRelatedWebinars()` projections.
 
 ### Motion
 
@@ -354,51 +326,43 @@ chrome — worse UX than the current anchor scroll.
 
 ## File-by-file delta
 
-| Path                                                    | Action                                                                                                                      |
-| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `app/academy/blog/page.tsx`                             | **New** — listing                                                                                                           |
-| `app/academy/blog/[slug]/page.tsx`                      | **New** — detail; `generateStaticParams` over `content/blog.ts`, `notFound()` on misses                                     |
-| `app/academy/blog/not-found.tsx`                        | **New** — scoped 404 (Blog-specific CTAs: browse all + back to Academy hub)                                                 |
-| `content/blog.ts`                                       | **New** — data + the `blogCategories` const                                                                                 |
-| `types/blog.ts`                                         | **New** — contracts (BlogCategory derived from data, BlogArticleBlock, BlogArticle, BlogPageContent)                        |
-| `components/academy/blog/blog-hero-section.tsx`         | **New** — dark band hero                                                                                                    |
-| `components/academy/blog/featured-article-section.tsx`  | **New** — split layout                                                                                                      |
-| `components/academy/blog/category-filter-bar.tsx`       | **New** — pill chips with `useState` for active category                                                                    |
-| `components/academy/blog/article-grid.tsx`              | **New** — ContentCard grid + View More                                                                                      |
-| `components/academy/blog/article-body.tsx`              | **New** — `BlogArticleBlock` renderer                                                                                       |
-| `components/academy/blog/stay-informed-card.tsx`        | **New** — sidebar newsletter placeholder                                                                                    |
-| `components/academy/blog/share-article-controls.tsx`    | **New** — 4 working share targets (WhatsApp / LinkedIn / X / copy-link) with optional native-share swap                     |
-| `components/academy/blog/continue-learning-section.tsx` | **New** — 3 course-preview cards from `academyContent.courses` projection                                                   |
-| `components/academy/detail-shell/*`                     | **New** (shared, see `academy-spec.md`) — slot layout primitive(s) reused by future course / webinar / event detail pages   |
-| `content/academy.ts`                                    | Add `academyBlogRelatedCourses` projection (or equivalent helper) so the blog detail doesn't reach into raw `courses` shape |
-| `content/navigation.ts`                                 | Repoint Blog/Insights from `/academy#blog` → `/academy/blog`                                                                |
-| `content/site.ts`                                       | Repoint footer Academy column's Blog/Insights entry                                                                         |
-| `content/seo.ts`                                        | Add `pageSeo.blog` (listing); detail-page metadata generated per slug via `generateMetadata`                                |
-| `app/sitemap.ts`                                        | Add `/academy/blog` + one entry per article slug (auto from `content/blog.ts`)                                              |
-| `docs/routes/academy-spec.md`                           | Add a "Detail-page shell (shared across tracks)" section (see below); update route table to mark Blog as in progress        |
-| `docs/routes/blog-spec.md`                              | **This file**                                                                                                               |
-| `docs/implementation-log.md`                            | One row when the build ships                                                                                                |
+| Path                                                      | Action                                                                                                               |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `app/academy/blog/page.tsx`                               | **New** — listing                                                                                                    |
+| `app/academy/blog/[slug]/page.tsx`                        | **New** — detail; `generateStaticParams` over `content/blog.ts`, `notFound()` on misses                              |
+| `app/academy/blog/not-found.tsx`                          | **New** — scoped 404 (Blog-specific CTAs: browse all + back to Academy hub)                                          |
+| `content/blog.ts`                                         | **New** — data + the `blogCategories` const                                                                          |
+| `types/blog.ts`                                           | **New** — contracts (BlogCategory derived from data, BlogArticleBlock, BlogArticle, BlogPageContent)                 |
+| `components/academy/blog/blog-hero-section.tsx`           | **New** — dark band hero                                                                                             |
+| `components/academy/blog/featured-article-section.tsx`    | **New** — split layout                                                                                               |
+| `components/academy/blog/category-filter-bar.tsx`         | **New** — pill chips with `useState` for active category                                                             |
+| `components/academy/blog/article-grid.tsx`                | **New** — ContentCard grid + View More                                                                               |
+| `components/academy/blog/article-body.tsx`                | **New** — `BlogArticleBlock` renderer                                                                                |
+| `components/academy/blog/stay-informed-card.tsx`          | **New** — sidebar newsletter placeholder                                                                             |
+| `components/academy/blog/share-article-controls.tsx`      | **New** — 4 working share targets (WhatsApp / LinkedIn / X / copy-link) with optional native-share swap              |
+| `components/academy/listings/academy-related-section.tsx` | **Shared** — related cards band (blog articles, courses, webinars)                                                   |
+| `components/academy/listings/academy-detail-shell.tsx`    | **Shared** — slot layout shell for all Academy detail routes (see `academy-spec.md`)                                 |
+| `content/blog.ts`                                         | `getRelatedArticles()` + `blogContent.relatedSection` — blog detail does not cross-import course data                |
+| `content/navigation.ts`                                   | Repoint Blog/Insights from `/academy#blog` → `/academy/blog`                                                         |
+| `content/site.ts`                                         | Repoint footer Academy column's Blog/Insights entry                                                                  |
+| `content/seo.ts`                                          | Add `pageSeo.blog` (listing); detail-page metadata generated per slug via `generateMetadata`                         |
+| `app/sitemap.ts`                                          | Add `/academy/blog` + one entry per article slug (auto from `content/blog.ts`)                                       |
+| `docs/routes/academy-spec.md`                             | Add a "Detail-page shell (shared across tracks)" section (see below); update route table to mark Blog as in progress |
+| `docs/routes/blog-spec.md`                                | **This file**                                                                                                        |
+| `docs/implementation-log.md`                              | One row when the build ships                                                                                         |
 
 ## Open questions for the user
 
 Only ones still load-bearing after the Codex review:
 
-1. **Related section heading** — Codex defaulted to "Continue Learning"
-   (my preference) or "Related Courses". Either lands well; pick one.
-2. **Category set future-proofing** — the eight are locked for the MVP.
+1. **Category set future-proofing** — the eight are locked for the MVP.
    Confirm editorial doesn't expect more in the immediate next pass.
-3. **Featured article identity** — which existing/placeholder article fills
-   the `featuredArticleSlug` slot in the seed data? (If unsure, default to
-   the most recent placeholder; editorial swaps later.)
+2. **Featured article identity** — resolved: `unlocking-intra-african-trade`.
 
 ## Out of scope (this pass)
 
-- Webinars / Courses / Events listing + detail pages and their routes —
-  no placeholder `notFound()` routes are created either; routes appear
-  when designs do.
-- Sanity wiring — content stays in `content/blog.ts`, with the adapter
-  note above documenting the migration boundary.
-- Search.
+- Sanity wiring — content stays in `content/*.ts`; separate Sanity spec after UI sign-off.
+- Global search backend — hub search navigates to `/academy/search?q=`; client filter only.
 - Author / tag / archive-by-month pages.
 - Comments / reactions.
 - Real newsletter wiring.
@@ -417,8 +381,8 @@ Only ones still load-bearing after the Codex review:
    - Detail: hero scales without overflow, sidebar sticks on `lg:` and
      stacks on mobile, share controls fire (test each: WhatsApp opens
      wa.me, LinkedIn opens sharing URL, X opens intent, copy-link copies
-     and toasts), Continue Learning cards link to
-     `/academy/courses/{slug}` (404s gracefully until courses ship).
+     and toasts), related article cards link to
+     `/academy/blog/{slug}`.
 4. Reduced-motion sweep: hero image scale-in collapses; related stagger
    collapses; sidebar sticky behaviour stays.
 5. Per-route 404: visit `/academy/blog/does-not-exist` → blog-scoped
@@ -428,18 +392,22 @@ Only ones still load-bearing after the Codex review:
 
 ## Checklist
 
-- [x] Open questions resolved (related heading: Continue Learning; categories locked for MVP; featured slug: unlocking-intra-african-trade)
+- [x] Open questions resolved (related: same-track articles via `AcademyRelatedSection`; categories locked for MVP; featured slug: unlocking-intra-african-trade)
 - [x] `types/blog.ts` (contracts) + `content/blog.ts` (data) — no type/data overlap
 - [x] `app/academy/blog/page.tsx` + `[slug]/page.tsx` + `not-found.tsx`
-- [x] Shared detail shell primitive(s) created under `components/academy/detail-shell/` (or equivalent) — slots: media, metadata, main+sidebar, related, CTA
-- [x] Blog-specific section components (hero, featured, filter, grid, body, sidebar cards, share, continue-learning)
-- [x] `Continue Learning` consumes `academyContent.courses` projection — no course data in `content/blog.ts`
+- [x] Shared detail shell at `components/academy/listings/academy-detail-shell.tsx` — slots: media, metadata, main+sidebar, related, CTA
+- [x] Blog-specific section components (hero, featured, filter, grid, body, sidebar cards, share, related articles)
+- [x] Related section consumes `getRelatedArticles()` — no duplicate article arrays in `content/blog.ts`
 - [x] Share controls drop Instagram; ship working WhatsApp + LinkedIn + X + copy-link (+ optional native-share swap on mobile)
 - [x] `Intl.DateTimeFormat` for date rendering; no `date-fns`
-- [x] View More helper text matches actual collection count (no "42")
+- [x] View More helper text matches actual collection count
+- [x] Hub search → `/academy/search?q=` (not catalogue `?q=` filters)
+- [x] `ListingCardGrid` uses **Load more** label (not hub **Browse all**)
+- [x] Related article cards → `/academy/blog/{slug}`
 - [x] Footer + navbar Blog entries repointed to `/academy/blog`
-- [x] Webinars / Courses / Events footer + navbar entries keep their anchors
+- [x] Webinars / Courses navbar entries → listing routes (not hub hashes)
 - [x] `sitemap.ts` + `seo.ts` updated; `generateMetadata` per slug for detail (article OG type + publishedTime + hero image)
 - [x] Sanity migration boundary documented inline + spec note in this file's "Sanity migration" section
 - [x] Motion primitives applied per the rules above
-- [ ] Verification sweep + implementation-log row + Notion item ticked
+- [x] Implementation-log row + academy-spec aligned (listings pass 2026-06-24)
+- [ ] Verification sweep + Lighthouse row

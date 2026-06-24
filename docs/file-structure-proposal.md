@@ -300,6 +300,25 @@ docs/
 That gives us enough structure to grow properly without doing a huge refactor
 before the Home page is approved.
 
+### Academy component layout (as built 2026-06-24)
+
+```text
+components/academy/
+  hub/          # /academy only — hero, tabs, featured event, preview listings
+  listings/     # shared — listing hero, card grid, filter bar, skeletons, detail shell
+  blog/         # blog-only — article body, sidebar, featured article
+  webinars/     # webinars-only — featured event band, listing body
+  courses/      # courses-only — featured course band, listing body
+
+content/
+  academy.ts    # hub + projections (academyHomePreview, featuredEvent)
+  blog.ts
+  webinars.ts   # webinar catalogue + detail bodies
+  courses.ts    # course catalogue + module lists
+```
+
+Use **`listings/`** not `tracks/` — matches route language and avoids jargon.
+
 ## Final Recommendation
 
 If you want the most balanced move now:

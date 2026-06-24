@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock3 } from "lucide-react";
 
-import { AcademyHeroSearchForm } from "@/components/academy/academy-hero-search-form";
+import { AcademyHeroSearchForm } from "@/components/academy/hub/academy-hero-search-form";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import {
   Avatar,

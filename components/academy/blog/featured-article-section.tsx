@@ -4,7 +4,9 @@ import { ArrowUpRight } from "lucide-react";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { ArticleMetaBadges } from "@/components/academy/blog/article-meta-badges";
 import { ButtonLink } from "@/components/ui/button";
-import { getBlogHeroImage, type BlogArticle } from "@/types/blog";
+import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { getBlogHeroImage } from "@/content/blog";
+import type { BlogArticle } from "@/types/blog";
 
 type FeaturedArticleSectionProps = {
   article: BlogArticle;
@@ -31,9 +33,7 @@ export function FeaturedArticleSection({
           </div>
 
           <MotionFade className="flex flex-col">
-            <p className="text-tangerine-700 text-xs font-semibold tracking-[0.18em] uppercase">
-              Featured Article
-            </p>
+            <EyebrowBadge>Featured article</EyebrowBadge>
 
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-3xl sm:leading-[44px] lg:text-4xl lg:leading-[48px]">
               {article.title}

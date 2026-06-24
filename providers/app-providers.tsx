@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 
 import { MembershipApplicationProvider } from "@/components/community/membership-application-provider";
+import { AcademyRegistrationProvider } from "@/components/academy/registration/academy-registration-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 /**
@@ -18,8 +19,10 @@ import { Toaster } from "@/components/ui/sonner";
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <MembershipApplicationProvider>
-      {children}
-      <Toaster richColors closeButton position="top-center" />
+      <AcademyRegistrationProvider>
+        {children}
+        <Toaster richColors closeButton position="bottom-right" />
+      </AcademyRegistrationProvider>
     </MembershipApplicationProvider>
   );
 }

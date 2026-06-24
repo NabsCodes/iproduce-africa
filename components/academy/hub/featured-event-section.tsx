@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
+import { CalendarDays, MapPin, Users } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
+import { AcademyRegistrationAction } from "@/components/academy/registration/academy-registration-action";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { academyContent } from "@/content/academy";
+import { getWebinar } from "@/content/webinars";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 
 type Countdown = {
@@ -83,6 +83,7 @@ function CountdownCard({ value, label }: { value: number; label: string }) {
 
 export function FeaturedEventSection() {
   const featured = academyContent.featuredEvent;
+  const webinar = getWebinar(featured.slug);
   const [countdown, setCountdown] = useState<Countdown>(ZERO_COUNTDOWN);
 
   useEffect(() => {
@@ -179,17 +180,14 @@ export function FeaturedEventSection() {
               </div>
             </div>
 
-            <Button
-              asChild
-              variant="tangerine"
-              size="lg"
-              className="self-start"
-            >
-              <Link href={featured.registerHref}>
-                {featured.registerLabel}
-                <ArrowRight className="size-4" />
-              </Link>
-            </Button>
+            {webinar ? (
+              <AcademyRegistrationAction
+                kind="webinar"
+                webinar={webinar}
+                defaultLabel={featured.registerLabel}
+                className="self-start"
+              />
+            ) : null}
           </div>
         </MotionFade>
       </div>

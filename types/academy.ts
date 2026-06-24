@@ -25,9 +25,21 @@ export type AcademyOpportunity = {
   anchor: string;
 };
 
-export type AcademySearchCategory = {
-  label: string;
-  value: string;
+export type AcademyFeaturedEvent = {
+  slug: string;
+  eyebrow: string;
+  sectionTitle: string;
+  category: string;
+  format: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  date: string;
+  dateLabel: string;
+  location: string;
+  speakers: string;
+  registerLabel: string;
 };
 
 export type AcademyHeroNextLive = {
@@ -49,7 +61,6 @@ export type AcademyHeroContent = {
   description: string;
   searchPlaceholder: string;
   searchLabel: string;
-  searchCategories: readonly AcademySearchCategory[];
   trustLabel: string;
   members: readonly CommunityHeroMember[];
   image: string;
@@ -57,26 +68,32 @@ export type AcademyHeroContent = {
   nextLive: AcademyHeroNextLive;
 };
 
+export type AcademyRegistrationDialogCopy = {
+  title: string;
+  description: string;
+  buttonLabel: string;
+  submitLabel: string;
+  successTitle: string;
+  successDescription: string;
+  successDoneLabel: string;
+  fields: {
+    fullName: string;
+    email: string;
+    phone: string;
+    organisation: string;
+  };
+};
+
+export type AcademyRegistrationContent = {
+  dialog: {
+    webinar: AcademyRegistrationDialogCopy;
+    course: AcademyRegistrationDialogCopy;
+  };
+};
+
 export type AcademyTab = {
   label: string;
   targetId: string;
-};
-
-export type AcademyFeaturedEvent = {
-  eyebrow: string;
-  sectionTitle: string;
-  category: string;
-  format: string;
-  title: string;
-  description: string;
-  image: string;
-  imageAlt: string;
-  date: string;
-  dateLabel: string;
-  location: string;
-  speakers: string;
-  registerHref: string;
-  registerLabel: string;
 };
 
 export type AcademyParticipant = {
@@ -146,10 +163,47 @@ export type AcademyHomeCard = {
   description?: string;
 };
 
-export type AcademyTrackHeroContent = {
+export type AcademyListingHeroContent = {
   eyebrow: string;
   title: string;
   description: string;
+};
+
+export type AcademyRegistrationMode =
+  | "open"
+  | "interest"
+  | "external"
+  | "closed";
+
+export type AcademyRegistrationConfig = {
+  mode: AcademyRegistrationMode;
+  url?: string;
+  label?: string;
+  closedLabel?: string;
+};
+
+export type AcademyWebinar = {
+  slug: string;
+  type: AcademyScheduledType;
+  date: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt?: string;
+  excerpt: string;
+  body: readonly string[];
+  dateLabel?: string;
+  location?: string;
+  format?: string;
+  speakers?: string;
+  registration?: AcademyRegistrationConfig;
+};
+
+export type AcademyCourseDetail = AcademyCourse & {
+  excerpt: string;
+  body: readonly string[];
+  modules: readonly string[];
+  registration?: AcademyRegistrationConfig;
 };
 
 export type AcademyHomePreview = {
@@ -159,17 +213,6 @@ export type AcademyHomePreview = {
     training: readonly AcademyHomeCard[];
   };
   blog: readonly AcademyHomeCard[];
-};
-
-/** Course preview row for the blog detail "Continue Learning" section. */
-export type AcademyBlogRelatedCourse = {
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  level: string;
-  duration: string;
-  href: string;
 };
 
 export type AcademyListing<TItem> = {
@@ -206,6 +249,27 @@ export type AcademyFaqSection = {
   description: string;
   categories: readonly FaqCategory[];
   items: readonly FaqItem[];
+};
+
+/** Shared copy block for slug-page related grids (blog, courses, webinars). */
+export type AcademyRelatedSectionContent = {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  viewAllLabel: string;
+  viewAllHref: string;
+};
+
+export type AcademyRelatedItem = {
+  key: string;
+  href: string;
+  image: string;
+  imageAlt?: string;
+  category: string;
+  categoryTone?: "tangerine" | "leaf" | "forest";
+  meta?: string;
+  title: string;
+  description?: string;
 };
 
 export type AcademyContent = {

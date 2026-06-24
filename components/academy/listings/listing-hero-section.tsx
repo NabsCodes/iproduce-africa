@@ -1,19 +1,18 @@
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
-import type { AcademyTrackHeroContent } from "@/types/academy";
+import type { AcademyListingHeroContent } from "@/types/academy";
 
-type AcademyTrackHeroSectionProps = {
-  content: AcademyTrackHeroContent;
+type AcademyListingHeroSectionProps = {
+  content: AcademyListingHeroContent;
 };
 
 /**
- * Shared dark-band hero for Academy track listing routes — Blog, Webinars,
- * Courses (and Events when it ships). Eyebrow + title + description are
- * the only per-track differences at this layer.
+ * Shared dark-band hero for Academy listing routes — Blog, Webinars,
+ * Courses. Eyebrow + title + description are the only per-route differences.
  */
-export function AcademyTrackHeroSection({
+export function AcademyListingHeroSection({
   content,
-}: AcademyTrackHeroSectionProps) {
+}: AcademyListingHeroSectionProps) {
   return (
     <section className="bg-forest-900 text-white">
       <div className="max-w-8xl mx-auto w-full px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10">

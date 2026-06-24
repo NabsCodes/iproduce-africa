@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Light mode only — ignore OS dark preference; dark: utilities need .dark on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ─── Color primitives ─────────────────────────────── */
 
 :root {
@@ -292,6 +295,10 @@
 }
 
 /* ─── Typography ─────────────────────────────────────────────────────────── */
+
+html {
+  color-scheme: light;
+}
 
 body {
   background: var(--background);

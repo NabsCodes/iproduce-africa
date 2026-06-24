@@ -47,7 +47,7 @@ export function AcademyEventCard({ event }: { event: AcademyScheduledItem }) {
       <CardFooter className="hidden items-center justify-between border-0 bg-transparent px-5 pt-0 pb-5 sm:flex sm:px-6 sm:pb-6">
         <Badge variant="leaf-outline">{event.type}</Badge>
         <Button asChild variant="green-soft" size="sm">
-          <Link href="/academy#webinars-events">Register</Link>
+          <Link href={`/academy/webinars/${event.slug}`}>View details</Link>
         </Button>
       </CardFooter>
     </Card>

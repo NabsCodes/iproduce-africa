@@ -161,10 +161,12 @@ export function Header() {
                       <DropdownMenuContent
                         align="start"
                         sideOffset={8}
-                        className="border-grey-200 w-auto min-w-[240px] border bg-white p-2.5 shadow-[0_22px_54px_-28px_rgba(15,37,12,0.42)] ring-0"
+                        className="border-grey-200 w-auto min-w-[240px] border bg-white p-2.5 ring-0"
                       >
                         {link.children.map((child) => {
-                          const isChildActive = currentRoute === child.href;
+                          const isChildActive =
+                            activePath === child.href ||
+                            activePath.startsWith(`${child.href}/`);
 
                           return (
                             <DropdownMenuItem

@@ -1,12 +1,25 @@
+import { isUpcomingSession } from "@/lib/academy-registration";
 import { placeholderImages } from "@/lib/placeholder-images";
+import { getBlogHubPreviewItems, blogContent } from "@/content/blog";
+import { academyHubCourses, coursesContent } from "@/content/courses";
+import {
+  academyFeaturedEvent,
+  academyHubScheduledWebinars,
+  webinarsContent,
+  webinarsToHubScheduledItems,
+} from "@/content/webinars";
 import type {
   AcademyArticleCategory,
   AcademyContent,
   AcademyHomePreview,
   AcademyPreviewTone,
+  AcademyRegistrationContent,
 } from "@/types/academy";
 
 const HOME_SPOTLIGHT_LIMIT = 4;
+const HUB_WEBINAR_HIGHLIGHT_COUNT = academyHubScheduledWebinars.length;
+const HUB_COURSE_HIGHLIGHT_COUNT = academyHubCourses.length;
+const HUB_BLOG_HIGHLIGHT_COUNT = 3;
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -38,14 +51,8 @@ export const academyContent = {
     },
     description:
       "Explore expert-led webinars, practical courses, industry insights, and networking opportunities designed to prepare Africa's next generation of agribusiness leaders.",
-    searchPlaceholder: "Search trainings, webinars, courses…",
+    searchPlaceholder: "Search webinars, courses, and articles…",
     searchLabel: "Search",
-    searchCategories: [
-      { label: "Webinars (events)", value: "webinars" },
-      { label: "Training programmes", value: "training" },
-      { label: "Evergreen courses", value: "courses" },
-      { label: "Blog", value: "blog" },
-    ],
     trustLabel:
       "Practical learning for agripreneurs and professionals across Africa",
     members: [
@@ -70,7 +77,7 @@ export const academyContent = {
     nextLive: {
       label: "AfriAgri Leadership Forum · Aug 2026",
       date: "2026-08-12T09:00:00Z",
-      href: "#featured-event",
+      href: "/academy/webinars/afriagri-leadership-forum-2026",
     },
   },
   tabs: [
@@ -79,24 +86,7 @@ export const academyContent = {
     { label: "Evergreen courses", targetId: "courses" },
     { label: "Blog", targetId: "blog" },
   ],
-  featuredEvent: {
-    eyebrow: "Featured Event",
-    sectionTitle: "Don't miss what's next",
-    category: "Agribusiness Development",
-    format: "Hybrid · Virtual + Lagos",
-    title: "AfriAgri Leadership Forum 2026",
-    description:
-      "A high-level gathering of African agribusiness leaders, policymakers, investors and development partners shaping the continent's agricultural transformation agenda.",
-    image: placeholderImages.academySpotlight.presentation,
-    imageAlt: "Audience seated at an agribusiness conference",
-    date: "2026-08-12T09:00:00Z",
-    dateLabel: "August 12–14, 2026 · 9:00 AM – 4:00 PM WAT",
-    location: "Landmark Centre, Lagos · Livestream available",
-    speakers:
-      "Speakers: Dr. Amina Bello, Kofi Mensah, Aïssatou Diallo + 6 more",
-    registerHref: "#featured-event",
-    registerLabel: "Register Now",
-  },
+  featuredEvent: academyFeaturedEvent,
   opportunities: {
     eyebrow: "Learning Opportunities",
     title: "Learning Designed for Real-World Impact",
@@ -186,120 +176,26 @@ export const academyContent = {
   scheduled: {
     eyebrow: "Learning Opportunities",
     title: "Webinars & Events",
-    countLabel:
-      "Showing 4 of 26 upcoming webinars & events — more load right here",
-    viewMoreLabel: "View More",
-    total: 26,
-    items: [
-      {
-        type: "WEBINAR",
-        date: "2026-06-18",
-        title: "Scaling Smallholder Farms with Data",
-        description:
-          "How farm records and precision tools help small farms lift yields and win buyers.",
-        image: placeholderImages.academySpotlight.microphone,
-        slug: "placeholder-slug-webinar-1",
-      },
-      {
-        type: "TRAINING",
-        date: "2026-06-24",
-        title: "Post-Harvest Handling Essentials",
-        description:
-          "Cut losses and protect quality with practical storage, packaging and cold-chain methods.",
-        image: placeholderImages.academySpotlight.workshop,
-        slug: "placeholder-slug-training-1",
-      },
-      {
-        type: "LIVE Q&A",
-        date: "2026-07-02",
-        title: "Ask an Agronomist: Soil Health",
-        description:
-          "A live session on soil testing, fertility and regenerative practices — bring your questions.",
-        image: placeholderImages.academySpotlight.presentation,
-        slug: "placeholder-slug-liveqa-1",
-      },
-      {
-        type: "WEBINAR",
-        date: "2026-07-09",
-        title: "Building an Export-Ready Business",
-        description:
-          "Standards, certification and the paperwork behind successful cross-border trade.",
-        image: placeholderImages.academySpotlight.market,
-        slug: "placeholder-slug-webinar-2",
-      },
-    ],
+    countLabel: `${HUB_WEBINAR_HIGHLIGHT_COUNT} highlighted · ${webinarsContent.webinars.length} in the full catalogue`,
+    viewMoreLabel: "Browse all webinars & events",
+    total: webinarsContent.webinars.length,
+    items: webinarsToHubScheduledItems(academyHubScheduledWebinars),
   },
   courses: {
     eyebrow: "Learning Opportunities",
     title: "Courses to Learn at your pace.",
-    countLabel: "Showing 3 of 18 courses — more load right here",
-    viewMoreLabel: "View More",
-    total: 18,
-    items: [
-      {
-        level: "BEGINNER",
-        duration: "6 WEEKS",
-        title: "Foundations of Agribusiness",
-        description:
-          "How agricultural value chains work, from inputs to market, across six guided weeks.",
-        image: placeholderImages.academySpotlight.microphone,
-        slug: "placeholder-slug-course-1",
-      },
-      {
-        level: "INTERMEDIATE",
-        duration: "8 WEEKS",
-        title: "Financing Your Agribusiness",
-        description:
-          "Funding options, grants and investor readiness for growing agricultural enterprises.",
-        image: placeholderImages.academySpotlight.workshop,
-        slug: "placeholder-slug-course-2",
-      },
-      {
-        level: "INTERMEDIATE",
-        duration: "5 WEEKS",
-        title: "Market Access & Trade",
-        description:
-          "Reaching buyers, meeting standards and trading across African borders with confidence.",
-        image: placeholderImages.academySpotlight.market,
-        slug: "placeholder-slug-course-3",
-      },
-    ],
+    countLabel: `${HUB_COURSE_HIGHLIGHT_COUNT} highlighted · ${coursesContent.courses.length} in the full catalogue`,
+    viewMoreLabel: "Browse all courses",
+    total: coursesContent.courses.length,
+    items: academyHubCourses,
   },
   blog: {
     eyebrow: "Blog",
     title: "Latest about AgriBusiness",
-    countLabel: "Showing 3 of 10 articles — more on the blog",
-    viewMoreLabel: "View More",
-    total: 10,
-    items: [
-      {
-        category: "INNOVATION",
-        readTime: "5 min read",
-        title: "How AgriTech Is Reshaping African Farms",
-        description:
-          "From mobile advisory to precision sensors — the tools changing how the continent farms.",
-        image: placeholderImages.news.one,
-        slug: "agritech-reshaping-african-farms",
-      },
-      {
-        category: "TRADE",
-        readTime: "4 min read",
-        title: "Unlocking Intra-African Trade",
-        description:
-          "What the AfCFTA means for producers and traders moving goods across borders.",
-        image: placeholderImages.news.two,
-        slug: "unlocking-intra-african-trade",
-      },
-      {
-        category: "SMART AGRICULTURE",
-        readTime: "6 min read",
-        title: "Climate-Smart Practices That Pay Off",
-        description:
-          "Low-cost techniques that build resilience while improving farm profitability.",
-        image: placeholderImages.news.three,
-        slug: "climate-smart-practices-that-pay-off",
-      },
-    ],
+    countLabel: `${HUB_BLOG_HIGHLIGHT_COUNT} highlighted · ${blogContent.articles.length} in the full catalogue`,
+    viewMoreLabel: "Browse all articles",
+    total: blogContent.articles.length,
+    items: getBlogHubPreviewItems(HUB_BLOG_HIGHLIGHT_COUNT),
   },
   testimonials: {
     eyebrow: "Our Impact",
@@ -377,20 +273,60 @@ export const academyContent = {
   },
 } as const satisfies AcademyContent;
 
+export const academyRegistrationContent = {
+  dialog: {
+    webinar: {
+      title: "Register for this session",
+      description:
+        "Share your details to preview the registration flow. No email is sent in this static build.",
+      buttonLabel: "Register now",
+      submitLabel: "Complete registration",
+      successTitle: "Preview captured",
+      successDescription:
+        "This is a demo submission only — nothing has been saved or emailed yet. We will connect live registration before launch.",
+      successDoneLabel: "Done",
+      fields: {
+        fullName: "Full name",
+        email: "Email address",
+        phone: "Phone number",
+        organisation: "Organisation (optional)",
+      },
+    },
+    course: {
+      title: "Register your interest",
+      description:
+        "Tell us you are interested in this course to preview the flow. No email is sent in this static build.",
+      buttonLabel: "Register interest",
+      submitLabel: "Send my interest",
+      successTitle: "Preview captured",
+      successDescription:
+        "This is a demo submission only — nothing has been saved or emailed yet. We will connect live enrolment before launch.",
+      successDoneLabel: "Done",
+      fields: {
+        fullName: "Full name",
+        email: "Email address",
+        phone: "Phone number",
+        organisation: "Organisation (optional)",
+      },
+    },
+  },
+} as const satisfies AcademyRegistrationContent;
+
 export const academyHomePreview = {
   opportunities: academyContent.opportunities.items.map((item) => ({
     icon: item.icon,
     title: item.title,
     description: item.description,
-    href: `/academy${item.anchor}`,
+    href: item.anchor.startsWith("#") ? `/academy${item.anchor}` : item.anchor,
   })),
   spotlight: {
     upcoming: [...academyContent.scheduled.items]
+      .filter((event) => isUpcomingSession(event.date))
       .sort((a, b) => a.date.localeCompare(b.date))
       .slice(0, HOME_SPOTLIGHT_LIMIT)
       .map((event) => ({
         key: event.slug,
-        href: "/academy#webinars-events",
+        href: `/academy/webinars/${event.slug}`,
         image: event.image,
         category: event.type,
         meta: formatShortDate(event.date),
@@ -401,7 +337,7 @@ export const academyHomePreview = {
       .slice(0, HOME_SPOTLIGHT_LIMIT)
       .map((course) => ({
         key: course.slug,
-        href: "/academy#courses",
+        href: `/academy/courses/${course.slug}`,
         image: course.image,
         category: course.level,
         meta: course.duration,
@@ -420,23 +356,3 @@ export const academyHomePreview = {
     description: article.description,
   })),
 } as const satisfies AcademyHomePreview;
-
-/**
- * Course preview projection for the blog detail's "Continue Learning" section.
- * Academy stays the canonical owner of course data — blog content modules
- * never re-declare or duplicate course fields. Mirrors the
- * `academyHomePreview` pattern.
- *
- * Cards link to `/academy#courses` until course detail routes ship.
- */
-export const academyBlogRelatedCourses = academyContent.courses.items
-  .slice(0, 3)
-  .map((course) => ({
-    slug: course.slug,
-    title: course.title,
-    description: course.description,
-    image: course.image,
-    level: course.level,
-    duration: course.duration,
-    href: "/academy#courses",
-  }));

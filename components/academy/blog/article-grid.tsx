@@ -1,6 +1,6 @@
 "use client";
 
-import { TrackCardGrid } from "@/components/academy/track-card-grid";
+import { ListingCardGrid } from "@/components/academy/listings/listing-card-grid";
 import type { BlogArticle } from "@/types/blog";
 
 type ArticleGridProps = {
@@ -9,8 +9,7 @@ type ArticleGridProps = {
 
 export function ArticleGrid({ articles }: ArticleGridProps) {
   return (
-    <TrackCardGrid
-      resetKey={articles.map((article) => article.slug).join(",")}
+    <ListingCardGrid
       emptyLabel="No articles in this category yet."
       items={articles.map((article) => ({
         key: article.slug,

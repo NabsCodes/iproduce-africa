@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { blogContent } from "@/content/blog";
+import { coursesContent } from "@/content/courses";
+import { webinarsContent } from "@/content/webinars";
 import { sitemapRoutes } from "@/content/seo";
 import { getSiteUrl } from "@/lib/metadata";
 
@@ -21,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   };
 
-  const trackListings = ["/academy/webinars", "/academy/courses"].map(
+  const listingRoutes = ["/academy/webinars", "/academy/courses"].map(
     (path) => ({
       url: `${siteUrl}${path}`,
       lastModified,
@@ -37,5 +39,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...baseRoutes, ...trackListings, blogIndex, ...blogArticles];
+  const webinarPages = webinarsContent.webinars.map((webinar) => ({
+    url: `${siteUrl}/academy/webinars/${webinar.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  const coursePages = coursesContent.courses.map((course) => ({
+    url: `${siteUrl}/academy/courses/${course.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [
+    ...baseRoutes,
+    ...listingRoutes,
+    blogIndex,
+    ...blogArticles,
+    ...webinarPages,
+    ...coursePages,
+  ];
 }

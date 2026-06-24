@@ -1,27 +1,23 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { AcademyDetailShell } from "@/components/academy/detail-shell/academy-detail-shell";
+import { AcademyDetailMetadata } from "@/components/academy/listings/academy-detail-metadata";
+import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
+import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
+import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
 import { ArticleBody } from "@/components/academy/blog/article-body";
 import { ArticleMetaBadges } from "@/components/academy/blog/article-meta-badges";
 import { BlogArticleSidebar } from "@/components/academy/blog/blog-article-sidebar";
-import { ContinueLearningSection } from "@/components/academy/blog/continue-learning-section";
 import { CtaSection } from "@/components/shared/cta-section";
-import { academyBlogRelatedCourses } from "@/content/academy";
-import { blogContent } from "@/content/blog";
+import { blogContent, getArticle, getRelatedArticles } from "@/content/blog";
 import { createArticleMetadata, createPageMetadata } from "@/lib/metadata";
-import { getBlogHeroImage, type BlogArticle } from "@/types/blog";
+import { getBlogHeroImage } from "@/content/blog";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
   year: "numeric",
 });
-
-function getArticle(slug: string): BlogArticle | undefined {
-  return blogContent.articles.find((article) => article.slug === slug);
-}
 
 export function generateStaticParams() {
   return blogContent.articles.map((article) => ({ slug: article.slug }));
@@ -63,36 +59,27 @@ export default async function BlogArticlePage({
   if (!article) notFound();
 
   const hero = getBlogHeroImage(article);
+  const relatedArticles = getRelatedArticles(slug);
 
   return (
     <AcademyDetailShell
-      hero={
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl lg:aspect-21/9">
-          <Image
-            src={hero.src}
-            alt={hero.alt}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 90vw"
-            className="object-cover"
-          />
-        </div>
-      }
+      hero={<AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />}
       metadata={
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <ArticleMetaBadges
-              category={article.category}
-              readTimeMinutes={article.readTimeMinutes}
-            />
-            <span className="text-fg-subtle text-xs sm:text-sm">
-              {dateFormatter.format(new Date(article.publishedAt))}
-            </span>
-          </div>
-          <h1 className="text-foreground font-serif text-3xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px] lg:text-[40px] lg:leading-[52px]">
-            {article.title}
-          </h1>
-        </div>
+        <AcademyDetailMetadata
+          eyebrow={blogContent.hero.eyebrow}
+          title={article.title}
+          badges={
+            <>
+              <ArticleMetaBadges
+                category={article.category}
+                readTimeMinutes={article.readTimeMinutes}
+              />
+              <span className="text-fg-subtle text-xs sm:text-sm">
+                {dateFormatter.format(new Date(article.publishedAt))}
+              </span>
+            </>
+          }
+        />
       }
       main={<ArticleBody blocks={article.body} />}
       sidebar={
@@ -103,9 +90,9 @@ export default async function BlogArticlePage({
         />
       }
       related={
-        <ContinueLearningSection
-          content={blogContent.continueLearning}
-          courses={academyBlogRelatedCourses}
+        <AcademyRelatedSection
+          content={blogContent.relatedSection}
+          items={relatedArticles}
         />
       }
       cta={<CtaSection overlapNext={false} content={blogContent.cta} />}

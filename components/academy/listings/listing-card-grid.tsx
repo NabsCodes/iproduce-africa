@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 const INITIAL_VISIBLE = 9;
 const PAGE_SIZE = 6;
 
-export type TrackCardGridItem = {
+export type ListingCardGridItem = {
   key: string;
   href: string;
   image: string;
@@ -25,18 +25,18 @@ export type TrackCardGridItem = {
   description?: string;
 };
 
-type TrackCardGridProps = {
-  items: readonly TrackCardGridItem[];
+type ListingCardGridProps = {
+  items: readonly ListingCardGridItem[];
   /** Re-mount to reset pagination — e.g. pass active filter value. */
   resetKey?: string;
   emptyLabel?: string;
 };
 
-export function TrackCardGrid({
+export function ListingCardGrid({
   items,
   resetKey = "all",
   emptyLabel = "No items to show yet.",
-}: TrackCardGridProps) {
+}: ListingCardGridProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
   const visible = items.slice(0, visibleCount);
@@ -80,7 +80,7 @@ export function TrackCardGrid({
           }
           className="mt-10 px-6 sm:mt-12"
         >
-          View More
+          Load more
           <ChevronDown className="size-4" />
         </Button>
       ) : null}

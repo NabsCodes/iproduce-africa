@@ -17,6 +17,8 @@ type MultiStepDialogFooterProps = {
   onBack: () => void;
   onNext: () => void;
   onSubmit: () => void;
+  /** Single-step forms — submit only, no back affordance or step counter. */
+  singleStep?: boolean;
 };
 
 export function MultiStepDialogFooter({
@@ -31,6 +33,7 @@ export function MultiStepDialogFooter({
   onBack,
   onNext,
   onSubmit,
+  singleStep = false,
 }: MultiStepDialogFooterProps) {
   const isFirstStep = stepIndex === 0;
   const submittingLabel = "Submitting...";
@@ -41,6 +44,29 @@ export function MultiStepDialogFooter({
       ? "bg-forest-900 text-white hover:bg-forest-800"
       : "bg-leaf-100 text-forest-800 hover:bg-leaf-200",
   );
+
+  if (singleStep) {
+    return (
+      <div className="bg-subtle border-grey-200 flex justify-end border-t px-5 py-4 sm:px-7 sm:py-5">
+        <Button
+          type="button"
+          variant="neutral"
+          size="sm"
+          disabled={isSubmitting}
+          onClick={onSubmit}
+          className={advanceClass}
+        >
+          <span className="hidden sm:inline">
+            {isSubmitting ? submittingLabel : submitLabel}
+          </span>
+          <span className="sm:hidden">
+            {isSubmitting ? submittingLabel : "Submit"}
+          </span>
+          <ArrowRight className="size-4" />
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-subtle border-grey-200 grid grid-cols-3 items-center gap-3 border-t px-5 py-4 sm:px-7 sm:py-5">
@@ -62,7 +88,12 @@ export function MultiStepDialogFooter({
         </Button>
       </div>
 
-      <p className="text-fg-subtle justify-self-center text-center text-xs font-medium sm:text-sm">
+      <p
+        className={cn(
+          "text-fg-subtle justify-self-center text-center text-xs font-medium sm:text-sm",
+          totalSteps <= 1 && "sr-only",
+        )}
+      >
         Step {stepIndex + 1} of {totalSteps}
       </p>
 

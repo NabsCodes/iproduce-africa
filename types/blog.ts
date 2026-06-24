@@ -1,22 +1,18 @@
-import type { AcademyTrackHeroContent } from "@/types/academy";
+import type {
+  AcademyListingHeroContent,
+  AcademyRelatedSectionContent,
+} from "@/types/academy";
 import type { CtaSectionContent } from "@/types/content";
 
-/**
- * Editable category labels for the static MVP. Append here when editorial
- * adds a category — `BlogCategory` follows automatically.
- */
-export const BLOG_CATEGORIES = [
-  "Innovation",
-  "Trade",
-  "Smart Agriculture",
-  "Agribusiness",
-  "Policy",
-  "Market Insights",
-  "Sustainability",
-  "Community",
-] as const;
-
-export type BlogCategory = (typeof BLOG_CATEGORIES)[number];
+export type BlogCategory =
+  | "Innovation"
+  | "Trade"
+  | "Smart Agriculture"
+  | "Agribusiness"
+  | "Policy"
+  | "Market Insights"
+  | "Sustainability"
+  | "Community";
 
 /**
  * Structured blocks for article bodies. Tagged union — the
@@ -52,7 +48,7 @@ export type BlogArticle = {
   body: readonly BlogArticleBlock[];
 };
 
-export type BlogHeroContent = AcademyTrackHeroContent;
+export type BlogHeroContent = AcademyListingHeroContent;
 
 export type BlogNewsletterContent = {
   eyebrow: string;
@@ -68,31 +64,13 @@ export type BlogShareControlsContent = {
   copyConfirmation: string;
 };
 
-export type BlogContinueLearningContent = {
-  eyebrow: string;
-  title: string;
-  description?: string;
-  viewAllLabel: string;
-  viewAllHref: string;
-};
-
 export type BlogPageContent = {
   hero: BlogHeroContent;
   newsletter: BlogNewsletterContent;
   shareControls: BlogShareControlsContent;
-  continueLearning: BlogContinueLearningContent;
+  relatedSection: AcademyRelatedSectionContent;
   /** Editor pointer to the featured article. Falls back to most recent if null or unknown. */
   featuredArticleSlug: string | null;
   articles: readonly BlogArticle[];
   cta: CtaSectionContent;
 };
-
-export function getBlogHeroImage(article: BlogArticle): {
-  src: string;
-  alt: string;
-} {
-  return {
-    src: article.heroImage ?? article.cardImage,
-    alt: article.heroImageAlt ?? article.cardImageAlt,
-  };
-}

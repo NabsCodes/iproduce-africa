@@ -1,4 +1,5 @@
 import { homeContent } from "@/content/home";
+import { OTHER_OPTION_VALUE } from "@/schemas/constants";
 import type { ContactPageContent } from "@/types/contact";
 
 const mapQuery = encodeURIComponent("3, Baltic Crescent Maitama, Abuja");
@@ -30,16 +31,30 @@ export const contactPageContent = {
     title: "Contact Form",
     description:
       "Complete the form and a member of our team will get back to you as soon as possible.",
+    otherOptionValue: OTHER_OPTION_VALUE,
     placeholders: {
       firstName: "First Name",
       lastName: "Last Name",
       email: "Email Address",
+      subject: "Subject",
+      subjectOther: "Tell us what this is about",
       message: "Message",
     },
+    options: {
+      subjects: [
+        { value: "general", label: "General inquiry" },
+        { value: "partnership", label: "Partnership opportunities" },
+        { value: "community", label: "Community & membership" },
+        { value: "academy", label: "Academy & training" },
+        { value: "support", label: "Support" },
+        { value: "media", label: "Media & press" },
+        { value: OTHER_OPTION_VALUE, label: "Other" },
+      ],
+    },
     submitLabel: "Send Message",
-    successTitle: "Message received",
+    successTitle: "Preview captured",
     successDescription:
-      "Thank you for reaching out. A member of our team will get back to you within one business day.",
+      "This is a demo submission only — nothing has been saved or emailed yet. We will connect live contact handling before launch.",
     sendAnotherLabel: "Send another message",
   },
   map: {

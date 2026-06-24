@@ -1,4 +1,4 @@
-import { AcademyTrackHeroSection } from "@/components/academy/track-hero-section";
+import { AcademyListingHeroSection } from "@/components/academy/listings/listing-hero-section";
 import { BlogListingBody } from "@/components/academy/blog/blog-listing-body";
 import { FeaturedArticleSection } from "@/components/academy/blog/featured-article-section";
 import { CtaSection } from "@/components/shared/cta-section";
@@ -28,7 +28,7 @@ export default function BlogIndexPage() {
 
   return (
     <>
-      <AcademyTrackHeroSection content={blogContent.hero} />
+      <AcademyListingHeroSection content={blogContent.hero} />
       {featured ? <FeaturedArticleSection article={featured} /> : null}
       <BlogListingBody
         categories={blogCategories}

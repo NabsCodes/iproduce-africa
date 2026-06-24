@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { ContentCardTone } from "@/components/shared/content-card";
+import type { ContentCardTone } from "@/types/content";
 
 type ArticleMetaBadgesProps = {
   category: string;

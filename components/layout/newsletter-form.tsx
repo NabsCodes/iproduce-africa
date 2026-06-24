@@ -23,7 +23,7 @@ export function NewsletterForm() {
           autoCapitalize="off"
           spellCheck={false}
           placeholder={siteConfig.footer.newsletter.placeholder}
-          className="text-grey-900 placeholder:text-grey-400 focus-visible:ring-tangerine-300/50 h-14 min-w-0 flex-1 border-0 bg-white px-5 text-[15px] focus-visible:border-0 focus-visible:ring-2 md:text-[15px] dark:bg-white"
+          className="text-grey-900 placeholder:text-grey-400 focus-visible:ring-tangerine-300/50 h-14 min-w-0 flex-1 border-0 bg-white px-5 text-[15px] focus-visible:border-0 focus-visible:ring-2 md:text-[15px]"
         />
         <Button
           type="submit"

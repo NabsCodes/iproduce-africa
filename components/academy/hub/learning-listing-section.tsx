@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -110,7 +110,7 @@ function ViewMoreControl({ href, label }: { href?: string; label: string }) {
     return (
       <Link href={href} className={cn(baseClass, "hover:bg-muted")}>
         {label}
-        <ChevronDown className="size-4" aria-hidden />
+        <ArrowRight className="size-4" aria-hidden />
       </Link>
     );
   }
@@ -123,7 +123,7 @@ function ViewMoreControl({ href, label }: { href?: string; label: string }) {
       className={cn(baseClass, "cursor-not-allowed opacity-70")}
     >
       {label}
-      <ChevronDown className="size-4" aria-hidden />
+      <ArrowRight className="size-4" aria-hidden />
     </button>
   );
 }

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2 } from "lucide-react";
 
 import {
+  SelectFormField,
   TextareaFormField,
   TextFormField,
 } from "@/components/shared/form-fields";
@@ -24,12 +25,15 @@ type ContactFormProps = {
 
 export function ContactForm({ content }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false);
+  const otherValue = content.otherOptionValue;
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: contactFormDefaultValues,
     mode: "onBlur",
   });
+
+  const watchedSubject = useWatch({ control: form.control, name: "subject" });
 
   async function onSubmit(_values: ContactFormValues) {
     // TODO(contact-form): wire to real submission endpoint.
@@ -112,6 +116,22 @@ export function ContactForm({ content }: ContactFormProps) {
             autoComplete="email"
             showLabel
           />
+
+          <SelectFormField
+            control={form.control}
+            name="subject"
+            placeholder={content.placeholders.subject}
+            options={content.options.subjects}
+          />
+
+          {watchedSubject === otherValue ? (
+            <TextFormField
+              control={form.control}
+              name="subjectOther"
+              placeholder={content.placeholders.subjectOther}
+              showLabel
+            />
+          ) : null}
 
           <TextareaFormField
             control={form.control}

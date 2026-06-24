@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 
 import type { CommunityOrbitIconKey } from "@/lib/community-orbit-icons";
 
+export type ContentCardTone = "tangerine" | "leaf" | "forest";
+
 export type EyebrowTone = "leaf" | "tangerine";
 
 export type JumpSectionIconKey =

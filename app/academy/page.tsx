@@ -1,14 +1,14 @@
-import { AcademyHeroSection } from "@/components/academy/academy-hero-section";
-import { AcademyTabsSection } from "@/components/academy/academy-tabs-section";
-import { FeaturedEventSection } from "@/components/academy/featured-event-section";
-import { LearningListingSection } from "@/components/academy/learning-listing-section";
-import { LearningOpportunitiesSection } from "@/components/academy/learning-opportunities-section";
-import { TargetParticipantsSection } from "@/components/academy/target-participants-section";
+import { AcademyHeroSection } from "@/components/academy/hub/academy-hero-section";
+import { AcademyTabsSection } from "@/components/academy/hub/academy-tabs-section";
+import { FeaturedEventSection } from "@/components/academy/hub/featured-event-section";
+import { LearningListingSection } from "@/components/academy/hub/learning-listing-section";
+import { LearningOpportunitiesSection } from "@/components/academy/hub/learning-opportunities-section";
+import { TargetParticipantsSection } from "@/components/academy/hub/target-participants-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
 import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { academyContent } from "@/content/academy";
-import type { ContentCardTone } from "@/components/shared/content-card";
+import type { ContentCardTone } from "@/types/content";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
 import type {
@@ -73,7 +73,7 @@ export default function AcademyPage() {
         title={scheduled.title}
         columns={4}
         items={scheduled.items.map((item) => ({
-          href: "#webinars-events",
+          href: `/academy/webinars/${item.slug}`,
           image: item.image,
           category: item.type,
           categoryTone: scheduledTypeToneMap[item.type],
@@ -92,7 +92,7 @@ export default function AcademyPage() {
         title={courses.title}
         columns={3}
         items={courses.items.map((item) => ({
-          href: "#courses",
+          href: `/academy/courses/${item.slug}`,
           image: item.image,
           category: item.level,
           categoryTone: courseLevelToneMap[item.level],

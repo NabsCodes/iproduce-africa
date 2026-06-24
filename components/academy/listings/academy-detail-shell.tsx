@@ -3,17 +3,9 @@ import type { ReactNode } from "react";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 
 /**
- * Slot-based layout shell for Academy track detail pages — Blog today,
- * Courses / Webinars / Events later. Owns layout only (page chrome,
- * column grid, sticky sidebar, hero entrance motion). Does not inspect or
- * transform the data passed to its slots.
- *
- * Each track ships its own renderers for hero/metadata/main/sidebar/related
- * and composes them through this shell. See `academy-spec.md` →
- * "Detail-page shell (shared across tracks)" for the rationale.
- *
- * Slots used by Blog today are required (hero, metadata, main, sidebar,
- * related, cta). Don't add slots for future tracks until they're consumed.
+ * Slot-based layout shell for Academy detail pages — Blog, Webinars, Courses.
+ * Owns layout only (page chrome, column grid, sticky sidebar, hero entrance
+ * motion). Does not inspect or transform the data passed to its slots.
  */
 type AcademyDetailShellProps = {
   hero: ReactNode;

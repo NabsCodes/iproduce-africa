@@ -85,7 +85,9 @@ export function MultiStepDialogShell({
               <DialogDescription className="sr-only">
                 {description}
               </DialogDescription>
-              <MultiStepDialogStepper steps={steps} stepIndex={stepIndex} />
+              {steps.length > 1 ? (
+                <MultiStepDialogStepper steps={steps} stepIndex={stepIndex} />
+              ) : null}
             </div>
 
             <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-7 sm:py-7">

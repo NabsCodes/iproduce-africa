@@ -2,10 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import type { ContentCardTone } from "@/types/content";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-export type ContentCardTone = "tangerine" | "leaf" | "forest";
+export type { ContentCardTone } from "@/types/content";
 
 type ContentCardProps = {
   image: string;

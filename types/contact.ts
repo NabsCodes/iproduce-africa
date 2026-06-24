@@ -29,14 +29,25 @@ export type ContactReachOutContent = {
   secondaryPhone: string;
 };
 
+export type ContactFormOption = {
+  value: string;
+  label: string;
+};
+
 export type ContactFormContent = {
   title: string;
   description: string;
+  otherOptionValue: string;
   placeholders: {
     firstName: string;
     lastName: string;
     email: string;
+    subject: string;
+    subjectOther: string;
     message: string;
+  };
+  options: {
+    subjects: readonly ContactFormOption[];
   };
   submitLabel: string;
   successTitle: string;

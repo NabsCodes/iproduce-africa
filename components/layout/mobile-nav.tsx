@@ -157,7 +157,9 @@ export function MobileNav({
                             </SheetClose>
                           </li>
                           {link.children.map((child) => {
-                            const isChildActive = currentRoute === child.href;
+                            const isChildActive =
+                              currentRoute === child.href ||
+                              currentRoute.startsWith(`${child.href}/`);
                             return (
                               <li key={child.href}>
                                 <SheetClose asChild>

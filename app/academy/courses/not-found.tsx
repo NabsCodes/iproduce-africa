@@ -1,0 +1,91 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+
+import { ButtonLink } from "@/components/ui/button";
+import { EyebrowPill } from "@/components/ui/eyebrow-pill";
+
+export const metadata: Metadata = {
+  title: "Course not found",
+  description: "The course you're looking for isn't available.",
+  robots: { index: false, follow: true },
+};
+
+export default function CourseNotFoundPage() {
+  return (
+    <section className="max-w-8xl mx-auto flex w-full flex-1 items-center px-4 py-12 sm:px-6 sm:py-20 lg:min-h-[70vh] lg:px-8 lg:py-24">
+      <div className="border-grey-200 w-full overflow-hidden rounded-xl border bg-white p-6 sm:p-10 lg:p-14">
+        <div className="flex flex-col gap-6 sm:gap-7">
+          <EyebrowPill tone="leaf">404 — Course not found</EyebrowPill>
+
+          <h1 className="text-foreground font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
+            We couldn&apos;t find that course.
+          </h1>
+
+          <p className="text-fg-muted max-w-2xl text-base leading-7 sm:text-lg">
+            The URL you followed may have moved, been renamed, or never existed.
+            Browse the course catalogue or head back to the Academy hub.
+          </p>
+
+          <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <ButtonLink
+              href="/academy/courses"
+              variant="green"
+              size="md"
+              className="w-full sm:w-auto"
+            >
+              Browse all courses
+            </ButtonLink>
+            <ButtonLink
+              href="/academy"
+              variant="green-soft"
+              size="md"
+              className="w-full sm:w-auto"
+            >
+              Back to Academy
+            </ButtonLink>
+            <ButtonLink
+              href="/"
+              variant="green-outline"
+              size="md"
+              className="w-full sm:w-auto"
+            >
+              Home
+            </ButtonLink>
+          </div>
+
+          <div className="border-grey-200 mt-4 border-t pt-6">
+            <p className="text-fg-subtle text-xs font-medium tracking-[0.18em] uppercase">
+              Or jump to
+            </p>
+            <ul className="mt-3 flex flex-col gap-2 sm:gap-2.5">
+              <li>
+                <Link
+                  href="/academy/webinars"
+                  className="text-foreground hover:text-leaf-700 text-sm font-medium underline-offset-4 transition-colors hover:underline sm:text-base"
+                >
+                  Webinars & events
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/academy/blog"
+                  className="text-foreground hover:text-leaf-700 text-sm font-medium underline-offset-4 transition-colors hover:underline sm:text-base"
+                >
+                  Blog & insights
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-foreground hover:text-leaf-700 text-sm font-medium underline-offset-4 transition-colors hover:underline sm:text-base"
+                >
+                  Contact us
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

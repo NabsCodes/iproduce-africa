@@ -1,0 +1,119 @@
+import { blogContent } from "@/content/blog";
+import { coursesContent, courseToCardItem } from "@/content/courses";
+import { webinarsContent, webinarToCardItem } from "@/content/webinars";
+import type { ContentCardTone } from "@/types/content";
+
+export type AcademySearchResultKind = "webinar" | "course" | "article";
+
+export type AcademySearchResult = {
+  kind: AcademySearchResultKind;
+  slug: string;
+  title: string;
+  description: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+  category: string;
+  categoryTone: ContentCardTone;
+  meta?: string;
+};
+
+const kindLabel: Record<AcademySearchResultKind, string> = {
+  webinar: "Webinar or event",
+  course: "Course",
+  article: "Article",
+};
+
+export function academySearchKindLabel(kind: AcademySearchResultKind) {
+  return kindLabel[kind];
+}
+
+function matches(haystack: string, query: string) {
+  return haystack.toLowerCase().includes(query.toLowerCase());
+}
+
+export function searchAcademy(rawQuery: string): AcademySearchResult[] {
+  const query = rawQuery.trim();
+  if (!query) return [];
+
+  const results: AcademySearchResult[] = [];
+
+  for (const webinar of webinarsContent.webinars) {
+    const haystack = [
+      webinar.title,
+      webinar.description,
+      webinar.excerpt,
+      webinar.type,
+      webinar.location ?? "",
+      webinar.speakers ?? "",
+    ].join(" ");
+
+    if (!matches(haystack, query)) continue;
+
+    const card = webinarToCardItem(webinar);
+
+    results.push({
+      kind: "webinar",
+      slug: webinar.slug,
+      title: webinar.title,
+      description: webinar.excerpt,
+      href: card.href,
+      image: card.image,
+      imageAlt: card.imageAlt ?? webinar.title,
+      category: card.category,
+      categoryTone: card.categoryTone,
+      meta: card.meta,
+    });
+  }
+
+  for (const course of coursesContent.courses) {
+    const haystack = [
+      course.title,
+      course.description,
+      course.excerpt,
+      course.level,
+      course.duration,
+      ...course.modules,
+    ].join(" ");
+
+    if (!matches(haystack, query)) continue;
+
+    const card = courseToCardItem(course);
+
+    results.push({
+      kind: "course",
+      slug: course.slug,
+      title: course.title,
+      description: course.excerpt,
+      href: card.href,
+      image: card.image,
+      imageAlt: card.imageAlt ?? course.title,
+      category: card.category,
+      categoryTone: card.categoryTone,
+      meta: card.meta,
+    });
+  }
+
+  for (const article of blogContent.articles) {
+    const haystack = [article.title, article.excerpt, article.category].join(
+      " ",
+    );
+
+    if (!matches(haystack, query)) continue;
+
+    results.push({
+      kind: "article",
+      slug: article.slug,
+      title: article.title,
+      description: article.excerpt,
+      href: `/academy/blog/${article.slug}`,
+      image: article.cardImage,
+      imageAlt: article.cardImageAlt,
+      category: article.category.toUpperCase(),
+      categoryTone: "forest",
+      meta: `${article.readTimeMinutes} MIN READ`,
+    });
+  }
+
+  return results;
+}
