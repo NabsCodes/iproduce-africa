@@ -1,5 +1,18 @@
 import { placeholderImages } from "@/lib/placeholder-images";
-import type { BlogArticle } from "@/types/blog";
+import type { BlogArticle, BlogAuthor } from "@/types/blog";
+
+const authors = {
+  amara: { name: "Amara Okafor", role: "Trade & Policy Analyst" },
+  kofi: { name: "Kofi Mensah", role: "AgriTech Editor" },
+  fatima: { name: "Fatima Yusuf", role: "Sustainability Lead" },
+  james: { name: "James Ndlovu", role: "Agribusiness Finance" },
+  zainab: { name: "Zainab Diallo", role: "Policy Research" },
+  lisa: { name: "Lisa van der Merwe", role: "Market Intelligence" },
+  daniel: { name: "Daniel Mwangi", role: "Livestock Programmes" },
+  chioma: { name: "Chioma Eze", role: "Community Programmes" },
+  samuel: { name: "Samuel Boateng", role: "Value Chain Specialist" },
+  aisha: { name: "Aisha Rahman", role: "Innovation Desk" },
+} as const satisfies Record<string, BlogAuthor>;
 
 /**
  * Editorial article catalogue — static placeholder until Sanity.
@@ -14,6 +27,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Trade",
     readTimeMinutes: 14,
     publishedAt: "2026-06-18",
+    author: authors.amara,
     cardImage: placeholderImages.news.two,
     cardImageAlt: "Agritech technician working with farming equipment",
     heroImage: placeholderImages.valueChains.horticulture,
@@ -28,6 +42,10 @@ export const blogArticles: readonly BlogArticle[] = [
       {
         kind: "paragraph",
         text: "The African Continental Free Trade Area (AfCFTA) has not removed every barrier overnight. Non-tariff frictions, documentation gaps, and uneven customs capacity still shape outcomes on the ground. But for businesses willing to prepare properly, regional trade is now a practical growth lever — not a conference talking point.",
+      },
+      {
+        kind: "blockquote",
+        text: "Regional trade rewards operators who treat compliance and logistics as product features — not back-office afterthoughts.",
       },
       { kind: "heading2", text: "Why Intra-African Trade Matters Now" },
       {
@@ -75,6 +93,11 @@ export const blogArticles: readonly BlogArticle[] = [
         text: "None of this replaces the need for market intelligence. Tariff preference is useless if your product fails a phytosanitary check. Payment rails do not help if your buyer's procurement team changes specification mid-season. The policy layer creates possibility; execution determines outcome.",
       },
       { kind: "heading2", text: "Corridors Where Activity Is Picking Up" },
+      {
+        kind: "callout",
+        title: "Editor's note",
+        text: "Corridor rankings shift with policy updates and logistics disruptions. Treat this list as a starting point for buyer interviews, not a permanent map.",
+      },
       {
         kind: "paragraph",
         text: "Trade potential is not evenly distributed. The corridors below are seeing the most agribusiness movement in early 2026, based on buyer demand, logistics maturity, and policy implementation progress.",
@@ -206,6 +229,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Innovation",
     readTimeMinutes: 8,
     publishedAt: "2026-06-10",
+    author: authors.kofi,
     cardImage: placeholderImages.news.one,
     cardImageAlt: "Hand holding green crops in a fertile field",
     excerpt:
@@ -273,6 +297,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Smart Agriculture",
     readTimeMinutes: 5,
     publishedAt: "2026-05-28",
+    author: authors.fatima,
     cardImage: placeholderImages.news.three,
     cardImageAlt: "Colourful market stall with fresh produce",
     excerpt:
@@ -325,6 +350,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Agribusiness",
     readTimeMinutes: 9,
     publishedAt: "2026-05-20",
+    author: authors.james,
     cardImage: placeholderImages.academySpotlight.workshop,
     cardImageAlt: "Workshop discussion around a table",
     excerpt:
@@ -384,6 +410,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Policy",
     readTimeMinutes: 7,
     publishedAt: "2026-05-12",
+    author: authors.zainab,
     cardImage: placeholderImages.academySpotlight.presentation,
     cardImageAlt: "Conference presentation with seated audience",
     excerpt:
@@ -438,6 +465,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Market Insights",
     readTimeMinutes: 3,
     publishedAt: "2026-05-06",
+    author: authors.lisa,
     cardImage: placeholderImages.valueChains.horticulture,
     cardImageAlt: "Field of leafy green vegetables",
     excerpt:
@@ -469,6 +497,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Sustainability",
     readTimeMinutes: 8,
     publishedAt: "2026-04-28",
+    author: authors.daniel,
     cardImage: placeholderImages.valueChains.livestock,
     cardImageAlt: "Cattle grazing in open dryland",
     excerpt:
@@ -505,6 +534,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Community",
     readTimeMinutes: 6,
     publishedAt: "2026-04-18",
+    author: authors.chioma,
     cardImage: placeholderImages.about.journey.cohort,
     cardImageAlt: "Cohort group seated together",
     excerpt:
@@ -548,6 +578,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Market Insights",
     readTimeMinutes: 11,
     publishedAt: "2026-04-08",
+    author: authors.samuel,
     cardImage: placeholderImages.valueChains.fruits,
     cardImageAlt: "Crates of fresh fruit at a market",
     excerpt:
@@ -577,6 +608,21 @@ export const blogArticles: readonly BlogArticle[] = [
         text: "Root crops and hardy fruits on short domestic routes often capture most spoilage gains from shaded handling, night harvesting, and disciplined first-mile timing — at a fraction of reefer cost.",
       },
       { kind: "heading2", text: "Building a Cold-Chain Business Case" },
+      {
+        kind: "table",
+        caption:
+          "Illustrative payback windows by intervention (placeholder data for layout QA).",
+        headers: ["Intervention", "Typical payback", "Best fit"],
+        rows: [
+          ["Farm-gate pre-cooling", "1–2 seasons", "Leafy greens, berries"],
+          ["Reefer on 36h+ routes", "2–4 seasons", "Regional export lanes"],
+          [
+            "Humidity-controlled storage",
+            "3–5 seasons",
+            "7+ day shelf-life SKUs",
+          ],
+        ],
+      },
       {
         kind: "list_ordered",
         items: [
@@ -610,6 +656,7 @@ export const blogArticles: readonly BlogArticle[] = [
     category: "Innovation",
     readTimeMinutes: 4,
     publishedAt: "2026-03-25",
+    author: authors.aisha,
     cardImage: placeholderImages.academySpotlight.market,
     cardImageAlt: "Outdoor market trading scene",
     excerpt:

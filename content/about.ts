@@ -111,6 +111,7 @@ export const aboutPageContent = {
   journey: {
     eyebrow: "Our Journey",
     title: "How we've gone thus far over the years",
+    focusPanelLabel: "What we focused on",
     milestones: [
       {
         year: "2021",
@@ -118,34 +119,34 @@ export const aboutPageContent = {
         description:
           "Founded in Lagos with a simple belief: Africa's agribusiness actors needed a shared digital home — a place to learn, connect, and grow together.",
         leftImage: placeholderImages.about.journey.idea,
-        stats: [
-          { label: "Founding team", value: "3" },
-          { label: "Pilot webinars", value: "4" },
-          { label: "Early attendees", value: "120" },
+        focusPoints: [
+          "Small founding team",
+          "First online sessions",
+          "Early community conversations",
         ],
       },
       {
         year: "2022",
         title: "First Cohort",
         description:
-          "Launched our inaugural training cohort with 120 participants across 8 countries. The response confirmed the need was real and urgent.",
+          "Launched our inaugural training cohort across several African markets. The response confirmed the need was real and urgent.",
         leftImage: placeholderImages.about.journey.cohort,
-        stats: [
-          { label: "Participants", value: "120" },
-          { label: "Countries", value: "8" },
-          { label: "Programmes", value: "4" },
+        focusPoints: [
+          "Inaugural training programmes",
+          "Cross-border participation",
+          "Strong early demand",
         ],
       },
       {
         year: "2023",
         title: "Ecosystem Expansion",
         description:
-          "Opened institutional partnerships with 30+ universities, development agencies, and agricultural bodies across West and East Africa.",
+          "Opened institutional partnerships with universities, development agencies, and agricultural bodies across West and East Africa.",
         leftImage: placeholderImages.about.journey.expansion,
-        stats: [
-          { label: "Partners", value: "30+" },
-          { label: "Countries", value: "12" },
-          { label: "Members", value: "5,200" },
+        focusPoints: [
+          "Institutional partnerships",
+          "Regional ecosystem reach",
+          "Growing member community",
         ],
       },
       {
@@ -154,22 +155,22 @@ export const aboutPageContent = {
         description:
           "Released the full iProduce platform — integrating learning, networking, and partner services into one connected ecosystem.",
         leftImage: placeholderImages.about.journey.platform,
-        stats: [
-          { label: "Members", value: "6,400" },
-          { label: "Countries", value: "18" },
-          { label: "Courses live", value: "26" },
+        focusPoints: [
+          "Learning and networking together",
+          "Partner services integrated",
+          "One connected platform",
         ],
       },
       {
         year: "2026",
         title: "Continent-Wide",
         description:
-          "Today, over 12,000 members in 47 countries are growing their agribusiness futures through iProduce Africa.",
+          "Today, a growing community across the continent is building agribusiness futures through iProduce Africa.",
         leftImage: placeholderImages.about.journey.continent,
-        stats: [
-          { label: "Members", value: "12,000" },
-          { label: "Countries", value: "47" },
-          { label: "Partners", value: "30+" },
+        focusPoints: [
+          "Pan-African community",
+          "Programmes at scale",
+          "Long-term partnerships",
         ],
       },
     ],

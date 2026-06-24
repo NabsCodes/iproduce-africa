@@ -67,22 +67,20 @@ export type AboutImpactStats = {
   items: readonly AboutImpactStat[];
 };
 
-export type AboutJourneyStat = {
-  label: string;
-  value: string;
-};
+export type AboutJourneyFocusPoint = string;
 
 export type AboutJourneyMilestone = {
   year: string;
   title: string;
   description: string;
   leftImage: string;
-  stats: readonly AboutJourneyStat[];
+  focusPoints: readonly AboutJourneyFocusPoint[];
 };
 
 export type AboutJourney = {
   eyebrow: string;
   title: string;
+  focusPanelLabel: string;
   milestones: readonly AboutJourneyMilestone[];
 };
 

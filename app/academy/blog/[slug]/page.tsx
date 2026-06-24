@@ -6,6 +6,7 @@ import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-her
 import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
 import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
 import { ArticleBody } from "@/components/academy/blog/article-body";
+import { ArticleAuthor } from "@/components/academy/blog/article-author";
 import { ArticleMetaBadges } from "@/components/academy/blog/article-meta-badges";
 import { BlogArticleSidebar } from "@/components/academy/blog/blog-article-sidebar";
 import { CtaSection } from "@/components/shared/cta-section";
@@ -70,15 +71,17 @@ export default async function BlogArticlePage({
           eyebrow={blogContent.hero.eyebrow}
           title={article.title}
           badges={
-            <>
-              <ArticleMetaBadges
-                category={article.category}
-                readTimeMinutes={article.readTimeMinutes}
-              />
-              <span className="text-fg-subtle text-xs sm:text-sm">
-                {dateFormatter.format(new Date(article.publishedAt))}
-              </span>
-            </>
+            <ArticleMetaBadges
+              category={article.category}
+              readTimeMinutes={article.readTimeMinutes}
+            />
+          }
+          meta={
+            <ArticleAuthor
+              author={article.author}
+              publishedAt={dateFormatter.format(new Date(article.publishedAt))}
+              publishedAtIso={article.publishedAt}
+            />
           }
         />
       }

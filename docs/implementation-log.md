@@ -3,6 +3,14 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## About Journey — qualitative focus panel (2026-06-23)
+
+Client request: keep timeline **years**; remove unverified **numeric stats** from the right sticky card and mobile pills. Replaced `stats[]` with `focusPoints[]` + shared `focusPanelLabel` ("What we focused on"). Scrubbed hard numbers from milestone body copy. Files: `types/about.ts`, `content/about.ts`, `components/about/journey-section.tsx`, `docs/routes/about-spec.md`.
+
+**Verification:** `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm build` — pass.
+
+---
+
 ## Pre-Sanity lock — blog UX + editorial content (2026-06-24, session 7)
 
 **Blog reading UX**

@@ -14,25 +14,55 @@ export type BlogCategory =
   | "Sustainability"
   | "Community";
 
+export type BlogAuthor = {
+  name: string;
+  role?: string;
+};
+
 /**
  * Structured blocks for article bodies. Tagged union — the
- * `<ArticleBody />` renderer dispatches by `kind`. Not a drop-in
- * Portable Text shape; see `blog-spec.md` → Sanity migration for the
- * adapter rule.
+ * `<ArticleBody />` renderer dispatches by `kind`. Portable Text
+ * adapters should map into this shape so the renderer stays stable.
  */
 export type BlogArticleBlock =
   | { kind: "paragraph"; text: string }
   | { kind: "heading2"; text: string }
+  | { kind: "heading3"; text: string }
+  | { kind: "blockquote"; text: string }
+  | {
+      kind: "callout";
+      title?: string;
+      text: string;
+    }
   | { kind: "list_unordered"; items: readonly string[] }
   | {
       kind: "list_ordered";
       items: readonly { title: string; body: string }[];
+    }
+  | {
+      kind: "table";
+      caption?: string;
+      headers: readonly string[];
+      rows: readonly (readonly string[])[];
+    }
+  | {
+      kind: "code";
+      language?: string;
+      filename?: string;
+      code: string;
+    }
+  | {
+      kind: "image";
+      src: string;
+      alt: string;
+      caption?: string;
     };
 
 export type BlogArticle = {
   slug: string;
   title: string;
   category: BlogCategory;
+  author: BlogAuthor;
   /** Authored value — renders as e.g. "5 MIN READ". Auto-calc later (post-Sanity). */
   readTimeMinutes: number;
   /** ISO 8601 — formatted at render time via `Intl.DateTimeFormat`. */

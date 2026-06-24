@@ -54,13 +54,13 @@ future verified `value` is supplied.
 ### 5. Journey — `components/about/journey-section.tsx`
 
 The scroll-driven storytelling section. Three-column layout on `lg`
-(title+left-image / timeline / right-image). The two side images are
-`lg:sticky lg:top-24` and cross-fade between milestone-matched photos as
-the user scrolls through the timeline. Active milestone derivation uses
-`useInView` from `motion/react` with a centre-of-viewport margin. The
-active dot fills `bg-leaf-600`; inactive dots stay outline. Mobile
-collapses to a single column — each milestone shows its own image inline
-with no sticky behaviour.
+(title+left-image / timeline / right focus panel). Years stay on the
+timeline as era markers. The right sticky card shows qualitative
+`focusPoints` per milestone (no numeric stats). Mobile shows the same
+focus points as rounded chips under each milestone. Left image is
+`lg:sticky` and cross-fades between milestone-matched photos as the user
+scrolls. Active milestone uses scroll position at ~45% viewport; active
+dot fills `bg-leaf-600`.
 
 ### 6. Team — `components/about/team-section.tsx`
 

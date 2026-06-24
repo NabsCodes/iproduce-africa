@@ -8,7 +8,32 @@ import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { aboutPageContent } from "@/content/about";
 import { cn } from "@/lib/utils";
-import type { AboutJourneyMilestone, AboutJourneyStat } from "@/types/about";
+import type {
+  AboutJourneyFocusPoint,
+  AboutJourneyMilestone,
+} from "@/types/about";
+
+function FocusPointList({
+  points,
+  className,
+}: {
+  points: readonly AboutJourneyFocusPoint[];
+  className?: string;
+}) {
+  return (
+    <ul className={cn("flex flex-col gap-2.5", className)}>
+      {points.map((point) => (
+        <li key={point} className="flex items-start gap-2.5 text-sm leading-6">
+          <span
+            className="bg-leaf-600 mt-2 size-1.5 shrink-0 rounded-full"
+            aria-hidden
+          />
+          <span className="text-foreground">{point}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 function MilestoneRow({
   milestone,
@@ -53,17 +78,12 @@ function MilestoneRow({
         </p>
 
         <ul className="mt-4 flex flex-wrap gap-2 lg:hidden">
-          {milestone.stats.map((stat) => (
+          {milestone.focusPoints.map((point) => (
             <li
-              key={stat.label}
-              className="border-default inline-flex items-baseline gap-1.5 rounded-full border bg-white px-3 py-1"
+              key={point}
+              className="border-default text-foreground inline-flex rounded-full border bg-white px-3 py-1 text-xs font-medium"
             >
-              <span className="text-foreground font-serif text-sm font-semibold tabular-nums">
-                {stat.value}
-              </span>
-              <span className="text-fg-muted text-[11px] font-medium tracking-wide uppercase">
-                {stat.label}
-              </span>
+              {point}
             </li>
           ))}
         </ul>
@@ -106,12 +126,14 @@ function StickyImage({
   );
 }
 
-function StickyStatsCard({
+function StickyFocusCard({
   year,
-  stats,
+  panelLabel,
+  focusPoints,
 }: {
   year: string;
-  stats: readonly AboutJourneyStat[];
+  panelLabel: string;
+  focusPoints: readonly AboutJourneyFocusPoint[];
 }) {
   return (
     <AnimatePresence mode="wait">
@@ -130,21 +152,10 @@ function StickyStatsCard({
           </span>
         </div>
 
-        <ul className="mt-6 divide-y divide-(--border-subtle)">
-          {stats.map((stat) => (
-            <li
-              key={stat.label}
-              className="flex items-baseline justify-between gap-4 py-4 first:pt-0 last:pb-0"
-            >
-              <span className="text-fg-subtle text-[11px] font-semibold tracking-[0.16em] uppercase">
-                {stat.label}
-              </span>
-              <span className="text-foreground font-serif text-3xl leading-none font-semibold tracking-tight tabular-nums sm:text-4xl">
-                {stat.value}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <p className="text-fg-subtle mt-6 text-[11px] font-semibold tracking-[0.16em] uppercase">
+          {panelLabel}
+        </p>
+        <FocusPointList points={focusPoints} className="mt-4" />
       </motion.div>
     </AnimatePresence>
   );
@@ -216,7 +227,11 @@ export function JourneySection() {
             </div>
 
             <div className="hidden lg:sticky lg:top-34 lg:block lg:self-start">
-              <StickyStatsCard year={active.year} stats={active.stats} />
+              <StickyFocusCard
+                year={active.year}
+                panelLabel={journey.focusPanelLabel}
+                focusPoints={active.focusPoints}
+              />
             </div>
           </div>
         </MotionFade>

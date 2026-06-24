@@ -272,8 +272,12 @@ export const blogCategories = [
 ] as const;
 
 export const blogContent: BlogPageContent = {
-  hero: { /* ... */ },
-  newsletter: { /* ... */ },
+  hero: {
+    /* ... */
+  },
+  newsletter: {
+    /* ... */
+  },
   featuredArticleSlug: "unlocking-intra-african-trade",
   articles: blogArticles,
 };
@@ -346,10 +350,10 @@ chrome — worse UX than the current anchor scroll.
 | `components/academy/blog/category-filter-bar.tsx`         | **New** — pill chips with `useState` for active category                                                             |
 | `components/academy/blog/article-grid.tsx`                | **New** — ContentCard grid + View More                                                                               |
 | `components/academy/blog/article-body.tsx`                | **New** — `BlogArticleBlock` renderer                                                                                |
-| `components/academy/blog/blog-article-sidebar.tsx`          | Sidebar newsletter (`NewsletterSignupForm`) + share controls                                                         |
-| `components/shared/newsletter-signup-form.tsx`              | Shared RHF newsletter (footer + blog sidebar)                                                                        |
-| `components/shared/reading-progress.tsx`                    | Header progress bar (blog slug routes via `Header`)                                                                  |
-| `components/shared/scroll-to-top.tsx`                      | Blog detail scroll-to-top (`AcademyDetailShell` opt-in)                                                              |
+| `components/academy/blog/blog-article-sidebar.tsx`        | Sidebar newsletter (`NewsletterSignupForm`) + share controls                                                         |
+| `components/shared/newsletter-signup-form.tsx`            | Shared RHF newsletter (footer + blog sidebar)                                                                        |
+| `components/shared/reading-progress.tsx`                  | Header progress bar (blog slug routes via `Header`)                                                                  |
+| `components/shared/scroll-to-top.tsx`                     | Blog detail scroll-to-top (`AcademyDetailShell` opt-in)                                                              |
 | `components/academy/listings/academy-related-section.tsx` | **Shared** — related cards band (blog articles, courses, webinars)                                                   |
 | `components/academy/listings/academy-detail-shell.tsx`    | **Shared** — slot layout shell for all Academy detail routes (see `academy-spec.md`)                                 |
 | `content/blog.ts`                                         | `getRelatedArticles()` + `blogContent.relatedSection` — blog detail does not cross-import course data                |
