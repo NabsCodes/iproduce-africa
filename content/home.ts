@@ -10,7 +10,7 @@ export const homeContent = {
     eyebrowTone: "leaf",
     title: "Unlocking Local and Global Agribusiness Opportunities",
     description:
-      "We connect agripreneurs — including women building across Africa's food systems — with resources, services, and opportunities to start or grow.",
+      "We connect agripreneurs across Africa with resources, services, and opportunities to grow — with dedicated pathways for women in agriculture.",
     image: "/images/home/hero-image.webp",
     imageAlt: "Woman agripreneur harvesting fresh produce in a greenhouse",
     primaryCta: {
@@ -32,7 +32,7 @@ export const homeContent = {
       {
         label: "Community support",
         description:
-          "A growing network for agripreneurs and ecosystem builders.",
+          "A peer network for agripreneurs and ecosystem builders, with strong representation of women in agriculture.",
       },
     ],
   },
@@ -40,14 +40,15 @@ export const homeContent = {
     eyebrow: "What we do",
     title: "Integrating African Agripreneurs to the World Agro-ecosystem",
     image: placeholderImages.whatWeDo,
-    imageAlt: "Farmers harvesting crops together",
+    imageAlt: "Agripreneurs harvesting crops together",
+    videoAriaLabel: "Intro video coming soon",
   },
   journeys: [
     {
       audience: "For agripreneurs & women in agriculture",
       title: "Grow Your Agribusiness",
       description:
-        "Access training, mentorship, and a peer community designed for founders and operators — with practical support for women leading in agriculture.",
+        "Access training, mentorship, and a peer community built for founders and operators ready to scale.",
       items: [
         "Advisory & 1-on-1 coaching",
         "Resource centre & learning hub",
@@ -83,7 +84,7 @@ export const homeContent = {
     eyebrow: "Why join us",
     title: "Exclusive services to grow your agribusiness",
     description:
-      "Advisory, training, intelligence, and connections in one membership — with dedicated support for women building across Africa's food systems.",
+      "Advisory, training, intelligence, and connections in one membership — including practical support for women in agriculture.",
     items: [
       {
         icon: "users",
@@ -91,8 +92,7 @@ export const homeContent = {
         description:
           "Business advisory and coaching tailored to agripreneurs — from early-stage planning to growth and market readiness.",
         image: placeholderImages.memberServices.advisory,
-        imageAlt:
-          "Three women agripreneurs in a business advisory session",
+        imageAlt: "Three women agripreneurs in a business advisory session",
         imagePosition: "object-[center_35%]",
         tone: "leaf",
       },
@@ -224,7 +224,7 @@ export const homeContent = {
     {
       question: "Who is the platform for?",
       answer:
-        "Farmers, processors, traders, investors, researchers and agripreneurs — anyone building in African agriculture.",
+        "Farmers, processors, traders, investors, researchers, agripreneurs, and women in agriculture — anyone building across the continent.",
       category: "Platform",
     },
     {

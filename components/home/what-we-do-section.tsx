@@ -27,7 +27,11 @@ export function WhatWeDoSection() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-muted flex size-12 items-center justify-center rounded-xl">
+                <span
+                  aria-label={homeContent.about.videoAriaLabel}
+                  title={homeContent.about.videoAriaLabel}
+                  className="bg-muted flex size-12 items-center justify-center rounded-xl"
+                >
                   <Play className="fill-forest-600 text-forest-600 size-5" />
                 </span>
               </div>

@@ -16,7 +16,7 @@ export const aboutPageContent = {
       lineThree: "Ecosystem.",
     },
     description:
-      "iProduce Africa is creating a digital ecosystem that empowers agripreneurs with the tools, partnerships, knowledge, and market access needed to build sustainable and profitable agricultural businesses.",
+      "iProduce Africa is creating a digital ecosystem that empowers agripreneurs — with strong support for women in agriculture — through tools, partnerships, knowledge, and market access.",
     orbit: {
       url: "iproduce.africa",
       summaryLabel: "Learning, trade and partnership pathways",

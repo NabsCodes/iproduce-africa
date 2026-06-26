@@ -14,7 +14,7 @@ export const communityPageContent = {
       accent: "Agribusiness community.",
     },
     description:
-      "Become part of a network of farmers, agripreneurs, investors, innovators, processors, traders and ecosystem leaders shaping the future of agriculture across Africa.",
+      "Become part of a network of farmers, agripreneurs, investors, and ecosystem leaders shaping agriculture across Africa — including a growing community of women in agriculture.",
     primaryCta: {
       label: "Join our Community",
       href: "/community#membership-application",
@@ -75,7 +75,7 @@ export const communityPageContent = {
               angle: 322,
             },
             {
-              label: "Women in Agric",
+              label: "Women in Agriculture",
               icon: "user-round",
               tone: "leaf",
               angle: 108,
@@ -222,7 +222,7 @@ export const communityPageContent = {
       {
         icon: "user-round",
         title: "Women in Agriculture",
-        description: "Founders & operators",
+        description: "Founders, operators & leaders",
       },
       {
         icon: "lightbulb",
@@ -419,10 +419,10 @@ export const communityPageContent = {
         challenge:
           "Ran a strong essential-oils business that nobody outside her city knew.",
         withIProduce:
-          "Showcased her work and joined women-in-agriculture initiatives.",
+          "Showcased her work and joined women-in-agriculture programmes.",
         name: "Fatima",
         initials: "FD",
-        role: "Woman Entrepreneur",
+        role: "Agripreneur · Shea processing",
         country: "Senegal",
       },
     ],
@@ -552,7 +552,7 @@ export const communityPageContent = {
       {
         question: "Who can join?",
         answer:
-          "Anyone working in or supporting African agribusiness — farmers, processors, traders, investors, youth agripreneurs, women founders, and ecosystem organisations. If you contribute to the value chain, you belong here.",
+          "Anyone working in or supporting African agribusiness — farmers, processors, traders, investors, youth agripreneurs, women in agriculture, and ecosystem organisations. If you contribute to the value chain, you belong here.",
         category: "Membership",
       },
       {

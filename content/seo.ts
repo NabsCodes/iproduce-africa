@@ -26,7 +26,7 @@ export const pageSeo = {
   community: {
     title: "Community",
     description:
-      "Join African agripreneurs in a community built for shared learning, opportunities, and collaboration across the continent.",
+      "Join African agripreneurs — including women in agriculture — in a community built for shared learning, opportunities, and collaboration.",
     path: "/community",
   },
   partners: {

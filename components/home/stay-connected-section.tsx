@@ -72,7 +72,7 @@ export function StayConnectedSection() {
         <div className="bg-forest-950 relative overflow-hidden rounded-xl px-5 py-12 text-center sm:px-8 sm:py-14 lg:px-16 lg:py-20">
           <DashedDecorativeRing className={darkPanelDashedRingClass} />
 
-          <div className="relative mx-auto max-w-3xl">
+          <div className="relative mx-auto max-w-full">
             <MotionFade>
               <EyebrowBadge className="justify-center">
                 {homeContent.stayConnected.eyebrow}
