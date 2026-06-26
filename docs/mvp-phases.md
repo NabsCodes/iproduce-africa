@@ -8,7 +8,8 @@ phases so the first release stays focused and reviewable.
 Current work:
 
 - Lock repo structure, docs, layout rules, and visual-system rules
-- Keep routing flat while all pages share the same public shell
+- Keep top-level public routing flat while all pages share the same public
+  shell; use nested route groups only when route behavior genuinely diverges
 - Keep reusable copy in `content/`
 - Centralize temporary imagery
 - Establish a public asset layout under `public/images/`

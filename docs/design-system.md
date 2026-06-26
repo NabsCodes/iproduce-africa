@@ -275,9 +275,9 @@ High-level rules:
   glance.
 - `global-error.tsx` is fully inline-styled (no Tailwind dependency) since
   it runs when the root layout itself has crashed.
-- Brand icons follow the Next.js file convention (`app/icon.svg`,
-  `app/favicon.ico`), not `.tsx` route handlers, so swapping the mark is
-  a one-file change.
+- Brand icons follow the Next.js file convention (`app/icon.png`,
+  `app/apple-icon.png`, plus share-image files), not `.tsx` route handlers, so
+  swapping the mark stays file-based.
 
 ## Motion
 

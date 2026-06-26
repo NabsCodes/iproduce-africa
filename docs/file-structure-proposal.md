@@ -323,7 +323,7 @@ Use **`listings/`** not `tracks/` — matches route language and avoids jargon.
 
 If you want the most balanced move now:
 
-1. keep the current flat `app/` route structure
+1. keep the current top-level `app/` route structure flat
 2. keep `components/layout` as the shared chrome bucket
 3. separate `content/site.ts`, `content/navigation.ts`, and `content/seo.ts`
    by concern

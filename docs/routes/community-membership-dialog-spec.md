@@ -13,13 +13,13 @@ Offer a focused, step-by-step membership application flow from primary
 
 ## Trigger points
 
-| Location                 | Component                   | Behaviour                                   |
-| ------------------------ | --------------------------- | ------------------------------------------- |
-| Hero primary CTA         | `CommunityHeroSection`      | Opens dialog                                |
-| Apply banner green CTA   | `CommunityApplyBanner`      | Opens dialog                                |
-| Apply banner outline CTA | `CommunityApplyBanner`      | Scroll link to `#member-benefits`           |
-| Inline form (section 10) | `MembershipApplicationForm` | Full single-page form with role field       |
-| Bottom CTA green button  | `CtaSection`                | Links to `#membership-application` (scroll) |
+| Location                 | Component                   | Behaviour                                      |
+| ------------------------ | --------------------------- | ---------------------------------------------- |
+| Hero primary CTA         | `CommunityHeroSection`      | Opens dialog                                   |
+| Apply banner green CTA   | `CommunityApplyBanner`      | Opens dialog                                   |
+| Apply banner outline CTA | `CommunityApplyBanner`      | Scroll link to `#member-benefits`              |
+| Inline form (section 10) | `MembershipApplicationForm` | Full single-page form with role field          |
+| Bottom CTA green button  | `CtaSection`                | Opens dialog via `action: "membership-dialog"` |
 
 ## Wizard steps
 
@@ -73,4 +73,4 @@ Browser:
 - [x] Schema split (dialog vs inline form)
 - [x] Content in `content/community.ts`
 - [ ] Wire dialog to real submission endpoint (later phase)
-- [ ] Wire bottom CTA to open dialog (optional — currently scrolls to form)
+- [x] Bottom CTA opens dialog through shared CTA action handling

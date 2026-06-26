@@ -301,16 +301,16 @@ export type CommunityPageContent = {
 };
 ```
 
-The existing `join` block can stay for backwards-compat or be removed once
-the new application section ships. Recommend removal once any `#join` anchor
-references are repointed to `#membership-application`.
+The old `join` block has been replaced by the current application content.
+Site-wide `#join` references now resolve through `#membership-application`
+or the membership dialog action.
 
 ## Anchors
 
 - Application form section: `id="membership-application"`.
-- Repoint existing `#join` anchors in `content/home.ts`, `content/community.ts`,
-  navigation, footer, and CTAs to `#membership-application` (or keep both
-  for a transition window).
+- Existing community CTAs use `href="/community#membership-application"` plus
+  `action: "membership-dialog"` where they should open the dialog instead of
+  scrolling.
 
 ## Mobile behaviour (general rules)
 

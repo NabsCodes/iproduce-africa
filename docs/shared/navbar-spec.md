@@ -5,7 +5,8 @@
 Desktop navbar matches the approved screenshot direction and is implemented in
 code. Mobile menu now mirrors the approved screenshot — full-screen top-down
 sheet, numbered list, label-only Academy children, no-icon Join pill, and a
-slim email + phone footer. Academy desktop dropdown polish is still open.
+slim email + phone footer. Academy desktop dropdown polish is implemented;
+formal screenshot sign-off is still open.
 
 ## Purpose
 
@@ -32,11 +33,12 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 
 - **Below `md` (768px):** compact header — logo, compact `Join` CTA, plain
   hamburger. Utility bar hidden. Full nav lives in the mobile sheet.
-- **`md` to below `xl`:** tablet header — utility bar is visible, but the
+- **`md` to below `lg`:** tablet header — utility bar is visible, but the
   primary bar stays compact with logo, compact `Join` CTA, and hamburger. Do
   not show the full desktop nav here; it does not have enough horizontal room.
-- **`xl` and up:** full desktop nav, `Partner with us` text CTA, and full
-  `Join our community` button.
+- **`lg` and up:** full desktop nav and `Partner with us` text CTA.
+- **`xl` and up:** full `Join our community` button. Below `xl`, the compact
+  join trigger remains beside the hamburger.
 
 ## Desktop Structure
 
@@ -57,11 +59,11 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 
 - White background, bottom border (`grey-200`, darkens slightly on scroll)
 - Height: `72px` default, `80px` at `xl+` (slightly shorter when scrolled)
-- Layout: `xl:grid-cols-[auto_1fr_auto]` — logo | nav | CTAs
+- Layout: `lg:grid-cols-[auto_1fr_auto]` — logo | nav | CTAs
 
 ### Main navigation
 
-- Hidden below `xl`, visible from `xl` up
+- Hidden below `lg`, visible from `lg` up
 - Spans the center grid column with `w-full justify-evenly` so links distribute
   evenly between logo and CTAs
 - Items from `mainNavigation`: Home, About us, Academy (dropdown), Community,
@@ -75,8 +77,9 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 - Orange underline (`tangerine-500`): short `3px` pill centered under link text
   at `-bottom-0.5` — not full bar width
 - Academy parent active when pathname starts with `/academy`
-- Academy child items active when full route matches hash href (e.g.
-  `/academy#webinars-events`) via `useRouteHash`
+- Academy child items active when the current route matches the listing href
+  (for example `/academy/webinars`, `/academy/courses`, `/academy/blog`) or a
+  nested slug route.
 
 ### Focus and open state
 
@@ -99,16 +102,15 @@ and clicking the chevron opens the menu:
   so the active underline still spans the label area only
 - Panel: white, `min-w-[240px]`, light border, soft shadow, `sideOffset={8}`
 - Child links use `leaf-50` hover/active background
-- Children currently live at Academy hub anchors
-  (`/academy#webinars-events`, `/academy#courses`, `/academy#insights`) until
-  dedicated listing routes ship. Restore `/academy/{type}` links only when
-  those pages exist.
+- Children now live at the dedicated listing routes:
+  `/academy/webinars`, `/academy/courses`, and `/academy/blog`.
 
 ### CTAs (desktop)
 
-- `Partner with us` — text link (`leaf-600`), points to `/partners#partner`
-- `Join our community` — green filled button with `UsersRound` icon, points to
-  `/community#join`
+- `Partner with us` — text link (`leaf-600`), points to
+  `/partners#partnership-enquiry`
+- `Join our community` — green filled button with `UsersRound` icon, opens the
+  membership application dialog through `CommunityJoinButton`
 
 ## Mobile Structure
 
@@ -136,8 +138,8 @@ and clicking the chevron opens the menu:
 - Open or active Academy parent flips to tangerine (label, number, chevron)
 - CTA block order: filled `Join our community` pill (no icon, rounded-full) then
   `Partner with us` as a centered leaf-green text link
-- Mobile CTA destinations follow the same split-intent rule as desktop:
-  `/community#join` and `/partners#partner`
+- `Join our community` closes the sheet and opens the membership dialog;
+  `Partner with us` links to `/partners#partnership-enquiry`
 - Footer block: email left, phone right, no hours and no social — those stay on
   the desktop utility bar only
 - Radix Dialog handles dismiss (overlay click, ESC, close button); no separate
@@ -146,8 +148,8 @@ and clicking the chevron opens the menu:
 ## Confirmed Inputs
 
 - Primary CTAs are `Join our community` and `Partner with us`
-- Main nav links remain overview routes (`/community`, `/partners`), while CTA
-  links land on action anchors (`#join`, `#partner`)
+- Main nav links remain overview routes (`/community`, `/partners`). Partner
+  CTA lands on `#partnership-enquiry`, while Join opens the membership dialog.
 - Academy includes a dropdown on desktop and accordion on mobile
 - Mobile navigation is intentionally designed, not a compressed desktop row
 - Desktop utility bar includes hours on the left, then email, phone, and social

@@ -134,9 +134,10 @@ For now, the public route pattern is:
 This keeps `/about`, `/academy`, `/community`, `/partners`, and `/contact`
 consistent while the Home page remains the primary design milestone.
 
-Route groups are intentionally deferred for now because all current pages share
-the same public structure. Introduce them later only if route behavior or shells
-start to diverge.
+Top-level public routes stay flat because they share the same marketing shell.
+Nested route groups are allowed when a section has genuinely different route
+behavior; Academy now uses `(listing)` route groups to keep catalogue loading
+boundaries separate from slug detail loading boundaries.
 
 ## Abstraction Rule
 

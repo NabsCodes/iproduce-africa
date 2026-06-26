@@ -137,11 +137,9 @@ countdown timer.
 - **Countdown**: four `CountdownCard` blocks (Days / Hours / Minutes /
   Seconds) in `bg-forest-900` with serif `tabular-nums`, ticking every
   second against the event's ISO date. The hook hydrates from a stable zero
-  state and the first client tick is scheduled via `setTimeout(tick, 0)` so
-  no `setState` fires synchronously inside `useEffect` (sidesteps the
-  `react-hooks/set-state-in-effect` lint rule cleanly).
-- **CTA**: tangerine `<Button>` "Register Now →" linking to `#featured-event`
-  for now; flips to the real event detail route in the next phase.
+  state, ticks on mount, and then runs on a one-second interval.
+- **CTA**: tangerine `AcademyRegistrationAction` opens the webinar
+  registration dialog for the featured session.
 
 ### 4. Learning Opportunities — `components/academy/hub/learning-opportunities-section.tsx`
 

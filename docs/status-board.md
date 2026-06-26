@@ -4,23 +4,24 @@ Use this as the quick checkpoint list across shared sections and public pages.
 
 ## Shared
 
-- [ ] Navbar spec finalized against approved screenshots
-- [ ] Footer spec finalized against approved screenshots
-- [ ] Shared CTA language locked
-- [ ] Global spacing and typography rhythm locked
+- [x] Navbar spec and implementation documented against current approved screenshots
+- [x] Footer spec and implementation documented against current approved screenshots
+- [x] Shared CTA language locked (`Join our community`, `Partner with us`)
+- [x] Global spacing, typography, and radius rhythm locked in docs
 
 ## Pages
 
-- [ ] Home page static design approved
-- [ ] About page spec ready beyond scaffold
-- [ ] Academy page spec ready beyond scaffold
-- [ ] Community page spec ready beyond scaffold
-- [ ] Partners page spec ready beyond scaffold
-- [ ] Contact page spec ready beyond scaffold
+- [x] Home page static implementation complete enough for review
+- [x] About page built and documented beyond scaffold
+- [x] Academy hub, listing, search, and detail routes built and documented beyond scaffold
+- [x] Community page and membership dialog built and documented beyond scaffold
+- [x] Partners page, inquiry form, and partner dialog built and documented beyond scaffold
+- [x] Contact page built and documented beyond scaffold
 
 ## Integration Readiness
 
 - [x] Static content structure is stable enough for Sanity mapping
-- [ ] Placeholder imagery list is known
-- [ ] Form integration scope is documented for later phases
+- [x] Placeholder imagery source is known (`lib/placeholder-images.ts` + `public/images/`)
+- [x] Form integration scope documented (`docs/resend-integration-spec.md`)
+- [ ] Resend + React Email + Turnstile implementation (not present in current checkout)
 - [ ] `docs/sanity-academy-spec.md` drafted (next step before CMS setup)

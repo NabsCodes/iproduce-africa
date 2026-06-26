@@ -14,9 +14,11 @@ implementation with strong desktop and mobile fidelity.
   - `hero-section.tsx` — top hero
   - shared `partners-section.tsx` — eyebrow: "Our partners", placed directly below hero on Home
   - `what-we-do-section.tsx` — eyebrow: "What we do"
-  - `two-journeys-section.tsx` — eyebrow: "Your pathway"
   - `core-focus-section.tsx` — eyebrow: "Core areas of focus"
   - `core-focus-card.tsx` — card used by core focus rail
+  - `why-join-us-section.tsx` — eyebrow: "Why join us"
+  - `why-join-service-card.tsx` — card used by the Why Join Us image-led grid
+  - `two-journeys-section.tsx` — eyebrow: "Your pathway"
   - `academy-spotlight-section.tsx` — eyebrow: "Academy spotlight"
   - `stay-connected-section.tsx` — eyebrow: "Stay connected"
   - `featured-articles-section.tsx` — eyebrow: "Featured article"
@@ -91,13 +93,16 @@ Current fidelity notes from the approved hero and what-we-do references:
 - Core Focus card presentation belongs in a Home-specific reusable component,
   while the pagination indicator stays in `components/ui`
 
-Latest June 17 Home screenshots adjust the section order and add one section:
+Latest Home implementation order after the June 24 review:
 
-- Home order is now: Hero, Partners, What we do, Two journeys, Core focus,
-  Academy spotlight, Testimonials, Stay connected, FAQ, Featured articles, CTA.
+- Home order is now: Hero, Partners, What we do, Core Focus, Why join us, Your
+  pathway, Academy spotlight, Testimonials, Stay connected, FAQ, Featured
+  articles, CTA.
 - Partners sits directly under the hero in a pale `forest-subtle` band with
   normal Home section rhythm. The old extra top padding is only for pages where
   a preceding CTA overlaps the partner band.
+- Why Join Us is an image-led 2×2 grid placed after Core Focus and before Your
+  pathway.
 - Academy spotlight keeps the same heading/tabs intent but its items now use
   the shared image-led `<ContentCard />` treatment instead of the old date-block
   `AcademyEventCard`.

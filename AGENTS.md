@@ -40,7 +40,9 @@ before any CMS or backend integration work begins.
 - `providers/` owns the app-wide provider composition root (`app-providers.tsx`)
   that the root layout wraps. Add future cross-cutting providers (theme, query
   client, auth, analytics) here. Domain-specific providers keep their
-  implementation in their own folder and are only composed in `providers/`.
+  implementation in their own folder and are composed at the narrowest stable
+  shell: site-wide in `providers/`, or route-scoped in a matching route
+  `layout.tsx` when the provider only belongs to that area.
 - Keep site identity, contact details, hours, and social links in
   `content/site.ts`.
 - Keep shared navigation data in `content/navigation.ts`.

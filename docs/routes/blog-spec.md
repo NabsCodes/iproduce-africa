@@ -26,10 +26,10 @@ courses via the detail page's related section.
 
 - Lives at `/academy/blog` (listing) and `/academy/blog/[slug]` (detail) —
   inside the Academy parent surface.
-- **Academy navbar architecture**: the Academy dropdown items currently
-  point at hash anchors on `/academy`. The migration is **incremental** —
-  repoint the Blog item now, leave the other three (Webinars / Courses /
-  Events) as anchors until they ship. See [Navbar + footer migration](#navbar--footer-migration).
+- **Academy navbar architecture**: the Academy dropdown items now point at the
+  built listing routes for Webinars & Events, Courses, and Blog. Events remain
+  folded into the Webinars & Events catalogue. See
+  [Navbar + footer migration](#navbar--footer-migration).
 - Static-first MVP: no Sanity, no live submissions, no comments, no auth.
   Newsletter signup uses RHF + Zod (`schemas/newsletter.ts`,
   `NewsletterSignupForm`) but submit is still placeholder toast — no API yet.
@@ -44,20 +44,20 @@ courses via the detail page's related section.
 
 ## Routes (this pass)
 
-| Route                  | File                               | Status                                                                                 |
-| ---------------------- | ---------------------------------- | -------------------------------------------------------------------------------------- |
-| `/academy/blog`        | `app/academy/blog/page.tsx`        | **In scope today**                                                                     |
-| `/academy/blog/[slug]` | `app/academy/blog/[slug]/page.tsx` | **Shipped** — `generateStaticParams` over slugs                                        |
-| Per-route 404          | `app/academy/blog/not-found.tsx`   | **Shipped** — first consumer of the deferred per-route 404 from `system-pages-spec.md` |
+| Route                  | File                                      | Status                                          |
+| ---------------------- | ----------------------------------------- | ----------------------------------------------- |
+| `/academy/blog`        | `app/academy/blog/(listing)/page.tsx`     | **Shipped**                                     |
+| `/academy/blog/[slug]` | `app/academy/blog/[slug]/page.tsx`        | **Shipped** — `generateStaticParams` over slugs |
+| Per-route 404          | `app/academy/blog/not-found.tsx`          | **Shipped** — Blog-specific recovery surface    |
+| `/academy/webinars`    | `app/academy/webinars/(listing)/page.tsx` | **Shipped**                                     |
+| `/academy/webinars/*`  | `app/academy/webinars/[slug]/page.tsx`    | **Shipped** — 7 static sessions                 |
+| `/academy/courses`     | `app/academy/courses/(listing)/page.tsx`  | **Shipped**                                     |
+| `/academy/courses/*`   | `app/academy/courses/[slug]/page.tsx`     | **Shipped** — 3 static courses                  |
 
-Sibling listing routes (shared hero, grid-only body for now):
-
-| `/academy/webinars` | `app/academy/webinars/page.tsx` | **Shipped** — cards link to hub until slug pages ship |
-| `/academy/courses` | `app/academy/courses/page.tsx` | **Shipped** — cards link to hub until slug pages ship |
-
-Webinar / course **detail** routes are the next increment on
-`AcademyDetailShell`. Events share the webinars track (no separate
-`/academy/events` listing).
+Track-specific 404 pages also ship at
+`app/academy/webinars/not-found.tsx` and
+`app/academy/courses/not-found.tsx`. Events share the webinars track (no
+separate `/academy/events` listing).
 
 ## Page 1 — Listing `/academy/blog`
 
@@ -316,14 +316,13 @@ the `BlogArticleBlock` shape regardless of source.
 
 ## Navbar + footer migration
 
-The Academy dropdown and the footer's Academy column both currently
-point Blog at `/academy#blog`. Migrate **only the Blog entry** in this
-pass:
+The Academy dropdown and the footer's Academy column now point to built
+catalogue routes:
 
-| Surface | File                    | Before          | After (this pass)  |
-| ------- | ----------------------- | --------------- | ------------------ |
-| Navbar  | `content/navigation.ts` | `/academy#blog` | `/academy/blog` ✅ |
-| Footer  | `content/site.ts`       | `/academy#blog` | `/academy/blog` ✅ |
+| Surface | File                    | Current routes                                           |
+| ------- | ----------------------- | -------------------------------------------------------- |
+| Navbar  | `content/navigation.ts` | `/academy/webinars`, `/academy/courses`, `/academy/blog` |
+| Footer  | `content/site.ts`       | `/academy/webinars`, `/academy/courses`, `/academy/blog` |
 
 **Blog/Insights stays in both the navbar dropdown and the footer Academy
 column** — keep the existing IA. Don't remove it from the footer because
@@ -331,15 +330,14 @@ the design composition for Webinars/Trainings/Courses/Events doesn't
 include it; we're not in a position to drop discoverability without
 explicit editorial direction.
 
-Webinars / Courses / Events footer + navbar entries keep their hash
-anchors until those routes ship. Repointing those would surface a 404 in
-chrome — worse UX than the current anchor scroll.
+Events remain represented by the `/academy/webinars` "Webinars & Events"
+catalogue.
 
 ## File-by-file delta
 
 | Path                                                      | Action                                                                                                               |
 | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `app/academy/blog/page.tsx`                               | **New** — listing                                                                                                    |
+| `app/academy/blog/(listing)/page.tsx`                     | **New** — listing                                                                                                    |
 | `app/academy/blog/[slug]/page.tsx`                        | **New** — detail; `generateStaticParams` over `content/blog.ts`, `notFound()` on misses                              |
 | `app/academy/blog/not-found.tsx`                          | **New** — scoped 404 (Blog-specific CTAs: browse all + back to Academy hub)                                          |
 | `content/blog-articles.ts`                                | **New** — article bodies + card metadata (editorial catalogue)                                                       |
@@ -357,8 +355,8 @@ chrome — worse UX than the current anchor scroll.
 | `components/academy/listings/academy-related-section.tsx` | **Shared** — related cards band (blog articles, courses, webinars)                                                   |
 | `components/academy/listings/academy-detail-shell.tsx`    | **Shared** — slot layout shell for all Academy detail routes (see `academy-spec.md`)                                 |
 | `content/blog.ts`                                         | `getRelatedArticles()` + `blogContent.relatedSection` — blog detail does not cross-import course data                |
-| `content/navigation.ts`                                   | Repoint Blog/Insights from `/academy#blog` → `/academy/blog`                                                         |
-| `content/site.ts`                                         | Repoint footer Academy column's Blog/Insights entry                                                                  |
+| `content/navigation.ts`                                   | Academy dropdown uses live listing routes for Webinars & Events, Courses, and Blog/Insights                          |
+| `content/site.ts`                                         | Footer Academy column uses the same live listing routes                                                              |
 | `content/seo.ts`                                          | Add `pageSeo.blog` (listing); detail-page metadata generated per slug via `generateMetadata`                         |
 | `app/sitemap.ts`                                          | Add `/academy/blog` + one entry per article slug (auto from `content/blog.ts`)                                       |
 | `docs/routes/academy-spec.md`                             | Add a "Detail-page shell (shared across tracks)" section (see below); update route table to mark Blog as in progress |
@@ -408,7 +406,7 @@ Only ones still load-bearing after the Codex review:
 
 - [x] Open questions resolved (related: same-track articles via `AcademyRelatedSection`; categories locked for MVP; featured slug: unlocking-intra-african-trade)
 - [x] `types/blog.ts` (contracts) + `content/blog.ts` (data) — no type/data overlap
-- [x] `app/academy/blog/page.tsx` + `[slug]/page.tsx` + `not-found.tsx`
+- [x] `app/academy/blog/(listing)/page.tsx` + `[slug]/page.tsx` + `not-found.tsx`
 - [x] Shared detail shell at `components/academy/listings/academy-detail-shell.tsx` — slots: media, metadata, main+sidebar, related, CTA
 - [x] Blog-specific section components (hero, featured, filter, grid, body, sidebar cards, share, related articles)
 - [x] Related section consumes `getRelatedArticles()` — no duplicate article arrays in `content/blog.ts`

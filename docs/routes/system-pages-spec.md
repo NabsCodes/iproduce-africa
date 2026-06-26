@@ -2,11 +2,9 @@
 
 ## Status
 
-Drafted 2026-06-20. Builds the four Next.js convention files the static site
-is still missing — `not-found`, `error`, `global-error`, and the brand icon
-set (`icon`, `apple-icon`). OG / Twitter share images stay as TODO until the
-approved 1200×630 export lands; the metadata factory in `lib/metadata.ts`
-already reserves the slot.
+Shipped 2026-06-20. The static site now has branded Next.js convention files:
+`not-found`, `error`, `global-error`, the brand icon set (`icon`,
+`apple-icon`), and OG / Twitter share images.
 
 **Architecture (2026-06-20):** System pages render inside the root layout
 and therefore inherit Header + Footer + HashScrollHandler. This is the
@@ -313,18 +311,18 @@ Next.js prefers SVG when both exist.
 
 ## File-by-file delta
 
-| Path                                            | Action                                                                              |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `app/not-found.tsx`                             | **New** — server component, brand 404                                               |
-| `app/error.tsx`                                 | **New** — client component, recoverable error                                       |
-| `app/global-error.tsx`                          | **New** — client component, layout crash fallback                                   |
-| `app/icon.png`                                  | **New** — 360×360 brand mark (shipped 2026-06-20)                                   |
-| `app/apple-icon.png`                            | **New** — same 360×360 source (shipped 2026-06-20)                                  |
-| `content/system-pages.ts`                       | **New** — copy block for 404 + error pages so a Sanity migration is one query later |
-| `types/content.ts` _or_ `types/system-pages.ts` | Add `SystemPageContent` type                                                        |
-| `docs/routes/system-pages-spec.md`              | **This file**                                                                       |
-| `docs/implementation-log.md`                    | Add an entry once the pass ships                                                    |
-| `docs/design-system.md`                         | Add a short pointer line under a new "System pages" heading                         |
+| Path                               | Action                                                                              |
+| ---------------------------------- | ----------------------------------------------------------------------------------- |
+| `app/not-found.tsx`                | **New** — server component, brand 404                                               |
+| `app/error.tsx`                    | **New** — client component, recoverable error                                       |
+| `app/global-error.tsx`             | **New** — client component, layout crash fallback                                   |
+| `app/icon.png`                     | **New** — 360×360 brand mark (shipped 2026-06-20)                                   |
+| `app/apple-icon.png`               | **New** — same 360×360 source (shipped 2026-06-20)                                  |
+| `content/system-pages.ts`          | **New** — copy block for 404 + error pages so a Sanity migration is one query later |
+| `types/system-pages.ts`            | **New** — `SystemPagesContent` contracts                                            |
+| `docs/routes/system-pages-spec.md` | **This file**                                                                       |
+| `docs/implementation-log.md`       | **Updated** — pass logged                                                           |
+| `docs/design-system.md`            | **Updated** — "System pages" guidance added                                         |
 
 Do **not** introduce a `loading.tsx` in this pass.
 
@@ -359,37 +357,29 @@ Do **not** introduce a `loading.tsx` in this pass.
 - Real telemetry wiring inside `error.tsx` — TODO marker only until a
   monitoring tool is picked.
 
-## Follow-up — per-route `not-found.tsx` (deferred)
+## Scoped `not-found.tsx` Status
 
-The root `app/not-found.tsx` covers the static routes we ship today. Once
-dynamic slug routes land (blog/articles and any Academy slug surfaces), each
-section should get its own scoped not-found so visitors land somewhere
-useful instead of bouncing back to the homepage.
+The root `app/not-found.tsx` remains the safety net. Academy catalogue tracks
+now also ship scoped recovery pages:
 
-- `app/academy/[slug]/not-found.tsx` — branded for the Academy track, with
-  CTAs into the Academy hub + Featured Event + Blog index.
-- `app/academy/blog/[slug]/not-found.tsx` — branded for the Blog track,
-  with CTAs into the Blog index + a "browse by category" affordance.
-- Any future dynamic route under `/community/<resource>` or
-  `/partners/<resource>` should follow the same pattern: keep the root
-  not-found as the safety net, scope a local one when the section becomes
-  navigable.
+- `app/academy/blog/not-found.tsx` — Blog-specific CTAs.
+- `app/academy/webinars/not-found.tsx` — Webinars & Events-specific CTAs.
+- `app/academy/courses/not-found.tsx` — Course-specific CTAs.
 
-Reuse the same `<SystemPageCard>` shell we build now — only the copy block,
-icon, and exit CTAs change. Add a `kind: "academy" | "blog" | "default"`
-prop to the shared shell when the second instance ships; do not premature-
-generalize during this pass.
+Any future dynamic route under `/community/<resource>` or
+`/partners/<resource>` should follow the same pattern: keep the root not-found
+as the safety net, scope a local one when the section becomes navigable.
 
 ## Checklist
 
-- [ ] Add the four convention files (`not-found.tsx`, `error.tsx`,
-      `global-error.tsx`, `icon.svg`)
-- [ ] Add `content/system-pages.ts` + type
+- [x] Add convention pages (`not-found.tsx`, `error.tsx`, `global-error.tsx`)
+- [x] Add branded icons (`app/icon.png` + `app/apple-icon.png`)
+- [x] Add `content/system-pages.ts` + `types/system-pages.ts`
 - [x] Replace placeholder icons with branded `app/icon.png` + `app/apple-icon.png`
-- [ ] Pointer in `docs/design-system.md`
+- [x] Pointer in `docs/design-system.md`
 - [ ] Verify locally (bad URL + forced throw)
-- [ ] Run full check suite
-- [ ] Log entry in `docs/implementation-log.md`
+- [x] Run full check suite
+- [x] Log entry in `docs/implementation-log.md`
 - [ ] Tick the system-pages item in the Notion dev notes
 - [ ] (Follow-up) Drop `app/apple-icon.png` once the 180×180 export is ready
 - [x] Drop `app/opengraph-image.png` + `app/twitter-image.png` (shipped 2026-06-20)

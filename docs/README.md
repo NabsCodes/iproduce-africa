@@ -34,6 +34,7 @@ and more task-oriented.
 | `status-board.md`            | Quick to-do board across shared sections and pages.                               |
 | `implementation-log.md`      | Short running log so future agents can catch up quickly.                          |
 | `handoff-template.md`        | Copy-paste structure for incomplete work or QA handoff.                           |
+| `resend-integration-spec.md` | Resend + React Email + Turnstile plan for live form delivery.                     |
 
 ## Source Of Truth Order
 

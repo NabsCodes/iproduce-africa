@@ -3,6 +3,47 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Stale docs audit (2026-06-26)
+
+Updated route and shared specs that had fallen behind shipped code: Home order
+and Why Join Us ownership, navbar breakpoints/listing routes/CTA behavior,
+Academy featured-event registration details, Blog route groups and
+webinars/courses detail routes, Community dialog CTA handling, ContentCard
+consumer status, system-page convention files, and route/provider structure
+guidance. Left backend, browser-QA, Notion, real imagery, Sanity, and
+Resend/Turnstile items open where the current checkout still does not prove
+them done.
+
+**Verification:** Docs-only change; compared docs against `app/`, `components/`,
+`content/`, `lib/`, `schemas/`, `types/`, and targeted stale-phrase searches.
+
+---
+
+## Status board refresh (2026-06-26)
+
+Updated `docs/status-board.md` against the current checkout: static shared
+chrome and public pages are now marked complete/built beyond scaffold, the
+placeholder imagery source is marked known, and the Resend + React Email +
+Turnstile implementation remains open because no API/email implementation files
+exist in this working tree yet.
+
+**Verification:** Docs-only change; inspected current files with `git status`,
+route/spec searches, and form TODO searches.
+
+---
+
+## Resend + Turnstile full launch scope (2026-06-26)
+
+Updated the form-delivery spec to require one full production slice: Resend,
+React Email, submitter receipts for every form, newsletter internal alerts,
+Cloudflare Turnstile, honeypot handling, live success copy, and explicit
+Community `source` tracking. Removed the earlier deferred anti-spam posture so
+Cursor can implement from the spec without relying on chat context.
+
+**Verification:** Docs-only change; not run.
+
+---
+
 ## Home — Why join us + section reorder (2026-06-24)
 
 Client review: **Why join us** as image-led 2×2 grid (`why-join-service-card.tsx`, Core Focus card rhythm + benefit icon chips); placed **after Core Focus, before Your pathway**; women-in-agric copy in hero, why-join intro, grow journey, core-focus intro. Order: Hero → Partners → What we do → Core Focus → Why join us → Your pathway → Academy spotlight.
@@ -76,7 +117,7 @@ Client request: keep timeline **years**; remove unverified **numeric stats** fro
 
 - `/academy/search` — cross-catalogue static search (`lib/academy-search.ts`)
 - `schemas/academy-registration.ts` + `components/academy/registration/*`
-- `AcademyRegistrationProvider` composed in `app-providers.tsx`
+- `AcademyRegistrationProvider` composed in `app/academy/layout.tsx`
 
 **Registration UX (static MVP)**
 

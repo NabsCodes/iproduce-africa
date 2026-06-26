@@ -2,15 +2,19 @@
 
 A single, reusable image-led card used wherever the site lists learning or
 editorial content: featured articles on home, courses, webinars & events,
-and articles on the Academy page. Built once now, consumed everywhere later.
+and articles on the Academy page. It is now the shared card for Home previews,
+Academy hub previews, listing pages, related content, and search results.
 
 ## Component
 
 - File: `components/shared/content-card.tsx`
 - Primitive deps: `components/ui/card.tsx`, `components/ui/badge.tsx`
 - Used in: `components/home/academy-spotlight-section.tsx`,
-  `components/home/featured-articles-section.tsx`; Academy page surfaces
-  (next phase).
+  `components/home/featured-articles-section.tsx`,
+  `components/academy/hub/learning-listing-section.tsx`,
+  `components/academy/listings/listing-card-grid.tsx`,
+  `components/academy/listings/academy-related-section.tsx`, and
+  `components/academy/search/academy-search-results.tsx`.
 
 ## Anatomy
 
@@ -63,21 +67,24 @@ always reads as the dominant signal.
 
 ## Consumers
 
-| Surface                     | category                                      | meta                 | Notes      |
-| --------------------------- | --------------------------------------------- | -------------------- | ---------- |
-| Home — Academy spotlight    | type (WEBINAR/TRAINING/LIVE Q&A)              | date ("JUN 18")      | Live       |
-| Home — Featured Articles    | category (INNOVATION/TRADE/SMART AGRICULTURE) | read time            | Live       |
-| Academy — Courses           | difficulty (BEGINNER/INTERMEDIATE/ADVANCED)   | duration ("6 WEEKS") | Next phase |
-| Academy — Webinars & Events | type (WEBINAR/TRAINING/LIVE Q&A)              | date ("JUN 18")      | Next phase |
-| Academy — Articles          | category                                      | read time            | Next phase |
+| Surface                     | category                                      | meta                 | Notes |
+| --------------------------- | --------------------------------------------- | -------------------- | ----- |
+| Home — Academy spotlight    | type (WEBINAR/TRAINING/LIVE Q&A)              | date ("JUN 18")      | Live  |
+| Home — Featured Articles    | category (INNOVATION/TRADE/SMART AGRICULTURE) | read time            | Live  |
+| Academy — Courses           | difficulty (BEGINNER/INTERMEDIATE/ADVANCED)   | duration ("6 WEEKS") | Live  |
+| Academy — Webinars & Events | type (WEBINAR/TRAINING/LIVE Q&A)              | date ("JUN 18")      | Live  |
+| Academy — Articles          | category                                      | read time            | Live  |
+| Academy — Search / Related  | source-specific label                         | source-specific meta | Live  |
 
 Each consumer maps its own domain labels to a `tone` — the card doesn't know
 or care about category vocabularies.
 
 ## Data contract
 
-Each consumer owns its data file (`content/home.ts` already does for
-articles; `content/academy.ts` will own the rest). Recommended item shape:
+Each consumer owns or projects its own data file: Home uses `content/home.ts`,
+Academy hub previews come through `content/academy.ts`, and the canonical
+catalogues live in `content/blog.ts`, `content/webinars.ts`, and
+`content/courses.ts`. Recommended item shape:
 
 ```ts
 type LearningContentItem = {
