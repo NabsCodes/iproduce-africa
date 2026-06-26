@@ -10,9 +10,9 @@ export const homeContent = {
     eyebrowTone: "leaf",
     title: "Unlocking Local and Global Agribusiness Opportunities",
     description:
-      "We connect you with helpful resources, services and opportunities to start or grow your agribusiness.",
+      "We connect agripreneurs — including women building across Africa's food systems — with resources, services, and opportunities to start or grow.",
     image: "/images/home/hero-image.webp",
-    imageAlt: "Smiling agripreneur harvesting tomatoes in a greenhouse",
+    imageAlt: "Woman agripreneur harvesting fresh produce in a greenhouse",
     primaryCta: {
       label: "Join our community",
       href: "/community#membership-application",
@@ -44,10 +44,10 @@ export const homeContent = {
   },
   journeys: [
     {
-      audience: "For agripreneurs & individuals",
+      audience: "For agripreneurs & women in agriculture",
       title: "Grow Your Agribusiness",
       description:
-        "Access the training, mentorship, resources, and community you need to build a thriving agribusiness in Africa and beyond.",
+        "Access training, mentorship, and a peer community designed for founders and operators — with practical support for women leading in agriculture.",
       items: [
         "Advisory & 1-on-1 coaching",
         "Resource centre & learning hub",
@@ -79,6 +79,58 @@ export const homeContent = {
       tone: "dark",
     },
   ],
+  whyJoinUs: {
+    eyebrow: "Why join us",
+    title: "Exclusive services to grow your agribusiness",
+    description:
+      "Advisory, training, intelligence, and connections in one membership — with dedicated support for women building across Africa's food systems.",
+    items: [
+      {
+        icon: "users",
+        title: "Agri Business Advisory",
+        description:
+          "Business advisory and coaching tailored to agripreneurs — from early-stage planning to growth and market readiness.",
+        image: placeholderImages.memberServices.advisory,
+        imageAlt:
+          "Three women agripreneurs in a business advisory session",
+        imagePosition: "object-[center_35%]",
+        tone: "leaf",
+      },
+      {
+        icon: "graduation-cap",
+        title: "Training & Capacity Building",
+        description:
+          "Build practical skills through workshops, bootcamps, and academy programmes — from farm fundamentals to export readiness.",
+        image: placeholderImages.memberServices.training,
+        imageAlt:
+          "Facilitator leading a capacity-building session with participants",
+        imagePosition: "object-center",
+        tone: "tangerine",
+      },
+      {
+        icon: "globe",
+        title: "Resources",
+        description:
+          "Events, market data, policy updates, and sector insights — real-time information when your business decisions matter.",
+        image: placeholderImages.memberServices.resources,
+        imageAlt:
+          "Agripreneur checking market updates and resources on phone and laptop",
+        imagePosition: "object-[center_40%]",
+        tone: "leaf",
+      },
+      {
+        icon: "handshake",
+        title: "Business Deal Room",
+        description:
+          "Connect with buyers, partners, and investors aligned with your goals — curated introductions that move conversations forward.",
+        image: placeholderImages.memberServices.dealRoom,
+        imageAlt:
+          "Agripreneurs and partners in a business collaboration meeting",
+        imagePosition: "object-[center_40%]",
+        tone: "tangerine",
+      },
+    ],
+  },
   valueChains: [
     {
       title: "Livestock & Poultry",

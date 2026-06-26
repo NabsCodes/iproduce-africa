@@ -3,7 +3,13 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
-## About Journey — qualitative focus panel (2026-06-23)
+## Home — Why join us + section reorder (2026-06-24)
+
+Client review: **Why join us** as image-led 2×2 grid (`why-join-service-card.tsx`, Core Focus card rhythm + benefit icon chips); placed **after Core Focus, before Your pathway**; women-in-agric copy in hero, why-join intro, grow journey, core-focus intro. Order: Hero → Partners → What we do → Core Focus → Why join us → Your pathway → Academy spotlight.
+
+**Verification:** `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm build` — pass.
+
+---
 
 Client request: keep timeline **years**; remove unverified **numeric stats** from the right sticky card and mobile pills. Replaced `stats[]` with `focusPoints[]` + shared `focusPanelLabel` ("What we focused on"). Scrubbed hard numbers from milestone body copy. Files: `types/about.ts`, `content/about.ts`, `components/about/journey-section.tsx`, `docs/routes/about-spec.md`.
 

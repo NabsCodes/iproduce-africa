@@ -43,10 +43,16 @@ type BenefitsSectionProps = {
   content: BenefitsSectionContent;
   chipShape: "square" | "round";
   headerLayout: "split" | "stacked";
+  columns?: 2 | 3;
   interactive?: boolean;
   sectionId?: string;
   className?: string;
 };
+
+const gridColumnClasses = {
+  2: "sm:grid-cols-2 lg:grid-cols-2",
+  3: "sm:grid-cols-2 lg:grid-cols-3",
+} as const;
 
 function getTone(index: number, item: BenefitItem): "leaf" | "tangerine" {
   return item.tone ?? (index % 2 === 0 ? "leaf" : "tangerine");
@@ -127,6 +133,7 @@ export function BenefitsSection({
   content,
   chipShape,
   headerLayout,
+  columns = 3,
   interactive = false,
   sectionId,
   className,
@@ -167,7 +174,12 @@ export function BenefitsSection({
           )}
         </MotionFade>
 
-        <MotionStagger className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
+        <MotionStagger
+          className={cn(
+            "mt-10 grid gap-4 sm:gap-5 lg:mt-14 lg:gap-6",
+            gridColumnClasses[columns],
+          )}
+        >
           {content.items.map((item, index) => (
             <BenefitCard
               key={item.title}

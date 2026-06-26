@@ -9,6 +9,7 @@ import { StayConnectedSection } from "@/components/home/stay-connected-section";
 import { PartnersSection } from "@/components/shared/partners-section";
 import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { TwoJourneysSection } from "@/components/home/two-journeys-section";
+import { WhyJoinUsSection } from "@/components/home/why-join-us-section";
 import { WhatWeDoSection } from "@/components/home/what-we-do-section";
 import { pageSeo } from "@/content/seo";
 
@@ -20,8 +21,9 @@ export default function HomePage() {
       <HeroSection />
       <PartnersSection />
       <WhatWeDoSection />
-      <TwoJourneysSection />
       <CoreFocusSection />
+      <WhyJoinUsSection />
+      <TwoJourneysSection />
       <AcademySpotlightSection />
       <TestimonialsSection />
       <StayConnectedSection />

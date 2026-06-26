@@ -42,6 +42,16 @@ export const placeholderImages = {
     market:
       "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80",
   },
+  memberServices: {
+    advisory:
+      "https://images.unsplash.com/photo-1573164574397-dd250bc8a598?auto=format&fit=crop&w=1200&h=512&q=80",
+    training:
+      "https://images.unsplash.com/photo-1776039325163-f45315a484f3?auto=format&fit=crop&w=1200&h=512&q=80",
+    resources:
+      "https://images.unsplash.com/photo-1573164574230-db1d5e960238?auto=format&fit=crop&w=1200&h=512&q=80",
+    dealRoom:
+      "https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&w=1200&h=512&q=80",
+  },
   partners: {
     hero: "https://images.unsplash.com/photo-1593113598332-cd288d641307?auto=format&fit=crop&w=1200&q=85",
   },

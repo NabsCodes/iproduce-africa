@@ -22,8 +22,8 @@ export function CoreFocusSection() {
               </h2>
             </div>
             <p className="text-fg-muted max-w-[360px] text-base leading-6">
-              Four connected sectors forming the backbone of iProduce
-              Africa&apos;s agribusiness transformation agenda.
+              Value chains where women agripreneurs are building — and where
+              iProduce Africa concentrates programmes and partnerships.
             </p>
           </div>
         </MotionFade>
