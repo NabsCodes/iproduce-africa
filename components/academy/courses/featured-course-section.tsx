@@ -46,7 +46,7 @@ export function FeaturedCourseSection({ course }: FeaturedCourseSectionProps) {
             <div className="mt-7">
               <ButtonLink
                 href={`/academy/courses/${course.slug}`}
-                variant="outline"
+                variant="neutral-outline"
                 size="md"
               >
                 View course

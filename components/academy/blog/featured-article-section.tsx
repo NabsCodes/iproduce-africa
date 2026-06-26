@@ -54,7 +54,7 @@ export function FeaturedArticleSection({
             <div className="mt-7">
               <ButtonLink
                 href={`/academy/blog/${article.slug}`}
-                variant="outline"
+                variant="neutral-outline"
                 size="md"
               >
                 Read more

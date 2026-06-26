@@ -73,7 +73,7 @@ export function FeaturedWebinarSection({
             <div className="mt-7">
               <ButtonLink
                 href={`/academy/webinars/${webinar.slug}`}
-                variant="outline"
+                variant="neutral-outline"
                 size="md"
               >
                 View details

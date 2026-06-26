@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import {
@@ -9,6 +8,7 @@ import {
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { cn } from "@/lib/utils";
+import { ButtonLink } from "@/components/ui/button";
 
 export type LearningListingItem = {
   href: string;
@@ -103,15 +103,12 @@ export function LearningListingSection({
 }
 
 function ViewMoreControl({ href, label }: { href?: string; label: string }) {
-  const baseClass =
-    "border-solid text-foreground inline-flex h-11 items-center gap-2 rounded-md border bg-white px-5 text-sm font-semibold transition-colors";
-
   if (href) {
     return (
-      <Link href={href} className={cn(baseClass, "hover:bg-muted")}>
+      <ButtonLink href={href} variant="neutral-outline" size="md">
         {label}
         <ArrowRight className="size-4" aria-hidden />
-      </Link>
+      </ButtonLink>
     );
   }
 
@@ -120,7 +117,7 @@ function ViewMoreControl({ href, label }: { href?: string; label: string }) {
       type="button"
       disabled
       data-state="coming-soon"
-      className={cn(baseClass, "cursor-not-allowed opacity-70")}
+      className="cursor-not-allowed opacity-70"
     >
       {label}
       <ArrowRight className="size-4" aria-hidden />

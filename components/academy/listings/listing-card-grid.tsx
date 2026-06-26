@@ -10,7 +10,7 @@ import {
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { Button } from "@/components/ui/button";
 
-const INITIAL_VISIBLE = 9;
+const INITIAL_VISIBLE = 5;
 const PAGE_SIZE = 6;
 
 export type ListingCardGridItem = {
@@ -71,7 +71,7 @@ export function ListingCardGrid({
       {hasMore ? (
         <Button
           type="button"
-          variant="outline"
+          variant="neutral-outline"
           size="md"
           onClick={() =>
             setVisibleCount((current) =>
