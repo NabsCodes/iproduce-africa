@@ -48,6 +48,7 @@ export type AboutStory = {
   title: string;
   paragraphs: readonly string[];
   image: string;
+  videoAriaLabel: string;
   primaryCta: SiteCta;
   secondaryCta: { label: string; href: string };
 };

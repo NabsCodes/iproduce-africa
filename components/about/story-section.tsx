@@ -28,7 +28,8 @@ export function StorySection() {
                 className="object-cover"
               />
               <span
-                aria-hidden
+                aria-label={story.videoAriaLabel}
+                title={story.videoAriaLabel}
                 className="bg-leaf-subtle text-leaf-700 pointer-events-none absolute top-1/2 left-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl"
               >
                 <Play className="size-5 fill-current" />

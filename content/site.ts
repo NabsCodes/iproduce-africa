@@ -36,7 +36,6 @@ export const siteConfig = {
           { label: "Academy", href: "/academy" },
           { label: "Community", href: "/community" },
           { label: "Partnerships", href: "/partners" },
-          { label: "Careers", href: undefined },
         ],
       },
       {
