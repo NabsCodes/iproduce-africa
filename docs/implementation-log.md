@@ -3,6 +3,47 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Review fixes — honeypot + Turnstile (2026-06-27)
+
+Renamed honeypot field from `website` to `hpField` (`PUBLIC_FORM_HONEYPOT_FIELD`)
+to avoid collision with Become Partner's real `website` field. Turnstile widget
+uses a stable script id and initializes when `window.turnstile` already exists
+(late-mounted dialogs). pnpm `esbuild` build approval set; README updated.
+
+**Verification:** `pnpm typecheck`, `pnpm lint`, `pnpm build` — pass.
+
+---
+
+## Resend + React Email + Turnstile — polish pass (2026-06-27)
+
+Email architecture split into focused components; subscriber vs internal UI kept
+separate (forest receipt chrome vs compact ops notifications). Logo sizes bumped
+(subscriber 176px, internal 148px). Internal field lists use single-card row layout.
+Docs: `docs/email-structure.md` (folder map + suggestions); `docs/resend-integration-spec.md`
+updated to implemented status.
+
+**Verification:** `pnpm typecheck`, `pnpm lint` — pass. Visual check via `pnpm email:dev`.
+
+---
+
+## Resend + React Email + Turnstile implementation (2026-06-26)
+
+Full production wiring for all seven public forms: six API routes, 12 React Email
+templates (6 notification + 6 receipt pairs), shared Turnstile/honeypot helpers,
+`usePublicFormSubmit` client hook, and live success copy across contact, partners,
+community, academy, footer, and blog sidebar.
+
+**Build fixes:** Server-side phone validation uses `libphonenumber-js` (not
+`react-phone-number-input`, which breaks Next server bundling). Zod 4 envelope
+composition uses `withPublicFormEnvelope()` / `.and()` instead of `.extend()` on
+refined schemas.
+
+**Verification:** `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm build` — pass.
+Manual email/Turnstile matrix requires client env vars (see
+`docs/resend-integration-spec.md`).
+
+---
+
 ## Stale docs audit (2026-06-26)
 
 Updated route and shared specs that had fallen behind shipped code: Home order

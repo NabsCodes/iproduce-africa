@@ -6,6 +6,10 @@ import {
   requiredTrimmedText,
   requireOtherDetail,
 } from "@/schemas/fields";
+import {
+  withPublicFormClientEnvelope,
+  withPublicFormEnvelope,
+} from "@/schemas/public-form";
 
 const contactFormShape = {
   firstName: requiredTrimmedText(2, "Please share your first name"),
@@ -41,3 +45,11 @@ export const contactFormDefaultValues: ContactFormValues = {
   subjectOther: "",
   message: "",
 };
+
+export const contactFormSubmitSchema =
+  withPublicFormEnvelope(contactFormSchema);
+
+export const contactFormClientSchema =
+  withPublicFormClientEnvelope(contactFormSchema);
+
+export type ContactFormClientValues = z.infer<typeof contactFormClientSchema>;

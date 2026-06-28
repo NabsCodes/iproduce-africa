@@ -23,5 +23,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Static content structure is stable enough for Sanity mapping
 - [x] Placeholder imagery source is known (`lib/placeholder-images.ts` + `public/images/`)
 - [x] Form integration scope documented (`docs/resend-integration-spec.md`)
-- [ ] Resend + React Email + Turnstile implementation (not present in current checkout)
+- [x] Resend + React Email + Turnstile implementation (6 API routes, 7 form surfaces, dual-email delivery)
+- [x] Email folder structure + dual UI documented (`docs/email-structure.md`)
+- [ ] Resend domain verified + production env on Vercel (client ops)
 - [ ] `docs/sanity-academy-spec.md` drafted (next step before CMS setup)

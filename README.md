@@ -49,7 +49,7 @@ path to Sanity CMS.
 - Unified Academy search across learning and editorial content
 - Responsive layouts designed intentionally for mobile, tablet, and desktop
 - Accessible UI primitives, keyboard-friendly navigation, and reduced-motion support
-- Local form validation and transparent demo states for deferred submissions
+- Live form validation with Resend email delivery, Cloudflare Turnstile, and honeypot protection on all public forms
 - Metadata, Open Graph, Twitter cards, sitemap, robots, and scoped 404 pages
 - Content-first architecture prepared for a future Sanity migration
 
@@ -108,6 +108,7 @@ pnpm lint          # Run ESLint
 pnpm typecheck     # Run TypeScript checks
 pnpm format        # Format the repository
 pnpm format:check  # Check formatting without writing
+pnpm email:dev     # Preview React Email templates at :3001
 ```
 
 ## Project Structure
@@ -123,7 +124,7 @@ components/
 content/             Editable page copy and canonical static collections
 schemas/             Zod schemas and schema-derived form value types
 types/               Content and component contracts
-lib/                 Search, metadata, projection, and utility helpers
+lib/                 Search, metadata, email, forms API, and utility helpers
 providers/           Application-wide provider composition
 public/              Images, SVG assets, and brand media
 docs/                Design, route, workflow, and implementation documentation
@@ -135,16 +136,22 @@ presentation.
 
 ## Project Status
 
-The public frontend and static Academy content surfaces are implemented. The
-next major phase is production content and service integration:
+The public frontend, Academy content surfaces, and form delivery layer are
+implemented in code. Production mail still requires client Resend domain
+verification and Vercel environment variables (see `docs/resend-integration-spec.md`).
+
+**Shipped in repo**
+
+- Seven public form surfaces → six API routes with dual email delivery (internal + receipt)
+- Cloudflare Turnstile + honeypot on every submission path
+- React Email templates previewable via `pnpm email:dev`
+
+**Next major phase**
 
 - Sanity CMS and editorial workflows
-- Resend-backed form and newsletter delivery
+- Client Resend account + DNS verification on production
 - Real partner, social, programme, and organisational content
 - Analytics, content search, and launch hardening
-
-Until those services are connected, forms remain clearly labelled preview
-experiences and no submission is presented as saved or delivered.
 
 ## Documentation
 
@@ -157,7 +164,14 @@ continue without relying on chat history.
 - [`docs/design-system.md`](./docs/design-system.md) — visual language and tokens
 - [`docs/layout-system.md`](./docs/layout-system.md) — responsive layout rules
 - [`docs/routes/`](./docs/routes) — route-by-route specifications
-- [`docs/implementation-log.md`](./docs/implementation-log.md) — development history and handoffs
+- [`docs/resend-integration-spec.md`](./docs/resend-integration-spec.md) — form delivery, Resend, Turnstile
+- [`docs/email-structure.md`](./docs/email-structure.md) — email folder map and dual UI
+
+## Environment Variables
+
+Form delivery and Turnstile need env vars on Vercel (and locally in `.env.local`).
+See [`docs/resend-integration-spec.md`](./docs/resend-integration-spec.md). Without
+`RESEND_API_KEY` and `EMAIL_FROM`, form APIs return **503** — not fake success.
 
 ## Quality Gate
 
@@ -173,9 +187,9 @@ pnpm build
 ## Deployment
 
 The application is optimized for Vercel and can be deployed to any platform
-that supports Next.js. The current static-first build does not require
-environment variables; future Sanity and email integrations will introduce
-their own documented configuration.
+that supports Next.js. Set Resend, Turnstile, and per-form `*_TO_EMAIL` variables
+before expecting live mail delivery. Sanity CMS env vars will be documented when
+that phase begins.
 
 ---
 

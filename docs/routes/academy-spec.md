@@ -229,7 +229,8 @@ e.g. `4 highlighted · 7 in the full catalogue` — not invented Figma totals.
 3. **Featured event Register** — featured webinar detail slug (same as next-live).
 4. **Registration / enrolment** — `AcademyRegistrationDialog` opened from
    featured event, webinar detail, and course detail (not partnership enquiry).
-   Static MVP: simulated submit; wire to API + Resend/CRM later (Sanity owns editorial content only).
+   POSTs to `/api/academy/register`; server resolves session title from
+   `content/webinars.ts` / `content/courses.ts`. Sanity owns editorial content only.
 
 ## CMS / Sanity migration prep
 

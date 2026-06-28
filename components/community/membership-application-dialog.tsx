@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { MembershipApplicationReviewStep } from "@/components/community/membership-application-review-step";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import {
   ComboboxFormField,
   PhoneFormField,
@@ -17,12 +17,16 @@ import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/he
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import type { MultiStepDialogStep } from "@/components/shared/multi-step-dialog/stepper";
 import { Form } from "@/components/ui/form";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   countryComboboxCopy,
   countryComboboxGroups,
 } from "@/content/countries";
 import { communityPageContent } from "@/content/community";
 import {
+  communityDialogApplicationClientSchema,
   membershipApplicationDialogDefaultValues,
   membershipApplicationDialogSchema,
   membershipApplicationDialogStepFields,
@@ -30,6 +34,10 @@ import {
   membershipApplicationDialogStepSchemas,
   type MembershipApplicationDialogValues,
 } from "@/schemas/community";
+import type { PublicFormEnvelope } from "@/schemas/public-form";
+
+type CommunityDialogClientValues = MembershipApplicationDialogValues &
+  PublicFormEnvelope & { source: "dialog" };
 
 const reviewStepIndex = membershipApplicationDialogStepKeys.length - 1;
 
@@ -50,15 +58,22 @@ export function MembershipApplicationDialog({
   const [submitted, setSubmitted] = useState(false);
   const [successDescription, setSuccessDescription] = useState("");
   const stepIndexRef = useRef(stepIndex);
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/community/application");
 
   useEffect(() => {
     stepIndexRef.current = stepIndex;
   }, [stepIndex]);
 
-  const form = useForm<MembershipApplicationDialogValues>({
-    resolver: zodResolver(membershipApplicationDialogSchema),
+  const form = useForm<CommunityDialogClientValues>({
+    resolver: asFormResolver<CommunityDialogClientValues>(
+      communityDialogApplicationClientSchema,
+    ),
     mode: "onBlur",
-    defaultValues: membershipApplicationDialogDefaultValues,
+    defaultValues: withPublicFormSecurity({
+      ...membershipApplicationDialogDefaultValues,
+      source: "dialog" as const,
+    }),
   });
 
   const currentStep = membershipApplicationDialogStepKeys[stepIndex];
@@ -83,7 +98,12 @@ export function MembershipApplicationDialog({
     setStepIndex(0);
     setSubmitted(false);
     setSuccessDescription("");
-    form.reset();
+    form.reset(
+      withPublicFormSecurity({
+        ...membershipApplicationDialogDefaultValues,
+        source: "dialog" as const,
+      }),
+    );
   }
 
   function handleOpenChange(next: boolean) {
@@ -111,15 +131,21 @@ export function MembershipApplicationDialog({
     setStepIndex((index) => Math.max(index - 1, 0));
   }
 
-  async function onSubmit(values: MembershipApplicationDialogValues) {
+  async function onSubmit(values: CommunityDialogClientValues) {
     if (stepIndexRef.current !== reviewStepIndex) return;
 
-    // TODO(member-application): wire to real submission endpoint.
+    const result = await submit({ ...values, source: "dialog" });
+    if (!result.success) {
+      form.setError("root", {
+        message: result.error ?? "Something went wrong. Please try again.",
+      });
+      return;
+    }
+
     const firstName = values.fullName.trim().split(/\s+/)[0] ?? "there";
     setSuccessDescription(
       content.success.descriptionTemplate.replace("{firstName}", firstName),
     );
-    await new Promise((resolve) => setTimeout(resolve, 800));
     setSubmitted(true);
   }
 
@@ -175,7 +201,7 @@ export function MembershipApplicationDialog({
             totalSteps={steps.length}
             isLastStep={isLastStep}
             isStepValid={isStepValid}
-            isSubmitting={form.formState.isSubmitting}
+            isSubmitting={isSubmitting}
             backLabel={content.backLabel}
             continueLabel={content.continueLabel}
             submitLabel={content.submitLabel}
@@ -202,13 +228,26 @@ export function MembershipApplicationDialog({
             />
           ) : null}
           {currentStep === "review" ? (
-            <MembershipApplicationReviewStep
-              reviewFields={content.steps.review.reviewFields}
-              whyJoinLabel={content.steps.review.whyJoinLabel}
-              defaultBadge={content.steps.review.defaultBadge}
-              sectors={sectors}
-              otherOptionValue={content.otherOptionValue}
-            />
+            <>
+              <MembershipApplicationReviewStep
+                reviewFields={content.steps.review.reviewFields}
+                whyJoinLabel={content.steps.review.whyJoinLabel}
+                defaultBadge={content.steps.review.defaultBadge}
+                sectors={sectors}
+                otherOptionValue={content.otherOptionValue}
+              />
+              <PublicFormSecurityFields
+                control={form.control}
+                turnstileTokenName="turnstileToken"
+                resetNonce={turnstileResetNonce}
+                turnstileSize="compact"
+              />
+              {submitError || form.formState.errors.root ? (
+                <p className="text-destructive text-sm" role="alert">
+                  {submitError ?? form.formState.errors.root?.message}
+                </p>
+              ) : null}
+            </>
           ) : null}
         </div>
       </MultiStepDialogShell>
@@ -221,7 +260,7 @@ function AboutStep({
 }: {
   content: typeof communityPageContent.application.dialog.steps.about;
 }) {
-  const { control } = useFormContext<MembershipApplicationDialogValues>();
+  const { control } = useFormContext<CommunityDialogClientValues>();
 
   return (
     <>
@@ -269,7 +308,7 @@ function WorkStep({
   sectors: typeof communityPageContent.application.form.options.sectors;
   otherOptionValue: string;
 }) {
-  const { control } = useFormContext<MembershipApplicationDialogValues>();
+  const { control } = useFormContext<CommunityDialogClientValues>();
   const sector = useWatch({ control, name: "sector" });
 
   return (

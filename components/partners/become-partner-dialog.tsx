@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   CheckboxGroupFormField,
@@ -19,24 +18,31 @@ import {
   TextFormField,
 } from "@/components/shared/form-fields";
 import { BecomePartnerReviewStep } from "@/components/partners/become-partner-review-step";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { MultiStepDialogFooter } from "@/components/shared/multi-step-dialog/footer";
 import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/heading";
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import type { MultiStepDialogStep } from "@/components/shared/multi-step-dialog/stepper";
 import { Form } from "@/components/ui/form";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   countryComboboxCopy,
   countryComboboxGroups,
 } from "@/content/countries";
 import { partnersPageContent } from "@/content/partners";
 import {
+  becomePartnerClientSchema,
   becomePartnerDefaultValues,
-  becomePartnerSchema,
   becomePartnerStepFields,
   becomePartnerStepKeys,
   becomePartnerStepSchemas,
   type BecomePartnerValues,
 } from "@/schemas/partners";
+import type { PublicFormEnvelope } from "@/schemas/public-form";
+
+type BecomePartnerClientValues = BecomePartnerValues & PublicFormEnvelope;
 
 type BecomePartnerDialogProps = {
   children: ReactNode;
@@ -49,6 +55,8 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const stepIndexRef = useRef(stepIndex);
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/partners/become-partner");
 
   useEffect(() => {
     stepIndexRef.current = stepIndex;
@@ -56,13 +64,15 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
 
   const lastStepIndex = becomePartnerStepKeys.length - 1;
 
-  const form = useForm<BecomePartnerValues>({
-    resolver: zodResolver(becomePartnerSchema),
+  const form = useForm<BecomePartnerClientValues>({
+    resolver: asFormResolver<BecomePartnerClientValues>(
+      becomePartnerClientSchema,
+    ),
     mode: "onBlur",
-    defaultValues: {
+    defaultValues: withPublicFormSecurity({
       ...becomePartnerDefaultValues,
       partnershipInterests: [],
-    },
+    }),
   });
 
   const currentStep = becomePartnerStepKeys[stepIndex];
@@ -80,7 +90,12 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   function reset() {
     setStepIndex(0);
     setSubmitted(false);
-    form.reset();
+    form.reset(
+      withPublicFormSecurity({
+        ...becomePartnerDefaultValues,
+        partnershipInterests: [],
+      }),
+    );
   }
 
   function handleOpenChange(next: boolean) {
@@ -102,19 +117,17 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
     setStepIndex((index) => Math.max(index - 1, 0));
   }
 
-  async function onSubmit(_values: BecomePartnerValues) {
+  async function onSubmit(values: BecomePartnerClientValues) {
     if (stepIndexRef.current !== lastStepIndex) return;
 
-    // TODO(partner-inquiry): wire to real submission endpoint.
-    //   Currently simulates 800ms latency then surfaces the local success
-    //   panel. When the backend ships:
-    //     1. POST `_values` to /api/partnerships (or equivalent route).
-    //     2. On non-2xx, call form.setError("root", { message }) and keep
-    //        the dialog on the contact step.
-    //     3. On success, optionally forward an id to the success panel for
-    //        copy like "Reference #ABC123".
-    //   Also wire an email transactional template (welcome + internal ping).
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const result = await submit(values);
+    if (!result.success) {
+      form.setError("root", {
+        message: result.error ?? "Something went wrong. Please try again.",
+      });
+      return;
+    }
+
     setSubmitted(true);
   }
 
@@ -164,7 +177,7 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
             totalSteps={steps.length}
             isLastStep={isLastStep}
             isStepValid={isStepValid}
-            isSubmitting={form.formState.isSubmitting}
+            isSubmitting={isSubmitting}
             backLabel={content.backLabel}
             continueLabel={content.continueLabel}
             submitLabel={content.submitLabel}
@@ -201,14 +214,27 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
             <ContactStep content={content.steps.contact} />
           )}
           {currentStep === "review" && (
-            <BecomePartnerReviewStep
-              reviewFields={content.steps.review.reviewFields}
-              goalsLabel={content.steps.review.goalsLabel}
-              defaultBadge={content.steps.review.defaultBadge}
-              organisationTypes={content.organisationTypes}
-              partnershipInterests={content.partnershipInterests}
-              otherOptionValue={content.otherOptionValue}
-            />
+            <>
+              <BecomePartnerReviewStep
+                reviewFields={content.steps.review.reviewFields}
+                goalsLabel={content.steps.review.goalsLabel}
+                defaultBadge={content.steps.review.defaultBadge}
+                organisationTypes={content.organisationTypes}
+                partnershipInterests={content.partnershipInterests}
+                otherOptionValue={content.otherOptionValue}
+              />
+              <PublicFormSecurityFields
+                control={form.control}
+                turnstileTokenName="turnstileToken"
+                resetNonce={turnstileResetNonce}
+                turnstileSize="compact"
+              />
+              {submitError || form.formState.errors.root ? (
+                <p className="text-destructive text-sm" role="alert">
+                  {submitError ?? form.formState.errors.root?.message}
+                </p>
+              ) : null}
+            </>
           )}
         </div>
       </MultiStepDialogShell>
@@ -225,7 +251,7 @@ function OrganisationStep({
   organisationTypes: typeof partnersPageContent.becomePartner.organisationTypes;
   otherOptionValue: string;
 }) {
-  const { control } = useFormContext<BecomePartnerValues>();
+  const { control } = useFormContext<BecomePartnerClientValues>();
   const orgType = useWatch({ control, name: "organisationType" });
 
   return (
@@ -287,7 +313,7 @@ function InterestsStep({
   otherPlaceholder: string;
   otherOptionValue: string;
 }) {
-  const { control } = useFormContext<BecomePartnerValues>();
+  const { control } = useFormContext<BecomePartnerClientValues>();
   const interests = useWatch({ control, name: "partnershipInterests" });
   const otherChecked = interests.includes(otherOptionValue);
 
@@ -320,7 +346,7 @@ function ContactStep({
 }: {
   content: typeof partnersPageContent.becomePartner.steps.contact;
 }) {
-  const { control } = useFormContext<BecomePartnerValues>();
+  const { control } = useFormContext<BecomePartnerClientValues>();
 
   return (
     <>

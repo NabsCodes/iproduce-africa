@@ -251,9 +251,9 @@ export const partnersPageContent = {
       submitLabel: "Submit Inquiry",
       consentText:
         "By making inquiry you agree to receive community updates and event invitations by email.",
-      successTitle: "Inquiry draft captured.",
+      successTitle: "Inquiry sent",
       successDescription:
-        "This is a demo, so nothing was sent. Once submissions are wired up, the partnerships team will follow up within 5 working days.",
+        "Thanks for your interest in partnering with iProduce Africa. Our partnerships team will review your inquiry and follow up within five working days.",
       otherOptionValue: OTHER_OPTION_VALUE,
       placeholders: {
         fullName: "Full name",

@@ -2,11 +2,11 @@
 
 ## Status
 
-Full launch planning spec — **review before implementation** (2026-06-24).
+**Implemented** (2026-06-26) — code shipped; production blocked on client Resend domain
+verification + Vercel env. File/folder map: `docs/email-structure.md`.
 
-Implementation should follow this document and mirror the proven patterns in
-`wardwise-demo` (`src/lib/email/`, `pnpm email:dev`, API route shape,
-Turnstile verification, and honeypot handling).
+Original planning reference: mirror patterns from `wardwise-demo` (`src/lib/email/`,
+`pnpm email:dev`, API route shape, Turnstile verification, honeypot handling).
 
 ## Purpose
 
@@ -115,8 +115,7 @@ auth, audit logging, Prisma, or admin stack.
 
 ## Forms In Scope
 
-All schemas already live in `schemas/`. All UI still uses placeholder submit
-handlers (`TODO(...)`).
+All schemas live in `schemas/`. All UI wired to API routes via `usePublicFormSubmit`.
 
 | Form                         | UI entry                                                             | Schema                                         | API route (planned)                                       | Internal email              | Submitter receipt | Spam protection      |
 | ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------- | --------------------------- | ----------------- | -------------------- |
@@ -153,13 +152,35 @@ Each template file exports:
 - `build*Email(input)` — returns `{ subject, html, text }`
 - Shared formatters (e.g. `formatSubmittedAt` with `Africa/Lagos` timezone)
 
+### Developer map — what lives where
+
+See **`docs/email-structure.md`** for the full folder tree, logic vs helper
+split, dual UI rules, and UI/config/Resend suggestions.
+
+### Dual UI — internal vs subscriber (do not mix)
+
+Both audiences share the logo asset and palette, but use **separate component sets**:
+
+| Audience                        | Shell                   | Masthead                                                              | Body tokens                                             | Footer                  | Tone                                                 |
+| ------------------------------- | ----------------------- | --------------------------------------------------------------------- | ------------------------------------------------------- | ----------------------- | ---------------------------------------------------- |
+| **Subscriber** (public receipt) | `audience="subscriber"` | `EmailSubscriberMasthead` — white logo band + **forest** eyebrow band | `emailSubscriberType`, `EmailBody variant="subscriber"` | `EmailSubscriberFooter` | Confirm → reflect → one CTA                          |
+| **Internal** (team inbox)       | `audience="internal"`   | `EmailInternalMasthead` — white logo band + **light ops** label strip | `emailInternalType`, `EmailBody variant="internal"`     | `EmailInternalFooter`   | Short headline → compact field card → optional quote |
+
+Logo display sizes: `EMAIL_LOGO_SUBSCRIBER` (176px) and `EMAIL_LOGO_INTERNAL` (148px) in
+`lib/email/assets.ts`. Source PNG: `public/brand/email-logo.png` (320×142, 2×).
+
+Internal field lists use `EmailDetailSection` (single bordered card, row dividers).
+Subscriber highlights use `EmailHighlightCard` (sage panel, serif value).
+
 ### Shared components
 
-- `lib/email/components/email-brand-header.tsx` — iProduce logotype + eyebrow
-  (use absolute URL from `siteConfig.siteUrl` + `/images/...` or dedicated
-  email asset under `public/brand/`)
-- `lib/email/components/email-standard-footer.tsx` — site link, copyright,
-  optional internal disclaimer
+- `lib/email/components/email-shell.tsx` — `EmailShell` + `EmailBody`; injects mobile styles per audience
+- `lib/email/components/email-subscriber-masthead.tsx` / `email-internal-masthead.tsx`
+- `lib/email/components/email-subscriber-footer.tsx` / `email-internal-footer.tsx`
+- `lib/email/components/email-detail-section.tsx` — internal field lists
+- `lib/email/components/email-highlight-card.tsx` — subscriber highlight panels
+- `lib/email/components/email-quote-block.tsx` — free-text excerpts (internal)
+- `lib/email/components/email-action-button.tsx` — leaf CTA (subscriber) or outline (internal)
 
 ### Template list
 
@@ -202,7 +223,7 @@ errors to the client, log server-side on failure.
 - Body matches the form schema (+ academy `kind` / `slug` where applicable)
 - Body also includes:
   - `turnstileToken: string`
-  - `website: string` hidden honeypot field
+  - `hpField: string` hidden honeypot field (`PUBLIC_FORM_HONEYPOT_FIELD`)
   - `source: "page" | "dialog"` for community submissions
 
 ### Success
@@ -221,7 +242,7 @@ Status `400`.
 
 ### Bot / verification behavior
 
-- If `website` is non-empty, return `{ "success": true }` but send no email.
+- If `hpField` is non-empty, return `{ "success": true }` but send no email.
   This silently neutralises basic bots without teaching them the trap.
 - Verify `turnstileToken` server-side before sending any email.
 - In local development, allow a documented bypass when Turnstile env vars are
@@ -251,7 +272,7 @@ route-specific `*_TO_EMAIL` is missing; `500` on Resend API errors.
 
 Replace `setTimeout` placeholders with `fetch("/api/...", { method: "POST", ... })`.
 Show loading state on submit button; map `error` to toast or inline alert.
-Add the shared Turnstile widget and hidden `website` field to every public
+Add the shared Turnstile widget and hidden `hpField` honeypot to every public
 form. Reset the Turnstile token after failed submissions and after successful
 submissions.
 
@@ -312,32 +333,39 @@ Script:
 lib/
   turnstile.ts
   email/
-    send.ts
-    contact.ts
-    partners.ts
-    community.ts
-    academy-registration.ts
+    send.ts                 # transport — Resend + env
+    render.ts               # React Email → html/text
+    assets.ts               # logo URL + display sizes
+    format-submitted-at.ts  # Lagos timezone helper
+    resolve-label.ts        # form option → label
+    styles.ts               # tokens (subscriber + internal tracks)
+    contact.ts              # orchestration — contact form
     newsletter.ts
+    academy-registration.ts
+    community.ts
+    partners.ts
     components/
-      email-brand-header.tsx
-      email-standard-footer.tsx
+      email-shell.tsx
+      email-subscriber-masthead.tsx
+      email-internal-masthead.tsx
+      email-subscriber-footer.tsx
+      email-internal-footer.tsx
+      email-detail-section.tsx
+      email-highlight-card.tsx
+      email-quote-block.tsx
+      email-action-button.tsx
+      email-sign-off.tsx
     templates/
-      contact-notification.tsx
-      contact-receipt.tsx
+      contact-notification.tsx      # internal + receipt + build*()
       partner-inquiry-notification.tsx
-      partner-inquiry-receipt.tsx
       become-partner-notification.tsx
-      become-partner-receipt.tsx
       community-application-notification.tsx
-      community-application-receipt.tsx
       academy-registration-notification.tsx
-      academy-registration-receipt.tsx
-      newsletter-notification.tsx
       newsletter-confirm.tsx
     previews/
-      contact-notification.tsx
+      contact-notification.tsx      # default export fixtures for email:dev
       contact-receipt.tsx
-      ... (one preview per template)
+      ...
 
 app/
   api/
@@ -361,7 +389,7 @@ schemas/
 
 Keep Zod in `schemas/` — do not move validation into `lib/email/`.
 Use `schemas/public-form.ts` only for shared anti-spam envelope helpers
-(`turnstileToken`, `website`, and community `source`), then compose them with
+(`turnstileToken`, `hpField`, and community `source`), then compose them with
 the existing domain schemas in the API route layer.
 
 ---
@@ -443,13 +471,13 @@ Deliver to client:
 - [ ] Account strategy agreed (separate iProduce Resend project)
 - [ ] Client DNS / inbox checklist sent
 - [ ] Turnstile site configured for local / preview / production domains
-- [ ] Dependencies + `email:dev` added
-- [ ] `lib/email/send.ts` + shared components
-- [ ] `lib/turnstile.ts`, `components/shared/turnstile-widget.tsx`, shared anti-spam schema helpers
-- [ ] All templates + previews
-- [ ] All API routes
-- [ ] All form components wired with fetch + Turnstile + honeypot
-- [ ] All live success copy updated
-- [ ] `.env.example` + Vercel env
+- [x] Dependencies + `email:dev` added
+- [x] `lib/email/send.ts` + shared components
+- [x] `lib/turnstile.ts`, `components/shared/turnstile-widget.tsx`, shared anti-spam schema helpers
+- [x] All templates + previews
+- [x] All API routes
+- [x] All form components wired with fetch + Turnstile + honeypot
+- [x] All live success copy updated
+- [x] `.env.example` + Vercel env
 - [ ] Domain verified on production
-- [ ] Route specs + `implementation-log.md` updated
+- [x] Route specs + `implementation-log.md` updated

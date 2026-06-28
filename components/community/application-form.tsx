@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import {
   ComboboxFormField,
   PhoneFormField,
@@ -14,16 +14,23 @@ import {
 } from "@/components/shared/form-fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   countryComboboxCopy,
   countryComboboxGroups,
 } from "@/content/countries";
 import {
+  communityPageApplicationClientSchema,
   membershipApplicationDefaultValues,
-  membershipApplicationSchema,
   type MembershipApplicationValues,
 } from "@/schemas/community";
+import type { PublicFormEnvelope } from "@/schemas/public-form";
 import type { MembershipApplicationFormContent } from "@/types/community";
+
+type CommunityPageClientValues = MembershipApplicationValues &
+  PublicFormEnvelope & { source: "page" };
 
 type MembershipApplicationFormProps = {
   content: MembershipApplicationFormContent;
@@ -34,20 +41,28 @@ export function MembershipApplicationForm({
 }: MembershipApplicationFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const otherValue = content.otherOptionValue;
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/community/application");
 
-  const form = useForm<MembershipApplicationValues>({
-    resolver: zodResolver(membershipApplicationSchema),
-    defaultValues: membershipApplicationDefaultValues,
+  const form = useForm<CommunityPageClientValues>({
+    resolver: asFormResolver<CommunityPageClientValues>(
+      communityPageApplicationClientSchema,
+    ),
+    defaultValues: withPublicFormSecurity({
+      ...membershipApplicationDefaultValues,
+      source: "page" as const,
+    }),
     mode: "onBlur",
   });
 
   const watchedRole = useWatch({ control: form.control, name: "role" });
   const watchedSector = useWatch({ control: form.control, name: "sector" });
 
-  async function onSubmit(_values: MembershipApplicationValues) {
-    // TODO(member-application): wire to real submission endpoint.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setSubmitted(true);
+  async function onSubmit(values: CommunityPageClientValues) {
+    const result = await submit({ ...values, source: "page" });
+    if (result.success) {
+      setSubmitted(true);
+    }
   }
 
   if (submitted) {
@@ -164,17 +179,27 @@ export function MembershipApplicationForm({
             placeholder={content.placeholders.reason}
           />
 
+          <PublicFormSecurityFields
+            control={form.control}
+            turnstileTokenName="turnstileToken"
+            resetNonce={turnstileResetNonce}
+          />
+
+          {submitError ? (
+            <p className="text-destructive text-sm" role="alert">
+              {submitError}
+            </p>
+          ) : null}
+
           <Button
             type="submit"
             variant="green"
             size="lg"
             fullWidth
-            disabled={form.formState.isSubmitting}
+            disabled={isSubmitting}
             className="mt-2"
           >
-            {form.formState.isSubmitting
-              ? "Submitting..."
-              : content.submitLabel}
+            {isSubmitting ? "Submitting..." : content.submitLabel}
             <ArrowRight className="size-4" />
           </Button>
 

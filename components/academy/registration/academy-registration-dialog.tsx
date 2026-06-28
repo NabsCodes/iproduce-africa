@@ -2,22 +2,29 @@
 
 import { useCallback } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import type { AcademyRegistrationTarget } from "@/components/academy/registration/academy-registration-provider";
 import { PhoneFormField, TextFormField } from "@/components/shared/form-fields";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { MultiStepDialogFooter } from "@/components/shared/multi-step-dialog/footer";
 import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/heading";
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import { Form } from "@/components/ui/form";
 import { academyRegistrationContent } from "@/content/academy";
 import { useDialogFormLifecycle } from "@/hooks/use-dialog-form-lifecycle";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
+  academyRegistrationClientSchema,
   academyRegistrationDefaultValues,
   academyRegistrationSchema,
-  academyRegistrationSubmitSchema,
   type AcademyRegistrationValues,
 } from "@/schemas/academy-registration";
+import type { PublicFormEnvelope } from "@/schemas/public-form";
+
+type AcademyRegistrationClientValues = AcademyRegistrationValues &
+  PublicFormEnvelope;
 
 type AcademyRegistrationDialogProps = {
   open: boolean;
@@ -31,15 +38,19 @@ export function AcademyRegistrationDialog({
   target,
 }: AcademyRegistrationDialogProps) {
   const copy = target ? academyRegistrationContent.dialog[target.kind] : null;
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/academy/register");
 
-  const form = useForm<AcademyRegistrationValues>({
-    resolver: zodResolver(academyRegistrationSchema),
-    defaultValues: academyRegistrationDefaultValues,
+  const form = useForm<AcademyRegistrationClientValues>({
+    resolver: asFormResolver<AcademyRegistrationClientValues>(
+      academyRegistrationClientSchema,
+    ),
+    defaultValues: withPublicFormSecurity(academyRegistrationDefaultValues),
     mode: "onBlur",
   });
 
   const resetForm = useCallback(() => {
-    form.reset(academyRegistrationDefaultValues);
+    form.reset(withPublicFormSecurity(academyRegistrationDefaultValues));
   }, [form]);
 
   const { submitted, handleOpenChange, runSubmission } =
@@ -48,20 +59,22 @@ export function AcademyRegistrationDialog({
   const watchedValues = useWatch({ control: form.control });
   const isValid = academyRegistrationSchema.safeParse(watchedValues).success;
 
-  async function onSubmit(values: AcademyRegistrationValues) {
+  async function onSubmit(values: AcademyRegistrationClientValues) {
     if (!target) return;
 
-    const payload = academyRegistrationSubmitSchema.parse({
-      ...values,
-      kind: target.kind,
-      slug: target.slug,
-    });
-
-    // TODO(academy-registration): POST payload to API — resolve title server-side from kind + slug.
-    void payload;
-
     await runSubmission(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const result = await submit({
+        ...values,
+        kind: target.kind,
+        slug: target.slug,
+      });
+
+      if (!result.success) {
+        form.setError("root", {
+          message: result.error ?? "Something went wrong. Please try again.",
+        });
+        throw new Error("submission_failed");
+      }
     });
   }
 
@@ -98,7 +111,7 @@ export function AcademyRegistrationDialog({
             totalSteps={1}
             isLastStep
             isStepValid={isValid}
-            isSubmitting={form.formState.isSubmitting}
+            isSubmitting={isSubmitting}
             backLabel="Back"
             continueLabel="Continue"
             submitLabel={copy.submitLabel}
@@ -138,6 +151,19 @@ export function AcademyRegistrationDialog({
             placeholder={copy.fields.organisation}
             autoComplete="organization"
           />
+
+          <PublicFormSecurityFields
+            control={form.control}
+            turnstileTokenName="turnstileToken"
+            resetNonce={turnstileResetNonce}
+            turnstileSize="compact"
+          />
+
+          {submitError || form.formState.errors.root ? (
+            <p className="text-destructive text-sm" role="alert">
+              {submitError ?? form.formState.errors.root?.message}
+            </p>
+          ) : null}
         </div>
       </MultiStepDialogShell>
     </Form>

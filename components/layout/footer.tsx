@@ -161,7 +161,6 @@ export function Footer() {
               {siteConfig.footer.newsletter.description}
             </p>
 
-            {/* TODO: wire newsletter submission after the static UI is approved. */}
             <NewsletterForm />
             <p className="mt-3 text-xs text-white/40">
               No spam. Unsubscribe anytime.

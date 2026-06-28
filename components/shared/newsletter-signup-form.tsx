@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Send } from "lucide-react";
 
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
@@ -15,12 +15,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import { cn } from "@/lib/utils";
 import {
+  newsletterClientSchema,
   newsletterDefaultValues,
-  newsletterSchema,
   type NewsletterValues,
 } from "@/schemas/newsletter";
+import type { PublicFormEnvelope } from "@/schemas/public-form";
+
+type NewsletterClientValues = NewsletterValues & PublicFormEnvelope;
 
 export type NewsletterSignupCopy = {
   inputId: string;
@@ -34,26 +40,35 @@ export type NewsletterSignupCopy = {
 type NewsletterSignupFormProps = {
   copy: NewsletterSignupCopy;
   variant?: "footer" | "compact";
+  sourcePath?: string;
   className?: string;
 };
 
 export function NewsletterSignupForm({
   copy,
   variant = "footer",
+  sourcePath = "/",
   className,
 }: NewsletterSignupFormProps) {
   const [submitted, setSubmitted] = useState(false);
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/newsletter");
 
-  const form = useForm<NewsletterValues>({
-    resolver: zodResolver(newsletterSchema),
-    defaultValues: newsletterDefaultValues,
+  const form = useForm<NewsletterClientValues>({
+    resolver: asFormResolver<NewsletterClientValues>(newsletterClientSchema),
+    defaultValues: withPublicFormSecurity(newsletterDefaultValues),
     mode: "onBlur",
   });
 
-  async function onSubmit(_values: NewsletterValues) {
-    // TODO(newsletter): wire to real submission endpoint.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setSubmitted(true);
+  async function onSubmit(values: NewsletterClientValues) {
+    const result = await submit({
+      ...values,
+      sourcePath,
+    });
+
+    if (result.success) {
+      setSubmitted(true);
+    }
   }
 
   if (submitted) {
@@ -121,7 +136,7 @@ export function NewsletterSignupForm({
             type="submit"
             variant="tangerine"
             size={isCompact ? "icon-sm" : undefined}
-            disabled={form.formState.isSubmitting}
+            disabled={isSubmitting}
             aria-label={copy.submitLabel}
             title={copy.submitLabel}
             className={cn(
@@ -132,6 +147,20 @@ export function NewsletterSignupForm({
             <Send className={isCompact ? "size-4" : "size-5"} aria-hidden />
           </Button>
         </Field>
+
+        <PublicFormSecurityFields
+          control={form.control}
+          turnstileTokenName="turnstileToken"
+          resetNonce={turnstileResetNonce}
+          turnstileSize={isCompact ? "compact" : "normal"}
+          className="mt-4"
+        />
+
+        {submitError ? (
+          <p className="text-destructive mt-2 text-xs" role="alert">
+            {submitError}
+          </p>
+        ) : null}
       </form>
     </Form>
   );

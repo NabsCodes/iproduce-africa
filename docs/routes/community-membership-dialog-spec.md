@@ -9,7 +9,8 @@ screenshots (About you → Your work → Review → Application received).
 
 Offer a focused, step-by-step membership application flow from primary
 `Join our Community` CTAs without replacing the inline form at
-`#membership-application`. Static MVP: simulated submit, no backend.
+`#membership-application`. POSTs to `/api/community/application` with
+`source: "dialog"` (Resend internal + receipt, Turnstile on review step).
 
 ## Trigger points
 
@@ -47,7 +48,8 @@ Extended shared `MultiStepDialogSuccessPanel` supports optional `nextSteps[]`
 (three numbered items in leaf-50 box). Description uses
 `{firstName}` template from submitted `fullName`.
 
-Demo copy — no backend implied. `TODO(member-application)` in dialog submit handler.
+Demo copy removed — live success copy from `content/community.ts`. Turnstile on
+review step; honeypot on all steps.
 
 ## Verification
 

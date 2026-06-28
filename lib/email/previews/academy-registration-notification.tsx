@@ -1,0 +1,23 @@
+import { AcademyRegistrationNotificationTemplate } from "@/lib/email/templates/academy-registration-notification";
+import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+
+const fixture = {
+  fullName: "Kofi Mensah",
+  email: "kofi@example.com",
+  phone: "+2348012345678",
+  organisation: "GreenHarvest Co.",
+  kind: "webinar" as const,
+  slug: "unlocking-intra-african-trade",
+  sessionTitle: "Unlocking Intra-African Trade",
+  submittedAt: new Date("2026-06-24T10:00:00.000Z"),
+  sourcePath: "/academy/webinars/unlocking-intra-african-trade",
+};
+
+export default function AcademyRegistrationNotificationPreview() {
+  return (
+    <AcademyRegistrationNotificationTemplate
+      input={fixture}
+      submittedLabel={formatSubmittedAt(fixture.submittedAt)}
+    />
+  );
+}

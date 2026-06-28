@@ -89,6 +89,7 @@ export default async function BlogArticlePage({
       sidebar={
         <BlogArticleSidebar
           title={article.title}
+          articlePath={`/academy/blog/${slug}`}
           newsletter={blogContent.newsletter}
           shareControls={blogContent.shareControls}
         />

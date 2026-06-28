@@ -7,6 +7,10 @@ import {
   requiredTrimmedText,
   requireOtherDetail,
 } from "@/schemas/fields";
+import {
+  withPublicFormClientEnvelope,
+  withPublicFormEnvelope,
+} from "@/schemas/public-form";
 
 const membershipAboutShape = {
   fullName: requiredTrimmedText(2, "Please share your full name"),
@@ -149,3 +153,38 @@ export const membershipApplicationDialogStepFields: Record<
     "reason",
   ],
 };
+
+export const communityPageApplicationSubmitSchema = withPublicFormEnvelope(
+  membershipApplicationSchema.and(z.object({ source: z.literal("page") })),
+);
+
+export const communityDialogApplicationSubmitSchema = withPublicFormEnvelope(
+  membershipApplicationDialogSchema.and(
+    z.object({ source: z.literal("dialog") }),
+  ),
+);
+
+export const communityPageApplicationClientSchema =
+  withPublicFormClientEnvelope(
+    membershipApplicationSchema.and(z.object({ source: z.literal("page") })),
+  );
+
+export const communityDialogApplicationClientSchema =
+  withPublicFormClientEnvelope(
+    membershipApplicationDialogSchema.and(
+      z.object({ source: z.literal("dialog") }),
+    ),
+  );
+
+export const communityApplicationSubmitSchema = z.union([
+  communityPageApplicationSubmitSchema,
+  communityDialogApplicationSubmitSchema,
+]);
+
+export type CommunityPageApplicationClientValues = z.infer<
+  typeof communityPageApplicationClientSchema
+>;
+
+export type CommunityDialogApplicationClientValues = z.infer<
+  typeof communityDialogApplicationClientSchema
+>;

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2 } from "lucide-react";
 
 import {
@@ -10,14 +9,21 @@ import {
   TextareaFormField,
   TextFormField,
 } from "@/components/shared/form-fields";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
+  contactFormClientSchema,
   contactFormDefaultValues,
-  contactFormSchema,
   type ContactFormValues,
 } from "@/schemas/contact";
+import type { PublicFormEnvelope } from "@/schemas/public-form";
 import type { ContactFormContent } from "@/types/contact";
+
+type ContactFormClientValues = ContactFormValues & PublicFormEnvelope;
 
 type ContactFormProps = {
   content: ContactFormContent;
@@ -26,23 +32,26 @@ type ContactFormProps = {
 export function ContactForm({ content }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const otherValue = content.otherOptionValue;
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/contact");
 
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: contactFormDefaultValues,
+  const form = useForm<ContactFormClientValues>({
+    resolver: asFormResolver<ContactFormClientValues>(contactFormClientSchema),
+    defaultValues: withPublicFormSecurity(contactFormDefaultValues),
     mode: "onBlur",
   });
 
   const watchedSubject = useWatch({ control: form.control, name: "subject" });
 
-  async function onSubmit(_values: ContactFormValues) {
-    // TODO(contact-form): wire to real submission endpoint.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setSubmitted(true);
+  async function onSubmit(values: ContactFormClientValues) {
+    const result = await submit(values);
+    if (result.success) {
+      setSubmitted(true);
+    }
   }
 
   function handleSendAnother() {
-    form.reset(contactFormDefaultValues);
+    form.reset(withPublicFormSecurity(contactFormDefaultValues));
     setSubmitted(false);
   }
 
@@ -140,14 +149,26 @@ export function ContactForm({ content }: ContactFormProps) {
             showLabel
           />
 
+          <PublicFormSecurityFields
+            control={form.control}
+            turnstileTokenName="turnstileToken"
+            resetNonce={turnstileResetNonce}
+          />
+
+          {submitError ? (
+            <p className="text-destructive text-sm" role="alert">
+              {submitError}
+            </p>
+          ) : null}
+
           <Button
             type="submit"
             variant="neutral"
             size="lg"
-            disabled={form.formState.isSubmitting}
+            disabled={isSubmitting}
             className="bg-forest-900 hover:bg-forest-800 mt-2 h-12 w-full rounded-md text-base"
           >
-            {form.formState.isSubmitting ? "Sending..." : content.submitLabel}
+            {isSubmitting ? "Sending..." : content.submitLabel}
           </Button>
         </form>
       </Form>

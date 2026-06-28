@@ -9,15 +9,16 @@ Screenshot-driven target spec supplied 2026-06-19. Full static page shipped
 ## Purpose
 
 Give visitors a clear, credible path to reach the team for general inquiries,
-community questions, Academy interest, or partnership conversations — without
-implying a live backend submission workflow yet.
+community questions, Academy interest, or partnership conversations — with live
+delivery via Resend when env vars are configured.
 
 ## Confirmed Inputs
 
 - Route exists at `/contact`.
 - Screenshots supplied 2026-06-19 (hero + reach-out/form, map, FAQ, CTA).
-- Static MVP boundaries still apply: no backend submission, no CRM, no chat
-  widget, no auth.
+- Static MVP boundaries still apply: no CRM, no chat widget, no auth.
+- Form submissions POST to `/api/contact` (Resend internal + receipt, Turnstile,
+  honeypot). Missing env returns `503` — no fake success.
 - The final page should **not** use the generic shared `PageHero`. It needs a
   route-specific hero + overlapping form composition.
 - Contact details in the screenshot should drive copy; reconcile with
@@ -266,7 +267,7 @@ Browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - Hero split + photo render without horizontal overflow.
 - Form card overlap on desktop; clean stack on mobile.
 - Contact links (`tel:`, `mailto:`) work.
-- Form: empty submit shows field errors; happy path shows success placeholder.
+- Form: empty submit shows field errors; happy path shows success after API delivery.
 - Map embed loads; directions / larger-map links open externally.
 - FAQ tabs filter correctly; support CTA scrolls to `#contact-form`.
 - CTA Partner button routes to `/partners#partnership-enquiry`.
@@ -279,7 +280,7 @@ Browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - [x] Figma / screenshots supplied (hero, map, FAQ, CTA)
 - [x] Desktop composition documented per section
 - [x] Reuse map documented
-- [x] Static form scope documented (no backend)
+- [x] Static form scope documented (Resend + Turnstile wired)
 - [x] Site data reconciliation notes captured
 - [x] Mobile composition confirmed per section (mobile hero + reach-out supplied)
 - [x] `ContactHeroSection` implemented

@@ -446,9 +446,9 @@ export const communityPageContent = {
       submitLabel: "Join our Community",
       consentText:
         "By applying you agree to receive community updates and event invitations by email.",
-      successTitle: "Application draft captured.",
+      successTitle: "Application sent",
       successDescription:
-        "This is a demo, so nothing was sent. Once submissions are wired up, the team will follow up within five working days.",
+        "Thanks for applying to join the iProduce community. Our team will review your application and follow up within five working days.",
       otherOptionValue: OTHER_OPTION_VALUE,
       placeholders: {
         fullName: "Full name",

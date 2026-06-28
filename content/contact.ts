@@ -52,9 +52,9 @@ export const contactPageContent = {
       ],
     },
     submitLabel: "Send Message",
-    successTitle: "Preview captured",
+    successTitle: "Message sent",
     successDescription:
-      "This is a demo submission only — nothing has been saved or emailed yet. We will connect live contact handling before launch.",
+      "Thanks for reaching out. We received your message and will get back to you as soon as possible, usually within one business day.",
     sendAnotherLabel: "Send another message",
   },
   map: {

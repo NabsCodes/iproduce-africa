@@ -405,16 +405,15 @@ new inquiry section's id):
 - `components/layout/header.tsx`: "Partner with us" desktop link
 - `components/layout/mobile-nav.tsx`: "Partner with us" mobile link
 
-### Form behaviour (static MVP)
+### Form behaviour
 
 - All fields required; zod schema enforces basic constraints (min lengths,
-  email format, valid international phone number via
-  `isValidPhoneNumber` from `react-phone-number-input`).
-- `onSubmit` simulates 800ms latency, then swaps the form for a success card.
-  No backend call, no email send. The success card's copy makes the static
-  scope explicit.
-- Phone field defaults to Nigeria (`NG`), country code editable via the
-  library's built-in country selector.
+  email format, valid international phone via `libphonenumber-js` in
+  `schemas/fields.ts`).
+- `onSubmit` POSTs to `/api/partners/inquiry` (Resend internal + receipt,
+  Turnstile, honeypot). Success card uses live copy from `content/partners.ts`.
+- Phone field defaults to Nigeria (`NG`), country code editable via
+  `react-phone-number-input` in `components/ui/phone-input.tsx`.
 - Validation mode is `onBlur` so errors don't show on first focus.
 
 ### Form schema and shared dialog refactor (shipped 2026-06-19)

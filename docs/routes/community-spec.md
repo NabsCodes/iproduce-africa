@@ -239,12 +239,9 @@ and event invitations by email.`
     `content/partners.ts` or extract to a shared `content/options.ts` if
     repeated more).
   - "Other → specify" pattern applies to Role / Country / Sector.
-- Submit: simulate 800ms latency then show success state inline (same
-  pattern as partners `InquiryForm`). Success copy must read as a draft:
-  - Title `Application draft captured.`
-  - Body `This is a demo, so nothing was sent. Once submissions are wired
-up, the team will follow up within five working days.`
-- TODO marker `TODO(member-application): wire to real submission endpoint.`
+- Submit: POST to `/api/community/application` with `source: "page"` (Resend
+  internal + receipt, Turnstile, honeypot). Success copy confirms receipt and
+  follow-up window from `content/community.ts`.
 
 ## 11. FAQ
 

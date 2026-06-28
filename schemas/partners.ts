@@ -9,6 +9,10 @@ import {
   requireOtherArrayDetail,
   requireOtherDetail,
 } from "@/schemas/fields";
+import {
+  withPublicFormClientEnvelope,
+  withPublicFormEnvelope,
+} from "@/schemas/public-form";
 
 const partnerInquiryShape = {
   fullName: requiredTrimmedText(2, "Please share your full name"),
@@ -214,3 +218,23 @@ export const becomePartnerDefaultValues: BecomePartnerValues = {
   email: "",
   phone: "",
 };
+
+export const partnerInquirySubmitSchema =
+  withPublicFormEnvelope(partnerInquirySchema);
+
+export const partnerInquiryClientSchema =
+  withPublicFormClientEnvelope(partnerInquirySchema);
+
+export type PartnerInquiryClientValues = z.infer<
+  typeof partnerInquiryClientSchema
+>;
+
+export const becomePartnerSubmitSchema =
+  withPublicFormEnvelope(becomePartnerSchema);
+
+export const becomePartnerClientSchema =
+  withPublicFormClientEnvelope(becomePartnerSchema);
+
+export type BecomePartnerClientValues = z.infer<
+  typeof becomePartnerClientSchema
+>;

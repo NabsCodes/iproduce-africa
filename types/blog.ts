@@ -86,7 +86,7 @@ export type BlogNewsletterContent = {
   inputLabel: string;
   inputPlaceholder: string;
   submitLabel: string;
-  comingSoonMessage: string;
+  successMessage: string;
 };
 
 export type BlogShareControlsContent = {

@@ -17,7 +17,8 @@ and more task-oriented.
 6. `routes/README.md`
 7. `layout-system.md`
 8. `design-system.md`
-9. `implementation-log.md`
+9. `email-structure.md` when touching transactional email
+10. `implementation-log.md`
 
 ## Documents
 
@@ -34,7 +35,8 @@ and more task-oriented.
 | `status-board.md`            | Quick to-do board across shared sections and pages.                               |
 | `implementation-log.md`      | Short running log so future agents can catch up quickly.                          |
 | `handoff-template.md`        | Copy-paste structure for incomplete work or QA handoff.                           |
-| `resend-integration-spec.md` | Resend + React Email + Turnstile plan for live form delivery.                     |
+| `resend-integration-spec.md` | Resend + React Email + Turnstile integration (env, API, account strategy).        |
+| `email-structure.md`         | Email folder tree, logic vs helpers, dual UI, config suggestions.                 |
 
 ## Source Of Truth Order
 

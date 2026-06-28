@@ -48,9 +48,9 @@ export const blogContent: BlogPageContent = {
       "Receive the latest insights, industry trends, and inspiration from across Africa's agribusiness ecosystem.",
     inputLabel: "Email address",
     inputPlaceholder: "Your email address",
-    submitLabel: "Subscribe (coming soon)",
-    comingSoonMessage:
-      "Newsletter signup is coming soon. Thanks for your interest.",
+    submitLabel: "Subscribe",
+    successMessage:
+      "Thanks for subscribing. Check your inbox for a confirmation email.",
   },
   shareControls: {
     heading: "Share Article",

@@ -46,7 +46,11 @@ After the static UI is approved:
 - Expand secondary pages beyond their current lead sections
 - Add richer Academy, Community, and Partners content models
 
-This phase may still stay backend-light if needed.
+**Shipped (2026-06-26):** All seven public forms POST to API routes with Resend
+dual-email delivery, Turnstile, and honeypot. Production requires client env +
+domain verification — see `docs/resend-integration-spec.md`.
+
+This phase may still stay backend-light beyond form delivery if needed.
 
 Examples that can land here if they become useful:
 
@@ -60,10 +64,12 @@ Examples that can land here if they become useful:
 Only after the interface is approved:
 
 - Sanity CMS integration
-- Real form submission workflows
 - Analytics and tracking
 - Translation or multilingual rollout
 - Search, content publishing workflows, and operational handoffs
+
+Form submission workflows (Resend + Turnstile) landed in Phase 2 — production
+DNS/env handoff remains client ops.
 
 ## Explicitly Not In Scope Now
 

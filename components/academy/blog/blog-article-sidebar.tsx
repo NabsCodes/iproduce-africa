@@ -67,6 +67,7 @@ function getServerNativeShareSnapshot() {
 
 type BlogArticleSidebarProps = {
   title: string;
+  articlePath: string;
   newsletter: BlogNewsletterContent;
   shareControls: BlogShareControlsContent;
 };
@@ -77,6 +78,7 @@ type BlogArticleSidebarProps = {
  */
 export function BlogArticleSidebar({
   title,
+  articlePath,
   newsletter,
   shareControls,
 }: BlogArticleSidebarProps) {
@@ -132,12 +134,13 @@ export function BlogArticleSidebar({
 
         <NewsletterSignupForm
           variant="compact"
+          sourcePath={articlePath}
           copy={{
             inputId: "blog-sidebar-newsletter-email",
             inputLabel: newsletter.inputLabel,
             placeholder: newsletter.inputPlaceholder,
             submitLabel: newsletter.submitLabel,
-            successMessage: newsletter.comingSoonMessage,
+            successMessage: newsletter.successMessage,
             formAriaLabel: newsletter.eyebrow,
           }}
         />
