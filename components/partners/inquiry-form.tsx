@@ -38,8 +38,15 @@ type InquiryFormProps = {
 export function InquiryForm({ content }: InquiryFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const otherValue = content.otherOptionValue;
-  const { isSubmitting, submitError, turnstileResetNonce, submit } =
-    usePublicFormSubmit("/api/partners/inquiry");
+  const {
+    isSubmitting,
+    submitError,
+    turnstileResetNonce,
+    bumpTurnstileReset,
+    submit,
+  } = usePublicFormSubmit("/api/partners/inquiry", {
+    successToast: content.successTitle,
+  });
 
   const form = useForm<PartnerInquiryClientValues>({
     resolver: asFormResolver<PartnerInquiryClientValues>(
@@ -196,6 +203,7 @@ export function InquiryForm({ content }: InquiryFormProps) {
             control={form.control}
             turnstileTokenName="turnstileToken"
             resetNonce={turnstileResetNonce}
+            onTurnstileRetry={bumpTurnstileReset}
           />
 
           {submitError ? (

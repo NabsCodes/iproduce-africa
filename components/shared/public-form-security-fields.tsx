@@ -8,6 +8,7 @@ import {
   getTurnstileSiteKey,
   isTurnstileRequiredInProduction,
 } from "@/components/shared/turnstile-widget";
+import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { PUBLIC_FORM_HONEYPOT_FIELD } from "@/schemas/public-form";
 
@@ -17,6 +18,7 @@ type PublicFormSecurityFieldsProps<T extends FieldValues> = {
   resetNonce: number;
   turnstileSize?: "normal" | "compact";
   className?: string;
+  onTurnstileRetry?: () => void;
 };
 
 export function PublicFormSecurityFields<T extends FieldValues>({
@@ -25,6 +27,7 @@ export function PublicFormSecurityFields<T extends FieldValues>({
   resetNonce,
   turnstileSize = "normal",
   className,
+  onTurnstileRetry,
 }: PublicFormSecurityFieldsProps<T>) {
   const { field: honeypotField } = useController({
     control,
@@ -53,14 +56,22 @@ export function PublicFormSecurityFields<T extends FieldValues>({
           siteKey={siteKey}
           resetNonce={resetNonce}
           size={turnstileSize}
+          fallbackEmail={siteConfig.email}
+          onRetry={onTurnstileRetry}
           onTokenChange={(token) => turnstileField.onChange(token)}
         />
       ) : null}
 
       {isTurnstileRequiredInProduction() ? (
         <p className="text-destructive text-sm">
-          Verification is temporarily unavailable. Please email us directly for
-          now.
+          Verification is temporarily unavailable. Please email{" "}
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="text-forest-700 font-medium underline underline-offset-2"
+          >
+            {siteConfig.email}
+          </a>{" "}
+          for now.
         </p>
       ) : null}
     </div>

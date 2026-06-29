@@ -114,8 +114,9 @@ We're available **`siteConfig.hours`**` — render hours from
   - **Right column** — floating form card: - White card, `rounded-xl`, soft elevation (`elevation-2` or border-only —
     match Partners inquiry card; avoid heavy shadow). - On lg, card overlaps upward into the hero transition (negative margin or
     absolute positioning within a relative section wrapper). - Card header: - Title: `Contact Form` (serif). - Description: `Complete the form and a member of our team will get back to
-you as soon as possible.` - Fields: - Row: `First Name` | `Last Name` (side-by-side on sm+). - `Email Address` (full width). - `Message` (textarea, min ~140px tall). - Submit: full-width green button `Send Message`. - Static MVP: simulated submit → inline success state (mirror Partners
-    inquiry / Community application placeholder behavior). No API route.
+you as soon as possible.` - Fields: - Row: `First Name` | `Last Name` (side-by-side on sm+). - `Email Address` (full width). - `Message` (textarea, min ~140px tall).     - Submit: full-width green button `Send Message`. POSTs to `/api/contact`
+      (Resend internal + receipt, Turnstile, honeypot). Inline success panel +
+      Sonner toast on submit.
 
 ### Mobile Composition
 

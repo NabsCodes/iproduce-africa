@@ -38,8 +38,15 @@ export function AcademyRegistrationDialog({
   target,
 }: AcademyRegistrationDialogProps) {
   const copy = target ? academyRegistrationContent.dialog[target.kind] : null;
-  const { isSubmitting, submitError, turnstileResetNonce, submit } =
-    usePublicFormSubmit("/api/academy/register");
+  const {
+    isSubmitting,
+    submitError,
+    turnstileResetNonce,
+    bumpTurnstileReset,
+    submit,
+  } = usePublicFormSubmit("/api/academy/register", {
+    successToast: copy?.successTitle,
+  });
 
   const form = useForm<AcademyRegistrationClientValues>({
     resolver: asFormResolver<AcademyRegistrationClientValues>(
@@ -60,7 +67,7 @@ export function AcademyRegistrationDialog({
   const isValid = academyRegistrationSchema.safeParse(watchedValues).success;
 
   async function onSubmit(values: AcademyRegistrationClientValues) {
-    if (!target) return;
+    if (!target || !copy) return;
 
     await runSubmission(async () => {
       const result = await submit({
@@ -157,6 +164,7 @@ export function AcademyRegistrationDialog({
             turnstileTokenName="turnstileToken"
             resetNonce={turnstileResetNonce}
             turnstileSize="compact"
+            onTurnstileRetry={bumpTurnstileReset}
           />
 
           {submitError || form.formState.errors.root ? (

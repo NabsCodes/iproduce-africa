@@ -32,8 +32,15 @@ type ContactFormProps = {
 export function ContactForm({ content }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const otherValue = content.otherOptionValue;
-  const { isSubmitting, submitError, turnstileResetNonce, submit } =
-    usePublicFormSubmit("/api/contact");
+  const {
+    isSubmitting,
+    submitError,
+    turnstileResetNonce,
+    bumpTurnstileReset,
+    submit,
+  } = usePublicFormSubmit("/api/contact", {
+    successToast: content.successTitle,
+  });
 
   const form = useForm<ContactFormClientValues>({
     resolver: asFormResolver<ContactFormClientValues>(contactFormClientSchema),
@@ -153,6 +160,7 @@ export function ContactForm({ content }: ContactFormProps) {
             control={form.control}
             turnstileTokenName="turnstileToken"
             resetNonce={turnstileResetNonce}
+            onTurnstileRetry={bumpTurnstileReset}
           />
 
           {submitError ? (

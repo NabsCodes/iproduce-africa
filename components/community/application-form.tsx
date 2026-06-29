@@ -41,8 +41,15 @@ export function MembershipApplicationForm({
 }: MembershipApplicationFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const otherValue = content.otherOptionValue;
-  const { isSubmitting, submitError, turnstileResetNonce, submit } =
-    usePublicFormSubmit("/api/community/application");
+  const {
+    isSubmitting,
+    submitError,
+    turnstileResetNonce,
+    bumpTurnstileReset,
+    submit,
+  } = usePublicFormSubmit("/api/community/application", {
+    successToast: content.successTitle,
+  });
 
   const form = useForm<CommunityPageClientValues>({
     resolver: asFormResolver<CommunityPageClientValues>(
@@ -183,6 +190,7 @@ export function MembershipApplicationForm({
             control={form.control}
             turnstileTokenName="turnstileToken"
             resetNonce={turnstileResetNonce}
+            onTurnstileRetry={bumpTurnstileReset}
           />
 
           {submitError ? (

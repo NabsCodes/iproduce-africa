@@ -38,7 +38,7 @@ export function AfricaMap({ map, badge, className }: AfricaMapProps) {
         className="pointer-events-none absolute top-[68%] right-[1%] z-20 h-[19%] w-auto select-none"
       />
 
-      <div className="border-default elevation-3 absolute bottom-[5%] left-[-2%] z-30 flex items-center gap-3 rounded-lg border bg-white p-3 sm:bottom-[7%] sm:left-[-4%] sm:max-w-[300px] sm:p-3.5 lg:left-[14%]">
+      <div className="border-default elevation-3 absolute bottom-[5%] left-[-2%] z-30 flex items-center gap-3 rounded-lg border bg-white p-3 sm:bottom-[7%] sm:left-[-4%] sm:max-w-[320px] sm:p-3.5 lg:left-[14%]">
         <span className="bg-leaf-subtle text-leaf-700 flex size-10 shrink-0 items-center justify-center rounded-full sm:size-11">
           <Handshake className="size-4 sm:size-5" aria-hidden />
         </span>

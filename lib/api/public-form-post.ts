@@ -4,26 +4,23 @@ import type { z } from "zod";
 import { isEmailDeliveryConfigured, readTrimmedEnv } from "@/lib/email/send";
 import {
   PUBLIC_FORM_DELIVERY_ERROR,
+  PUBLIC_FORM_RATE_LIMIT_ERROR,
   PUBLIC_FORM_VALIDATION_ERROR,
   PUBLIC_FORM_VERIFICATION_ERROR,
 } from "@/lib/forms/submit-public-form";
+import {
+  checkPublicFormRateLimit,
+  getClientIp,
+  type PublicFormRateLimitRoute,
+} from "@/lib/rate-limit";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { PUBLIC_FORM_HONEYPOT_FIELD } from "@/schemas/public-form";
-
-export function getClientIp(request: Request): string | undefined {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
-
-  return request.headers.get("x-real-ip")?.trim() || undefined;
-}
 
 type HandlePublicFormPostOptions<T extends z.ZodTypeAny> = {
   request: Request;
   schema: T;
   toEmailEnv: string;
+  rateLimitRoute: PublicFormRateLimitRoute;
   handler: (data: z.infer<T>) => Promise<void>;
 };
 
@@ -31,9 +28,34 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
   request,
   schema,
   toEmailEnv,
+  rateLimitRoute,
   handler,
 }: HandlePublicFormPostOptions<T>) {
   try {
+    const rateLimitResult = await checkPublicFormRateLimit(
+      rateLimitRoute,
+      request,
+    );
+
+    if ("misconfigured" in rateLimitResult) {
+      return NextResponse.json(
+        { error: PUBLIC_FORM_DELIVERY_ERROR },
+        { status: 503 },
+      );
+    }
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        { error: PUBLIC_FORM_RATE_LIMIT_ERROR },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimitResult.retryAfterSeconds),
+          },
+        },
+      );
+    }
+
     const body = await request.json().catch(() => null);
 
     if (
@@ -63,7 +85,7 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
 
     const verification = await verifyTurnstileToken({
       token: data.turnstileToken ?? "",
-      ip: getClientIp(request),
+      ip: getClientIp(request) ?? undefined,
     });
 
     if (!verification.success) {

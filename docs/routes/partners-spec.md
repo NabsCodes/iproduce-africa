@@ -253,7 +253,7 @@ slightly smaller scale (`p-3 + size-10` icon).
   - left: copy/checklist
   - right: white form card
 - Left copy:
-  - eyebrow in screenshot: `Become a Member`
+  - eyebrow: `Become a Partner` (screenshot showed `Become a Member`; shipped copy is partner-specific)
   - h2: `Ready to partner with iproduce?`
   - paragraph:
     `Interested in collaborating with iProduce Africa? Tell us about your organization and partnership goals, and a member of our team will be in touch.`
@@ -275,31 +275,28 @@ slightly smaller scale (`p-3 + size-10` icon).
     - `Email`
     - phone field with country selector, default `+234`
     - `Area of Interest`
-    - textarea: `Why do you want to join?`
+    - textarea: `Why do you want to partner with us?`
   - submit button: `Submit Inquiry`
   - consent/help text:
     `By making inquiry you agree to receive community updates and event invitations by email.`
 
-### Copy Confirmations Needed
+### Copy notes (client review)
 
-The screenshot appears to carry some community/member language inside the
-partner form:
+Some screenshot-era community language may still be worth revising with the
+client:
 
-- eyebrow says `Become a Member`
-- checklist says `Community invite sent on approval`
-- textarea says `Why do you want to join?`
+- checklist item `Community invite sent on approval` (partnership flow, not membership)
 - consent mentions community updates
 
-Before implementation, confirm whether those should remain exactly as designed
-or be adjusted to partner-specific language (`Become a Partner`,
-`Partnership next step sent on approval`, `Tell us about your partnership
-goals`, etc.).
+Resolved in shipped copy:
+
+- eyebrow → `Become a Partner`
+- reason textarea → `Why do you want to partner with us?`
 
 ### MVP Behaviour
 
-- Static-first only.
-- Form may validate locally and show a local success state, but it must not
-  claim data was saved or submitted to a backend.
+- Form POSTs to `/api/partners/inquiry` (Resend internal + receipt, Turnstile,
+  honeypot, Upstash rate limit). Inline success panel + Sonner toast on submit.
 - Keep form field options in `content/partners.ts`.
 - If a select primitive is not available, use an accessible native/select
   approach first rather than overbuilding.
@@ -411,7 +408,8 @@ new inquiry section's id):
   email format, valid international phone via `libphonenumber-js` in
   `schemas/fields.ts`).
 - `onSubmit` POSTs to `/api/partners/inquiry` (Resend internal + receipt,
-  Turnstile, honeypot). Success card uses live copy from `content/partners.ts`.
+  Turnstile, honeypot). Inline success panel + Sonner toast. Success card uses
+  live copy from `content/partners.ts`.
 - Phone field defaults to Nigeria (`NG`), country code editable via
   `react-phone-number-input` in `components/ui/phone-input.tsx`.
 - Validation mode is `onBlur` so errors don't show on first focus.

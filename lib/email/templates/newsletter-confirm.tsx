@@ -1,6 +1,6 @@
 import { Text } from "@react-email/components";
 
-import { siteConfig } from "@/content/site";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { EmailActionButton } from "@/lib/email/components/email-action-button";
 import { EmailDetailSection } from "@/lib/email/components/email-detail-section";
 import { EmailSignOff } from "@/lib/email/components/email-sign-off";
@@ -98,7 +98,7 @@ export function NewsletterConfirmTemplate({ email }: { email: string }) {
         <Text style={emailSubscriberType.muted}>{email}</Text>
 
         <EmailActionButton
-          href={`${siteConfig.siteUrl}/academy`}
+          href={`${getEmailSiteUrl()}/academy`}
           label="Explore the Academy"
           variant="subscriber"
         />

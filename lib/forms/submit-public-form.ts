@@ -8,6 +8,9 @@ export const PUBLIC_FORM_VERIFICATION_ERROR =
 
 export const PUBLIC_FORM_DELIVERY_ERROR = `We couldn't send your message right now. Please try again or email us at ${siteConfig.email}.`;
 
+export const PUBLIC_FORM_RATE_LIMIT_ERROR =
+  "Too many submissions from this connection. Please wait a few minutes and try again.";
+
 export type SubmitPublicFormResult =
   | { success: true }
   | { success: false; error: string; status: number };
@@ -39,6 +42,17 @@ export async function submitPublicForm(
 
   if (response.ok && payload?.success) {
     return { success: true };
+  }
+
+  if (response.status === 429) {
+    return {
+      success: false,
+      error:
+        typeof payload?.error === "string" && payload.error.length > 0
+          ? payload.error
+          : PUBLIC_FORM_RATE_LIMIT_ERROR,
+      status: 429,
+    };
   }
 
   const error =

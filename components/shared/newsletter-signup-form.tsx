@@ -51,8 +51,15 @@ export function NewsletterSignupForm({
   className,
 }: NewsletterSignupFormProps) {
   const [submitted, setSubmitted] = useState(false);
-  const { isSubmitting, submitError, turnstileResetNonce, submit } =
-    usePublicFormSubmit("/api/newsletter");
+  const {
+    isSubmitting,
+    submitError,
+    turnstileResetNonce,
+    bumpTurnstileReset,
+    submit,
+  } = usePublicFormSubmit("/api/newsletter", {
+    successToast: copy.successMessage,
+  });
 
   const form = useForm<NewsletterClientValues>({
     resolver: asFormResolver<NewsletterClientValues>(newsletterClientSchema),
@@ -153,6 +160,7 @@ export function NewsletterSignupForm({
           turnstileTokenName="turnstileToken"
           resetNonce={turnstileResetNonce}
           turnstileSize={isCompact ? "compact" : "normal"}
+          onTurnstileRetry={bumpTurnstileReset}
           className="mt-4"
         />
 

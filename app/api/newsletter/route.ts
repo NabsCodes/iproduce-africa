@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     request,
     schema: newsletterSubmitSchema,
     toEmailEnv: "NEWSLETTER_TO_EMAIL",
+    rateLimitRoute: "newsletter",
     handler: async (data) => {
       const { sendNewsletterEmails } = await import("@/lib/email/newsletter");
       await sendNewsletterEmails({

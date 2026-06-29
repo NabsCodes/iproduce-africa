@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     request,
     schema: communityApplicationSubmitSchema,
     toEmailEnv: "COMMUNITY_TO_EMAIL",
+    rateLimitRoute: "community-application",
     handler: async (data) => {
       const { sendCommunityApplicationEmails } =
         await import("@/lib/email/community");

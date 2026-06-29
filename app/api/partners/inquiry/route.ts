@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     request,
     schema: partnerInquirySubmitSchema,
     toEmailEnv: "PARTNERS_TO_EMAIL",
+    rateLimitRoute: "partners-inquiry",
     handler: async (data) => {
       const { sendPartnerInquiryEmails } = await import("@/lib/email/partners");
       await sendPartnerInquiryEmails({

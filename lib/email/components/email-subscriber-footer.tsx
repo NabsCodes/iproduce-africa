@@ -1,17 +1,18 @@
 import { Link, Section, Text } from "@react-email/components";
 
 import { siteConfig } from "@/content/site";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { emailColors, emailSansFamily } from "@/lib/email/styles";
-
-const exploreLinks = [
-  { label: "Academy", href: `${siteConfig.siteUrl}/academy` },
-  { label: "Community", href: `${siteConfig.siteUrl}/community` },
-  { label: "Partners", href: `${siteConfig.siteUrl}/partners` },
-] as const;
 
 export function EmailSubscriberFooter() {
   const year = new Date().getFullYear();
-  const siteHost = siteConfig.siteUrl.replace(/^https?:\/\//, "");
+  const siteUrl = getEmailSiteUrl();
+  const siteHost = siteUrl.replace(/^https?:\/\//, "");
+  const exploreLinks = [
+    { label: "Academy", href: `${siteUrl}/academy` },
+    { label: "Community", href: `${siteUrl}/community` },
+    { label: "Partners", href: `${siteUrl}/partners` },
+  ] as const;
 
   return (
     <Section style={styles.footer} align="center">
@@ -26,7 +27,7 @@ export function EmailSubscriberFooter() {
         ))}
       </Text>
       <Text style={styles.siteLine}>
-        <Link href={siteConfig.siteUrl} style={styles.siteLink}>
+        <Link href={siteUrl} style={styles.siteLink}>
           {siteHost}
         </Link>
       </Text>

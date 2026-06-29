@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     request,
     schema: academyRegistrationSubmitSchemaWithSecurity,
     toEmailEnv: "ACADEMY_TO_EMAIL",
+    rateLimitRoute: "academy-register",
     handler: async (data) => {
       const { resolveAcademySessionTitle, sendAcademyRegistrationEmails } =
         await import("@/lib/email/academy-registration");

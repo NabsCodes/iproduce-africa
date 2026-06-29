@@ -6,12 +6,20 @@ import {
   PUBLIC_FORM_VERIFICATION_ERROR,
   submitPublicForm,
 } from "@/lib/forms/submit-public-form";
+import { reinforceFormSuccess } from "@/lib/forms/form-success-toast";
 import {
   getTurnstileSiteKey,
   isTurnstileBypassedLocally,
 } from "@/components/shared/turnstile-widget";
 
-export function usePublicFormSubmit(endpoint: string) {
+type UsePublicFormSubmitOptions = {
+  successToast?: string;
+};
+
+export function usePublicFormSubmit(
+  endpoint: string,
+  options?: UsePublicFormSubmitOptions,
+) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [turnstileResetNonce, setTurnstileResetNonce] = useState(0);
@@ -48,10 +56,14 @@ export function usePublicFormSubmit(endpoint: string) {
         return { success: false as const, error: result.error };
       }
 
+      if (options?.successToast) {
+        reinforceFormSuccess(options.successToast);
+      }
+
       bumpTurnstileReset();
       return { success: true as const };
     },
-    [bumpTurnstileReset, endpoint],
+    [bumpTurnstileReset, endpoint, options],
   );
 
   return {

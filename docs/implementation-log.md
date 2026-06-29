@@ -14,6 +14,33 @@ uses a stable script id and initializes when `window.turnstile` already exists
 
 ---
 
+## Rate limiting + form UX polish (2026-06-27)
+
+Added centralized Upstash rate limiting in `lib/rate-limit.ts`, wired through
+`handlePublicFormPost` on all six API routes (429 + `Retry-After`; production
+fail-closed 503 when Upstash env is missing). Client maps `PUBLIC_FORM_RATE_LIMIT_ERROR`.
+Turnstile retry UI simplified (stable script id, lazy init when `window.turnstile`
+exists, retry + email fallback without script remount tricks). Sonner success
+toast on **all** public forms (inline success panel + light toast via
+`usePublicFormSubmit({ successToast })` and `lib/forms/form-success-toast.ts`).
+Contact success copy mentions inbox confirmation.
+
+Email links and logo URLs now resolve through `getEmailSiteUrl()` /
+`getEmailLogoUrl()` — set `NEXT_PUBLIC_SITE_URL` and `EMAIL_ASSETS_BASE_URL` to
+`https://iproduce-africa.vercel.app` until `iproduceafrica.com` is live.
+
+**Verification:** `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm build` — pass.
+
+---
+
+## Route spec doc sync (2026-06-27)
+
+Aligned `docs/routes/partners-spec.md`, `contact-spec.md`, and `blog-spec.md`
+with shipped form wiring (live API, partner reason copy, newsletter no longer
+placeholder toast). Older historical rows in this log left unchanged.
+
+---
+
 ## Resend + React Email + Turnstile — polish pass (2026-06-27)
 
 Email architecture split into focused components; subscriber vs internal UI kept

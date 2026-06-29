@@ -1,7 +1,7 @@
 import { Text } from "@react-email/components";
 
 import { partnersPageContent } from "@/content/partners";
-import { siteConfig } from "@/content/site";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { EmailActionButton } from "@/lib/email/components/email-action-button";
 import { EmailDetailSection } from "@/lib/email/components/email-detail-section";
 import { EmailQuoteBlock } from "@/lib/email/components/email-quote-block";
@@ -162,7 +162,7 @@ export function CommunityApplicationReceiptTemplate({
         </Text>
 
         <EmailActionButton
-          href={`${siteConfig.siteUrl}/community`}
+          href={`${getEmailSiteUrl()}/community`}
           label="Explore the community"
           variant="subscriber"
         />

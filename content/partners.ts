@@ -267,7 +267,7 @@ export const partnersPageContent = {
         phone: "Phone",
         areaOfInterest: "Area of Interest",
         areaOfInterestOther: "Specify area of interest",
-        reason: "Why do you want to join?",
+        reason: "Why do you want to partner with us?",
       },
       options: {
         roles: [

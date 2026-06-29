@@ -109,7 +109,7 @@ export function ContactIntroSection() {
           alt={hero.image.alt}
           fill
           priority
-          sizes="100vw"
+          sizes="(min-width: 1024px) 100vw, 1px"
           className="object-cover object-center lg:object-[center_34%]"
         />
         <div

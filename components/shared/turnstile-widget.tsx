@@ -28,7 +28,7 @@ declare global {
   }
 }
 
-function isTurnstileFullyLoaded(): boolean {
+function isTurnstileReady(): boolean {
   return typeof window.turnstile?.render === "function";
 }
 
@@ -37,41 +37,11 @@ function shouldInjectTurnstileScript(): boolean {
     return true;
   }
 
-  return (
-    !isTurnstileFullyLoaded() && !document.getElementById(TURNSTILE_SCRIPT_ID)
-  );
-}
-
-function waitForTurnstile(onReady: () => void): (() => void) | void {
-  if (isTurnstileFullyLoaded()) {
-    onReady();
-    return;
+  if (isTurnstileReady()) {
+    return false;
   }
 
-  const existingScript = document.getElementById(TURNSTILE_SCRIPT_ID);
-  if (!existingScript) {
-    return;
-  }
-
-  const handleReady = () => {
-    if (isTurnstileFullyLoaded()) {
-      onReady();
-    }
-  };
-
-  existingScript.addEventListener("load", handleReady);
-
-  const pollId = window.setInterval(() => {
-    if (isTurnstileFullyLoaded()) {
-      window.clearInterval(pollId);
-      onReady();
-    }
-  }, 50);
-
-  return () => {
-    existingScript.removeEventListener("load", handleReady);
-    window.clearInterval(pollId);
-  };
+  return !document.getElementById(TURNSTILE_SCRIPT_ID);
 }
 
 type TurnstileWidgetProps = {
@@ -79,6 +49,8 @@ type TurnstileWidgetProps = {
   onTokenChange: (token: string) => void;
   resetNonce: number;
   size?: "normal" | "compact";
+  fallbackEmail?: string;
+  onRetry?: () => void;
 };
 
 export function TurnstileWidget({
@@ -86,29 +58,46 @@ export function TurnstileWidget({
   onTokenChange,
   resetNonce,
   size = "normal",
+  fallbackEmail,
+  onRetry,
 }: TurnstileWidgetProps) {
   const widgetContainerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const onTokenChangeRef = useRef(onTokenChange);
-  const [isScriptReady, setIsScriptReady] = useState(isTurnstileFullyLoaded);
   const [shouldInjectScript] = useState(shouldInjectTurnstileScript);
-  const [hasScriptError, setHasScriptError] = useState(false);
+  const [scriptReady, setScriptReady] = useState(
+    () => typeof window !== "undefined" && isTurnstileReady(),
+  );
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     onTokenChangeRef.current = onTokenChange;
   }, [onTokenChange]);
 
   useEffect(() => {
-    if (isScriptReady) {
+    if (scriptReady) {
       return;
     }
 
-    return waitForTurnstile(() => setIsScriptReady(true));
-  }, [isScriptReady]);
+    const script = document.getElementById(TURNSTILE_SCRIPT_ID);
+    if (!script) {
+      return;
+    }
+
+    const handleLoad = () => {
+      if (isTurnstileReady()) {
+        setScriptReady(true);
+      }
+    };
+
+    script.addEventListener("load", handleLoad);
+    return () => script.removeEventListener("load", handleLoad);
+  }, [scriptReady]);
 
   useEffect(() => {
     if (
-      !isScriptReady ||
+      !scriptReady ||
+      hasError ||
       !window.turnstile ||
       !widgetContainerRef.current ||
       widgetIdRef.current
@@ -118,9 +107,15 @@ export function TurnstileWidget({
 
     widgetIdRef.current = window.turnstile.render(widgetContainerRef.current, {
       sitekey: siteKey,
-      callback: (token) => onTokenChangeRef.current(token),
+      callback: (token) => {
+        setHasError(false);
+        onTokenChangeRef.current(token);
+      },
       "expired-callback": () => onTokenChangeRef.current(""),
-      "error-callback": () => onTokenChangeRef.current(""),
+      "error-callback": () => {
+        setHasError(true);
+        onTokenChangeRef.current("");
+      },
       theme: "light",
       size,
       appearance: "interaction-only",
@@ -132,7 +127,7 @@ export function TurnstileWidget({
         widgetIdRef.current = null;
       }
     };
-  }, [isScriptReady, siteKey, size]);
+  }, [hasError, scriptReady, siteKey, size]);
 
   useEffect(() => {
     if (!widgetIdRef.current || !window.turnstile) {
@@ -140,8 +135,20 @@ export function TurnstileWidget({
     }
 
     window.turnstile.reset(widgetIdRef.current);
+    setHasError(false);
     onTokenChangeRef.current("");
   }, [resetNonce]);
+
+  function handleRetry() {
+    setHasError(false);
+    onTokenChangeRef.current("");
+
+    if (widgetIdRef.current && window.turnstile) {
+      window.turnstile.reset(widgetIdRef.current);
+    }
+
+    onRetry?.();
+  }
 
   return (
     <>
@@ -151,20 +158,43 @@ export function TurnstileWidget({
           src={TURNSTILE_SCRIPT_SRC}
           strategy="afterInteractive"
           onReady={() => {
-            setIsScriptReady(true);
-            setHasScriptError(false);
+            setScriptReady(true);
+            setHasError(false);
           }}
           onError={() => {
-            setHasScriptError(true);
+            setHasError(true);
             onTokenChange("");
           }}
         />
       ) : null}
-      <div ref={widgetContainerRef} className="inline-block max-w-full" />
-      {hasScriptError ? (
-        <p className="text-destructive text-xs">
-          Verification failed to load. Refresh and try again.
-        </p>
+      <div
+        ref={widgetContainerRef}
+        className={hasError ? "hidden" : "inline-block max-w-full"}
+      />
+      {hasError ? (
+        <div className="flex flex-col gap-2 text-xs leading-5">
+          <p className="text-destructive">Verification could not load.</p>
+          <div className="text-fg-muted flex flex-wrap items-center gap-x-3 gap-y-1">
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
+            >
+              Retry verification
+            </button>
+            {fallbackEmail ? (
+              <span>
+                Or email{" "}
+                <a
+                  href={`mailto:${fallbackEmail}`}
+                  className="text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
+                >
+                  {fallbackEmail}
+                </a>
+              </span>
+            ) : null}
+          </div>
+        </div>
       ) : null}
     </>
   );

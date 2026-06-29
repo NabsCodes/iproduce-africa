@@ -58,8 +58,15 @@ export function MembershipApplicationDialog({
   const [submitted, setSubmitted] = useState(false);
   const [successDescription, setSuccessDescription] = useState("");
   const stepIndexRef = useRef(stepIndex);
-  const { isSubmitting, submitError, turnstileResetNonce, submit } =
-    usePublicFormSubmit("/api/community/application");
+  const {
+    isSubmitting,
+    submitError,
+    turnstileResetNonce,
+    bumpTurnstileReset,
+    submit,
+  } = usePublicFormSubmit("/api/community/application", {
+    successToast: content.success.title,
+  });
 
   useEffect(() => {
     stepIndexRef.current = stepIndex;
@@ -241,6 +248,7 @@ export function MembershipApplicationDialog({
                 turnstileTokenName="turnstileToken"
                 resetNonce={turnstileResetNonce}
                 turnstileSize="compact"
+                onTurnstileRetry={bumpTurnstileReset}
               />
               {submitError || form.formState.errors.root ? (
                 <p className="text-destructive text-sm" role="alert">

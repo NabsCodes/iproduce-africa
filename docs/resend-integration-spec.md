@@ -23,6 +23,8 @@ CMS setup.
 - Team receives structured internal notifications for every form submission.
 - Submitters receive a short confirmation for every successful human
   submission.
+- Internal notification emails set `replyTo` to the submitter's address so the
+  team can reply directly from their inbox.
 - All public forms include Turnstile verification and a hidden honeypot before
   email delivery.
 - Email templates are previewable locally before deploy.
@@ -36,8 +38,26 @@ CMS setup.
 - Subscriber database or Resend Audiences sync
 - CRM, ticketing, or admin dashboard for submissions
 - Storing submissions in a database
-- Upstash rate limiting unless the team explicitly asks for a second protection
-  layer after Turnstile + honeypot
+
+## Rate limiting (implemented)
+
+Public form API routes are rate-limited via **Upstash Redis** in
+`lib/rate-limit.ts`, enforced centrally in `handlePublicFormPost`.
+
+| Route                                 | Limit                      |
+| ------------------------------------- | -------------------------- |
+| Contact, partners, community, academy | 5 requests / 10 min per IP |
+| Newsletter                            | 3 requests / 5 min per IP  |
+
+**Environment behavior:**
+
+- **Local dev:** skipped unless `ENABLE_DEV_RATE_LIMITS=true`
+- **Vercel preview:** active when Upstash env vars are set; otherwise skipped
+- **Production (`VERCEL_ENV=production`):** Upstash env vars are **required** —
+  missing config returns `503` (fail closed) to protect Resend quota
+
+Exceeded limits return `429` with `Retry-After` and
+`PUBLIC_FORM_RATE_LIMIT_ERROR` copy on the client.
 
 ---
 
@@ -257,6 +277,16 @@ Status `400`.
 
 Status `400` for missing / invalid tokens.
 
+### Rate limit exceeded
+
+```json
+{
+  "error": "Too many submissions from this connection. Please wait a few minutes and try again."
+}
+```
+
+Status `429` with `Retry-After` header (seconds until retry).
+
 ### Not configured / delivery failed
 
 ```json
@@ -271,7 +301,10 @@ route-specific `*_TO_EMAIL` is missing; `500` on Resend API errors.
 ### Client form changes
 
 Replace `setTimeout` placeholders with `fetch("/api/...", { method: "POST", ... })`.
-Show loading state on submit button; map `error` to toast or inline alert.
+Show loading state on submit button; map `error` to inline alert (and optional
+error toast if needed). On success, keep the inline success panel **and** fire a
+light Sonner toast via `usePublicFormSubmit({ successToast })` on every public
+form surface (page forms, dialogs, footer newsletter).
 Add the shared Turnstile widget and hidden `hpField` honeypot to every public
 form. Reset the Turnstile token after failed submissions and after successful
 submissions.
@@ -285,19 +318,24 @@ this integration lands.
 
 ## Environment Variables
 
-| Variable                         | Required   | Example                                     | Purpose                      |
-| -------------------------------- | ---------- | ------------------------------------------- | ---------------------------- |
-| `RESEND_API_KEY`                 | Yes (prod) | `re_...`                                    | Resend API                   |
-| `EMAIL_FROM`                     | Yes (prod) | `iProduce Africa <info@iproduceafrica.com>` | Default sender               |
-| `CONTACT_TO_EMAIL`               | Yes        | `info@iproduceafrica.com`                   | Contact notifications        |
-| `PARTNERS_TO_EMAIL`              | Yes        | `info@iproduceafrica.com`                   | Partner forms                |
-| `COMMUNITY_TO_EMAIL`             | Yes        | `info@iproduceafrica.com`                   | Community applications       |
-| `ACADEMY_TO_EMAIL`               | Yes        | `info@iproduceafrica.com`                   | Academy registrations        |
-| `NEWSLETTER_TO_EMAIL`            | Yes        | `info@iproduceafrica.com`                   | Newsletter subscriber alerts |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Yes (prod) | `0x4...`                                    | Client widget site key       |
-| `TURNSTILE_SECRET_KEY`           | Yes (prod) | `0x4...`                                    | Server verification secret   |
+| Variable                         | Required      | Example                                     | Purpose                                                                     |
+| -------------------------------- | ------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
+| `RESEND_API_KEY`                 | Yes (prod)    | `re_...`                                    | Resend API                                                                  |
+| `EMAIL_FROM`                     | Yes (prod)    | `iProduce Africa <info@iproduceafrica.com>` | Default sender                                                              |
+| `CONTACT_TO_EMAIL`               | Yes           | `info@iproduceafrica.com`                   | Contact notifications                                                       |
+| `PARTNERS_TO_EMAIL`              | Yes           | `info@iproduceafrica.com`                   | Partner forms                                                               |
+| `COMMUNITY_TO_EMAIL`             | Yes           | `info@iproduceafrica.com`                   | Community applications                                                      |
+| `ACADEMY_TO_EMAIL`               | Yes           | `info@iproduceafrica.com`                   | Academy registrations                                                       |
+| `NEWSLETTER_TO_EMAIL`            | Yes           | `info@iproduceafrica.com`                   | Newsletter subscriber alerts                                                |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Yes (prod)    | `0x4...`                                    | Client widget site key                                                      |
+| `TURNSTILE_SECRET_KEY`           | Yes (prod)    | `0x4...`                                    | Server verification secret                                                  |
+| `UPSTASH_REDIS_REST_URL`         | Yes (prod)    | `https://...upstash.io`                     | Rate limit Redis REST URL                                                   |
+| `UPSTASH_REDIS_REST_TOKEN`       | Yes (prod)    | `...`                                       | Rate limit Redis token                                                      |
+| `ENABLE_DEV_RATE_LIMITS`         | No            | `true`                                      | Opt-in local rate limiting                                                  |
+| `NEXT_PUBLIC_SITE_URL`           | Yes (pre-DNS) | `https://iproduce-africa.vercel.app`        | Public origin for metadata + email links until `iproduceafrica.com` is live |
+| `EMAIL_ASSETS_BASE_URL`          | Yes (pre-DNS) | `https://iproduce-africa.vercel.app`        | Absolute logo URL in sent mail (`/brand/email-logo.png`)                    |
 
-Document in `.env.example` (no secrets). Vercel: set per environment.
+Document in `.env.example` (no secrets). Vercel: set per environment. After domain cutover, point both URL vars at `https://iproduceafrica.com`.
 
 ---
 

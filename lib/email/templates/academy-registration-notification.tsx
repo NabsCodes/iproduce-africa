@@ -1,6 +1,6 @@
 import { Text } from "@react-email/components";
 
-import { siteConfig } from "@/content/site";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { EmailActionButton } from "@/lib/email/components/email-action-button";
 import { EmailDetailSection } from "@/lib/email/components/email-detail-section";
 import { EmailHighlightCard } from "@/lib/email/components/email-highlight-card";
@@ -121,7 +121,7 @@ export function AcademyRegistrationReceiptTemplate({
         />
 
         <EmailActionButton
-          href={`${siteConfig.siteUrl}${input.sourcePath}`}
+          href={`${getEmailSiteUrl()}${input.sourcePath}`}
           label="View session details"
           variant="subscriber"
         />

@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     request,
     schema: contactFormSubmitSchema,
     toEmailEnv: "CONTACT_TO_EMAIL",
+    rateLimitRoute: "contact",
     handler: async (data) => {
       const { sendContactEmails } = await import("@/lib/email/contact");
       await sendContactEmails({

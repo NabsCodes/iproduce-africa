@@ -121,17 +121,18 @@ Check both `*-notification` and `*-receipt` at **375px** before deploy.
 
 ## Suggestions — configuration
 
-| Variable                                                  | Purpose                                                                                                                                       |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RESEND_API_KEY`                                          | Resend API key (dedicated iProduce project — not shared with other clients)                                                                   |
-| `EMAIL_FROM`                                              | `iProduce Africa <info@iproduceafrica.com>` in prod; `onboarding@resend.dev` pre-DNS                                                          |
-| `EMAIL_ASSETS_BASE_URL`                                   | **Set explicitly in production** to `https://iproduceafrica.com` so logo URLs in sent mail are stable (falls back to `VERCEL_URL` on preview) |
-| `CONTACT_TO_EMAIL`                                        | Internal inbox per form (can share one ops address early)                                                                                     |
-| `PARTNERS_TO_EMAIL`                                       |                                                                                                                                               |
-| `COMMUNITY_TO_EMAIL`                                      |                                                                                                                                               |
-| `ACADEMY_TO_EMAIL`                                        |                                                                                                                                               |
-| `NEWSLETTER_TO_EMAIL`                                     | Operational record until a list tool exists                                                                                                   |
-| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Production keys on live domain                                                                                                                |
+| Variable                                                  | Purpose                                                                                                                                                       |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RESEND_API_KEY`                                          | Resend API key (dedicated iProduce project — not shared with other clients)                                                                                   |
+| `EMAIL_FROM`                                              | `iProduce Africa <info@iproduceafrica.com>` in prod; `onboarding@resend.dev` pre-DNS                                                                          |
+| `NEXT_PUBLIC_SITE_URL`                                    | **Until custom domain handover:** `https://iproduce-africa.vercel.app` — drives metadata, email CTAs, and footer links in sent mail via `getEmailSiteUrl()`   |
+| `EMAIL_ASSETS_BASE_URL`                                   | **Match `NEXT_PUBLIC_SITE_URL` for now** — absolute logo URL (`/brand/email-logo.png`). Unset only for local `pnpm email:dev` (uses `/static/email-logo.png`) |
+| `CONTACT_TO_EMAIL`                                        | Internal inbox per form (can share one ops address early)                                                                                                     |
+| `PARTNERS_TO_EMAIL`                                       |                                                                                                                                                               |
+| `COMMUNITY_TO_EMAIL`                                      |                                                                                                                                                               |
+| `ACADEMY_TO_EMAIL`                                        |                                                                                                                                                               |
+| `NEWSLETTER_TO_EMAIL`                                     | Operational record until a list tool exists                                                                                                                   |
+| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Production keys on live domain                                                                                                                                |
 
 Missing `RESEND_API_KEY` or `EMAIL_FROM` → API returns **503** with friendly copy (no silent success).
 

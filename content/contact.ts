@@ -54,7 +54,7 @@ export const contactPageContent = {
     submitLabel: "Send Message",
     successTitle: "Message sent",
     successDescription:
-      "Thanks for reaching out. We received your message and will get back to you as soon as possible, usually within one business day.",
+      "Thanks for reaching out. We sent a confirmation to your inbox and will get back to you soon, usually within one business day.",
     sendAnotherLabel: "Send another message",
   },
   map: {

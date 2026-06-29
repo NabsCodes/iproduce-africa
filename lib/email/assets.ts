@@ -1,3 +1,5 @@
+import { getEmailSiteUrl } from "@/lib/email/site-url";
+
 export const EMAIL_LOGO_SOURCE = {
   width: 320,
   height: 142,
@@ -21,14 +23,25 @@ export const EMAIL_LOGO_INTERNAL = {
 
 export const EMAIL_LOGO_DISPLAY = EMAIL_LOGO_SUBSCRIBER;
 
-export function getEmailLogoUrl(): string {
-  const base =
-    process.env.EMAIL_ASSETS_BASE_URL?.trim() ||
-    (process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, "")}`
-      : "");
+function normalizeBase(url: string): string {
+  return url.replace(/\/$/, "");
+}
 
-  return base
-    ? `${base.replace(/\/$/, "")}/brand/email-logo.png`
-    : "/static/email-logo.png";
+export function getEmailLogoUrl(): string {
+  const explicitBase = process.env.EMAIL_ASSETS_BASE_URL?.trim();
+  if (explicitBase) {
+    return `${normalizeBase(explicitBase)}/brand/email-logo.png`;
+  }
+
+  const hasRuntimeOrigin =
+    Boolean(process.env.NEXT_PUBLIC_SITE_URL?.trim()) ||
+    Boolean(process.env.VERCEL_URL) ||
+    Boolean(process.env.VERCEL_PROJECT_PRODUCTION_URL);
+
+  if (!hasRuntimeOrigin) {
+    // `pnpm email:dev` serves lib/email/previews/static/email-logo.png at this path.
+    return "/static/email-logo.png";
+  }
+
+  return `${getEmailSiteUrl()}/brand/email-logo.png`;
 }

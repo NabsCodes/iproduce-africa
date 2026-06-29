@@ -30,9 +30,9 @@ courses via the detail page's related section.
   built listing routes for Webinars & Events, Courses, and Blog. Events remain
   folded into the Webinars & Events catalogue. See
   [Navbar + footer migration](#navbar--footer-migration).
-- Static-first MVP: no Sanity, no live submissions, no comments, no auth.
-  Newsletter signup uses RHF + Zod (`schemas/newsletter.ts`,
-  `NewsletterSignupForm`) but submit is still placeholder toast — no API yet.
+- Static-first MVP: no Sanity, no comments, no auth. Newsletter signup uses
+  RHF + Zod (`schemas/newsletter.ts`, `NewsletterSignupForm`) and POSTs to
+  `/api/newsletter` (Resend + Turnstile). Inline success + Sonner toast.
 - Reuse existing primitives: `ContentCard`, `EyebrowPill`, `SiteCtaButton`,
   `CtaSection`. Motion primitives (`MotionFade`, `MotionStagger`) apply on
   day one — the full motion pass is shipped.
@@ -424,6 +424,6 @@ Only ones still load-bearing after the Codex review:
 - [x] Implementation-log row + academy-spec aligned (listings pass 2026-06-24)
 - [x] Header reading progress + scroll-to-top on blog detail (session 7)
 - [x] Realistic editorial catalogue in `content/blog-articles.ts` (3–14 min mix)
-- [x] Newsletter RHF + `schemas/newsletter.ts` (submit still placeholder)
+- [x] Newsletter RHF + `schemas/newsletter.ts` + live `/api/newsletter` submit
 - [x] Breadcrumbs explicitly out of scope (rejected in QA)
 - [ ] Verification sweep + Lighthouse row

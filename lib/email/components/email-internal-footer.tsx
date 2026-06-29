@@ -1,17 +1,19 @@
 import { Link, Section, Text } from "@react-email/components";
 
 import { siteConfig } from "@/content/site";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { emailColors, emailSansFamily } from "@/lib/email/styles";
 
 export function EmailInternalFooter({ disclaimer }: { disclaimer?: string }) {
   const year = new Date().getFullYear();
-  const siteHost = siteConfig.siteUrl.replace(/^https?:\/\//, "");
+  const siteUrl = getEmailSiteUrl();
+  const siteHost = siteUrl.replace(/^https?:\/\//, "");
 
   return (
     <Section style={styles.footer} align="center">
       <Text style={styles.line}>
         {siteConfig.name} ·{" "}
-        <Link href={siteConfig.siteUrl} style={styles.link}>
+        <Link href={siteUrl} style={styles.link}>
           {siteHost}
         </Link>
       </Text>
