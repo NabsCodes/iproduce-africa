@@ -84,9 +84,9 @@ Exceeded limits return `429` with `Retry-After` and
 - `RESEND_API_KEY` — local + Vercel preview (restricted if Resend supports it)
 - `RESEND_API_KEY` — Vercel production (rotate at handoff if needed)
 
-4. **Domain verification** on this project only: `iproduceafrica.com` (or the
+1. **Domain verification** on this project only: `iproduceafrica.com` (or the
    live apex they use). Client adds DNS records in their registrar / Cloudflare.
-5. **Handoff:** client is Owner; you remain Developer or are removed.
+2. **Handoff:** client is Owner; you remain Developer or are removed.
 
 Do **not** keep iProduce on your personal Resend account after launch unless
 the contract says otherwise.
