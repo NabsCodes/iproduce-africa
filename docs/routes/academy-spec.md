@@ -33,7 +33,7 @@ for scroll-spy navigation; cards and CTAs use real listing/detail URLs.
 
 ### Naming rule: `blog` everywhere in code, "Blog/Insights" in nav
 
-The category that holds articles / thought leadership is named **`blog`**
+The category that holds articles / thought leadership is named `blog`
 in code, routes, anchors, and types (`AcademyArticle`,
 `AcademyArticleCategory`, `academyContent.blog`,
 `academyHomePreview.blog`, `#blog`, `/academy/blog`). The visible label is
@@ -258,7 +258,7 @@ e.g. `4 highlighted · 7 in the full catalogue` — not invented Figma totals.
 | Route                      | Status    | Notes                                                              |
 | -------------------------- | --------- | ------------------------------------------------------------------ |
 | `/academy`                 | **built** | Hub — tabs use in-page anchors; cards/CTAs use listing/detail URLs |
-| `/academy/blog`            | **built** | See [`blog-spec.md`](./blog-spec.md)                               |
+| `/academy/blog`            | **built** | See `[blog-spec.md](./blog-spec.md)`                               |
 | `/academy/blog/[slug]`     | **built** | 10 static articles; `not-found.tsx` scoped                         |
 | `/academy/webinars`        | **built** | Featured + type filters; no Figma — dev-led parity with blog       |
 | `/academy/webinars/[slug]` | **built** | 7 static sessions (incl. featured forum)                           |
@@ -355,7 +355,7 @@ inspect or transform the data passed to its slots.
 - **Renderers are simple.** Each track's main column gets the renderer
   it needs (prose, modules, agenda) instead of a switch statement that
   reads the discriminant and dispatches.
-- **Future Sanity migration is per-track.** Each track maps to its own
+- **Future Sanity migration is per-track.** Each track maps to its own  
   Sanity document type with its own schema. The shell stays code-only.
 
 ### Per-track separation
@@ -402,7 +402,7 @@ blog detail's related section consumes `getRelatedArticles()` from
 - [x] Slug detail pages built (static scaffold — all three catalogues)
 - [x] Hub search navigates to `/academy/search?q=` (unified static search)
 - [x] Listing featured + filter bands (webinars + courses; blog already had)
-- [ ] Browser QA + Lighthouse on hub + three catalogues (+ blog long/short article UX)
+- [x] Browser QA + Lighthouse on hub + three catalogues (+ blog long/short article UX)
 - [ ] Sanity wiring + `docs/sanity-academy-spec.md` (**next doc** — content-shape map from `types/` + `content/`)
 - [ ] Real photography for hero, courses, blog articles, participant cards
 - [ ] Search wired to Sanity / Algolia (beyond `/academy/search` client filter)

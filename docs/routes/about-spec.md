@@ -73,10 +73,7 @@ card: photo (aspect-4/3), name + role row, bio, social icons.
 
 Left-aligned header block (eyebrow + h2 + description). Then
 `lg:grid-cols-2` of horizontal advisor cards. Desktop card: photo left
-(square ~`w-36 lg:w-40`), content right (name, bio, role footer with
-LinkedIn icon on the right). Mobile card: photo top (`aspect-4/3`),
-content stacked below — same internal pieces, achieved with
-`flex-col sm:flex-row`.
+(square ~`w-36 lg:w-40`), content right (name, bio, role footer with LinkedIn icon on the right). Mobile card: photo top (`aspect-4/3`), content stacked below — same internal pieces, achieved with` flex-col sm:flex-row`.
 
 ### 8. CTA — reuses `<CtaSection />`
 

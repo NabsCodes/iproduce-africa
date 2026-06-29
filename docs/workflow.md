@@ -21,8 +21,7 @@ Before a code handoff:
 3. run `pnpm typecheck`
 4. run `pnpm build`
 
-If you are iterating on a narrow slice, targeted `pnpm exec prettier --write
-<changed-files>` is fine during the work, but the final pass should still
+If you are iterating on a narrow slice, targeted `pnpm exec prettier --write <changed-files>` is fine during the work, but the final pass should still
 include the repo-level format command.
 
 ## Screenshot Rule

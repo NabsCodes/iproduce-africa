@@ -36,13 +36,13 @@ We want them to:
    exits: back home, into the community track, and into the partner track,
    plus the page-specific reset where relevant.
 4. **Avoid theatrics** — no full-screen illustrations, no parallax. A single
-   restrained decorative motif (the existing `sprout.svg` or `logo-mark.svg`
-   used as a watermark) is the visual signature.
+   restrained decorative motif (the existing `sprout.svg` or `logo-mark.svg`  
+    used as a watermark) is the visual signature.
 
 ## Confirmed inputs / constraints
 
 - Static-first phase. No async data fetching, no Suspense boundaries, so
-  **no `loading.tsx`** — it would render a UI surface that never triggers.
+  **no** `loading.tsx` — it would render a UI surface that never triggers.
   Revisit once Sanity lands.
 - Site is fully SSG. `not-found.tsx` will only fire when a visitor types a
   bad URL or when (later) a dynamic route calls `notFound()`. No 404 storm
@@ -60,7 +60,7 @@ We want them to:
   the SVG mark, so the brand can be swapped in one file later without
   touching code.
 - Radius cap (`rounded-xl`) and the project's mobile-first rule still apply.
-- Reuse `<SiteCtaButton>` (or equivalent existing button surface) — do not
+- Reuse `<SiteCtaButton>` (or equivalent existing button surface) — do not  
   spin up new button primitives for these pages.
 
 ## Voice direction
@@ -72,29 +72,25 @@ a single reset action.
 
 Approved copy candidates (pick one per page, don't stack):
 
-**404 — `not-found.tsx`**
+**404 —** `not-found.tsx`
 
 - Eyebrow: `404 — Off the map`
 - Title: `This page isn't part of our network yet.`
-- Body: `The URL you followed may have moved, been renamed, or never
-existed. From here, you can head back to the homepage or jump straight
-into one of our two tracks.`
+- Body: `The URL you followed may have moved, been renamed, or never existed. From here, you can head back to the homepage or jump straight into one of our two tracks.`
 
-**Recoverable error — `error.tsx`**
+**Recoverable error —** `error.tsx`
 
 - Eyebrow: `Something stalled`
 - Title: `We hit an unexpected issue loading this page.`
-- Body: `Our team has been notified. You can try again, head back to the
-homepage, or reach out if it keeps happening.`
+- Body: `Our team has been notified. You can try again, head back to the homepage, or reach out if it keeps happening.`
 - Primary action: `Try again` (calls `reset()`).
 - Secondary: `Back to home`.
 - Tertiary: `Contact support` → `/contact`.
 
-**Root layout crash — `global-error.tsx`**
+**Root layout crash —** `global-error.tsx`
 
 - Title: `Something went wrong loading iProduce Africa.`
-- Body: `Please refresh the page. If it keeps happening, contact us at
-hello@iproduceafrica.com.`
+- Body: `Please refresh the page. If it keeps happening, contact us at hello@iproduceafrica.com.`
 - Inline-styled (no Tailwind), no shared chrome, no logo dependency on a
   failed layout tree.
 
@@ -102,7 +98,7 @@ hello@iproduceafrica.com.`
 
 ### `app/not-found.tsx`
 
-**Layout (desktop, `lg+`)**
+**Layout (desktop,** `lg+`**)**
 
 A single centered card on the standard page chrome (header + footer render
 because Next.js renders `not-found.tsx` inside the root layout). The card
@@ -163,7 +159,7 @@ spacing matches every other page.
   separator. Quiet — these are an "in case the buttons aren't what you
   meant" net, not a duplicate nav.
 
-**Mobile (`<sm`)**
+**Mobile (**`<sm`**)**
 
 - Card padding tightens to `p-6`.
 - Decorative mark hidden.
@@ -173,7 +169,7 @@ spacing matches every other page.
 **Metadata**
 
 - `export const metadata = createPageMetadata({ title: "Page not found", description: "...", path: "/404" })`.
-- Add `robots: { index: false, follow: true }` so 404 URLs never enter the
+- Add `robots: { index: false, follow: true }` so 404 URLs never enter the  
   index.
 
 ### `app/error.tsx`
@@ -330,14 +326,16 @@ Do **not** introduce a `loading.tsx` in this pass.
 
 1. `pnpm format && pnpm lint && pnpm typecheck && pnpm build` — clean.
 2. Manual walk:
-   - `pnpm dev` and visit `/does-not-exist` → confirm the brand 404 renders
-     with header + footer.
-   - Temporarily throw inside a server component (e.g. `app/about/page.tsx`)
-     and reload → confirm `error.tsx` catches it and `Try again` calls
-     `reset()` cleanly. Remove the throw before committing.
-   - Temporarily throw inside `app/layout.tsx` to trigger `global-error.tsx`
-     → confirm the inline-styled fallback renders. Remove the throw before
-     committing.
+
+- `pnpm dev` and visit `/does-not-exist` → confirm the brand 404 renders
+  with header + footer.
+- Temporarily throw inside a server component (e.g. `app/about/page.tsx`)
+  and reload → confirm `error.tsx` catches it and `Try again` calls
+  `reset()` cleanly. Remove the throw before committing.
+- Temporarily throw inside `app/layout.tsx` to trigger `global-error.tsx`
+  → confirm the inline-styled fallback renders. Remove the throw before
+  committing.
+
 3. Devtools network: confirm `/icon.png` and `/apple-icon.png` are requested and served (200).
 4. Lighthouse a11y on `/does-not-exist` — must score the same as the rest
    of the site (no missing landmarks, headings, link text).
@@ -354,7 +352,7 @@ Do **not** introduce a `loading.tsx` in this pass.
   (2400×1200). Both are 2x source assets that downscale cleanly to the
   1200×630 / 1200×600 platform standards. Per-page override is a one-file
   drop into the route folder.
-- Real telemetry wiring inside `error.tsx` — TODO marker only until a
+- Real telemetry wiring inside `error.tsx` — TODO marker only until a  
   monitoring tool is picked.
 
 ## Scoped `not-found.tsx` Status
@@ -377,9 +375,9 @@ as the safety net, scope a local one when the section becomes navigable.
 - [x] Add `content/system-pages.ts` + `types/system-pages.ts`
 - [x] Replace placeholder icons with branded `app/icon.png` + `app/apple-icon.png`
 - [x] Pointer in `docs/design-system.md`
-- [ ] Verify locally (bad URL + forced throw)
+- [x] Verify locally (bad URL + forced throw)
 - [x] Run full check suite
 - [x] Log entry in `docs/implementation-log.md`
-- [ ] Tick the system-pages item in the Notion dev notes
-- [ ] (Follow-up) Drop `app/apple-icon.png` once the 180×180 export is ready
+- [x] Tick the system-pages item in the Notion dev notes
+- [x] (Follow-up) Drop `app/apple-icon.png` once the 180×180 export is ready
 - [x] Drop `app/opengraph-image.png` + `app/twitter-image.png` (shipped 2026-06-20)

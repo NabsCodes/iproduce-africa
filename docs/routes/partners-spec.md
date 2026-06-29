@@ -28,7 +28,7 @@ live partner portal.
   approved.
 - The final page should not include the generic shared `PageHero`. It needs a
   route-specific hero composition.
-- Existing partner logo assets in `public/images/partners/` may be reused, but
+- Existing partner logo assets in `public/images/partners/` may be reused, but  
   do not invent extra partner logos.
 
 ## Target Section Order
@@ -135,7 +135,7 @@ slightly smaller scale (`p-3 + size-10` icon).
 - Africa/map visual should remain inspectable, not tiny decoration.
 - Floating pathway badge can sit below or overlap the lower edge of the map, but
   must not cover the face or create horizontal overflow.
-- Keep all rounded rectangles capped at `rounded-xl`; map/mask shapes are
+- Keep all rounded rectangles capped at `rounded-xl`; map/mask shapes are  
   imagery, not rectangle radii.
 
 ## 2. Why Organizations Choose To Partner With Us
@@ -160,8 +160,8 @@ slightly smaller scale (`p-3 + size-10` icon).
 
 - Header stacks into one column.
 - Cards: 1 column on 390px, 2 columns on tablet, 3 columns on desktop.
-- Icon chips use the peach/tangerine inactive state by default and only move to
-  the stronger tangerine treatment on card hover. Do not mark the first card as
+- Icon chips use the peach/tangerine inactive state by default and only move to  
+  the stronger tangerine treatment on card hover. Do not mark the first card as  
   active by default.
 
 ## 3. Partnership Focus
@@ -184,7 +184,7 @@ slightly smaller scale (`p-3 + size-10` icon).
 - This section is currently commented out on the route per client request.
 - If restored before verified metrics exist, render qualitative proof cards
   instead of public numbers.
-- Cards can reuse the shared impact/proof helper if useful, but avoid
+- Cards can reuse the shared impact/proof helper if useful, but avoid  
   over-abstracting just for this page.
 
 ## 4. Hear From Our Valuable Partners
@@ -455,6 +455,6 @@ structure.
 - [x] Shared `ImpactStatsSection` and `CtaSection` refactored to prop-driven
 - [x] `#partner` → `#partnership-enquiry` anchor migration complete
 - [x] Partners forms moved to root `schemas/` and shared multi-step dialog primitives
-- [ ] Full route browser QA at desktop, tablet, and 390px
-- [ ] Dialog/form browser QA for validation states and close/reset behaviour
-- [ ] Motion polish on chosen sections (separate plan after static UI approved)
+- [x] Full route browser QA at desktop, tablet, and 390px
+- [x] Dialog/form browser QA for validation states and close/reset behaviour
+- [x] Motion polish on chosen sections (separate plan after static UI approved)

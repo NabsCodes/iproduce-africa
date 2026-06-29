@@ -29,8 +29,8 @@ this spec.
    must NOT live in root `schemas/` because that folder now owns
    Zod / runtime validation.
 6. **Resend wiring** — server-side validation reuses the root Zod
-   schemas so client and server can't drift. Account + DNS work can
-   start in parallel with step 5.
+   schemas so client and server can't drift. Account + DNS work can  
+    start in parallel with step 5.
 
 ## Purpose
 
@@ -52,18 +52,18 @@ motion choice should justify the bytes it costs and the focus it pulls.
 - **No page transitions** yet. App Router page transitions add complexity
   without obvious payoff for a static marketing site. Revisit only if a
   specific hand-off demands it.
-- **Respect `prefers-reduced-motion`**: every motion primitive must collapse
+- **Respect** `prefers-reduced-motion`: every motion primitive must collapse
   to a static equivalent. Marquee already does this in `globals.css`; the new
   primitives must too.
-- **No motion on copy**: body paragraphs, eyebrows, and form labels do not
-  animate. Title-only fade/rise is allowed; full sentences do not type, slide,
+- **No motion on copy**: body paragraphs, eyebrows, and form labels do not  
+  animate. Title-only fade/rise is allowed; full sentences do not type, slide,  
   or stagger.
 
 ## Motion categories + budget
 
 | Category          | When                                                            | Tooling                                                    | Examples                                                                           |
 | ----------------- | --------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Hover/focus**   | Pointer or keyboard intent on interactive elements              | Tailwind `transition-*`, `duration-200`, `ease-out`        | Card lift, button color, icon chip activation, link underline                      |
+| **Hover/focus**   | Pointer or keyboard intent on interactive elements              | Tailwind `transition-`\*, `duration-200`, `ease-out`       | Card lift, button color, icon chip activation, link underline                      |
 | **Entrance**      | First time a section enters viewport                            | `motion/react` `whileInView` + `viewport={{ once: true }}` | Hero title rise, stat card fade-up, benefit grid stagger                           |
 | **Scroll-driven** | Sustained relationship between scroll progress and visual state | `motion/react` `useScroll` / `useInView`                   | About Journey (already shipped), Community chat mockup attention tick              |
 | **Attention**     | Small loops that signal liveness without demanding focus        | CSS `@keyframes`                                           | Marquee (already shipped), orbit rotation (already shipped), pulse on "LIVE" pills |
@@ -78,7 +78,7 @@ motion choice should justify the bytes it costs and the focus it pulls.
   collapsing to a single group fade.
 - Scroll-driven work uses `useScroll` with a passive container; no
   `requestAnimationFrame` loops outside `motion/react`.
-- No animated `box-shadow` or `filter: blur()` on large elements — animate
+- No animated `box-shadow` or `filter: blur()` on large elements — animate  
   `transform` and `opacity` only.
 
 ## Accessibility rules
@@ -94,7 +94,7 @@ motion choice should justify the bytes it costs and the focus it pulls.
 - Do not autoplay parallax or scroll-jacking that prevents the user from
   reading at their own pace. Journey's sticky cross-fade is the upper bound;
   do not exceed it.
-- Carousels must be pausable: marquee pauses on hover (already shipped); any
+- Carousels must be pausable: marquee pauses on hover (already shipped); any  
   new carousel auto-advance must pause on hover and focus.
 
 ## Reusable primitives to add
@@ -136,7 +136,7 @@ Two primitives cover almost everything — no third abstraction needed:
 1. **Does the section have a title/header?** → `MotionFade` on the header block first.
 2. **How many peer cards are visible at once (≤6)?** → `MotionStagger` on the grid, **or** per-item `MotionFade` with staggered `delay` inside a carousel.
 3. **More than 6 cards (listings, long grids)?** → Header fade only; cards rely on `<ContentCard>` hover. `MotionStagger` caps at 6 by default — items past the cap appear instantly.
-4. **Single featured panel** (event hero card, overlap form)? → One `MotionFade` only: **opacity + small rise (`yFrom` 12–16px), no scale**. Slightly slower (`duration` ~0.48s, `delay` ~0.16s). Scale reads as a “pop” on marketing pages — reserve it for dialogs/success states.
+4. **Single featured panel** (event hero card, overlap form)? → One `MotionFade` only: **opacity + small rise (**`yFrom` **12–16px), no scale**. Slightly slower (`duration` ~0.48s, `delay` ~0.16s). Scale reads as a “pop” on marketing pages — reserve it for dialogs/success states.
 5. **Already kinetic inside** (marquee, orbit, countdown tick)? → Header fade; do not stagger inner motion.
 6. **Live forms / map embeds?** → Copy column fades; fields stay static (Contact overlap card is the one exception).
 
@@ -216,7 +216,7 @@ Wrap each section's **header / copy** in `MotionFade`. Card bodies use
 - **About Team / Advisors** — header fade + card stagger (carousel delay / grid stagger).
 - **Community Who Should Join** — header fade + stagger (cap 6 on 9 tiles).
 - **Timing ownership pass** — sibling triggers for Voices, Stay Connected, Two Journeys, Testimonials; un-nested fade+stagger in Benefits, Learning Opportunities, Participants, Opportunities, Member Stories; Academy hero card rise-only (removed `scaleFrom={0.95}`).
-- **Academy hero Next Live card** — hover affordance (border, lift, arrow,
+- **Academy hero Next Live card** — hover affordance (border, lift, arrow,  
   icon chip) so the overlay reads as a link.
 
 ### When _not_ to add more motion
@@ -330,10 +330,10 @@ alone, and the smallest change that hits the goal**.
 
 ### Dialogs
 
-- **Become a Partner** + **Membership Application** — step body uses
-  `AnimatePresence` with `mode="wait"`. Outgoing step fades out, incoming step
-  fades in with a 4px rise. Stepper pill (current step indicator) uses
-  `layoutId` so the active ring slides between steps. Success panel scales in
+- **Become a Partner** + **Membership Application** — step body uses  
+  `AnimatePresence` with `mode="wait"`. Outgoing step fades out, incoming step  
+  fades in with a 4px rise. Stepper pill (current step indicator) uses  
+  `layoutId` so the active ring slides between steps. Success panel scales in  
   from `scale-[0.96]` once.
 
 ## File-by-file delta
@@ -357,13 +357,17 @@ For each page after the motion pass:
 
 1. `pnpm format && pnpm lint && pnpm typecheck && pnpm build`
 2. Visual walk at 1440px / tablet / 390px:
-   - Entrances trigger once and only once per session.
-   - No layout shift caused by motion (entries reserve their space).
-   - Hover states still feel snappy (<200ms transitions).
+
+- Entrances trigger once and only once per session.
+- No layout shift caused by motion (entries reserve their space).
+- Hover states still feel snappy (<200ms transitions).
+
 3. Reduced-motion walk: toggle OS-level "Reduce motion" and confirm:
-   - All `motion/react` entrances render in their settled state immediately.
-   - Marquee + orbit pause / collapse to static.
-   - Dialog step transitions are instant.
+
+- All `motion/react` entrances render in their settled state immediately.
+- Marquee + orbit pause / collapse to static.
+- Dialog step transitions are instant.
+
 4. Lighthouse on `/`, `/about`, `/partners` — Performance must not drop more
    than 2 points vs the baseline before this pass.
 
@@ -380,9 +384,9 @@ For each page after the motion pass:
   especially cannot rely on Tailwind or `motion/react` (renders when
   the root layout has crashed).
 - **OG / Twitter share images.** Static raster, by definition.
-- **Forms in active use.** Never animate inputs, labels, or messages
-  while a user is filling out a form. Step _transitions_ in the two
-  multi-step dialogs (Become Partner, Membership Application) are in
+- **Forms in active use.** Never animate inputs, labels, or messages  
+  while a user is filling out a form. Step _transitions_ in the two  
+  multi-step dialogs (Become Partner, Membership Application) are in  
   scope; field-level motion is not.
 
 ## Checklist

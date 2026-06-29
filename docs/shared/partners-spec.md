@@ -17,8 +17,8 @@ logo bands.
 - `<PartnerLogo partner={...} />` — renders the bare logo image (grayscale,
   hover lifts to color). Reusable wherever a single partner needs to render
   without surrounding chrome.
-- The white rounded card wrapping each logo is **specific to this section**
-  and lives inline in `partners-section.tsx`. Other surfaces that consume
+- The white rounded card wrapping each logo is **specific to this section**  
+  and lives inline in `partners-section.tsx`. Other surfaces that consume  
   `<PartnerLogo />` should not inherit the card — render the logo bare.
 
 ## Behavior

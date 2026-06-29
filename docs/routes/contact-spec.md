@@ -23,7 +23,7 @@ delivery via Resend when env vars are configured.
   route-specific hero + overlapping form composition.
 - Contact details in the screenshot should drive copy; reconcile with
   `content/site.ts` where values differ (see Site data notes below).
-- FAQ and bottom CTA match the Home/Community shared sections visually — reuse
+- FAQ and bottom CTA match the Home/Community shared sections visually — reuse  
   those components with Contact-owned content where copy differs.
 
 ## Target Section Order
@@ -62,9 +62,7 @@ No marquee. No dashed decorative ring on this page — CTA reuses the solid
 - Left content (left-aligned, generous padding):
   - Eyebrow: dash + `LET'S CONNECT` in light leaf / mint uppercase tracking.
   - Title: `Contact` — large white serif (`text-4xl` → `text-5xl` at lg).
-  - Body: `We're always happy to hear from you! Reach out to our team for
-inquiries, partnerships, or support in advancing modern and sustainable
-agriculture.` — white/70 sans, max ~480px.
+  - Body: `We're always happy to hear from you! Reach out to our team for inquiries, partnerships, or support in advancing modern and sustainable agriculture.` — white/70 sans, max ~480px.
   - **Social row**: four square icon buttons with rounded corners, dark forest
     fill, light leaf icon. Platforms (mobile screenshot is canonical):
     - WhatsApp
@@ -107,23 +105,20 @@ agriculture.` — white/70 sans, max ~480px.
 
 - Background: off-white / `bg-background` below the hero.
 - Two-column grid on lg:
-  - **Left column** — editorial contact details: - Title: `Reach out` (dark serif, `text-3xl` → `text-4xl`). - Availability line: `Reach out to our team through any of these channels.
-We're available **`siteConfig.hours`**` — render hours from
-    [`content/site.ts`](content/site.ts) (`Monday - Friday, 08 am - 05 pm`),
-    bold inline. Do not use screenshot 9–5 copy. - Vertical list of three contact rows, each with: - Circular leaf-green icon chip (phone, mail, map-pin). - Label (bold): `Phone` / `Email` / `Location`. - Value(s) below in muted sans. - **Phone values (screenshot):** - `+234 703 783 6030` - `+234 803 410 8745` - **Email:** `info@iproduceafrica.com` - **Location:** `3, Baltic Crescent Maitama, Abuja` - Phone and email should be clickable (`tel:` / `mailto:`) when implemented.
-  - **Right column** — floating form card: - White card, `rounded-xl`, soft elevation (`elevation-2` or border-only —
-    match Partners inquiry card; avoid heavy shadow). - On lg, card overlaps upward into the hero transition (negative margin or
-    absolute positioning within a relative section wrapper). - Card header: - Title: `Contact Form` (serif). - Description: `Complete the form and a member of our team will get back to
-you as soon as possible.` - Fields: - Row: `First Name` | `Last Name` (side-by-side on sm+). - `Email Address` (full width). - `Message` (textarea, min ~140px tall).     - Submit: full-width green button `Send Message`. POSTs to `/api/contact`
-      (Resend internal + receipt, Turnstile, honeypot). Inline success panel +
-      Sonner toast on submit.
+  - **Left column** — editorial contact details: - Title: `Reach out` (dark serif, `text-3xl` → `text-4xl`). - Availability line: `Reach out to our team through any of these channels. We're available `**siteConfig.hours`**`— render hours from`[content/site.ts](content/site.ts)` (`Monday - Friday, 08 am - 05 pm`),
+bold inline. Do not use screenshot 9–5 copy. - Vertical list of three contact rows, each with: - Circular leaf-green icon chip (phone, mail, map-pin). - Label (bold): `Phone`/`Email`/`Location`. - Value(s) below in muted sans. - **Phone values (screenshot):** - `+234 703 783 6030`-`+234 803 410 8745`- **Email:**`info@iproduceafrica.com`- **Location:**`3, Baltic Crescent Maitama, Abuja` - Phone and email should be clickable (`tel:`/`mailto:`) when implemented.
+  - **Right column** — floating form card: - White card, `rounded-xl`, soft elevation (`elevation-2` or border-only —  
+    match Partners inquiry card; avoid heavy shadow). - On lg, card overlaps upward into the hero transition (negative margin or  
+    absolute positioning within a relative section wrapper). - Card header: - Title: `Contact Form` (serif). - Description: `Complete the form and a member of our team will get back to you as soon as possible.` - Fields: - Row: `First Name` | `Last Name` (side-by-side on sm+). - `Email Address` (full width). - `Message` (textarea, min ~140px tall). - Submit: full-width green button `Send Message`. POSTs to `/api/contact`  
+     (Resend internal + receipt, Turnstile, honeypot). Inline success panel +  
+     Sonner toast on submit.
 
 ### Mobile Composition
 
 - Confirmed 2026-06-19 mobile screenshot: single column — reach-out heading,
   availability, contact list, then full-width form card below (no overlap
   float).
-- First/last name fields side-by-side from `sm:`; stack on the narrowest widths
+- First/last name fields side-by-side from `sm:`; stack on the narrowest widths  
   if needed.
 
 ### Form Schema (implementation)
@@ -160,7 +155,7 @@ you as soon as possible.` - Fields: - Row: `First Name` | `Last Name` (side-by-s
 
 ### Mobile Composition
 
-- Same embed; info card stays top-left overlay or stacks above map if overlay
+- Same embed; info card stays top-left overlay or stacks above map if overlay  
   feels cramped at 390px (prefer overlay if readable).
 
 ### Static MVP
@@ -177,8 +172,7 @@ Reuse shared `FaqSection` with Home-equivalent content:
 
 - Eyebrow: `Frequently asked questions`
 - Title: `Questions, answered.`
-- Description: `Everything about the platform, membership and partnerships —
-answered plainly.`
+- Description: `Everything about the platform, membership and partnerships — answered plainly.`
 - Tabs: `All / Platform / Membership / Partners`
 - Accordion items: same set as `homeContent.faqs` (or re-export from
   `content/contact.ts` as a projection to keep the route self-contained for
@@ -198,8 +192,7 @@ Reuse shared `CtaSection` with Contact-specific content:
 - `overlapNext={false}` (no footer overlap on this page).
 - Eyebrow: `Be part of the future`
 - Title: `Let's Build the Future of Agriculture Together`
-- Description: `Join a growing network of organisations committed to innovation,
-capacity building, and sustainable growth across Africa.`
+- Description: `Join a growing network of organisations committed to innovation, capacity building, and sustainable growth across Africa.`
 - **Single CTA:** `Partner with us` (green leaf variant with handshake icon) →
   `/partners#partnership-enquiry`
 - Solid `DecorativeRing` accents + sprout/tree/lines SVGs ship with the shared

@@ -34,6 +34,6 @@ brand tone without pretending final integrations already exist.
 - [x] Information architecture approved for the static MVP
 - [x] Placeholder links identified clearly
 - [x] Desktop composition approved in code
-- [ ] Mobile composition approved
+- [x] Mobile composition approved
 - [x] Footer copy aligned with static MVP boundaries
 - [x] Newsletter block marked for later integration

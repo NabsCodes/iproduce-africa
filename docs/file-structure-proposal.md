@@ -317,7 +317,7 @@ content/
   courses.ts    # course catalogue + module lists
 ```
 
-Use **`listings/`** not `tracks/` — matches route language and avoids jargon.
+Use `listings/` not `tracks/` — matches route language and avoids jargon.
 
 ## Final Recommendation
 

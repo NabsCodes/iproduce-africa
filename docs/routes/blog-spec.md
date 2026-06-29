@@ -10,7 +10,7 @@ Blog is one **Academy catalogue** alongside Webinars and Courses. All three
 listing routes share `AcademyListingHeroSection` (dark forest band + leaf
 eyebrow pill). Each adds a featured band and filter pills on top of the shared
 `ListingCardGrid` / `ContentCard` grid. See
-[`academy-spec.md` → Listing routes](./academy-spec.md#listing-routes-shared-pattern)
+`academy-spec.md` [→ Listing routes](./academy-spec.md#listing-routes-shared-pattern)
 for the cross-catalogue pattern; this file owns Blog-only behaviour (article
 body blocks, sidebar, article SEO).
 
@@ -36,11 +36,11 @@ courses via the detail page's related section.
 - Reuse existing primitives: `ContentCard`, `EyebrowPill`, `SiteCtaButton`,
   `CtaSection`. Motion primitives (`MotionFade`, `MotionStagger`) apply on
   day one — the full motion pass is shipped.
-- **Shell-driven detail layout**: the blog detail page composes the shared
-  Academy detail shell (slots: hero/media, metadata, main+sidebar, related,
-  CTA). Future course / webinar / event detail pages reuse the same shell
-  but fill the slots with their own metadata and renderers. **No universal
-  "AcademyThing" component.**
+- **Shell-driven detail layout**: the blog detail page composes the shared  
+  Academy detail shell (slots: hero/media, metadata, main+sidebar, related,  
+  CTA). Future course / webinar / event detail pages reuse the same shell  
+  but fill the slots with their own metadata and renderers. **No universal**  
+  **"AcademyThing" component.**
 
 ## Routes (this pass)
 
@@ -86,8 +86,8 @@ separate `/academy/events` listing).
    real, hide it entirely (the design's "42 articles" line is a placeholder
    and **must not** be published verbatim).
 6. **Shared CTA** — existing `CtaSection`. The design shows the same dark
-   `Let's Build the Future of Agriculture Together` band + "Partner with
-   us" CTA we already ship.
+   `Let's Build the Future of Agriculture Together` band + "Partner with  
+    us" CTA we already ship.
 
 ### Featured-article selection rule
 
@@ -113,7 +113,7 @@ later.
 ## Page 2 — Detail `/academy/blog/[slug]`
 
 Composes the shared Academy detail shell described in
-[`academy-spec.md` → Detail-page shell](./academy-spec.md#detail-page-shell-shared-across-tracks).
+`academy-spec.md` [→ Detail-page shell](./academy-spec.md#detail-page-shell-shared-across-tracks).
 Blog fills the slots like so:
 
 | Slot               | Blog content                                                                                                                                                               |
@@ -161,7 +161,7 @@ to the X intent otherwise.
 - **Scroll to top** — `ScrollToTop` via `AcademyDetailShell`
   `showScrollToTop` on blog slug pages only. Fixed bottom-right with
   progress ring; appears after ~400px scroll.
-- **No breadcrumbs** on detail pages — rejected after QA (cluttered the
+- **No breadcrumbs** on detail pages — rejected after QA (cluttered the  
   hero/metadata rhythm).
 
 ### Related section
@@ -223,7 +223,7 @@ follows.
 
 ## Content shape
 
-**`types/blog.ts`** — contracts only:
+`types/blog.ts` — contracts only:
 
 ```ts
 import type { blogCategories } from "@/content/blog";
@@ -256,10 +256,10 @@ export type BlogPageContent = {
 };
 ```
 
-**`content/blog-articles.ts`** — article catalogue only (10 items, varied
+`content/blog-articles.ts` — article catalogue only (10 items, varied
 read lengths 3–14 min for layout QA).
 
-**`content/blog.ts`** — page chrome, categories const, and helpers
+`content/blog.ts` — page chrome, categories const, and helpers
 (`getArticle`, `getRelatedArticles`, `getBlogHubPreviewItems`). Imports
 `blogArticles` from `content/blog-articles.ts`.
 
@@ -387,14 +387,16 @@ Only ones still load-bearing after the Codex review:
 2. Routes resolve in the build manifest: `/academy/blog` and one entry
    per article slug; no orphan Webinars/Courses/Events routes.
 3. Browser walk at 390 / tablet / 1440:
-   - Listing: dark hero reads cleanly, 8 category pills wrap on `sm+` and
-     horizontal-scroll on mobile, grid is 1/2/3 columns, View More
-     doesn't shift layout, helper count reflects actual collection size.
-   - Detail: hero scales without overflow, sidebar sticks on `lg:` and
-     stacks on mobile, share controls fire (test each: WhatsApp opens
-     wa.me, LinkedIn opens sharing URL, X opens intent, copy-link copies
-     and toasts), related article cards link to
-     `/academy/blog/{slug}`.
+
+- Listing: dark hero reads cleanly, 8 category pills wrap on `sm+` and
+  horizontal-scroll on mobile, grid is 1/2/3 columns, View More
+  doesn't shift layout, helper count reflects actual collection size.
+- Detail: hero scales without overflow, sidebar sticks on `lg:` and
+  stacks on mobile, share controls fire (test each: WhatsApp opens
+  wa.me, LinkedIn opens sharing URL, X opens intent, copy-link copies
+  and toasts), related article cards link to
+  `/academy/blog/{slug}`.
+
 4. Reduced-motion sweep: hero image scale-in collapses; related stagger
    collapses; sidebar sticky behaviour stays.
 5. Per-route 404: visit `/academy/blog/does-not-exist` → blog-scoped

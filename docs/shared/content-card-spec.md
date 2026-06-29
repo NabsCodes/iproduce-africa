@@ -9,11 +9,11 @@ Academy hub previews, listing pages, related content, and search results.
 
 - File: `components/shared/content-card.tsx`
 - Primitive deps: `components/ui/card.tsx`, `components/ui/badge.tsx`
-- Used in: `components/home/academy-spotlight-section.tsx`,
-  `components/home/featured-articles-section.tsx`,
-  `components/academy/hub/learning-listing-section.tsx`,
-  `components/academy/listings/listing-card-grid.tsx`,
-  `components/academy/listings/academy-related-section.tsx`, and
+- Used in: `components/home/academy-spotlight-section.tsx`,  
+  `components/home/featured-articles-section.tsx`,  
+  `components/academy/hub/learning-listing-section.tsx`,  
+  `components/academy/listings/listing-card-grid.tsx`,  
+  `components/academy/listings/academy-related-section.tsx`, and  
   `components/academy/search/academy-search-results.tsx`.
 
 ## Anatomy
@@ -38,7 +38,7 @@ Academy hub previews, listing pages, related content, and search results.
 - Tags row: primary `<Badge>` (tone'd) + optional secondary outline pill.
 - Title: serif, `text-lg leading-[26px]`. Hover shifts to `text-leaf-700`.
 - Description: muted, `text-sm leading-[22px]`.
-- The full card is a `<Link>` to `href`. Single click target, no nested
+- The full card is a `<Link>` to `href`. Single click target, no nested  
   interactive elements.
 
 ## Props

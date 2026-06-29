@@ -79,7 +79,7 @@ Brand-tinted semantic surfaces use the same readable Tailwind vocabulary:
 - `bg-leaf-subtle`
 - `bg-forest-subtle`
 - `bg-tangerine-subtle`
-- `bg-leaf-emphasized`, `text-leaf-emphasized`, or
+- `bg-leaf-emphasized`, `text-leaf-emphasized`, or  
   `border-leaf-emphasized` when that stronger role is required
 
 ### Tailwind v4 Class Rule
@@ -182,7 +182,7 @@ equivalent markup in section components.
   Partners voices, Community membership orbit.
 - Size and color come from the consumer via `className` + optional
   `strokeWidth`. Typical palette: `text-tangerine-500`, `text-leaf-700`.
-- Multiple rings on one surface are fine when the approved design calls for
+- Multiple rings on one surface are fine when the approved design calls for  
   them (CTA band uses tangerine + leaf at different positions).
 
 ### Dashed ring (`DashedDecorativeRing`)
@@ -208,7 +208,7 @@ consumer only when a section matches that same dark-panel + corner-bleed pattern
 
 - Swap dashed for solid (or vice versa) to “reuse something”.
 - Override ring primitives with ad-hoc inline borders in section JSX.
-- Use dashed rings on the Contact hero or map — those surfaces use photography,
+- Use dashed rings on the Contact hero or map — those surfaces use photography,  
   split layout, or embed chrome instead.
 
 ## Cards And Surfaces
@@ -226,7 +226,7 @@ Surfaces should feel related across the site.
 - no CSS token for every spacing step
 - no second token layer that duplicates Tailwind class names
 - no repo-wide rename purely for naming purity while layouts are still in flux
-- no hardcoded one-off hex values in section components when a shared role
+- no hardcoded one-off hex values in section components when a shared role  
   already exists
 
 ## Imagery
@@ -261,7 +261,7 @@ Keep content portable and future-CMS-friendly.
 ## System pages
 
 Brand-styled `not-found`, `error`, and `global-error` surfaces, plus the
-brand icon set, live in [`routes/system-pages-spec.md`](routes/system-pages-spec.md).
+brand icon set, live in `[routes/system-pages-spec.md](routes/system-pages-spec.md)`.
 High-level rules:
 
 - System pages render inside the root layout and inherit Header + Footer.
@@ -281,7 +281,7 @@ High-level rules:
 
 ## Motion
 
-Motion plan lives in [`motion-spec.md`](motion-spec.md). High-level rules:
+Motion plan lives in `[motion-spec.md](motion-spec.md)`. High-level rules:
 
 - `motion/react` is the only animation library; CSS-first for hover, focus,
   dropdown, and accordion chrome.

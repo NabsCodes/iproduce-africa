@@ -74,5 +74,5 @@ Browser:
 - [x] Hero + apply banner triggers wired
 - [x] Schema split (dialog vs inline form)
 - [x] Content in `content/community.ts`
-- [ ] Wire dialog to real submission endpoint (later phase)
+- [x] Wire dialog to real submission endpoint (later phase)
 - [x] Bottom CTA opens dialog through shared CTA action handling

@@ -31,13 +31,13 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 
 ## Breakpoints
 
-- **Below `md` (768px):** compact header — logo, compact `Join` CTA, plain
+- **Below** `md` **(768px):** compact header — logo, compact `Join` CTA, plain
   hamburger. Utility bar hidden. Full nav lives in the mobile sheet.
-- **`md` to below `lg`:** tablet header — utility bar is visible, but the
+- `md` **to below** `lg`**:** tablet header — utility bar is visible, but the
   primary bar stays compact with logo, compact `Join` CTA, and hamburger. Do
   not show the full desktop nav here; it does not have enough horizontal room.
-- **`lg` and up:** full desktop nav and `Partner with us` text CTA.
-- **`xl` and up:** full `Join our community` button. Below `xl`, the compact
+- `lg` **and up:** full desktop nav and `Partner with us` text CTA.
+- `xl` **and up:** full `Join our community` button. Below `xl`, the compact
   join trigger remains beside the hamburger.
 
 ## Desktop Structure
@@ -142,7 +142,7 @@ and clicking the chevron opens the menu:
   `Partner with us` links to `/partners#partnership-enquiry`
 - Footer block: email left, phone right, no hours and no social — those stay on
   the desktop utility bar only
-- Radix Dialog handles dismiss (overlay click, ESC, close button); no separate
+- Radix Dialog handles dismiss (overlay click, ESC, close button); no separate  
   click-outside hook is needed
 
 ## Confirmed Inputs
@@ -185,5 +185,5 @@ Source: `CleanShot 2026-06-14 at 7.29.01@2x.png`
 - [x] CTA order and emphasis approved
 - [x] Social placeholder behavior documented (visible, non-clickable when no URL)
 - [x] Mobile sheet redirected to top-down full-screen layout matching screenshot
-- [ ] Academy dropdown formally approved against a reference screenshot
-- [ ] Mobile menu QA on 360px and 390px viewports (tap targets, overflow)
+- [x] Academy dropdown formally approved against a reference screenshot
+- [x] Mobile menu QA on 360px and 390px viewports (tap targets, overflow)

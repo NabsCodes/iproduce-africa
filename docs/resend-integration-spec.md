@@ -53,7 +53,7 @@ Public form API routes are rate-limited via **Upstash Redis** in
 
 - **Local dev:** skipped unless `ENABLE_DEV_RATE_LIMITS=true`
 - **Vercel preview:** active when Upstash env vars are set; otherwise skipped
-- **Production (`VERCEL_ENV=production`):** Upstash env vars are **required** —
+- **Production (**`VERCEL_ENV=production`**):** Upstash env vars are **required** —
   missing config returns `503` (fail closed) to protect Resend quota
 
 Exceeded limits return `429` with `Retry-After` and
@@ -76,12 +76,14 @@ Exceeded limits return `429` with `Retry-After` and
 **Recommended flow:**
 
 1. **You** create a new Resend project: `iProduce Africa` (production).
-2. Sign up with **`info@iproduceafrica.com`** if you already have mailbox access
+2. Sign up with `info@iproduceafrica.com` if you already have mailbox access
    for that address — otherwise use your agency email and **invite the client
    as Owner** before go-live.
 3. Generate API keys:
-   - `RESEND_API_KEY` — local + Vercel preview (restricted if Resend supports it)
-   - `RESEND_API_KEY` — Vercel production (rotate at handoff if needed)
+
+- `RESEND_API_KEY` — local + Vercel preview (restricted if Resend supports it)
+- `RESEND_API_KEY` — Vercel production (rotate at handoff if needed)
+
 4. **Domain verification** on this project only: `iproduceafrica.com` (or the
    live apex they use). Client adds DNS records in their registrar / Cloudflare.
 5. **Handoff:** client is Owner; you remain Developer or are removed.
@@ -91,7 +93,7 @@ the contract says otherwise.
 
 ### Dev without verified domain
 
-Resend provides **`onboarding@resend.dev`** for sending during development.
+Resend provides `onboarding@resend.dev` for sending during development.
 Use it as `EMAIL_FROM` until `iproduceafrica.com` is verified.
 
 | Environment               | `EMAIL_FROM`                                | Notes                                                                   |
@@ -174,7 +176,7 @@ Each template file exports:
 
 ### Developer map — what lives where
 
-See **`docs/email-structure.md`** for the full folder tree, logic vs helper
+See `docs/email-structure.md` for the full folder tree, logic vs helper
 split, dual UI rules, and UI/config/Resend suggestions.
 
 ### Dual UI — internal vs subscriber (do not mix)
@@ -508,7 +510,7 @@ Deliver to client:
 
 - [ ] Account strategy agreed (separate iProduce Resend project)
 - [ ] Client DNS / inbox checklist sent
-- [ ] Turnstile site configured for local / preview / production domains
+- [x] Turnstile site configured for local / preview / production domains
 - [x] Dependencies + `email:dev` added
 - [x] `lib/email/send.ts` + shared components
 - [x] `lib/turnstile.ts`, `components/shared/turnstile-widget.tsx`, shared anti-spam schema helpers

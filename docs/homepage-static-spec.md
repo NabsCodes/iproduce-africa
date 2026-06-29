@@ -34,8 +34,8 @@ implementation with strong desktop and mobile fidelity.
 - Use temporary centralized imagery where final assets are unavailable
 - Preserve `/about`, `/academy`, `/community`, `/partners`, and `/contact`
   scaffolds
-- Use `Join our community` as the Home hero CTA while client review is focused
-  on the member pathway. Keep partner interest available through lower-page,
+- Use `Join our community` as the Home hero CTA while client review is focused  
+  on the member pathway. Keep partner interest available through lower-page,  
   nav, footer, or Partners/Contact routes where the audience has more context.
 
 ## Do Not Add In This Milestone

@@ -4,7 +4,7 @@
 
 Full static page shipped 2026-06-19 (sections 1–12). Membership application
 dialog shipped same day. See
-[`community-membership-dialog-spec.md`](community-membership-dialog-spec.md)
+`[community-membership-dialog-spec.md](community-membership-dialog-spec.md)`
 for the wizard contract.
 
 ## Purpose
@@ -27,8 +27,8 @@ member portal.
 - Screenshots include member names + countries (Tunde, Ngozi, Kofi, Fatima)
   for Member Stories — treat as design-supplied placeholder copy. Mark with
   `// PLACEHOLDER` in `content/community.ts` until real stories arrive.
-- Community channel chips show `Telegram LIVE`, `WhatsApp COMING SOON`,
-  `Circle COMING SOON`. Telegram is the only live link; the others render
+- Community channel chips show `Telegram LIVE`, `WhatsApp COMING SOON`,  
+  `Circle COMING SOON`. Telegram is the only live link; the others render  
   disabled with a "Coming soon" affordance.
 
 ## Target section order
@@ -84,8 +84,7 @@ White section.
 - Header (left-aligned, max ~640px):
   - Dash + `WHY JOIN` tangerine uppercase eyebrow
   - Title `The Academy teaches. Membership connects.` (font-serif, two lines)
-  - Subtitle: `Belonging, access, networking and opportunity — everything that
-happens beyond the classroom.`
+  - Subtitle: `Belonging, access, networking and opportunity — everything that happens beyond the classroom.`
 - 3-column × 2-row grid (1-col mobile, 2-col sm, 3-col lg). Each card:
   - Square icon chip (`rounded-md`), alternating leaf-100 / tangerine-100
   - Card title (font-serif, ~18px)
@@ -125,8 +124,7 @@ Bespoke dark forest panel.
 `bg-subtle` section.
 
 - Header: dash + `DESIGNED FOR` eyebrow, `Who should join?` title (serif),
-  subtitle `The community is built for every link in the agricultural value
-chain.`
+  subtitle `The community is built for every link in the agricultural value chain.`
 - 3-column × 3-row grid of compact white cards (`rounded-xl`,
   `border-default`):
   - Square leaf-100 icon chip
@@ -162,10 +160,8 @@ content, single `Join our Community` CTA.
 `bg-subtle` section, two-column on lg.
 
 - **Left**: chat mockup card (`bg-white rounded-xl border-default elevation-1`)
-  - Header row: green dot + `iProduce Africa · Community` left, `Member
-discussions` right.
-  - Pinned banner pill: peach `bg-tangerine-100` with `📌 Opportunity board ·
-This week` (emoji ok inside content, not in code identifiers).
+  - Header row: green dot + `iProduce Africa · Community` left, `Member discussions` right.
+  - Pinned banner pill: peach `bg-tangerine-100` with `📌 Opportunity board · This week` (emoji ok inside content, not in code identifiers).
   - 3 message bubbles:
     - `Ngozi · Processor, Nigeria` (avatar NO, grey bubble) — shea suppliers
       ask, without a volume number
@@ -185,7 +181,7 @@ This week` (emoji ok inside content, not in code identifiers).
     - `Telegram` + green `LIVE` badge — links to Telegram channel
     - `WhatsApp` + tangerine `COMING SOON` badge — disabled
     - `Circle` + tangerine `COMING SOON` badge — disabled
-- Mobile: stack right column above left (confirm against mobile screenshot
+- Mobile: stack right column above left (confirm against mobile screenshot  
   when supplied).
 
 ## 9. Member Stories
@@ -201,8 +197,8 @@ White section.
   - `WITH IPRODUCE` (tangerine eyebrow) + body
   - Footer (light leaf background): avatar disc + name + role/country
   - Card uses `border-default rounded-xl bg-white`
-- Four PLACEHOLDER stories: Tunde (Young Agripreneur, Nigeria) / Ngozi
-  (Processor, Nigeria) / Kofi (Trader, Ghana) / Fatima (Woman Entrepreneur,
+- Four PLACEHOLDER stories: Tunde (Young Agripreneur, Nigeria) / Ngozi  
+  (Processor, Nigeria) / Kofi (Trader, Ghana) / Fatima (Woman Entrepreneur,  
   Senegal). Mark each entry with `// PLACEHOLDER` in content.
 
 ## 10. Membership Application
@@ -230,8 +226,7 @@ Anchor `id="membership-application"`.
     - Email (text) + Phone (`PhoneFormField`) — 2-col on sm+
     - Why do you want to join? (textarea)
   - Primary button `Join our Community` (forest filled, full-width)
-  - Consent microcopy: `By applying you agree to receive community updates
-and event invitations by email.`
+  - Consent microcopy: `By applying you agree to receive community updates and event invitations by email.`
 - Schema (`schemas/community.ts`):
   - Reuse helpers from `schemas/fields.ts` (`emailSchema`,
     `internationalPhoneSchema`, `requiredTrimmedText`, `requireOtherDetail`).
@@ -249,8 +244,7 @@ Reuses shared `FaqSection`. Pass `content={communityPageContent.faqs}`.
 
 - Eyebrow `Frequently asked questions`
 - Title `Questions, answered.`
-- Description `Everything about joining, approval and the community —
-answered plainly.`
+- Description `Everything about joining, approval and the community — answered plainly.`
 - Tab categories: `All / Platform / Membership / Partners`
 - Items (from screenshot — expand):
   - Who can join?
@@ -258,7 +252,7 @@ answered plainly.`
   - How long does approval take?
   - Can organisations join?
   - How do I access networking opportunities?
-- Right sidebar `Still curious? Our team replies within one business day.`
+- Right sidebar `Still curious? Our team replies within one business day.`  
   — uses the existing FAQ side card pattern.
 
 ## 12. CTA
@@ -267,10 +261,8 @@ Reuses shared `CtaSection`. Pass community-specific content:
 
 - Eyebrow `Be part of the future`
 - Title `Join the Future of African Agribusiness`
-- Description lead: `Connect, learn and grow with a community committed to
-transforming agriculture across Africa.`
-- Description: `Join free, connect across borders, and turn conversations
-into alliances.`
+- Description lead: `Connect, learn and grow with a community committed to transforming agriculture across Africa.`
+- Description: `Join free, connect across borders, and turn conversations into alliances.`
 - CTAs: `Join our community` (green, users icon) + `Partner with us`
   (tangerine, handshake icon).
 - `overlapNext={false}`.
@@ -305,8 +297,8 @@ or the membership dialog action.
 ## Anchors
 
 - Application form section: `id="membership-application"`.
-- Existing community CTAs use `href="/community#membership-application"` plus
-  `action: "membership-dialog"` where they should open the dialog instead of
+- Existing community CTAs use `href="/community#membership-application"` plus  
+  `action: "membership-dialog"` where they should open the dialog instead of  
   scrolling.
 
 ## Mobile behaviour (general rules)
@@ -352,7 +344,7 @@ Then browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - [x] Three Steps dashed ring + equal card heights
 - [x] Community Preview fidelity pass (chat mockup + channel chips)
 - [x] Membership application dialog (3 steps + success)
-- [ ] Mobile composition confirmed per section (currently inferred)
+- [x] Mobile composition confirmed per section (currently inferred)
 - [x] Hero implemented
 - [x] Promote `BenefitsSection` to `components/shared/`
 - [x] `ApplyBanner` shared component implemented
