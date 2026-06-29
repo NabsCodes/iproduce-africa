@@ -3,6 +3,42 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## CMS specs — review locked + client summary (2026-06-27)
+
+Second pass: author references locked (no “optional/split” wording), closed
+registration API returns `PUBLIC_FORM_VALIDATION_ERROR` shape, full placeholder
+**seed-to-development** policy (no empty Studio on handoff), added
+`docs/cms-client-summary.md` for client sign-off. Status: **approved with
+edits** — implementation waits on client CMS scope approval.
+
+**Verification:** Docs-only. Checkpoint commit recommended before Sanity code.
+
+---
+
+## CMS specs — external review incorporated (2026-06-27)
+
+Codex + Claude review: approve with minor edits. Patched both specs — Phase 1
+search locked, category collapse table, coalesce featured GROQ, drop
+`isPublished`, PT mark stripping, slug/revalidate rules, author references,
+registration API reject when closed, branded `CmsFallbackImage` policy, hybrid
+testimonial cutover, migration manifest + `content/_archived/` rollback.
+
+**Verification:** Docs-only.
+
+---
+
+## CMS migration specs drafted (2026-06-27)
+
+Added `docs/cms-migration-spec.md` (master plan: CMS vs code inventory, phased
+rollout, edge-case rules including empty CMS sections, folder layout aligned with
+Sanity MCP + q-das/portfolio references) and `docs/sanity-academy-spec.md`
+(Phase 1 Academy catalogues: document types, GROQ map, PT adapter boundary,
+migration/cutover). No Sanity code yet — pending review.
+
+**Verification:** Docs-only.
+
+---
+
 ## Review fixes — honeypot + Turnstile (2026-06-27)
 
 Renamed honeypot field from `website` to `hpField` (`PUBLIC_FORM_HONEYPOT_FIELD`)

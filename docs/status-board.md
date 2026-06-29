@@ -26,4 +26,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Resend + React Email + Turnstile implementation (6 API routes, 7 form surfaces, dual-email delivery)
 - [x] Email folder structure + dual UI documented (`docs/email-structure.md`)
 - [ ] Resend domain verified + production env on Vercel (client ops)
-- [ ] `docs/sanity-academy-spec.md` drafted (next step before CMS setup)
+- [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
+- [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
+- [ ] Client sign-off on CMS scope (`docs/cms-client-summary.md`)
+- [ ] Sanity project + implementation (post-approval)

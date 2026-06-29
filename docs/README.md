@@ -18,7 +18,8 @@ and more task-oriented.
 7. `layout-system.md`
 8. `design-system.md`
 9. `email-structure.md` when touching transactional email
-10. `implementation-log.md`
+10. `cms-migration-spec.md` + `sanity-academy-spec.md` when CMS work is in scope
+11. `implementation-log.md`
 
 ## Documents
 
@@ -37,6 +38,9 @@ and more task-oriented.
 | `handoff-template.md`        | Copy-paste structure for incomplete work or QA handoff.                           |
 | `resend-integration-spec.md` | Resend + React Email + Turnstile integration (env, API, account strategy).        |
 | `email-structure.md`         | Email folder tree, logic vs helpers, dual UI, config suggestions.                 |
+| `cms-migration-spec.md`      | Sanity master plan: phases, CMS vs code, edge cases, folder layout.               |
+| `sanity-academy-spec.md`     | Phase 1 Academy catalogues: schemas, GROQ, migration, acceptance criteria.        |
+| `cms-client-summary.md`      | One-page client sign-off: what moves to CMS and when.                              |
 
 ## Source Of Truth Order
 
