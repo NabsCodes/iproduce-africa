@@ -142,7 +142,7 @@ verification and Vercel environment variables (see `docs/resend-integration-spec
 
 **Shipped in repo**
 
-- Seven public form surfaces → six API routes with dual email delivery (internal + receipt)
+- Seven public form surfaces → six API routes with internal notification + best-effort submitter receipt (receipt failures are logged, not surfaced to the user)
 - Cloudflare Turnstile + honeypot on every submission path
 - React Email templates previewable via `pnpm email:dev`
 

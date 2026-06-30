@@ -53,7 +53,7 @@ export const siteConfig = {
       placeholder: "Your email address",
       submitLabel: "Subscribe to newsletter",
       successMessage:
-        "Thanks for subscribing. Check your inbox for a confirmation email.",
+        "Thanks for subscribing. A confirmation may arrive in your inbox shortly.",
     },
     legalLinks: [
       { label: "Privacy", href: undefined },

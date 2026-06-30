@@ -21,8 +21,10 @@ CMS setup.
 ## Goals
 
 - Team receives structured internal notifications for every form submission.
-- Submitters receive a short confirmation for every successful human
-  submission.
+- Submitters are sent a short confirmation on a best-effort basis for every
+  successful human submission (via `sendEmailQuietly` — receipt failures are
+  logged, not surfaced to the user; admin notification remains the source of
+  truth for lead capture).
 - Internal notification emails set `replyTo` to the submitter's address so the
   team can reply directly from their inbox.
 - All public forms include Turnstile verification and a hidden honeypot before
@@ -117,18 +119,18 @@ before launch.
 
 Port these patterns — not the WardWise branding or auth stack.
 
-| WardWise path                                                      | iProduce target                          | Role                                               |
-| ------------------------------------------------------------------ | ---------------------------------------- | -------------------------------------------------- |
-| `src/lib/email/send.ts`                                            | `lib/email/send.ts`                      | Resend client, env guards, `SendEmailResult`       |
-| `src/lib/email/templates/*.tsx`                                    | `lib/email/templates/*.tsx`              | React Email components + `build*Email()`           |
-| `src/lib/email/previews/*.tsx`                                     | `lib/email/previews/*.tsx`               | Fixtures for `react-email` dev server              |
-| `src/lib/email/components/`                                        | `lib/email/components/`                  | Shared header / footer                             |
-| `src/lib/email/contact.ts`                                         | `lib/email/contact.ts`                   | Thin send helper per domain                        |
-| `src/app/api/contact/route.ts`                                     | `app/api/contact/route.ts`               | Zod validate → send → JSON                         |
-| `src/features/public-site/lib/turnstile.ts`                        | `lib/turnstile.ts`                       | Turnstile server verification                      |
-| `src/features/public-site/components/support/turnstile-widget.tsx` | `components/shared/turnstile-widget.tsx` | Shared client widget                               |
-| WardWise honeypot fields                                           | form schemas + components                | Silent bot trap; return success without sending    |
-| `package.json` → `email:dev`                                       | `email:dev` script                       | `email dev --dir ./lib/email/previews --port 3001` |
+| WardWise path                                                      | iProduce target                          | Role                                                                                                                                                                  |
+| ------------------------------------------------------------------ | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/lib/email/send.ts`                                            | `lib/email/send.ts`                      | Resend client, env guards, `SendEmailResult`                                                                                                                          |
+| `src/lib/email/templates/*.tsx`                                    | `lib/email/templates/*.tsx`              | React Email components + `build*Email()`                                                                                                                              |
+| `src/lib/email/previews/*.tsx`                                     | `lib/email/previews/*.tsx`               | Fixtures for `react-email` dev server                                                                                                                                 |
+| `src/lib/email/components/`                                        | `lib/email/components/`                  | Shared header / footer                                                                                                                                                |
+| `src/lib/email/contact.ts`                                         | `lib/email/contact.ts`                   | Thin send helper per domain                                                                                                                                           |
+| `src/app/api/contact/route.ts`                                     | `app/api/contact/route.ts`               | Zod validate → send → JSON                                                                                                                                            |
+| `src/features/public-site/lib/turnstile.ts`                        | `lib/turnstile.ts`                       | Turnstile server verification                                                                                                                                         |
+| `src/features/public-site/components/support/turnstile-widget.tsx` | `components/shared/turnstile-widget.tsx` | Shared client widget — wraps `@marsidev/react-turnstile`; library owns script load, mount/unmount, multi-widget dedupe; wrapper owns retry button + email fallback UX |
+| WardWise honeypot fields                                           | form schemas + components                | Silent bot trap; return success without sending                                                                                                                       |
+| `package.json` → `email:dev`                                       | `email:dev` script                       | `email dev --dir ./lib/email/previews --port 3001`                                                                                                                    |
 
 Port the email and public-form verification patterns — not WardWise branding,
 auth, audit logging, Prisma, or admin stack.
@@ -298,7 +300,13 @@ Status `429` with `Retry-After` header (seconds until retry).
 ```
 
 Status `503` when `RESEND_API_KEY`, `EMAIL_FROM`, Turnstile env, or
-route-specific `*_TO_EMAIL` is missing; `500` on Resend API errors.
+route-specific `*_TO_EMAIL` is missing; `500` only when the **admin
+notification** email fails. The submitter receipt is sent via
+`sendEmailQuietly` in `lib/email/send.ts` — failures are logged to the
+server (Resend dashboard remains source of truth) and the route still
+returns `200`. Rationale: admin already has the submission, so a Resend
+rejection on the receipt (e.g. unverified domain in testing mode) must
+not be surfaced to the user as a generic failure.
 
 ### Client form changes
 
@@ -469,7 +477,7 @@ Manual:
 
 - Submit each form on local with `onboarding@resend.dev` from address
 - Confirm internal email arrives with correct fields and `replyTo` on contact
-- Confirm submitter receipt for every form
+- Confirm submitter receipt for every form when Resend is fully configured (best-effort: if the receipt fails the route still returns success — check the Resend dashboard for bounces rather than the API response)
 - Confirm newsletter internal notification arrives; no subscriber is lost
 - Break env on purpose → form shows friendly error, not fake success
 - Submit with non-empty honeypot → API returns success, sends no email
@@ -497,7 +505,7 @@ Deliver to client:
 
 1. **Inbox routing** — keep separate env vars, pointing to `info@` until the
    client confirms dedicated `partners@`, `academy@`, or community inboxes.
-2. **Submitter receipts** — send receipts for all forms.
+2. **Submitter receipts** — attempt best-effort receipts for all forms via `sendEmailQuietly`; failures are logged and the route still returns success, since the admin notification is the load-bearing send.
 3. **Newsletter** — send both internal notification and subscriber confirmation.
 4. **Spam protection** — include Turnstile + honeypot in the same implementation
    as Resend; do not ship live forms without them.

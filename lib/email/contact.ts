@@ -1,4 +1,4 @@
-import { readTrimmedEnv, sendEmail } from "@/lib/email/send";
+import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildContactNotificationEmail,
   buildContactReceiptEmail,
@@ -32,12 +32,12 @@ export async function sendContactEmails(
   if (!notificationResult.sent) return notificationResult;
 
   const receipt = await buildContactReceiptEmail(input);
-  const receiptResult = await sendEmail({
+  await sendEmailQuietly({
     to: input.email,
     subject: receipt.subject,
     html: receipt.html,
     text: receipt.text,
   });
 
-  return receiptResult;
+  return { sent: true };
 }

@@ -64,3 +64,14 @@ export async function sendEmail(
 
   return { sent: true };
 }
+
+export async function sendEmailQuietly(input: SendEmailInput): Promise<void> {
+  try {
+    await sendEmail(input);
+  } catch (error) {
+    console.error(
+      `Receipt email to ${input.to} failed (admin notification already sent):`,
+      error,
+    );
+  }
+}

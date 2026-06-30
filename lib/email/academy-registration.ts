@@ -1,6 +1,6 @@
 import { getCourse } from "@/content/courses";
 import { getWebinar } from "@/content/webinars";
-import { readTrimmedEnv, sendEmail } from "@/lib/email/send";
+import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildAcademyRegistrationNotificationEmail,
   buildAcademyRegistrationReceiptEmail,
@@ -51,10 +51,12 @@ export async function sendAcademyRegistrationEmails(
   if (!notificationResult.sent) return notificationResult;
 
   const receipt = await buildAcademyRegistrationReceiptEmail(payload);
-  return sendEmail({
+  await sendEmailQuietly({
     to: input.email,
     subject: receipt.subject,
     html: receipt.html,
     text: receipt.text,
   });
+
+  return { sent: true };
 }

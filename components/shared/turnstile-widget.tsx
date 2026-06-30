@@ -1,48 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Script from "next/script";
-
-const TURNSTILE_SCRIPT_ID = "cloudflare-turnstile-script";
-const TURNSTILE_SCRIPT_SRC =
-  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (
-        container: HTMLElement,
-        options: {
-          sitekey: string;
-          callback: (token: string) => void;
-          "expired-callback"?: () => void;
-          "error-callback"?: () => void;
-          theme?: "light" | "dark" | "auto";
-          size?: "normal" | "flexible" | "compact";
-          appearance?: "always" | "execute" | "interaction-only";
-        },
-      ) => string;
-      reset: (widgetId: string) => void;
-      remove: (widgetId: string) => void;
-    };
-  }
-}
-
-function isTurnstileReady(): boolean {
-  return typeof window.turnstile?.render === "function";
-}
-
-function shouldInjectTurnstileScript(): boolean {
-  if (typeof window === "undefined") {
-    return true;
-  }
-
-  if (isTurnstileReady()) {
-    return false;
-  }
-
-  return !document.getElementById(TURNSTILE_SCRIPT_ID);
-}
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 type TurnstileWidgetProps = {
   siteKey: string;
@@ -61,13 +20,9 @@ export function TurnstileWidget({
   fallbackEmail,
   onRetry,
 }: TurnstileWidgetProps) {
-  const widgetContainerRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<string | null>(null);
+  const ref = useRef<TurnstileInstance>(null);
+  const previousResetNonceRef = useRef(resetNonce);
   const onTokenChangeRef = useRef(onTokenChange);
-  const [shouldInjectScript] = useState(shouldInjectTurnstileScript);
-  const [scriptReady, setScriptReady] = useState(
-    () => typeof window !== "undefined" && isTurnstileReady(),
-  );
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -75,101 +30,45 @@ export function TurnstileWidget({
   }, [onTokenChange]);
 
   useEffect(() => {
-    if (scriptReady) {
-      return;
-    }
-
-    const script = document.getElementById(TURNSTILE_SCRIPT_ID);
-    if (!script) {
-      return;
-    }
-
-    const handleLoad = () => {
-      if (isTurnstileReady()) {
-        setScriptReady(true);
-      }
-    };
-
-    script.addEventListener("load", handleLoad);
-    return () => script.removeEventListener("load", handleLoad);
-  }, [scriptReady]);
-
-  useEffect(() => {
-    if (
-      !scriptReady ||
-      hasError ||
-      !window.turnstile ||
-      !widgetContainerRef.current ||
-      widgetIdRef.current
-    ) {
-      return;
-    }
-
-    widgetIdRef.current = window.turnstile.render(widgetContainerRef.current, {
-      sitekey: siteKey,
-      callback: (token) => {
-        setHasError(false);
-        onTokenChangeRef.current(token);
-      },
-      "expired-callback": () => onTokenChangeRef.current(""),
-      "error-callback": () => {
-        setHasError(true);
-        onTokenChangeRef.current("");
-      },
-      theme: "light",
-      size,
-      appearance: "interaction-only",
-    });
-
-    return () => {
-      if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.remove(widgetIdRef.current);
-        widgetIdRef.current = null;
-      }
-    };
-  }, [hasError, scriptReady, siteKey, size]);
-
-  useEffect(() => {
-    if (!widgetIdRef.current || !window.turnstile) {
-      return;
-    }
-
-    window.turnstile.reset(widgetIdRef.current);
+    if (resetNonce === previousResetNonceRef.current) return;
+    previousResetNonceRef.current = resetNonce;
+    ref.current?.reset();
     setHasError(false);
     onTokenChangeRef.current("");
   }, [resetNonce]);
 
   function handleRetry() {
     setHasError(false);
-    onTokenChangeRef.current("");
-
-    if (widgetIdRef.current && window.turnstile) {
-      window.turnstile.reset(widgetIdRef.current);
-    }
-
+    onTokenChange("");
+    ref.current?.reset();
     onRetry?.();
   }
 
   return (
     <>
-      {shouldInjectScript ? (
-        <Script
-          id={TURNSTILE_SCRIPT_ID}
-          src={TURNSTILE_SCRIPT_SRC}
-          strategy="afterInteractive"
-          onReady={() => {
-            setScriptReady(true);
-            setHasError(false);
-          }}
-          onError={() => {
-            setHasError(true);
-            onTokenChange("");
-          }}
-        />
-      ) : null}
-      <div
-        ref={widgetContainerRef}
-        className={hasError ? "hidden" : "inline-block max-w-full"}
+      {/* Rendered in normal flow because the Cloudflare widget is configured
+          as "Managed" — most users get a silent pass (0×0 iframe) but the
+          container must remain visible so Cloudflare can render a real
+          challenge for higher-risk visitors. Hiding it absolutely would
+          silently reject those users and lose legitimate leads. */}
+      <Turnstile
+        ref={ref}
+        siteKey={siteKey}
+        onSuccess={(token) => {
+          setHasError(false);
+          onTokenChangeRef.current(token);
+        }}
+        onExpire={() => onTokenChangeRef.current("")}
+        onError={() => {
+          setHasError(true);
+          onTokenChangeRef.current("");
+        }}
+        options={{
+          theme: "light",
+          size,
+          appearance: "interaction-only",
+          retry: "auto",
+        }}
       />
       {hasError ? (
         <div className="flex flex-col gap-2 text-xs leading-5">

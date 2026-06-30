@@ -141,6 +141,6 @@ Missing `RESEND_API_KEY` or `EMAIL_FROM` → API returns **503** with friendly c
 - **Separate project:** `iProduce Africa` Resend project; client owns domain + billing at handoff.
 - **Domain verification:** DKIM + SPF on `iproduceafrica.com` before switching `EMAIL_FROM` off `onboarding@resend.dev`.
 - **Keys:** Use restricted preview key on Vercel preview; rotate production key at handoff if agency held it during build.
-- **Deliverability:** Keep internal + receipt sends sequential (notification first); if notification fails, receipt is not sent.
+- **Deliverability:** Sequential — notification first (load-bearing; failure → `500`), then submitter receipt via `sendEmailQuietly` (best-effort; failures are logged, route still returns `200`). Rationale: admin already has the submission, so receipt rejections (e.g. Resend testing mode pre-DNS) must not surface to the user as a generic failure. Surface bounces via the Resend dashboard, not the API response.
 - **Later (out of scope):** Resend Audiences for newsletter list, webhooks for bounce logging, BCC archive address for compliance.
 - **Testing matrix:** Human submit, honeypot (success, no send), Turnstile fail, missing env (503), `replyTo` on contact/partners/community/academy internal mail.

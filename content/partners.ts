@@ -426,7 +426,7 @@ export const partnersPageContent = {
       {
         question: "How long does the review take after I submit the form?",
         answer:
-          "We aim to review every enquiry within 5 working days. You'll get an email confirming receipt immediately, and a follow-up from a member of our partnerships team once the initial review is complete.",
+          "We aim to review every enquiry within 5 working days. You should receive an email confirming receipt shortly, and a follow-up from a member of our partnerships team once the initial review is complete.",
         category: "Process",
       },
       {

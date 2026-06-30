@@ -524,9 +524,9 @@ export const communityPageContent = {
         secondaryHref: "/academy",
         nextSteps: [
           {
-            title: "Confirmation email — now",
+            title: "Confirmation email — shortly",
             description:
-              "A receipt of your application lands in your inbox right away.",
+              "A receipt of your application may arrive in your inbox shortly.",
           },
           {
             title: "Review — within 5 working days",

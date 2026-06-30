@@ -1,4 +1,4 @@
-import { readTrimmedEnv, sendEmail } from "@/lib/email/send";
+import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildCommunityApplicationNotificationEmail,
   buildCommunityApplicationReceiptEmail,
@@ -27,10 +27,12 @@ export async function sendCommunityApplicationEmails(
   if (!notificationResult.sent) return notificationResult;
 
   const receipt = await buildCommunityApplicationReceiptEmail(input);
-  return sendEmail({
+  await sendEmailQuietly({
     to: input.email,
     subject: receipt.subject,
     html: receipt.html,
     text: receipt.text,
   });
+
+  return { sent: true };
 }

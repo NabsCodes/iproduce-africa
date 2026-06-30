@@ -1,4 +1,4 @@
-import { readTrimmedEnv, sendEmail } from "@/lib/email/send";
+import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildPartnerInquiryNotificationEmail,
   buildPartnerInquiryReceiptEmail,
@@ -42,12 +42,14 @@ async function sendDualEmails({
 
   if (!notificationResult.sent) return notificationResult;
 
-  return sendEmail({
+  await sendEmailQuietly({
     to: receiptTo,
     subject: receipt.subject,
     html: receipt.html,
     text: receipt.text,
   });
+
+  return { sent: true };
 }
 
 export async function sendPartnerInquiryEmails(

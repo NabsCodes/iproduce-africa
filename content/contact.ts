@@ -52,9 +52,9 @@ export const contactPageContent = {
       ],
     },
     submitLabel: "Send Message",
-    successTitle: "Message sent",
+    successTitle: "Message received",
     successDescription:
-      "Thanks for reaching out. We sent a confirmation to your inbox and will get back to you soon, usually within one business day.",
+      "Thanks for reaching out. We've received your message and will get back to you soon, usually within one business day. A confirmation may arrive in your inbox shortly.",
     sendAnotherLabel: "Send another message",
   },
   map: {

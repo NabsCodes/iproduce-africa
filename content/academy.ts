@@ -278,12 +278,12 @@ export const academyRegistrationContent = {
     webinar: {
       title: "Register for this session",
       description:
-        "Share your details to register. You will receive a confirmation email shortly.",
+        "Share your details to register. A confirmation may arrive in your inbox shortly.",
       buttonLabel: "Register now",
       submitLabel: "Complete registration",
-      successTitle: "Registration sent",
+      successTitle: "Registration received",
       successDescription:
-        "Thanks for registering. We received your details and sent a confirmation to your email. Our team will follow up if any next steps are needed.",
+        "Thanks for registering. We've received your details. A confirmation may arrive shortly, and our team will follow up if any next steps are needed.",
       successDoneLabel: "Done",
       fields: {
         fullName: "Full name",
@@ -295,12 +295,12 @@ export const academyRegistrationContent = {
     course: {
       title: "Register your interest",
       description:
-        "Tell us you are interested in this course. You will receive a confirmation email shortly.",
+        "Tell us you are interested in this course. A confirmation may arrive in your inbox shortly.",
       buttonLabel: "Register interest",
       submitLabel: "Send my interest",
-      successTitle: "Interest registered",
+      successTitle: "Interest received",
       successDescription:
-        "Thanks for your interest. We received your details and sent a confirmation to your email. Our team will follow up when enrolment opens.",
+        "Thanks for your interest. We've received your details. A confirmation may arrive shortly, and our team will follow up when enrolment opens.",
       successDoneLabel: "Done",
       fields: {
         fullName: "Full name",

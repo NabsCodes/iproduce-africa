@@ -52,14 +52,36 @@ export function PublicFormSecurityFields<T extends FieldValues>({
       />
 
       {siteKey ? (
-        <TurnstileWidget
-          siteKey={siteKey}
-          resetNonce={resetNonce}
-          size={turnstileSize}
-          fallbackEmail={siteConfig.email}
-          onRetry={onTurnstileRetry}
-          onTokenChange={(token) => turnstileField.onChange(token)}
-        />
+        <>
+          <TurnstileWidget
+            siteKey={siteKey}
+            resetNonce={resetNonce}
+            size={turnstileSize}
+            fallbackEmail={siteConfig.email}
+            onRetry={onTurnstileRetry}
+            onTokenChange={(token) => turnstileField.onChange(token)}
+          />
+          <p className="text-fg-muted text-xs leading-5">
+            Protected by Cloudflare Turnstile.{" "}
+            <a
+              href="https://www.cloudflare.com/privacypolicy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              Privacy
+            </a>{" "}
+            ·{" "}
+            <a
+              href="https://www.cloudflare.com/website-terms/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              Terms
+            </a>
+          </p>
+        </>
       ) : null}
 
       {isTurnstileRequiredInProduction() ? (

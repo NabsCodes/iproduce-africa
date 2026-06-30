@@ -50,7 +50,7 @@ export const blogContent: BlogPageContent = {
     inputPlaceholder: "Your email address",
     submitLabel: "Subscribe",
     successMessage:
-      "Thanks for subscribing. Check your inbox for a confirmation email.",
+      "Thanks for subscribing. A confirmation may arrive in your inbox shortly.",
   },
   shareControls: {
     heading: "Share Article",
