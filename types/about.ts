@@ -85,34 +85,38 @@ export type AboutJourney = {
   milestones: readonly AboutJourneyMilestone[];
 };
 
-export type AboutTeamMember = {
+export type AboutPersonGroup = "team" | "advisor";
+
+export type AboutPerson = {
+  id: string;
+  group: AboutPersonGroup;
   name: string;
   role: string;
-  bio: string;
   photo: string;
-  socials: { linkedin?: string; facebook?: string };
+  bioSummary: string;
+  bioParagraphs: readonly string[];
+  credentials?: string;
+  order: number;
+  linkedin?: string;
+  facebook?: string;
+  email?: string;
+  phone?: string;
 };
 
 export type AboutTeam = {
   eyebrow: string;
   title: string;
   description: string;
-  members: readonly AboutTeamMember[];
-};
-
-export type AboutAdvisor = {
-  name: string;
-  role: string;
-  bio: string;
-  photo: string;
-  linkedin?: string;
+  viewProfileLabel: string;
+  members: readonly AboutPerson[];
 };
 
 export type AboutAdvisors = {
   eyebrow: string;
   title: string;
   description: string;
-  members: readonly AboutAdvisor[];
+  readMoreLabel: string;
+  members: readonly AboutPerson[];
 };
 
 export type AboutPageContent = {

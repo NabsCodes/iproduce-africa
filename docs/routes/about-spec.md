@@ -68,13 +68,34 @@ dot fills `bg-leaf-600`.
 Header on the left, description paragraph on the right. Below: embla
 `<Carousel>` of team-member cards (`basis-full` mobile, `basis-1/2` sm,
 `basis-1/3` lg) with `<CarouselDots>` right-aligned underneath. Each
-card: photo (aspect-4/3), name + role row, bio, social icons.
+card: photo (aspect-4/3), name + role row, clamped `bioSummary` teaser,
+**View profile** label with chevron, and social icons outside the click
+target.
+
+**Interaction:** the card body is a `<button>` that opens
+`PersonProfileDialog` (`components/about/person-profile-dialog.tsx`).
+Social icon links use `stopPropagation` so LinkedIn/Facebook do not open
+the modal. Hover/focus uses a subtle border shift (`border-leaf-300` /
+`ring-leaf-400`) — no shadow elevation.
+
+**Data:** roster lives in `content/about-people.ts` (`group: 'team'`);
+`content/about.ts` projects members via `getAboutPeopleByGroup('team')`.
+Wilson Agaba is intentionally omitted until photo + bio arrive.
 
 ### 7. Advisors — `components/about/advisors-section.tsx`
 
 Left-aligned header block (eyebrow + h2 + description). Then
 `lg:grid-cols-2` of horizontal advisor cards. Desktop card: photo left
-(square ~`w-36 lg:w-40`), content right (name, bio, role footer with LinkedIn icon on the right). Mobile card: photo top (`aspect-4/3`), content stacked below — same internal pieces, achieved with` flex-col sm:flex-row`.
+(square ~`w-36 lg:w-40`), content right (name, clamped `bioSummary`,
+**Read more** link, role footer with LinkedIn icon on the right). Mobile
+card: photo top (`aspect-4/3`), content stacked below — same internal
+pieces, achieved with `flex-col sm:flex-row`.
+
+**Interaction:** **Read more** opens the same `PersonProfileDialog`.
+Optional `email` / `phone` render in the modal footer only (not on cards).
+
+**Data:** `content/about-people.ts` (`group: 'advisor'`), projected in
+`content/about.ts` via `getAboutPeopleByGroup('advisor')`.
 
 ### 8. CTA — reuses `<CtaSection />`
 
@@ -100,17 +121,24 @@ Reduced-motion: respected via the global `prefers-reduced-motion` rule in
 
 ## Data Shapes
 
-All section data lives in `content/about.ts` as the `aboutPageContent`
-object. Type aliases (`AboutStory`, `AboutMissionVisionObjective`,
-`AboutImpactStats`, `AboutJourney`, `AboutJourneyMilestone`, `AboutTeam`,
-`AboutTeamMember`, `AboutAdvisors`, `AboutAdvisor`) are exported
-alongside the data so the upcoming Sanity migration can bind directly.
+Section chrome lives in `content/about.ts` as the `aboutPageContent`
+object. **People roster** is canonical in `content/about-people.ts`
+(`aboutPeople[]` + `getAboutPeopleByGroup`). Team and advisor `members[]`
+are projections filtered by `group: 'team' | 'advisor'` and sorted by
+`order`. Changing `group` on a person moves them between sections without
+component changes.
+
+Type aliases (`AboutStory`, `AboutMissionVisionObjective`,
+`AboutImpactStats`, `AboutJourney`, `AboutJourneyMilestone`, `AboutPerson`,
+`AboutPersonGroup`, `AboutTeam`, `AboutAdvisors`) are exported alongside
+the data so the upcoming Sanity migration can bind directly.
 
 CMS-readiness highlights: every `image` field is a plain URL,
 `journey.milestones[]` each carry their own `leftImage`/`rightImage` so
 editors can change a milestone's media without touching code, and
-`socials`/`linkedin` keys are optional so missing accounts render nothing
-rather than dead icons.
+`linkedin` / `facebook` / `email` / `phone` keys are optional so missing
+accounts render nothing rather than dead icons. Profile modals use
+`bioParagraphs[]`; cards use `bioSummary` only.
 
 ## Placeholder Imagery
 
@@ -122,8 +150,10 @@ and `portrait`. Swap out as final assets arrive.
 
 Public traction metrics are intentionally removed from the hero, story, and
 impact proof cards until the client approves verified numbers. Team/advisor
-names + bios and the journey milestone copy remain placeholders pending client
-data. Replace with real values before any production release.
+roster uses real bios and photos in `content/about-people.ts` (v1: two
+team members, three advisors). **Wilson Agaba** is pending client photo +
+bio — add as a registry entry when assets arrive. Journey milestone copy
+remains placeholder pending client data.
 
 ## Checklist
 
@@ -134,7 +164,9 @@ data. Replace with real values before any production release.
 - [x] Hero route implemented
 - [x] Placeholder imagery needs listed for sections
 - [x] Story / MVO / Impact / Journey / Team / Advisors built
+- [x] Team + advisor profile dialogs + `about-people.ts` registry
 - [x] CTA + Partners shared sections wired
 - [x] Motion adoption scope documented
-- [ ] Real photography for team / advisors / journey
+- [x] Real photography for team / advisors (Wilson pending)
+- [ ] Real photography for journey milestones
 - [ ] Story video link wired to a real asset

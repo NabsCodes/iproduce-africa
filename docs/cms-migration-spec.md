@@ -151,8 +151,8 @@ lower-churn equivalent.
 | **Partner logos**            | `content/partners.ts` `partnersList`                           | **CMS** Phase 2                | Home marquee + partners page                            |
 | **Partner voice quotes**     | `content/partners.ts` `voices.items`                           | **CMS** Phase 2                | `testimonial` placement `partners-voices`               |
 | **Partner voices logo grid** | derived from `partnersList`                                    | **CMS** Phase 2                | `partner.showInVoices` + order                          |
-| **About team**               | `content/about.ts` `team`                                      | **CMS** Phase 2                | `teamMember` `group: team`                              |
-| **About advisors**           | `content/about.ts` `advisors`                                  | **CMS** Phase 2                | `teamMember` `group: advisor`                           |
+| **About team**               | `content/about-people.ts` (projected in `about.ts`)            | **CMS** Phase 2                | `teamMember` `group: team`                              |
+| **About advisors**           | `content/about-people.ts` (projected in `about.ts`)            | **CMS** Phase 2                | `teamMember` `group: advisor`                           |
 | **Community member stories** | `content/community.ts` `memberStories`                         | **CMS** Phase 2                | `memberStory` — placeholder case studies today          |
 | **About story / mission**    | `content/about.ts`                                             | **CMS-lite** Phase 3           | Long prose; fewer edits than catalogue                  |
 | **About journey timeline**   | `content/about.ts`                                             | **Code** for v1                | Motion + sticky UX tightly coupled; CMS later if needed |
@@ -368,11 +368,11 @@ Maps to `FaqItem` + page filter.
 
 **`FaqSection` projection (matches `FaqSectionContent` in `types/content.ts`):**
 
-| Part | Source | Notes |
-| ---- | ------ | ----- |
-| `eyebrow`, `title`, `description` | **Code** — per-page in `content/*.ts` | Section chrome unchanged in Phase 2 |
-| `categories` | **Code** — per-page controlled list | Must include `"All"` first (e.g. `homeContent.faqCategories`). **Do not** derive tabs from CMS in v1 — avoids filter drift |
-| `items` | **CMS** — `faq` docs where `section == page` | Each doc `category` must match a value in that page's `categories` list (excluding `All`) |
+| Part                              | Source                                       | Notes                                                                                                                      |
+| --------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `eyebrow`, `title`, `description` | **Code** — per-page in `content/*.ts`        | Section chrome unchanged in Phase 2                                                                                        |
+| `categories`                      | **Code** — per-page controlled list          | Must include `"All"` first (e.g. `homeContent.faqCategories`). **Do not** derive tabs from CMS in v1 — avoids filter drift |
+| `items`                           | **CMS** — `faq` docs where `section == page` | Each doc `category` must match a value in that page's `categories` list (excluding `All`)                                  |
 
 Fetch helper returns `{ categories, items }` merged with static section chrome at
 the page boundary.
@@ -384,48 +384,56 @@ for Phase 2 in favour of flat `faq` docs + `section` filter.
 
 Maps to `content/partners.ts` → `Partner` (`id`, `name`, `logo`, `href?`).
 
-| Sanity field | Type | Projects to |
-| ------------ | ---- | ----------- |
-| `slug` | slug (required, unique) | `id` — stable key, e.g. `icreate-africa` (matches current `partnersList[].id`) |
-| `name` | string | `name` |
-| `logo` | image + alt (required) | `logo` URL string |
-| `website` | url optional | `href` — omit when unset |
-| `showInMarquee` | boolean | Home + partners logo marquee bands |
-| `showInVoices` | boolean | Eligible for voices logo grid (see layout rule below) |
-| `order` | number | Sort within marquee / voices pool |
+| Sanity field    | Type                    | Projects to                                                                    |
+| --------------- | ----------------------- | ------------------------------------------------------------------------------ |
+| `slug`          | slug (required, unique) | `id` — stable key, e.g. `icreate-africa` (matches current `partnersList[].id`) |
+| `name`          | string                  | `name`                                                                         |
+| `logo`          | image + alt (required)  | `logo` URL string                                                              |
+| `website`       | url optional            | `href` — omit when unset                                                       |
+| `showInMarquee` | boolean                 | Home + partners logo marquee bands                                             |
+| `showInVoices`  | boolean                 | Eligible for voices logo grid (see layout rule below)                          |
+| `order`         | number                  | Sort within marquee / voices pool                                              |
 
 **Voices logo grid — CMS data vs code layout**
 
 Today `voicesLogoOrder` in `content/partners.ts` repeats three partner logos into
 a **12-cell** grid so the section reads fuller without inventing brands.
 
-| Layer | Owner |
-| ----- | ----- |
-| Which partners appear | CMS — `showInVoices` + `order` |
+| Layer                         | Owner                                                                                                                         |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Which partners appear         | CMS — `showInVoices` + `order`                                                                                                |
 | 12-cell repetition / rotation | **Code** — `expandVoicesLogoGrid(partners, { targetCount: 12 })` in `lib/partners/` (port of current `voicesLogoOrder` logic) |
-| When unique partners ≥ target | Show one cell per partner (no repetition) |
+| When unique partners ≥ target | Show one cell per partner (no repetition)                                                                                     |
 
 Do **not** model per-cell repeats in Sanity for v1. Editors add real partners;
 layout helper fills the grid until the catalogue is large enough.
 
 ### `teamMember`
 
-Maps to `types/about.ts` → `AboutTeamMember` (group `team`) and `AboutAdvisor`
-(group `advisor`). Projections must satisfy both contracts.
+Maps to `types/about.ts` → `AboutPerson`. One document type serves both
+About team carousel and advisors grid; query twice on `/about` with
+`group == 'team'` and `group == 'advisor'`. Static v1 mirror:
+`content/about-people.ts`.
 
-| Sanity field | Type | Projects to | Required |
-| ------------ | ---- | ----------- | -------- |
-| `name` | string | `name` | yes |
-| `role` | string | `role` | yes |
-| `bio` | text | `bio` | yes — Studio validation |
-| `photo` | image + alt | `photo` URL string | yes — Studio validation; runtime `CmsFallbackImage` only if asset missing after migration |
-| `group` | list | `team` \| `advisor` | yes |
-| `linkedin` | url | `socials.linkedin` (team) or `linkedin` (advisor) | optional |
-| `facebook` | url | `socials.facebook` (team only) | optional |
-| `order` | number | carousel/grid sort | optional |
+| Sanity field       | Type                                 | Projects to             | Required                           |
+| ------------------ | ------------------------------------ | ----------------------- | ---------------------------------- |
+| `slug` / stable id | slug                                 | `id`                    | yes — React keys, dialog state     |
+| `name`             | string                               | `name`                  | yes                                |
+| `role`             | string                               | `role`                  | yes                                |
+| `bioSummary`       | text                                 | `bioSummary`            | yes — card teaser (`line-clamp-3`) |
+| `bioParagraphs`    | array of text / portable text blocks | `bioParagraphs[]`       | yes — profile dialog body          |
+| `credentials`      | string                               | `credentials`           | optional — modal header under role |
+| `photo`            | image + alt                          | `photo` URL string      | yes                                |
+| `group`            | list                                 | `team` \| `advisor`     | yes                                |
+| `linkedin`         | url                                  | `linkedin`              | optional                           |
+| `facebook`         | url                                  | `facebook` (team cards) | optional                           |
+| `email`            | string                               | `email` (modal footer)  | optional                           |
+| `phone`            | string                               | `phone` (modal footer)  | optional                           |
+| `order`            | number                               | carousel/grid sort      | optional                           |
 
-Section chrome (`eyebrow`, `title`, `description` on `AboutTeam` / `AboutAdvisors`)
-stays **code-owned** in `content/about.ts` for Phase 2 — only `members[]` from CMS.
+Section chrome (`eyebrow`, `title`, `description`, `viewProfileLabel`,
+`readMoreLabel` on `AboutTeam` / `AboutAdvisors`) stays **code-owned** in
+`content/about.ts` for Phase 2 — only `members[]` from CMS.
 
 ### `memberStory`
 
@@ -479,16 +487,16 @@ listing grids (fallback to empty state copy only on **listing routes**).
 
 ### Rule 3 — Minimum items before showing a band
 
-| Band                                  | Minimum | Fallback                                                     |
-| ------------------------------------- | ------- | ------------------------------------------------------------ |
-| Testimonials carousel                 | 1       | hide section                                                 |
-| FAQ accordion                         | 1       | hide section                                                 |
-| Partners marquee                      | 1       | hide section (hybrid static until Phase 2 cutover)           |
+| Band                                  | Minimum | Fallback                                                                       |
+| ------------------------------------- | ------- | ------------------------------------------------------------------------------ |
+| Testimonials carousel                 | 1       | hide section                                                                   |
+| FAQ accordion                         | 1       | hide section                                                                   |
+| Partners marquee                      | 1       | hide section (hybrid static until Phase 2 cutover)                             |
 | Partner voices quotes                 | 1       | hide quotes band; logo grid uses `expandVoicesLogoGrid` (may repeat few logos) |
-| Team / advisors grid                  | 1       | hide section                                                 |
-| Community member stories              | 1       | hide section                                                 |
-| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly            |
-| Related items                         | 1       | hide related block                                           |
+| Team / advisors grid                  | 1       | hide section                                                                   |
+| Community member stories              | 1       | hide section                                                                   |
+| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly                              |
+| Related items                         | 1       | hide related block                                                             |
 
 Document thresholds in the spec checklist when implementing each page.
 
@@ -602,13 +610,13 @@ approval.
 
 ### Deterministic `_id` + idempotency (locked)
 
-| Document type     | `_id` pattern              | Example                              |
-| ----------------- | -------------------------- | ------------------------------------ |
-| `academyArticle`  | `academyArticle.{slug}`    | `academyArticle.unlocking-trade`     |
-| `academyWebinar`  | `academyWebinar.{slug}`    | `academyWebinar.intro-to-export`     |
-| `academyCourse`   | `academyCourse.{slug}`     | `academyCourse.agribusiness-basics`  |
-| `author`          | `author.{slug}`            | `author.ada-okonkwo`                 |
-| Phase 2 types     | `{_type}.{slug}` or `{id}` | `partner.{id}`, `teamMember.{slug}`, … |
+| Document type    | `_id` pattern              | Example                                |
+| ---------------- | -------------------------- | -------------------------------------- |
+| `academyArticle` | `academyArticle.{slug}`    | `academyArticle.unlocking-trade`       |
+| `academyWebinar` | `academyWebinar.{slug}`    | `academyWebinar.intro-to-export`       |
+| `academyCourse`  | `academyCourse.{slug}`     | `academyCourse.agribusiness-basics`    |
+| `author`         | `author.{slug}`            | `author.ada-okonkwo`                   |
+| Phase 2 types    | `{_type}.{slug}` or `{id}` | `partner.{id}`, `teamMember.{slug}`, … |
 
 - Slug segment = `slug.current` from static source (already kebab-case).
 - **Write order (required images):** upload assets from `public/` first, then

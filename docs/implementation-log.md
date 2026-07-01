@@ -3,6 +3,26 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## About team & advisors — profile dialogs (2026-06-24)
+
+**People registry:** `content/about-people.ts` — canonical `aboutPeople[]` with
+`group: 'team' | 'advisor'`, `bioSummary`, `bioParagraphs`, optional
+`credentials` / contact fields. `content/about.ts` projects team/advisor
+`members[]` via `getAboutPeopleByGroup`. Wilson Agaba omitted until photo +
+bio arrive.
+
+**UI:** `PersonProfileDialog` (shared Radix dialog — mobile stacked, desktop
+side-by-side, scrollable bio). Team carousel: whole card + **View profile**
+opens modal; social links stop propagation. Advisors grid: **Read more** per
+Figma. Real photos in `public/images/about/`.
+
+**Docs:** `about-spec` (sections 6–7, data shapes), `cms-migration-spec`
+(`teamMember` fields aligned to `AboutPerson`).
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
 ## Newsletter submit UX (2026-07-01)
 
 **`NewsletterSignupForm`:** send button shows spinner + `aria-busy` while

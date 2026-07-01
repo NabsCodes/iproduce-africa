@@ -18,11 +18,11 @@ Placeholder content from today's site is **pre-loaded into a staging Studio**
 
 ## What moves to the CMS
 
-| Phase | You can edit | Where it appears |
-| ----- | ------------ | ---------------- |
-| **1 — Launch** | Academy | Blog articles, webinars & events, courses, authors |
-| **2 — Next** | Trust & people | Testimonials (Home, Academy, Partners), FAQs (all main pages), partner logos, partner quotes, team & advisors (About), member stories (Community) |
-| **3 — Later** | Page marketing copy | Home/About section text, site contact details |
+| Phase          | You can edit        | Where it appears                                                                                                                                  |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1 — Launch** | Academy             | Blog articles, webinars & events, courses, authors                                                                                                |
+| **2 — Next**   | Trust & people      | Testimonials (Home, Academy, Partners), FAQs (all main pages), partner logos, partner quotes, team & advisors (About), member stories (Community) |
+| **3 — Later**  | Page marketing copy | Home/About section text, site contact details                                                                                                     |
 
 Phases 1 and 2 are both **in scope** for the CMS rollout — not optional add-ons.
 

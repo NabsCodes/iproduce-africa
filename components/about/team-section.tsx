@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
 
+import { PersonProfileDialog } from "@/components/about/person-profile-dialog";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -14,56 +17,94 @@ import {
 } from "@/components/ui/carousel";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
-import type { AboutTeamMember } from "@/types/about";
+import type { AboutPerson } from "@/types/about";
 
-function TeamCard({ member }: { member: AboutTeamMember }) {
+function TeamCard({
+  member,
+  viewProfileLabel,
+  onViewProfile,
+}: {
+  member: AboutPerson;
+  viewProfileLabel: string;
+  onViewProfile: (person: AboutPerson) => void;
+}) {
   return (
-    <Card className="border-default h-full flex-col gap-0 border bg-white p-4 shadow-none ring-0">
-      <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-xl">
-        <Image
-          src={member.photo}
-          alt={member.name}
-          fill
-          sizes="(max-width: 1024px) 100vw, 33vw"
-          className="object-cover"
-        />
-      </div>
-      <CardContent className="flex flex-1 flex-col p-0 pt-4">
-        <div className="flex flex-wrap items-center gap-x-2 text-sm">
-          <span className="text-foreground font-semibold">{member.name}</span>
-          <span className="text-fg-subtle">|</span>
-          <span className="text-fg-muted">{member.role}</span>
+    <Card className="border-default hover:border-leaf-300 focus-within:border-leaf-300 h-full flex-col gap-0 border bg-white p-4 shadow-none ring-0 transition-colors">
+      <button
+        type="button"
+        onClick={() => onViewProfile(member)}
+        aria-label={`View profile for ${member.name}`}
+        className="group focus-visible:ring-leaf-400 flex flex-1 flex-col text-left outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+      >
+        <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-xl">
+          <Image
+            src={member.photo}
+            alt={member.name}
+            fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            className="object-cover object-[center_20%] transition-transform duration-300 group-hover:scale-[1.02]"
+          />
         </div>
-        <p className="text-fg-muted mt-2 line-clamp-3 text-sm leading-6">
-          {member.bio}
-        </p>
-        <div className="mt-auto flex items-center gap-2 pt-4">
-          {member.socials.linkedin ? (
+        <CardContent className="flex flex-1 flex-col p-0 pt-4">
+          <div className="flex flex-wrap items-center gap-x-2 text-sm">
+            <span className="text-foreground font-semibold">{member.name}</span>
+            <span className="text-fg-subtle" aria-hidden>
+              |
+            </span>
+            <span className="text-fg-muted">{member.role}</span>
+          </div>
+          <p className="text-fg-muted mt-2 line-clamp-3 text-sm leading-6">
+            {member.bioSummary}
+          </p>
+          <span className="text-leaf-700 decoration-leaf-700/50 group-hover:decoration-leaf-700 mt-3 inline-flex items-center gap-1 text-sm font-semibold underline underline-offset-4 transition">
+            {viewProfileLabel}
+            <ChevronRight className="size-4" aria-hidden />
+          </span>
+        </CardContent>
+      </button>
+      {member.linkedin || member.facebook ? (
+        <div className="mt-3 flex items-center gap-2 pt-1">
+          {member.linkedin ? (
             <Link
-              href={member.socials.linkedin}
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={`${member.name} on LinkedIn`}
               className="border-default text-fg-muted hover:bg-muted inline-flex size-8 items-center justify-center rounded-md border transition"
+              onClick={(event) => event.stopPropagation()}
             >
               <FaLinkedinIn className="size-3.5" />
             </Link>
           ) : null}
-          {member.socials.facebook ? (
+          {member.facebook ? (
             <Link
-              href={member.socials.facebook}
+              href={member.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={`${member.name} on Facebook`}
               className="border-default text-fg-muted hover:bg-muted inline-flex size-8 items-center justify-center rounded-md border transition"
+              onClick={(event) => event.stopPropagation()}
             >
               <FaFacebookF className="size-3.5" />
             </Link>
           ) : null}
         </div>
-      </CardContent>
+      ) : null}
     </Card>
   );
 }
 
 export function TeamSection() {
   const team = aboutPageContent.team;
+  const [selectedPerson, setSelectedPerson] = useState<AboutPerson | null>(
+    null,
+  );
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  function handleViewProfile(person: AboutPerson) {
+    setSelectedPerson(person);
+    setDialogOpen(true);
+  }
 
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
@@ -86,11 +127,15 @@ export function TeamSection() {
           <CarouselContent className="-ml-4 items-stretch sm:-ml-6">
             {team.members.map((member, index) => (
               <CarouselItem
-                key={member.name}
+                key={member.id}
                 className="basis-full pl-4 sm:basis-1/2 sm:pl-6 lg:basis-1/3"
               >
                 <MotionFade delay={index * 0.08} className="h-full">
-                  <TeamCard member={member} />
+                  <TeamCard
+                    member={member}
+                    viewProfileLabel={team.viewProfileLabel}
+                    onViewProfile={handleViewProfile}
+                  />
                 </MotionFade>
               </CarouselItem>
             ))}
@@ -98,6 +143,12 @@ export function TeamSection() {
           <CarouselDots className="mt-6 justify-end" />
         </Carousel>
       </div>
+
+      <PersonProfileDialog
+        person={selectedPerson}
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+      />
     </section>
   );
 }

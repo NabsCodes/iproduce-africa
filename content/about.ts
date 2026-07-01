@@ -1,7 +1,6 @@
+import { getAboutPeopleByGroup } from "@/content/about-people";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { AboutPageContent } from "@/types/about";
-
-const portrait = placeholderImages.about.portrait;
 
 export const aboutPageContent = {
   hero: {
@@ -181,77 +180,15 @@ export const aboutPageContent = {
     title: "Meet the Team",
     description:
       "Our team brings together expertise in agribusiness, partnerships, innovation, and ecosystem development to create opportunities that strengthen agriculture across Africa.",
-    members: [
-      {
-        name: "Adaeze Okonkwo",
-        role: "Founder & CEO",
-        bio: "Adaeze leads the strategic vision and growth of iProduce Africa, working with stakeholders across the agricultural ecosystem.",
-        photo: portrait,
-        socials: {
-          linkedin: "https://www.linkedin.com/in/adaze-okonkwo-36213616/",
-          facebook: "https://www.facebook.com/adaze.okonkwo",
-        },
-      },
-      {
-        name: "Kwame Mensah",
-        role: "Co-founder & COO",
-        bio: "Kwame leads operations and partnerships, working with stakeholders across the agricultural ecosystem to scale impact.",
-        photo: portrait,
-        socials: {},
-      },
-      {
-        name: "Tunde Adeyemi",
-        role: "Head of Community & Partnerships",
-        bio: "Tunde nurtures the member network and forges new partnerships across the continent's agribusiness ecosystem.",
-        photo: portrait,
-        socials: {},
-      },
-      {
-        name: "Aissatou Diallo",
-        role: "Head of Programmes",
-        bio: "Aissatou designs the learning and training programmes that power iProduce Africa's member network.",
-        photo: portrait,
-        socials: {},
-      },
-      {
-        name: "Lerato Modise",
-        role: "Head of Partnerships",
-        bio: "Lerato builds and maintains strategic partnerships with institutions across the African continent.",
-        photo: portrait,
-        socials: {},
-      },
-    ],
+    viewProfileLabel: "View profile",
+    members: getAboutPeopleByGroup("team"),
   },
   advisors: {
     eyebrow: "Strategic Advisors",
     title: "Guided by Industry Experience",
     description:
       "Our Advisory Board comprises experienced leaders, practitioners, and experts who provide strategic guidance, industry insights, and valuable perspectives to support our long-term vision.",
-    members: [
-      {
-        name: "Adaeze Okonkwo",
-        role: "Founder & CEO",
-        bio: "Adaeze leads the strategic vision and growth of iProduce Africa, working with stakeholders across the agricultural ecosystem.",
-        photo: portrait,
-      },
-      {
-        name: "Kwame Mensah",
-        role: "Co-founder & COO",
-        bio: "Kwame leads operations and partnerships, working with stakeholders across the agricultural ecosystem to scale impact.",
-        photo: portrait,
-      },
-      {
-        name: "Tunde Adeyemi",
-        role: "Head of Community & Partnerships",
-        bio: "Tunde nurtures the member network and forges new partnerships across the continent's agribusiness ecosystem.",
-        photo: portrait,
-      },
-      {
-        name: "Aissatou Diallo",
-        role: "Head of Programmes",
-        bio: "Aissatou designs the learning and training programmes that power iProduce Africa's member network.",
-        photo: portrait,
-      },
-    ],
+    readMoreLabel: "Read more",
+    members: getAboutPeopleByGroup("advisor"),
   },
 } as const satisfies AboutPageContent;
