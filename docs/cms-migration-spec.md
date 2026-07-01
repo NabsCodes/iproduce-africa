@@ -23,12 +23,12 @@ Related:
 
 Unbiased weighting after comparing local checkouts:
 
-| Source | Weight | Use for |
-| ------ | ------ | ------- |
-| **q-das** | ~70% | `lib/sanity/*`, object blocks (callout/table/code), multi-document CMS, `app/admin` Studio, webhook revalidate, migration script, author refs |
-| **nabeels-portfolio** | ~30% | Blog block richness, seed script pattern, `generateStaticParams` + time revalidate on slug routes |
-| **Sanity docs / MCP** | Required | Embedded Studio layout, singleton desk structure, TypeGen, draft filtering, schema conventions |
-| **wardwise-demo / vextra / Zamfara-BPP** | — | Not Sanity references (forms, system pages, docs workflow only) |
+| Source                                   | Weight   | Use for                                                                                                                                       |
+| ---------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **q-das**                                | ~70%     | `lib/sanity/*`, object blocks (callout/table/code), multi-document CMS, `app/admin` Studio, webhook revalidate, migration script, author refs |
+| **nabeels-portfolio**                    | ~30%     | Blog block richness, seed script pattern, `generateStaticParams` + time revalidate on slug routes                                             |
+| **Sanity docs / MCP**                    | Required | Embedded Studio layout, singleton desk structure, TypeGen, draft filtering, schema conventions                                                |
+| **wardwise-demo / vextra / Zamfara-BPP** | —        | Not Sanity references (forms, system pages, docs workflow only)                                                                               |
 
 **Do not port as-is**
 
@@ -95,47 +95,47 @@ Sanity MCP / docs also recommend:
 
 ### Recommendation key
 
-| Tag | Meaning |
-| --- | ------- |
-| **CMS** | Client/editor should change without deploy |
-| **CMS-lite** | CMS later; static OK for launch if copy is stable |
-| **Code** | Structure, validation, routing, or engineering-owned |
+| Tag           | Meaning                                                |
+| ------------- | ------------------------------------------------------ |
+| **CMS**       | Client/editor should change without deploy             |
+| **CMS-lite**  | CMS later; static OK for launch if copy is stable      |
+| **Code**      | Structure, validation, routing, or engineering-owned   |
 | **Singleton** | One Sanity document (fixed id) for page-level settings |
 
 ### By domain
 
-| Domain | Current source | Recommendation | Rationale |
-| ------ | -------------- | -------------- | --------- |
-| **Academy articles** | `content/blog-articles.ts` + `content/blog.ts` | **CMS** Phase 1 | Editorial, frequent updates, slug catalogue |
-| **Academy webinars/events** | `content/webinars.ts` | **CMS** Phase 1 | Dated sessions, registration metadata |
-| **Academy courses** | `content/courses.ts` | **CMS** Phase 1 | Modules, levels, enrolment copy |
-| **Academy hub shell** | `content/academy.ts` (hero, tabs, opportunities, participants) | **CMS-lite** Phase 2 singleton | Marketing copy; changes occasionally |
-| **Academy hub FAQs** | `content/academy.ts` `faqs` | **CMS** Phase 2 | Same pattern as q-das `faq` docs |
-| **Academy hub testimonials** | `content/academy.ts` `testimonials` | **CMS** Phase 2 | Reuse shared `testimonial` type |
-| **Home testimonials** | `content/home.ts` | **CMS** Phase 2 | Shared collection, filter or reference by placement |
-| **Home FAQs** | `content/home.ts` | **CMS** Phase 2 | Category + page tag |
-| **Community FAQs** | `content/community.ts` | **CMS** Phase 2 | Same `faq` model, `section: community` |
-| **Partners FAQs** | `content/partners.ts` | **CMS** Phase 2 | Same model |
-| **Contact FAQs** | `content/contact.ts` | **CMS** Phase 2 | Same model |
-| **Partner logos** | `content/partners.ts` `partnersList` | **CMS** Phase 2 | Client adds logos without deploy |
-| **Partner voices grid** | derived from `partnersList` | **CMS** Phase 2 | Order/visibility flags on partner docs |
-| **About team** | `content/about.ts` `team` | **CMS** Phase 2 | Names, roles, photos change |
-| **About advisors** | `content/about.ts` `advisors` | **CMS** Phase 2 | Same `teamMember` type, different role tag |
-| **About story / mission** | `content/about.ts` | **CMS-lite** Phase 3 | Long prose; fewer edits than catalogue |
-| **About journey timeline** | `content/about.ts` | **Code** for v1 | Motion + sticky UX tightly coupled; CMS later if needed |
-| **Home hero / sections** | `content/home.ts` | **CMS-lite** Phase 3 | Page singletons when client edit cadence justifies |
-| **Community page copy** | `content/community.ts` | **CMS-lite** Phase 3 | Heavy page; migrate section-by-section |
-| **Partners page copy** | `content/partners.ts` | **CMS-lite** Phase 3 | Except logos/FAQs (earlier) |
-| **Contact page copy** | `content/contact.ts` | **Code** | Mostly static + form; map embed is code |
-| **Navigation** | `content/navigation.ts` | **Code** | Tied to routes; wrong href breaks site |
-| **Site identity** | `content/site.ts` | **Singleton** Phase 3 | Phone, email, social — or stay code until handoff |
-| **SEO defaults** | `content/seo.ts` | **Code** → **Singleton** later | Per-route metadata can stay in route files |
-| **Countries list** | `content/countries.ts` | **Code** | Reference data for forms |
-| **System pages** | `content/system-pages.ts` | **Code** | 404/error copy; rare edits |
-| **Form labels / steps** | `content/community.ts`, schemas | **Code** | Zod + RHF; CMS adds drift risk with API |
-| **Registration dialog copy** | `content/academy.ts` | **Code** | Product UX; not editorial |
-| **Email templates** | `lib/email/` | **Code** | Resend delivery; separate from CMS |
-| **CTA section (repeated)** | per-page `cta` blocks | **CMS-lite** Phase 3 | Optional shared `ctaBand` singleton |
+| Domain                       | Current source                                                 | Recommendation                 | Rationale                                               |
+| ---------------------------- | -------------------------------------------------------------- | ------------------------------ | ------------------------------------------------------- |
+| **Academy articles**         | `content/blog-articles.ts` + `content/blog.ts`                 | **CMS** Phase 1                | Editorial, frequent updates, slug catalogue             |
+| **Academy webinars/events**  | `content/webinars.ts`                                          | **CMS** Phase 1                | Dated sessions, registration metadata                   |
+| **Academy courses**          | `content/courses.ts`                                           | **CMS** Phase 1                | Modules, levels, enrolment copy                         |
+| **Academy hub shell**        | `content/academy.ts` (hero, tabs, opportunities, participants) | **CMS-lite** Phase 2 singleton | Marketing copy; changes occasionally                    |
+| **Academy hub FAQs**         | `content/academy.ts` `faqs`                                    | **CMS** Phase 2                | Same pattern as q-das `faq` docs                        |
+| **Academy hub testimonials** | `content/academy.ts` `testimonials`                            | **CMS** Phase 2                | Reuse shared `testimonial` type                         |
+| **Home testimonials**        | `content/home.ts`                                              | **CMS** Phase 2                | Shared collection, filter or reference by placement     |
+| **Home FAQs**                | `content/home.ts`                                              | **CMS** Phase 2                | Category + page tag                                     |
+| **Community FAQs**           | `content/community.ts`                                         | **CMS** Phase 2                | Same `faq` model, `section: community`                  |
+| **Partners FAQs**            | `content/partners.ts`                                          | **CMS** Phase 2                | Same model                                              |
+| **Contact FAQs**             | `content/contact.ts`                                           | **CMS** Phase 2                | Same model                                              |
+| **Partner logos**            | `content/partners.ts` `partnersList`                           | **CMS** Phase 2                | Client adds logos without deploy                        |
+| **Partner voices grid**      | derived from `partnersList`                                    | **CMS** Phase 2                | Order/visibility flags on partner docs                  |
+| **About team**               | `content/about.ts` `team`                                      | **CMS** Phase 2                | Names, roles, photos change                             |
+| **About advisors**           | `content/about.ts` `advisors`                                  | **CMS** Phase 2                | Same `teamMember` type, different role tag              |
+| **About story / mission**    | `content/about.ts`                                             | **CMS-lite** Phase 3           | Long prose; fewer edits than catalogue                  |
+| **About journey timeline**   | `content/about.ts`                                             | **Code** for v1                | Motion + sticky UX tightly coupled; CMS later if needed |
+| **Home hero / sections**     | `content/home.ts`                                              | **CMS-lite** Phase 3           | Page singletons when client edit cadence justifies      |
+| **Community page copy**      | `content/community.ts`                                         | **CMS-lite** Phase 3           | Heavy page; migrate section-by-section                  |
+| **Partners page copy**       | `content/partners.ts`                                          | **CMS-lite** Phase 3           | Except logos/FAQs (earlier)                             |
+| **Contact page copy**        | `content/contact.ts`                                           | **Code**                       | Mostly static + form; map embed is code                 |
+| **Navigation**               | `content/navigation.ts`                                        | **Code**                       | Tied to routes; wrong href breaks site                  |
+| **Site identity**            | `content/site.ts`                                              | **Singleton** Phase 3          | Phone, email, social — or stay code until handoff       |
+| **SEO defaults**             | `content/seo.ts`                                               | **Code** → **Singleton** later | Per-route metadata can stay in route files              |
+| **Countries list**           | `content/countries.ts`                                         | **Code**                       | Reference data for forms                                |
+| **System pages**             | `content/system-pages.ts`                                      | **Code**                       | 404/error copy; rare edits                              |
+| **Form labels / steps**      | `content/community.ts`, schemas                                | **Code**                       | Zod + RHF; CMS adds drift risk with API                 |
+| **Registration dialog copy** | `content/academy.ts`                                           | **Code**                       | Product UX; not editorial                               |
+| **Email templates**          | `lib/email/`                                                   | **Code**                       | Resend delivery; separate from CMS                      |
+| **CTA section (repeated)**   | per-page `cta` blocks                                          | **CMS-lite** Phase 3           | Optional shared `ctaBand` singleton                     |
 
 ### Client-facing summary (for handoff conversations)
 
@@ -188,20 +188,20 @@ layout gaps; FAQs filter correctly per page.
 
 ## Locked decisions (post-review)
 
-| Topic | Decision |
-| ----- | -------- |
-| Studio path | `/admin` |
-| Datasets | `development` + `production` from day one |
-| Authors | **Reference** `author` docs (minimal fields v1: name, role, optional photo) |
-| FAQs (Phase 2) | Flat `faq` docs with controlled `section` + `category` list options |
+| Topic                  | Decision                                                                                                                                            |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Studio path            | `/admin`                                                                                                                                            |
+| Datasets               | `development` + `production` from day one                                                                                                           |
+| Authors                | **Reference** `author` docs (minimal fields v1: name, role, optional photo)                                                                         |
+| FAQs (Phase 2)         | Flat `faq` docs with controlled `section` + `category` list options                                                                                 |
 | Testimonials at launch | **Hybrid:** keep static seed until CMS returns ≥1 published testimonial for that placement, then cut over; after cutover, **hide section** if empty |
-| Course/webinar bodies | `string[]` v1 (not Portable Text) |
-| Publish visibility | Sanity draft filter only — **no `isPublished` field** on catalogue docs |
-| Search (Phase 1) | Same three catalogue fetches → existing client filter |
-| Revalidation v1 | `revalidatePath` only (no tags); listing paths must revalidate on every publish because they are the index |
-| Webhook auth | Sanity signed payload / HMAC verification (not bare query secret alone) |
-| Vision plugin | Omit from client-facing Studio desk; dev-only if needed |
-| Read token | Not required for published reads on a **public** dataset; token for preview/drafts/write/migration only |
+| Course/webinar bodies  | `string[]` v1 (not Portable Text)                                                                                                                   |
+| Publish visibility     | Sanity draft filter only — **no `isPublished` field** on catalogue docs                                                                             |
+| Search (Phase 1)       | Same three catalogue fetches → existing client filter                                                                                               |
+| Revalidation v1        | `revalidatePath` only (no tags); listing paths must revalidate on every publish because they are the index                                          |
+| Webhook auth           | Sanity signed payload / HMAC verification (not bare query secret alone)                                                                             |
+| Vision plugin          | Omit from client-facing Studio desk; dev-only if needed                                                                                             |
+| Read token             | Not required for published reads on a **public** dataset; token for preview/drafts/write/migration only                                             |
 
 ---
 
@@ -211,13 +211,13 @@ For **live CMS content**, prefer on-brand fallbacks — same philosophy as
 `content/system-pages.ts` and scoped `not-found.tsx` surfaces — instead of
 q-das-style “coming soon” bands or anonymous stock placeholders.
 
-| Case | Approach |
-| ---- | -------- |
+| Case                         | Approach                                                                                                                                        |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Missing catalogue card image | Branded **no-image** frame (iProduce mark + neutral `bg-subtle`), e.g. `components/shared/cms-fallback-image.tsx` + asset under `public/brand/` |
-| Missing optional avatar | Initials fallback (already in `TestimonialsSection`) — no full-width placeholder section |
-| Empty marketing section | `return null` (Rule 1) — no silent empty carousel |
-| Empty listing catalogue | Honest inline empty copy on the listing route only |
-| Broken featured pointer | Coalesce GROQ fallback (see academy spec) — never a visible error state |
+| Missing optional avatar      | Initials fallback (already in `TestimonialsSection`) — no full-width placeholder section                                                        |
+| Empty marketing section      | `return null` (Rule 1) — no silent empty carousel                                                                                               |
+| Empty listing catalogue      | Honest inline empty copy on the listing route only                                                                                              |
+| Broken featured pointer      | Coalesce GROQ fallback (see academy spec) — never a visible error state                                                                         |
 
 `lib/placeholder-images.ts` remains for **static dev seeding and migration QA**,
 not as the long-term fallback for missing Sanity assets on production pages.
@@ -230,15 +230,15 @@ not as the long-term fallback for missing Sanity assets on production pages.
 
 Maps to `types/content.ts` → `TestimonialItem`.
 
-| Field | Type | Notes |
-| ----- | ---- | ----- |
-| `quote` | text | required |
-| `name` | string | required |
-| `role` | string | required |
-| `image` | image + alt | optional → initials fallback in UI |
-| `initials` | string | optional override |
+| Field        | Type                              | Notes                              |
+| ------------ | --------------------------------- | ---------------------------------- |
+| `quote`      | text                              | required                           |
+| `name`       | string                            | required                           |
+| `role`       | string                            | required                           |
+| `image`      | image + alt                       | optional → initials fallback in UI |
+| `initials`   | string                            | optional override                  |
 | `placements` | array of string (controlled list) | e.g. `home`, `academy`, `partners` |
-| `order` | number | sort within placement |
+| `order`      | number                            | sort within placement              |
 
 _No `isPublished` — use Sanity publish workflow + drafts filter._
 
@@ -246,13 +246,13 @@ _No `isPublished` — use Sanity publish workflow + drafts filter._
 
 Maps to `FaqItem` + page filter.
 
-| Field | Type | Notes |
-| ----- | ---- | ----- |
-| `question` | string | required |
-| `answer` | text | required |
-| `category` | string | **controlled `list`** — must match target page tab labels exactly |
-| `section` | string | **controlled `list`:** `home`, `community`, `partners`, `contact`, `academy` |
-| `order` | number | optional |
+| Field      | Type   | Notes                                                                        |
+| ---------- | ------ | ---------------------------------------------------------------------------- |
+| `question` | string | required                                                                     |
+| `answer`   | text   | required                                                                     |
+| `category` | string | **controlled `list`** — must match target page tab labels exactly            |
+| `section`  | string | **controlled `list`:** `home`, `community`, `partners`, `contact`, `academy` |
+| `order`    | number | optional                                                                     |
 
 **Alternative (heavier):** FAQ groups embedded in page singletons — simpler for
 editors per page, worse for cross-page reuse. **Recommend flat `faq` docs + `section`
@@ -262,25 +262,25 @@ filter** unless client insists on per-page FAQ documents.
 
 Maps to `content/partners.ts` → `Partner`.
 
-| Field | Type | Notes |
-| ----- | ---- | ----- |
-| `name` | string | |
-| `logo` | image | required for display |
-| `website` | url | optional |
+| Field           | Type    | Notes                |
+| --------------- | ------- | -------------------- |
+| `name`          | string  |                      |
+| `logo`          | image   | required for display |
+| `website`       | url     | optional             |
 | `showInMarquee` | boolean | home + partners band |
-| `showInVoices` | boolean | partners voices grid |
-| `order` | number | |
+| `showInVoices`  | boolean | partners voices grid |
+| `order`         | number  |                      |
 
 ### `teamMember`
 
 Maps to About team/advisor cards.
 
-| Field | Type | Notes |
-| ----- | ---- | ----- |
-| `name`, `role`, `bio` | | |
-| `image` | image | |
-| `group` | `team` \| `advisor` | |
-| `order` | number | |
+| Field                 | Type                | Notes |
+| --------------------- | ------------------- | ----- |
+| `name`, `role`, `bio` |                     |       |
+| `image`               | image               |       |
+| `group`               | `team` \| `advisor` |       |
+| `order`               | number              |       |
 
 ---
 
@@ -306,21 +306,21 @@ Academy related grids, listing grids (fallback to empty state copy only on
 
 ### Rule 2 — Listing pages vs marketing bands
 
-| Surface | Empty catalogue behaviour |
-| ------- | ------------------------- |
-| `/academy/blog` (etc.) | Show listing hero + honest “No articles yet” empty state |
-| Home / Academy hub preview band | **Omit band** if below minimum items (see Rule 3) |
-| Related section on detail slug | **Omit block** if no related items |
+| Surface                         | Empty catalogue behaviour                                |
+| ------------------------------- | -------------------------------------------------------- |
+| `/academy/blog` (etc.)          | Show listing hero + honest “No articles yet” empty state |
+| Home / Academy hub preview band | **Omit band** if below minimum items (see Rule 3)        |
+| Related section on detail slug  | **Omit block** if no related items                       |
 
 ### Rule 3 — Minimum items before showing a band
 
-| Band | Minimum | Fallback |
-| ---- | ------- | -------- |
-| Testimonials carousel | 1 | hide section |
-| FAQ accordion | 1 | hide section |
-| Partners marquee | 1 | hide section (or keep static fallback logos until Phase 2 cutover) |
-| Hub spotlight (webinars/courses/blog) | 1 | hide subsection; do not collapse layout awkwardly |
-| Related items | 1 | hide related block |
+| Band                                  | Minimum | Fallback                                                           |
+| ------------------------------------- | ------- | ------------------------------------------------------------------ |
+| Testimonials carousel                 | 1       | hide section                                                       |
+| FAQ accordion                         | 1       | hide section                                                       |
+| Partners marquee                      | 1       | hide section (or keep static fallback logos until Phase 2 cutover) |
+| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly                  |
+| Related items                         | 1       | hide related block                                                 |
 
 Document thresholds in the spec checklist when implementing each page.
 
@@ -372,12 +372,12 @@ coalesce(
 
 ### Rule 7 — Studio validation vs runtime
 
-| Concern | Studio | Runtime |
-| ------- | ------ | ------- |
-| Required title/slug | `validation: Rule.required()` | `notFound()` on detail |
-| Empty testimonial list on home | warn in desk description | hide section |
-| Broken featured pointer | optional reference validation | fallback query |
-| FAQ category typo | `list` options matching `types` | filter out non-matching |
+| Concern                        | Studio                          | Runtime                 |
+| ------------------------------ | ------------------------------- | ----------------------- |
+| Required title/slug            | `validation: Rule.required()`   | `notFound()` on detail  |
+| Empty testimonial list on home | warn in desk description        | hide section            |
+| Broken featured pointer        | optional reference validation   | fallback query          |
+| FAQ category typo              | `list` options matching `types` | filter out non-matching |
 
 ### Rule 8 — No silent “coming soon” placeholders
 
@@ -391,16 +391,16 @@ Default = **omit section**.
 
 Align with `docs/routes/academy-spec.md`:
 
-| Concern | Choice |
-| ------- | ------ |
-| Data loading | Server Components |
-| Client state | No React Query for CMS content |
-| Default cache | Time-based `revalidate` (e.g. 3600s) on marketing pages |
-| On publish | Sanity webhook → `app/api/revalidate/route.ts` — **signed/HMAC** verification |
-| Revalidation scope | **Paths only in v1** — always include listing routes, not just detail slugs |
-| Live preview | **Deferred** until client UAT asks |
-| CDN | `useCdn: false` on server fetch when using path revalidation |
-| Public dataset reads | No read token for published content; token only for drafts/preview/write |
+| Concern              | Choice                                                                        |
+| -------------------- | ----------------------------------------------------------------------------- |
+| Data loading         | Server Components                                                             |
+| Client state         | No React Query for CMS content                                                |
+| Default cache        | Time-based `revalidate` (e.g. 3600s) on marketing pages                       |
+| On publish           | Sanity webhook → `app/api/revalidate/route.ts` — **signed/HMAC** verification |
+| Revalidation scope   | **Paths only in v1** — always include listing routes, not just detail slugs   |
+| Live preview         | **Deferred** until client UAT asks                                            |
+| CDN                  | `useCdn: false` on server fetch when using path revalidation                  |
+| Public dataset reads | No read token for published content; token only for drafts/preview/write      |
 
 ---
 
@@ -452,13 +452,13 @@ client-facing desk (add only for internal dev if needed).
 
 ## Environment variables (preview)
 
-| Variable | Purpose |
-| -------- | ------- |
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Client + server |
-| `NEXT_PUBLIC_SANITY_DATASET` | `production` / `development` |
-| `SANITY_API_READ_TOKEN` | Draft/preview reads only (optional v1) |
-| `SANITY_API_WRITE_TOKEN` | Migration script only (local/CI) |
-| `SANITY_REVALIDATE_SECRET` | Webhook signature verification |
+| Variable                        | Purpose                                |
+| ------------------------------- | -------------------------------------- |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Client + server                        |
+| `NEXT_PUBLIC_SANITY_DATASET`    | `production` / `development`           |
+| `SANITY_API_READ_TOKEN`         | Draft/preview reads only (optional v1) |
+| `SANITY_API_WRITE_TOKEN`        | Migration script only (local/CI)       |
+| `SANITY_REVALIDATE_SECRET`      | Webhook signature verification         |
 
 ---
 

@@ -409,7 +409,15 @@ new inquiry section's id):
   `schemas/fields.ts`).
 - `onSubmit` POSTs to `/api/partners/inquiry` (Resend internal + receipt,
   Turnstile, honeypot). Inline success panel + Sonner toast. Success card uses
-  live copy from `content/partners.ts`.
+  live copy from `content/partners.ts` and includes **Send another inquiry**
+  (resets form + Turnstile).
+- Page submit buttons use shared `FormSubmitButton` (spinner + **Submitting…**
+  label). Multi-step dialog footer uses flex layout (not equal grid columns):
+  mobile keeps short **Submit** label + spinner; sm+ shows **Submitting…** +
+  spinner so the step counter does not collide.
+- Become Partner **Review** step (mobile): summary header with org name wrapping,
+  **Partner inquiry** badge top-right, partnership interests as leaf chips, extra
+  scroll padding so fields clear the sticky footer.
 - Phone field defaults to Nigeria (`NG`), country code editable via
   `react-phone-number-input` in `components/ui/phone-input.tsx`.
 - Validation mode is `onBlur` so errors don't show on first focus.
@@ -428,6 +436,8 @@ Validation and repeated dialog mechanics have been moved out of
   textarea, phone, and checkbox-group wrappers.
 - `components/shared/multi-step-dialog/` owns reusable dialog chrome:
   shell, stepper, heading, footer, and success panel.
+- `components/shared/form-submit-button.tsx` owns page-form submit loading
+  (spinner + submitting label).
 - Partners-specific step bodies and copy remain in
   `components/partners/become-partner-dialog.tsx` and `content/partners.ts`.
 

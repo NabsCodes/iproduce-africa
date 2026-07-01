@@ -56,8 +56,9 @@ future verified `value` is supplied.
 The scroll-driven storytelling section. Three-column layout on `lg`
 (title+left-image / timeline / right focus panel). Years stay on the
 timeline as era markers. The right sticky card shows qualitative
-`focusPoints` per milestone (no numeric stats). Mobile shows the same
-focus points as rounded chips under each milestone. Left image is
+`focusPoints` per milestone (no numeric stats). **Desktop:** sticky right
+panel lists focus points for the active milestone. **Mobile/tablet:** timeline
+copy only — focus chips hidden. Left image is
 `lg:sticky` and cross-fades between milestone-matched photos as the user
 scrolls. Active milestone uses scroll position at ~45% viewport; active
 dot fills `bg-leaf-600`.

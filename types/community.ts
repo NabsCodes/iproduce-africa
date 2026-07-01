@@ -108,6 +108,7 @@ export type MembershipApplicationFormContent = {
   consentText: string;
   successTitle: string;
   successDescription: string;
+  sendAnotherLabel: string;
   otherOptionValue: string;
   placeholders: {
     fullName: string;
@@ -165,7 +166,6 @@ export type MembershipApplicationDialogContent = {
     review: MembershipApplicationDialogStepContent & {
       whyJoinLabel: string;
       reviewFields: readonly MembershipApplicationDialogReviewField[];
-      defaultBadge: string;
     };
   };
   success: {

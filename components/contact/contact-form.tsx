@@ -10,6 +10,7 @@ import {
   TextFormField,
 } from "@/components/shared/form-fields";
 import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
+import { FormSubmitButton } from "@/components/shared/form-submit-button";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
@@ -59,6 +60,7 @@ export function ContactForm({ content }: ContactFormProps) {
 
   function handleSendAnother() {
     form.reset(withPublicFormSecurity(contactFormDefaultValues));
+    bumpTurnstileReset();
     setSubmitted(false);
   }
 
@@ -169,15 +171,14 @@ export function ContactForm({ content }: ContactFormProps) {
             </p>
           ) : null}
 
-          <Button
-            type="submit"
+          <FormSubmitButton
+            isSubmitting={isSubmitting}
+            label={content.submitLabel}
+            submittingLabel="Sending..."
             variant="neutral"
             size="lg"
-            disabled={isSubmitting}
             className="bg-forest-900 hover:bg-forest-800 mt-2 h-12 w-full rounded-md text-base"
-          >
-            {isSubmitting ? "Sending..." : content.submitLabel}
-          </Button>
+          />
         </form>
       </Form>
     </div>

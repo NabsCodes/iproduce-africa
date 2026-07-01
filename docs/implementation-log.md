@@ -3,6 +3,33 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Form + dialog UX pass (2026-06-24)
+
+**Multi-step dialogs (Become Partner, Membership Application, Academy
+registration):** `MultiStepDialogFooter` switched from equal `grid-cols-3` to
+flex (fixed back/submit, centered step counter). Mobile submit keeps **Submit**
+
+- spinner; sm+ uses **Submitting…** + spinner. `MultiStepDialogShell` uses
+  slightly tighter mobile width/height and extra scroll padding. **Become Partner
+  review:** stacked header, interest chips, wrapping org name. **Membership
+  review:** static **Community application** badge (parallel to Partner inquiry)
+  + dynamic **Your sector** chip; organisation-only subtitle; sector removed
+  from detail grid. **2026-07-01 follow-up:** membership review uses **Option B**
+  — tangerine badge shows selected sector label only (no static application badge,
+  no chip row).
+
+**Page forms:** Added `components/shared/form-submit-button.tsx` (spinner +
+submitting label). Wired Contact, Partners inquiry, Community application.
+Inline success panels aligned: **Send another** on Contact, Partners inquiry,
+and Community application (resets RHF + Turnstile).
+
+**Docs:** `partners-spec`, `contact-spec`, `community-spec`,
+`community-membership-dialog-spec`.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
 ## CMS specs — review locked + client summary (2026-06-27)
 
 Second pass: author references locked (no “optional/split” wording), closed

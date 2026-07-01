@@ -327,7 +327,8 @@ Then browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - Three Steps panel renders cleanly on mobile (no horizontal overflow from
   arrows).
 - Community Preview channel chips: only Telegram is interactive.
-- Application form: happy path → success state; empty submit shows
+- Application form: happy path → success state with **Submit another
+  application** link (resets form + Turnstile); empty submit shows
   per-field errors; phone validation rejects `123`; selects with "Other"
   reveal the specify input; soft → bold submit button reads as draft vs
   ready.

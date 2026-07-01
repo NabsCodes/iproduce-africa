@@ -38,7 +38,7 @@ function getInitials(name: string) {
   return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
 }
 
-function formatInterestLabels(
+function getInterestLabels(
   options: readonly PartnerInquiryOption[],
   selected: readonly string[] | undefined,
   otherValue: string,
@@ -53,7 +53,7 @@ function formatInterestLabels(
     })
     .filter(Boolean);
 
-  return labels.length > 0 ? labels.join(", ") : "—";
+  return labels;
 }
 
 type BecomePartnerReviewStepProps = {
@@ -84,7 +84,7 @@ export function BecomePartnerReviewStep({
     values.organisationTypeOther,
   );
   const countryLabel = getCountryLabel(values.country ?? "");
-  const interestLabels = formatInterestLabels(
+  const interestLabels = getInterestLabels(
     partnershipInterests,
     values.partnershipInterests,
     otherOptionValue,
@@ -102,14 +102,14 @@ export function BecomePartnerReviewStep({
   };
 
   return (
-    <div className="bg-leaf-50 border-leaf-100 rounded-xl border p-5 sm:p-6">
+    <div className="bg-leaf-50 border-leaf-100 rounded-xl border p-4 pb-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-start gap-3">
+        <div className="flex min-w-0 flex-1 items-start gap-3">
           <span className="bg-leaf-100 text-leaf-700 flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold">
             {getInitials(organisationName)}
           </span>
           <div className="min-w-0">
-            <p className="text-foreground truncate font-serif text-lg font-semibold">
+            <p className="text-foreground font-serif text-lg font-semibold wrap-break-word">
               {organisationName || "Your organisation"}
             </p>
             <p className="text-fg-muted mt-0.5 text-sm leading-6 wrap-break-word">
@@ -117,15 +117,31 @@ export function BecomePartnerReviewStep({
                 .filter(Boolean)
                 .join(" · ") || "Organisation type · Country"}
             </p>
-            <p className="text-fg-muted mt-1 flex items-start gap-1.5 text-sm leading-6">
-              <Globe2 className="mt-0.5 size-4 shrink-0" aria-hidden />
-              <span className="wrap-break-word">{interestLabels}</span>
-            </p>
           </div>
         </div>
         <span className="bg-tangerine-100 text-tangerine-800 shrink-0 rounded-full px-3 py-1 text-xs font-semibold">
           {defaultBadge}
         </span>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-2">
+        <p className="text-fg-subtle flex items-center gap-1.5 text-xs font-medium">
+          <Globe2 className="size-3.5 shrink-0" aria-hidden />
+          Partnership interests
+        </p>
+        {interestLabels.length > 0 ? (
+          <ul className="flex flex-wrap gap-2">
+            {interestLabels.map((label, index) => (
+              <li key={`${label}-${index}`}>
+                <span className="bg-leaf-100 text-leaf-800 inline-flex rounded-full px-2.5 py-1 text-xs font-medium">
+                  {label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-fg-muted text-sm">—</p>
+        )}
       </div>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -157,7 +173,7 @@ export function BecomePartnerReviewStep({
             {goalsLabel}
           </span>
         </div>
-        <p className="text-foreground mt-2 text-sm leading-6">
+        <p className="text-foreground mt-2 text-sm leading-6 wrap-break-word">
           {values.goals?.trim() || "—"}
         </p>
       </div>

@@ -40,7 +40,7 @@ and more task-oriented.
 | `email-structure.md`         | Email folder tree, logic vs helpers, dual UI, config suggestions.                 |
 | `cms-migration-spec.md`      | Sanity master plan: phases, CMS vs code, edge cases, folder layout.               |
 | `sanity-academy-spec.md`     | Phase 1 Academy catalogues: schemas, GROQ, migration, acceptance criteria.        |
-| `cms-client-summary.md`      | One-page client sign-off: what moves to CMS and when.                              |
+| `cms-client-summary.md`      | One-page client sign-off: what moves to CMS and when.                             |
 
 ## Source Of Truth Order
 

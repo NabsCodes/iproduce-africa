@@ -41,14 +41,14 @@ review. No code until parent checklist is signed off.
 
 ## Reference implementation map
 
-| Concern | Primary reference | Secondary |
-| ------- | ----------------- | --------- |
-| `lib/sanity/client.ts`, `fetch.ts`, `image.ts` | q-das | Sanity `nextjs.md` |
-| PT object blocks (callout, table, code) | q-das `sanity/schemas/objects/*` | portfolio `blogPost.ts` inline blocks |
-| Webhook revalidate | q-das `app/api/revalidate/route.ts` | — |
-| Migration + image upload | q-das `scripts/migrate-to-sanity.ts` | portfolio `scripts/seed-blog-posts.ts` |
-| Studio route | q-das `app/admin/[[...index]]` | Sanity embedded Studio docs |
-| Blog slug pages | portfolio `app/blog/[slug]/page.tsx` | iProduce `app/academy/blog/[slug]/page.tsx` |
+| Concern                                        | Primary reference                    | Secondary                                   |
+| ---------------------------------------------- | ------------------------------------ | ------------------------------------------- |
+| `lib/sanity/client.ts`, `fetch.ts`, `image.ts` | q-das                                | Sanity `nextjs.md`                          |
+| PT object blocks (callout, table, code)        | q-das `sanity/schemas/objects/*`     | portfolio `blogPost.ts` inline blocks       |
+| Webhook revalidate                             | q-das `app/api/revalidate/route.ts`  | —                                           |
+| Migration + image upload                       | q-das `scripts/migrate-to-sanity.ts` | portfolio `scripts/seed-blog-posts.ts`      |
+| Studio route                                   | q-das `app/admin/[[...index]]`       | Sanity embedded Studio docs                 |
+| Blog slug pages                                | portfolio `app/blog/[slug]/page.tsx` | iProduce `app/academy/blog/[slug]/page.tsx` |
 
 ---
 
@@ -100,18 +100,18 @@ scripts/
 
 Maps to `BlogArticle` (`types/blog.ts`).
 
-| Sanity field | Type | Maps to | Notes |
-| ------------ | ---- | ------- | ----- |
-| `title` | string | `title` | required |
-| `slug` | slug | `slug` | unique |
-| `excerpt` | text | `excerpt` | max ~200 |
-| `category` | string (list) | `BlogCategory` | eight values — see below |
-| `author` | reference → `author` | `BlogAuthor` | **required reference** (v1) |
-| `readTimeMinutes` | number | `readTimeMinutes` | optional override; else compute in projection |
-| `publishedAt` | datetime | `publishedAt` | ISO at fetch |
-| `cardImage` | image + alt | `cardImage`, `cardImageAlt` | alt required in Studio |
-| `heroImage` | image + alt | `heroImage?`, `heroImageAlt?` | optional |
-| `body` | array (PT + blocks) | `BlogArticleBlock[]` | via adapter |
+| Sanity field      | Type                 | Maps to                       | Notes                                         |
+| ----------------- | -------------------- | ----------------------------- | --------------------------------------------- |
+| `title`           | string               | `title`                       | required                                      |
+| `slug`            | slug                 | `slug`                        | unique                                        |
+| `excerpt`         | text                 | `excerpt`                     | max ~200                                      |
+| `category`        | string (list)        | `BlogCategory`                | eight values — see below                      |
+| `author`          | reference → `author` | `BlogAuthor`                  | **required reference** (v1)                   |
+| `readTimeMinutes` | number               | `readTimeMinutes`             | optional override; else compute in projection |
+| `publishedAt`     | datetime             | `publishedAt`                 | ISO at fetch                                  |
+| `cardImage`       | image + alt          | `cardImage`, `cardImageAlt`   | alt required in Studio                        |
+| `heroImage`       | image + alt          | `heroImage?`, `heroImageAlt?` | optional                                      |
+| `body`            | array (PT + blocks)  | `BlogArticleBlock[]`          | via adapter                                   |
 
 **No `isPublished` field** — visibility = Sanity publish + drafts filter only.
 
@@ -126,15 +126,15 @@ Academy hub blog band uses **three** chip values. Projection in
 `content/blog.ts` `toHubArticleCategory()`:
 
 | `BlogCategory` (8) | `AcademyArticleCategory` (hub) |
-| -------------------- | ------------------------------ |
-| Trade | TRADE |
-| Smart Agriculture | SMART AGRICULTURE |
-| Innovation | INNOVATION |
-| Agribusiness | INNOVATION |
-| Policy | INNOVATION |
-| Market Insights | INNOVATION |
-| Sustainability | INNOVATION |
-| Community | INNOVATION |
+| ------------------ | ------------------------------ |
+| Trade              | TRADE                          |
+| Smart Agriculture  | SMART AGRICULTURE              |
+| Innovation         | INNOVATION                     |
+| Agribusiness       | INNOVATION                     |
+| Policy             | INNOVATION                     |
+| Market Insights    | INNOVATION                     |
+| Sustainability     | INNOVATION                     |
+| Community          | INNOVATION                     |
 
 Do not change this mapping without a deliberate product decision and type update.
 
@@ -143,59 +143,59 @@ Do not change this mapping without a deliberate product decision and type update
 Maps to `AcademyWebinar` (`types/academy.ts`). One type for webinars, training,
 live Q&A, and events (matches `AcademyScheduledType`).
 
-| Sanity field | Type | Maps to |
-| ------------ | ---- | ------- |
-| `title` | string | `title` |
-| `slug` | slug | `slug` |
-| `type` | string list | `AcademyScheduledType` | WEBINAR, TRAINING, LIVE Q&A, EVENT |
-| `date` | datetime | `date` | ISO string |
-| `description` | text | `description` | listing card |
-| `excerpt` | text | `excerpt` | search + cards |
-| `image` | image + alt | `image`, `imageAlt?` |
-| `body` | array of string | `body: string[]` | v1 — max 2000 chars/string, min 1 when published |
-| `dateLabel` | string | `dateLabel?` | **computed from `date` in projection**; optional Studio override only |
-| `location` | string | `location?` |
-| `format` | string | `format?` |
-| `speakers` | string | `speakers?` |
-| `registration` | `registrationConfig` | `registration?` |
+| Sanity field   | Type                 | Maps to                |
+| -------------- | -------------------- | ---------------------- | --------------------------------------------------------------------- |
+| `title`        | string               | `title`                |
+| `slug`         | slug                 | `slug`                 |
+| `type`         | string list          | `AcademyScheduledType` | WEBINAR, TRAINING, LIVE Q&A, EVENT                                    |
+| `date`         | datetime             | `date`                 | ISO string                                                            |
+| `description`  | text                 | `description`          | listing card                                                          |
+| `excerpt`      | text                 | `excerpt`              | search + cards                                                        |
+| `image`        | image + alt          | `image`, `imageAlt?`   |
+| `body`         | array of string      | `body: string[]`       | v1 — max 2000 chars/string, min 1 when published                      |
+| `dateLabel`    | string               | `dateLabel?`           | **computed from `date` in projection**; optional Studio override only |
+| `location`     | string               | `location?`            |
+| `format`       | string               | `format?`              |
+| `speakers`     | string               | `speakers?`            |
+| `registration` | `registrationConfig` | `registration?`        |
 
 **`registrationConfig`** — single object in
 `sanity/schemaTypes/objects/registration-config.ts`, imported by webinar and
 course schemas (field set must not drift).
 
-| Field | Values |
-| ----- | ------ |
-| `mode` | `open` \| `interest` \| `external` \| `closed` |
-| `url` | url (external mode) |
-| `label` | string |
-| `closedLabel` | string |
+| Field         | Values                                         |
+| ------------- | ---------------------------------------------- |
+| `mode`        | `open` \| `interest` \| `external` \| `closed` |
+| `url`         | url (external mode)                            |
+| `label`       | string                                         |
+| `closedLabel` | string                                         |
 
 ### `academyCourse`
 
 Maps to `AcademyCourseDetail`.
 
-| Sanity field | Type | Maps to |
-| ------------ | ---- | ------- |
-| `title` | string | `title` |
-| `slug` | slug | `slug` |
-| `level` | list | `AcademyCourseLevel` | BEGINNER, INTERMEDIATE, ADVANCED |
-| `duration` | string | `duration` | e.g. `6 WEEKS` |
-| `description` | text | `description` | card |
-| `excerpt` | text | `excerpt` |
-| `image` | image + alt | `image` |
-| `body` | text array | `body: string[]` | v1 |
-| `modules` | array of string | `modules` | min 1 when published |
-| `registration` | `registrationConfig` | `registration?` |
+| Sanity field   | Type                 | Maps to              |
+| -------------- | -------------------- | -------------------- | -------------------------------- |
+| `title`        | string               | `title`              |
+| `slug`         | slug                 | `slug`               |
+| `level`        | list                 | `AcademyCourseLevel` | BEGINNER, INTERMEDIATE, ADVANCED |
+| `duration`     | string               | `duration`           | e.g. `6 WEEKS`                   |
+| `description`  | text                 | `description`        | card                             |
+| `excerpt`      | text                 | `excerpt`            |
+| `image`        | image + alt          | `image`              |
+| `body`         | text array           | `body: string[]`     | v1                               |
+| `modules`      | array of string      | `modules`            | min 1 when published             |
+| `registration` | `registrationConfig` | `registration?`      |
 
 **Phase 2 body upgrade:** swap to Portable Text without breaking v1 content —
 adapter can still emit `string[]` for shallow copy.
 
 ### `author` (Phase 1)
 
-| Field | Type |
-| ----- | ---- |
-| `name` | string (required) |
-| `role` | string |
+| Field   | Type                 |
+| ------- | -------------------- |
+| `name`  | string (required)    |
+| `role`  | string               |
 | `photo` | image + alt optional |
 
 Referenced by `academyArticle.author`. One bio/photo update propagates to all
@@ -209,18 +209,18 @@ articles.
 `block.kind`. The adapter in `lib/sanity/portable-text.ts` is the **only**
 place that knows Sanity’s `_type` values.
 
-| `BlogArticleBlock.kind` | Sanity source |
-| ----------------------- | ------------- |
-| `paragraph` | `block` style normal |
-| `heading2` | `block` style h2 |
-| `heading3` | `block` style h3 |
-| `blockquote` | `block` style blockquote |
-| `callout` | object `callout` |
-| `list_unordered` | `block` list bullet (flatten to items[]) |
-| `list_ordered` | custom object OR nested blocks → `{ title, body }[]` |
-| `table` | object `table` (portfolio/q-das validation: row width = headers) |
-| `code` | object `codeBlock` |
-| `image` | image type with alt + caption |
+| `BlogArticleBlock.kind` | Sanity source                                                    |
+| ----------------------- | ---------------------------------------------------------------- |
+| `paragraph`             | `block` style normal                                             |
+| `heading2`              | `block` style h2                                                 |
+| `heading3`              | `block` style h3                                                 |
+| `blockquote`            | `block` style blockquote                                         |
+| `callout`               | object `callout`                                                 |
+| `list_unordered`        | `block` list bullet (flatten to items[])                         |
+| `list_ordered`          | custom object OR nested blocks → `{ title, body }[]`             |
+| `table`                 | object `table` (portfolio/q-das validation: row width = headers) |
+| `code`                  | object `codeBlock`                                               |
+| `image`                 | image type with alt + caption                                    |
 
 **Not in v1 unless editorial asks:** youtube, image gallery, CTA buttons (q-das
 has these — skip until needed).
@@ -250,12 +250,12 @@ nested bullet blocks.
 
 ## `academyHomePreview` composition (Phase 1)
 
-| Slice | Source | Code-owned |
-| ----- | ------ | ------------ |
-| `spotlight.upcoming` | GROQ: upcoming webinars from Sanity, same filter/sort as `isUpcomingSession` | — |
-| `spotlight.training` | GROQ: course card projection, limit N | — |
-| `blog` | GROQ: article hub preview + category collapse table | — |
-| `opportunities` | — | `content/academy.ts` anchors + copy |
+| Slice                | Source                                                                       | Code-owned                          |
+| -------------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
+| `spotlight.upcoming` | GROQ: upcoming webinars from Sanity, same filter/sort as `isUpcomingSession` | —                                   |
+| `spotlight.training` | GROQ: course card projection, limit N                                        | —                                   |
+| `blog`               | GROQ: article hub preview + category collapse table                          | —                                   |
+| `opportunities`      | —                                                                            | `content/academy.ts` anchors + copy |
 
 Home sections import `fetchAcademyHomePreview()` instead of static
 `academyHomePreview` export once wired.
@@ -264,8 +264,8 @@ Home sections import `fetchAcademyHomePreview()` instead of static
 
 ## `AcademyFeaturedEvent` field ownership
 
-| From webinar (Sanity) | From code wrapper (`content/academy.ts`) |
-| --------------------- | ---------------------------------------- |
+| From webinar (Sanity)                                                                         | From code wrapper (`content/academy.ts`)                                                                                               |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `slug`, `title`, `description`, `image`, `imageAlt`, `date`, `location`, `speakers`, `format` | `eyebrow`, `sectionTitle`, `category` (hub marketing label), `registerLabel`, `dateLabel` override only if computed label insufficient |
 
 Do not duplicate wrapper labels on the webinar document in Phase 1.
@@ -296,29 +296,29 @@ coalesce is null → hide featured band.
 
 ### Articles
 
-| Query key | Purpose | Replaces |
-| --------- | ------- | -------- |
-| `articleSlugsQuery` | `generateStaticParams` | `blogContent.articles.map` |
-| `articleBySlugQuery` | detail page | `getArticle(slug)` |
-| `articlesListingQuery` | listing + sort by `publishedAt desc` | `blogContent.articles` |
-| `featuredArticleQuery` | coalesce featured + newest (single GROQ) | `blogContent.featuredArticleSlug` |
-| `relatedArticlesQuery` | same category first, then others | `getRelatedArticles` |
-| `articleSearchProjection` | title, excerpt, category, slug | search index |
+| Query key                 | Purpose                                  | Replaces                          |
+| ------------------------- | ---------------------------------------- | --------------------------------- |
+| `articleSlugsQuery`       | `generateStaticParams`                   | `blogContent.articles.map`        |
+| `articleBySlugQuery`      | detail page                              | `getArticle(slug)`                |
+| `articlesListingQuery`    | listing + sort by `publishedAt desc`     | `blogContent.articles`            |
+| `featuredArticleQuery`    | coalesce featured + newest (single GROQ) | `blogContent.featuredArticleSlug` |
+| `relatedArticlesQuery`    | same category first, then others         | `getRelatedArticles`              |
+| `articleSearchProjection` | title, excerpt, category, slug           | search index                      |
 
 **Featured fallback:** use coalesce GROQ above — do not chain two fetches in
 `guards.ts`.
 
 ### Webinars
 
-| Query key | Purpose | Replaces |
-| --------- | ------- | -------- |
-| `webinarSlugsQuery` | static params | `webinarsContent.webinars` |
-| `webinarBySlugQuery` | detail | `getWebinar(slug)` |
-| `webinarsListingQuery` | listing | `webinarsListing` |
-| `featuredWebinarQuery` | featured band | `webinarsContent.featuredSlug` |
-| `hubScheduledWebinarsQuery` | hub subset (upcoming, limit N) | `academyHubScheduledWebinars` |
-| `relatedWebinarsQuery` | upcoming, exclude slug, date >= today | `getRelatedWebinars` |
-| `featuredEventProjection` | `AcademyFeaturedEvent` | `academyFeaturedEvent` export |
+| Query key                   | Purpose                               | Replaces                       |
+| --------------------------- | ------------------------------------- | ------------------------------ |
+| `webinarSlugsQuery`         | static params                         | `webinarsContent.webinars`     |
+| `webinarBySlugQuery`        | detail                                | `getWebinar(slug)`             |
+| `webinarsListingQuery`      | listing                               | `webinarsListing`              |
+| `featuredWebinarQuery`      | featured band                         | `webinarsContent.featuredSlug` |
+| `hubScheduledWebinarsQuery` | hub subset (upcoming, limit N)        | `academyHubScheduledWebinars`  |
+| `relatedWebinarsQuery`      | upcoming, exclude slug, date >= today | `getRelatedWebinars`           |
+| `featuredEventProjection`   | `AcademyFeaturedEvent`                | `academyFeaturedEvent` export  |
 
 **Featured event:** hub band copy (eyebrow “Featured Event”, `registerLabel`) can
 stay **code-owned** in `content/academy.ts` wrapping canonical webinar fields
@@ -326,38 +326,38 @@ until Phase 2 hub singleton.
 
 ### Courses
 
-| Query key | Purpose | Replaces |
-| --------- | ------- | -------- |
-| `courseSlugsQuery` | static params | `coursesContent.courses` |
-| `courseBySlugQuery` | detail | `getCourse(slug)` |
-| `coursesListingQuery` | listing | `coursesListing` |
-| `featuredCourseQuery` | featured band | `coursesContent.featuredSlug` |
-| `hubCoursesQuery` | hub grid | `academyHubCourses` |
-| `relatedCoursesQuery` | exclude slug, limit 3 | `getRelatedCourses` |
+| Query key             | Purpose               | Replaces                      |
+| --------------------- | --------------------- | ----------------------------- |
+| `courseSlugsQuery`    | static params         | `coursesContent.courses`      |
+| `courseBySlugQuery`   | detail                | `getCourse(slug)`             |
+| `coursesListingQuery` | listing               | `coursesListing`              |
+| `featuredCourseQuery` | featured band         | `coursesContent.featuredSlug` |
+| `hubCoursesQuery`     | hub grid              | `academyHubCourses`           |
+| `relatedCoursesQuery` | exclude slug, limit 3 | `getRelatedCourses`           |
 
 ### Cross-cutting
 
-| Query key | Purpose | Replaces |
-| --------- | ------- | -------- |
-| `academyHomePreviewQuery` | `AcademyHomePreview` | `academyHomePreview` in `content/academy.ts` |
-| `resolveSessionTitleQuery` | title by kind + slug | `resolveAcademySessionTitle` |
+| Query key                  | Purpose              | Replaces                                     |
+| -------------------------- | -------------------- | -------------------------------------------- |
+| `academyHomePreviewQuery`  | `AcademyHomePreview` | `academyHomePreview` in `content/academy.ts` |
+| `resolveSessionTitleQuery` | title by kind + slug | `resolveAcademySessionTitle`                 |
 
 ---
 
 ## Page integration map
 
-| Route | Current import | Phase 1 change |
-| ----- | -------------- | -------------- |
-| `/academy/blog` | `blogContent` | fetch listing + featured; keep page chrome from `blogContent` static |
-| `/academy/blog/[slug]` | `getArticle`, `getRelatedArticles` | `fetchArticleBySlug`, `fetchRelatedArticles` |
-| `/academy/webinars` | `webinarsContent` | fetch listing |
-| `/academy/webinars/[slug]` | `getWebinar`, `getRelatedWebinars` | fetch helpers |
-| `/academy/courses` | `coursesContent` | fetch listing |
-| `/academy/courses/[slug]` | `getCourse`, `getRelatedCourses` | fetch helpers |
-| `/academy` hub grids | `academyContent` scheduled/courses/blog items | preview query or composed fetches |
-| `/academy/search` | `searchAcademy` | Server page fetches three catalogues → passes to client filter |
-| Home spotlight | `academyHomePreview` | same preview query |
-| `/api/academy/register` | `getWebinar` / `getCourse` | `resolveSessionTitle` via Sanity |
+| Route                      | Current import                                | Phase 1 change                                                       |
+| -------------------------- | --------------------------------------------- | -------------------------------------------------------------------- |
+| `/academy/blog`            | `blogContent`                                 | fetch listing + featured; keep page chrome from `blogContent` static |
+| `/academy/blog/[slug]`     | `getArticle`, `getRelatedArticles`            | `fetchArticleBySlug`, `fetchRelatedArticles`                         |
+| `/academy/webinars`        | `webinarsContent`                             | fetch listing                                                        |
+| `/academy/webinars/[slug]` | `getWebinar`, `getRelatedWebinars`            | fetch helpers                                                        |
+| `/academy/courses`         | `coursesContent`                              | fetch listing                                                        |
+| `/academy/courses/[slug]`  | `getCourse`, `getRelatedCourses`              | fetch helpers                                                        |
+| `/academy` hub grids       | `academyContent` scheduled/courses/blog items | preview query or composed fetches                                    |
+| `/academy/search`          | `searchAcademy`                               | Server page fetches three catalogues → passes to client filter       |
+| Home spotlight             | `academyHomePreview`                          | same preview query                                                   |
+| `/api/academy/register`    | `getWebinar` / `getCourse`                    | `resolveSessionTitle` via Sanity                                     |
 
 **Page chrome** (heroes, CTA copy, related section labels, newsletter sidebar copy)
 may stay in `content/blog.ts`, `content/webinars.ts`, `content/courses.ts` until
@@ -367,18 +367,18 @@ Phase 2 singletons — only **catalogue arrays** swap to CMS first.
 
 ## Edge cases (Academy-specific)
 
-| Scenario | Required behaviour |
-| -------- | ------------------ |
-| Zero published articles | Listing route: hero + empty message; hub blog band: **hidden** |
-| Featured slug points to draft/missing | Fallback to newest published; if none, hide featured band |
-| Webinar date in past | Still on detail URL; related/upcoming queries exclude past |
-| `registration.mode: closed` | UI shows `closedLabel` only (no register button). **API rejects** POST with `{ error: PUBLIC_FORM_VALIDATION_ERROR }` / 400 — same response shape as `session_not_found` in `handlePublicFormPost`, not a new client error string |
-| `registration.mode: external` | UI links out; API not used |
-| Course with empty `modules` | Studio blocks publish; runtime hides modules block if somehow empty |
-| Related query returns `[]` | Omit `AcademyRelatedSection` |
-| Migration missing image | Log to manifest; use `CmsFallbackImage` at runtime |
-| Slug edited after publish | Studio warning; webhook revalidates old + new paths |
-| Slug removed / doc unpublished | `notFound()` on detail; omitted from listings after revalidate |
+| Scenario                              | Required behaviour                                                                                                                                                                                                                |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Zero published articles               | Listing route: hero + empty message; hub blog band: **hidden**                                                                                                                                                                    |
+| Featured slug points to draft/missing | Fallback to newest published; if none, hide featured band                                                                                                                                                                         |
+| Webinar date in past                  | Still on detail URL; related/upcoming queries exclude past                                                                                                                                                                        |
+| `registration.mode: closed`           | UI shows `closedLabel` only (no register button). **API rejects** POST with `{ error: PUBLIC_FORM_VALIDATION_ERROR }` / 400 — same response shape as `session_not_found` in `handlePublicFormPost`, not a new client error string |
+| `registration.mode: external`         | UI links out; API not used                                                                                                                                                                                                        |
+| Course with empty `modules`           | Studio blocks publish; runtime hides modules block if somehow empty                                                                                                                                                               |
+| Related query returns `[]`            | Omit `AcademyRelatedSection`                                                                                                                                                                                                      |
+| Migration missing image               | Log to manifest; use `CmsFallbackImage` at runtime                                                                                                                                                                                |
+| Slug edited after publish             | Studio warning; webhook revalidates old + new paths                                                                                                                                                                               |
+| Slug removed / doc unpublished        | `notFound()` on detail; omitted from listings after revalidate                                                                                                                                                                    |
 
 ---
 
@@ -416,11 +416,11 @@ they must revalidate on every publish, not only detail pages.
 Webhook verifies **Sanity signed payload** (HMAC), not a bare shared secret in
 query string alone.
 
-| `_type` | Static paths | Dynamic |
-| ------- | ------------ | ------- |
-| `academyArticle` | `/academy/blog`, `/academy`, `/`, `/academy/search` | `/academy/blog/{slug}` old + new on slug change |
-| `academyWebinar` | `/academy/webinars`, `/academy`, `/`, `/academy/search` | `/academy/webinars/{slug}` old + new |
-| `academyCourse` | `/academy/courses`, `/academy`, `/`, `/academy/search` | `/academy/courses/{slug}` old + new |
+| `_type`          | Static paths                                            | Dynamic                                         |
+| ---------------- | ------------------------------------------------------- | ----------------------------------------------- |
+| `academyArticle` | `/academy/blog`, `/academy`, `/`, `/academy/search`     | `/academy/blog/{slug}` old + new on slug change |
+| `academyWebinar` | `/academy/webinars`, `/academy`, `/`, `/academy/search` | `/academy/webinars/{slug}` old + new            |
+| `academyCourse`  | `/academy/courses`, `/academy`, `/`, `/academy/search`  | `/academy/courses/{slug}` old + new             |
 
 `dynamicParams = true` (Next default) — removed slugs 404 until rebuild/revalidate.
 

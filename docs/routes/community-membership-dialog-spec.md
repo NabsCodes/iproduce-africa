@@ -26,21 +26,23 @@ Offer a focused, step-by-step membership application flow from primary
 
 1. **About you** — `fullName`, `country` (+ Other specify), `email`, `phone` (2×2 grid on sm+)
 2. **Your work** — `organisation`, `sector` (+ Other specify), `reason` textarea
-3. **Review** — read-only summary card (avatar initials, org · sector, badge, six fields, why-join quote)
+3. **Review** — read-only summary card (avatar initials, name + organisation,
+   dynamic **sector** badge top-right from the selected sector, five detail
+   fields, why-join quote). No static persona badge; no duplicate sector chip row.
 
 No `role` field in the dialog (design omission). Inline form still collects role.
 
 ## Reuse map
 
-| Piece                    | Location                                                      | Notes                                               |
-| ------------------------ | ------------------------------------------------------------- | --------------------------------------------------- |
-| Shell / stepper / footer | `components/shared/multi-step-dialog/*`                       | Same as Become Partner                              |
-| Form fields              | `components/shared/form-fields.tsx`                           | Text, Select, Phone, Textarea                       |
-| Schema                   | `schemas/community.ts`                                        | `membershipApplicationDialogSchema` + per-step maps |
-| Content                  | `content/community.ts` → `application.dialog`                 | Steps, labels, success copy, next steps             |
-| Types                    | `types/community.ts`                                          | `MembershipApplicationDialogContent`                |
-| Review UI                | `components/community/membership-application-review-step.tsx` | Bespoke review card                                 |
-| Dialog                   | `components/community/membership-application-dialog.tsx`      | Orchestrates wizard                                 |
+| Piece                    | Location                                                      | Notes                                                       |
+| ------------------------ | ------------------------------------------------------------- | ----------------------------------------------------------- |
+| Shell / stepper / footer | `components/shared/multi-step-dialog/*`                       | Same as Become Partner; flex footer + mobile submit spinner |
+| Form fields              | `components/shared/form-fields.tsx`                           | Text, Select, Phone, Textarea                               |
+| Schema                   | `schemas/community.ts`                                        | `membershipApplicationDialogSchema` + per-step maps         |
+| Content                  | `content/community.ts` → `application.dialog`                 | Steps, labels, success copy, next steps                     |
+| Types                    | `types/community.ts`                                          | `MembershipApplicationDialogContent`                        |
+| Review UI                | `components/community/membership-application-review-step.tsx` | Bespoke review card                                         |
+| Dialog                   | `components/community/membership-application-dialog.tsx`      | Orchestrates wizard                                         |
 
 ## Success state
 

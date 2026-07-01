@@ -449,6 +449,7 @@ export const communityPageContent = {
       successTitle: "Application sent",
       successDescription:
         "Thanks for applying to join the iProduce community. Our team will review your application and follow up within five working days.",
+      sendAnotherLabel: "Submit another application",
       otherOptionValue: OTHER_OPTION_VALUE,
       placeholders: {
         fullName: "Full name",
@@ -504,14 +505,12 @@ export const communityPageContent = {
           description:
             "Check everything looks right before sending it to our team.",
           whyJoinLabel: "Why join",
-          defaultBadge: "Agripreneur",
           reviewFields: [
             { key: "fullName", label: "Full name" },
             { key: "country", label: "Country" },
             { key: "email", label: "Email" },
             { key: "phone", label: "Phone" },
             { key: "organisation", label: "Organisation" },
-            { key: "sector", label: "Sector" },
           ],
         },
       },

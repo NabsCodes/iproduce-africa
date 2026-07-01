@@ -16,11 +16,11 @@ starting from blank pages.
 
 ## What moves to the CMS first
 
-| Priority | You can edit | Examples |
-| -------- | ------------ | -------- |
-| **1 — Launch** | Academy content | Blog articles, webinars & events, courses |
-| **2 — Soon after** | Trust & partners | Testimonials, partner logos, team & advisors, FAQs |
-| **3 — Later** | Page marketing copy | Home/About section text, site contact details |
+| Priority           | You can edit        | Examples                                           |
+| ------------------ | ------------------- | -------------------------------------------------- |
+| **1 — Launch**     | Academy content     | Blog articles, webinars & events, courses          |
+| **2 — Soon after** | Trust & partners    | Testimonials, partner logos, team & advisors, FAQs |
+| **3 — Later**      | Page marketing copy | Home/About section text, site contact details      |
 
 **Phase 1 (Academy)** is the main editorial win: articles, sessions, and courses
 with images, dates, and registration settings.

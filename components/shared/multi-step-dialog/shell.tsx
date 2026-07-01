@@ -60,7 +60,7 @@ export function MultiStepDialogShell({
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent
         className={cn(
-          "max-h-[calc(100vh-2rem)] gap-0 overflow-hidden p-0 sm:max-w-[640px]",
+          "max-h-[calc(100vh-1rem)] max-w-[calc(100vw-0.75rem)] gap-0 overflow-hidden p-0 sm:max-h-[calc(100vh-2rem)] sm:max-w-[640px]",
           className,
         )}
       >
@@ -74,11 +74,11 @@ export function MultiStepDialogShell({
           <form
             {...restFormProps}
             className={cn(
-              "flex max-h-[calc(100vh-2rem)] flex-col",
+              "flex max-h-[calc(100vh-1rem)] flex-col sm:max-h-[calc(100vh-2rem)]",
               formClassName,
             )}
           >
-            <div className="border-grey-200 border-b px-5 pt-5 pb-4 sm:px-7 sm:pt-6 sm:pb-5">
+            <div className="border-grey-200 border-b px-4 pt-5 pb-4 sm:px-7 sm:pt-6 sm:pb-5">
               <DialogTitle className="text-foreground pr-10 font-serif text-lg font-semibold sm:text-xl">
                 {title}
               </DialogTitle>
@@ -90,7 +90,7 @@ export function MultiStepDialogShell({
               ) : null}
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-7 sm:py-7">
+            <div className="flex-1 overflow-y-auto px-4 py-5 pb-8 sm:px-7 sm:py-7 sm:pb-7">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={stepIndex}

@@ -239,7 +239,6 @@ export function MembershipApplicationDialog({
               <MembershipApplicationReviewStep
                 reviewFields={content.steps.review.reviewFields}
                 whyJoinLabel={content.steps.review.whyJoinLabel}
-                defaultBadge={content.steps.review.defaultBadge}
                 sectors={sectors}
                 otherOptionValue={content.otherOptionValue}
               />

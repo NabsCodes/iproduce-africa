@@ -42,7 +42,6 @@ function getInitials(fullName: string) {
 type MembershipApplicationReviewStepProps = {
   reviewFields: readonly MembershipApplicationDialogReviewField[];
   whyJoinLabel: string;
-  defaultBadge: string;
   sectors: readonly PartnerInquiryOption[];
   otherOptionValue: string;
 };
@@ -50,7 +49,6 @@ type MembershipApplicationReviewStepProps = {
 export function MembershipApplicationReviewStep({
   reviewFields,
   whyJoinLabel,
-  defaultBadge,
   sectors,
   otherOptionValue,
 }: MembershipApplicationReviewStepProps) {
@@ -80,25 +78,26 @@ export function MembershipApplicationReviewStep({
   };
 
   return (
-    <div className="bg-leaf-50 border-leaf-100 rounded-xl border p-5 sm:p-6">
+    <div className="bg-leaf-50 border-leaf-100 rounded-xl border p-4 pb-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-start gap-3">
+        <div className="flex min-w-0 flex-1 items-start gap-3">
           <span className="bg-leaf-100 text-leaf-700 flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold">
             {getInitials(fullName)}
           </span>
           <div className="min-w-0">
-            <p className="text-foreground truncate font-serif text-lg font-semibold">
+            <p className="text-foreground font-serif text-lg font-semibold wrap-break-word">
               {fullName || "Your name"}
             </p>
-            <p className="text-fg-muted mt-0.5 truncate text-sm">
-              {[organisation, sectorLabel].filter(Boolean).join(" · ") ||
-                "Your organisation · Sector"}
+            <p className="text-fg-muted mt-0.5 text-sm leading-6 wrap-break-word">
+              {organisation || "Your organisation"}
             </p>
           </div>
         </div>
-        <span className="bg-tangerine-100 text-tangerine-800 shrink-0 rounded-full px-3 py-1 text-xs font-semibold">
-          {defaultBadge}
-        </span>
+        {sectorLabel ? (
+          <span className="bg-tangerine-100 text-tangerine-800 max-w-[44%] shrink-0 rounded-full px-3 py-1 text-right text-xs leading-5 font-semibold wrap-break-word sm:max-w-[11rem]">
+            {sectorLabel}
+          </span>
+        ) : null}
       </div>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -130,7 +129,7 @@ export function MembershipApplicationReviewStep({
             {whyJoinLabel}
           </span>
         </div>
-        <p className="text-foreground mt-2 text-sm leading-6">
+        <p className="text-foreground mt-2 text-sm leading-6 wrap-break-word">
           {values.reason?.trim() || "—"}
         </p>
       </div>

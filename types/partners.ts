@@ -104,6 +104,7 @@ export type PartnerInquiryFormContent = {
   consentText: string;
   successTitle: string;
   successDescription: string;
+  sendAnotherLabel: string;
   otherOptionValue: string;
   placeholders: {
     fullName: string;

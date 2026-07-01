@@ -254,6 +254,7 @@ export const partnersPageContent = {
       successTitle: "Inquiry sent",
       successDescription:
         "Thanks for your interest in partnering with iProduce Africa. Our partnerships team will review your inquiry and follow up within five working days.",
+      sendAnotherLabel: "Send another inquiry",
       otherOptionValue: OTHER_OPTION_VALUE,
       placeholders: {
         fullName: "Full name",

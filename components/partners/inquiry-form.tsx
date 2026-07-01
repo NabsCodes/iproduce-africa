@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
+import { FormSubmitButton } from "@/components/shared/form-submit-button";
 import {
   ComboboxFormField,
   PhoneFormField,
@@ -70,6 +71,12 @@ export function InquiryForm({ content }: InquiryFormProps) {
     }
   }
 
+  function handleSendAnother() {
+    form.reset(withPublicFormSecurity(partnerInquiryDefaultValues));
+    bumpTurnstileReset();
+    setSubmitted(false);
+  }
+
   if (submitted) {
     return (
       <div
@@ -88,6 +95,14 @@ export function InquiryForm({ content }: InquiryFormProps) {
             {content.successDescription}
           </p>
         </div>
+        <Button
+          type="button"
+          variant="link"
+          onClick={handleSendAnother}
+          className="text-leaf-700 h-auto p-0 text-sm font-semibold"
+        >
+          {content.sendAnotherLabel}
+        </Button>
       </div>
     );
   }
@@ -212,16 +227,14 @@ export function InquiryForm({ content }: InquiryFormProps) {
             </p>
           ) : null}
 
-          <Button
-            type="submit"
+          <FormSubmitButton
+            isSubmitting={isSubmitting}
+            label={content.submitLabel}
+            showArrow
             variant="neutral"
             size="lg"
-            disabled={isSubmitting}
             className="bg-forest-900 hover:bg-forest-800 mt-2 h-12 w-full rounded-md text-base"
-          >
-            {isSubmitting ? "Submitting..." : content.submitLabel}
-            <ArrowRight className="size-4" />
-          </Button>
+          />
 
           <p className="text-fg-subtle text-center text-xs leading-5">
             {content.consentText}

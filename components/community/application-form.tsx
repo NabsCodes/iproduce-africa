@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
+import { FormSubmitButton } from "@/components/shared/form-submit-button";
 import {
   ComboboxFormField,
   PhoneFormField,
@@ -72,6 +73,17 @@ export function MembershipApplicationForm({
     }
   }
 
+  function handleSendAnother() {
+    form.reset(
+      withPublicFormSecurity({
+        ...membershipApplicationDefaultValues,
+        source: "page" as const,
+      }),
+    );
+    bumpTurnstileReset();
+    setSubmitted(false);
+  }
+
   if (submitted) {
     return (
       <div
@@ -90,6 +102,14 @@ export function MembershipApplicationForm({
             {content.successDescription}
           </p>
         </div>
+        <Button
+          type="button"
+          variant="link"
+          onClick={handleSendAnother}
+          className="text-leaf-700 h-auto p-0 text-sm font-semibold"
+        >
+          {content.sendAnotherLabel}
+        </Button>
       </div>
     );
   }
@@ -199,17 +219,15 @@ export function MembershipApplicationForm({
             </p>
           ) : null}
 
-          <Button
-            type="submit"
+          <FormSubmitButton
+            isSubmitting={isSubmitting}
+            label={content.submitLabel}
+            showArrow
             variant="green"
             size="lg"
             fullWidth
-            disabled={isSubmitting}
             className="mt-2"
-          >
-            {isSubmitting ? "Submitting..." : content.submitLabel}
-            <ArrowRight className="size-4" />
-          </Button>
+          />
 
           <p className="text-fg-subtle text-center text-xs leading-5">
             {content.consentText}

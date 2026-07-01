@@ -76,17 +76,6 @@ function MilestoneRow({
         <p className="text-fg-muted mt-2 text-sm leading-6 sm:text-[15px]">
           {milestone.description}
         </p>
-
-        <ul className="mt-4 flex flex-wrap gap-2 lg:hidden">
-          {milestone.focusPoints.map((point) => (
-            <li
-              key={point}
-              className="border-default text-foreground inline-flex rounded-full border bg-white px-3 py-1 text-xs font-medium"
-            >
-              {point}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

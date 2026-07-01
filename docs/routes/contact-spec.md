@@ -111,7 +111,9 @@ bold inline. Do not use screenshot 9–5 copy. - Vertical list of three contact 
     match Partners inquiry card; avoid heavy shadow). - On lg, card overlaps upward into the hero transition (negative margin or  
     absolute positioning within a relative section wrapper). - Card header: - Title: `Contact Form` (serif). - Description: `Complete the form and a member of our team will get back to you as soon as possible.` - Fields: - Row: `First Name` | `Last Name` (side-by-side on sm+). - `Email Address` (full width). - `Message` (textarea, min ~140px tall). - Submit: full-width green button `Send Message`. POSTs to `/api/contact`  
      (Resend internal + receipt, Turnstile, honeypot). Inline success panel +  
-     Sonner toast on submit.
+     Sonner toast on submit. Success panel includes **Send another message**
+    (resets form + Turnstile). Submit uses `FormSubmitButton` (spinner +
+    **Sending…** while loading).
 
 ### Mobile Composition
 
