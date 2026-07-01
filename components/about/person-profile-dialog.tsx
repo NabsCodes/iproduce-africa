@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-
+import { PersonPhoto } from "@/components/about/person-photo";
 import { PersonSocialLinks } from "@/components/about/person-social-links";
 import {
   Dialog,
@@ -34,22 +33,20 @@ export function PersonProfileDialog({
           )}
         >
           <div className="flex max-h-[calc(100vh-1rem)] flex-col overflow-hidden sm:h-[32rem] sm:max-h-[min(32rem,calc(100vh-2rem))] sm:flex-row">
-            <div className="bg-muted relative aspect-4/3 w-full shrink-0 overflow-hidden sm:aspect-auto sm:h-full sm:w-2/5">
-              <Image
-                src={person.photo}
-                alt={person.name}
-                fill
-                sizes="(max-width: 640px) 100vw, 40vw"
-                className="object-cover object-[center_22%]"
-              />
-            </div>
+            <PersonPhoto
+              src={person.photo}
+              alt={person.name}
+              sizes="(max-width: 640px) 100vw, 40vw"
+              className="aspect-4/3 w-full shrink-0 sm:aspect-auto sm:h-full sm:w-2/5"
+              imageClassName="object-[center_22%]"
+            />
 
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-              <div className="shrink-0 px-5 pt-5 pr-14 pb-4 sm:px-6 sm:pt-6 sm:pb-5">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white">
+              <div className="border-grey-200 bg-subtle shrink-0 border-b px-5 pt-5 pr-14 pb-4 sm:px-6 sm:pt-6 sm:pb-5">
                 <DialogTitle className="font-serif text-xl sm:text-2xl">
                   {person.name}
                 </DialogTitle>
-                <DialogDescription className="mt-1 text-sm">
+                <DialogDescription className="text-fg-subtle mt-1 text-sm">
                   {person.role}
                 </DialogDescription>
                 {person.credentials ? (
@@ -60,7 +57,7 @@ export function PersonProfileDialog({
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto px-5 sm:px-6">
-                <div className="flex flex-col gap-4 pb-5 sm:pb-6">
+                <div className="flex flex-col gap-4 py-5 sm:py-6">
                   {person.bioParagraphs.map((paragraph, index) => (
                     <p
                       key={index}
@@ -72,16 +69,21 @@ export function PersonProfileDialog({
                 </div>
               </div>
 
-              {socials.length > 0 ? (
-                <div className="border-grey-200 shrink-0 border-t px-5 py-4 sm:px-6">
+              <div
+                className={cn(
+                  "border-grey-200 bg-subtle shrink-0 border-t",
+                  socials.length > 0 && "px-5 py-4 sm:px-6",
+                )}
+              >
+                {socials.length > 0 ? (
                   <PersonSocialLinks
                     socials={socials}
                     personName={person.name}
                     size="md"
                     showValueOnHover
                   />
-                </div>
-              ) : null}
+                ) : null}
+              </div>
             </div>
           </div>
         </DialogContent>

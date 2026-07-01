@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
+import { PersonPhoto } from "@/components/about/person-photo";
 import { PersonProfileDialog } from "@/components/about/person-profile-dialog";
 import { PersonSocialLinks } from "@/components/about/person-social-links";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
@@ -27,16 +27,14 @@ function AdvisorCard({
   const cardSocials = getAboutPersonCardSocials(advisor.socials, { limit: 1 });
 
   return (
-    <Card className="border-default h-full min-h-0 flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 sm:min-h-44 sm:flex-row lg:min-h-48">
-      <div className="bg-muted relative aspect-5/3 w-full shrink-0 sm:aspect-square sm:w-32 sm:self-stretch lg:w-40">
-        <Image
-          src={advisor.photo}
-          alt={advisor.name}
-          fill
-          sizes="(min-width: 1024px) 160px, (min-width: 640px) 128px, 100vw"
-          className="object-cover object-[center_30%]"
-        />
-      </div>
+    <Card className="group border-default hover:border-leaf-300 focus-within:border-leaf-300 h-full min-h-0 flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 transition-colors sm:min-h-44 sm:flex-row lg:min-h-48">
+      <PersonPhoto
+        src={advisor.photo}
+        alt={advisor.name}
+        sizes="(min-width: 1024px) 160px, (min-width: 640px) 128px, 100vw"
+        className="aspect-5/3 w-full shrink-0 sm:aspect-square sm:w-32 sm:self-stretch lg:w-40"
+        imageClassName="object-[center_30%] transition-transform duration-300 group-hover:scale-[1.02]"
+      />
       <CardContent className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="text-foreground font-serif text-base font-semibold sm:text-lg">
           {advisor.name}

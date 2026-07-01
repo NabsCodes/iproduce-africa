@@ -72,13 +72,13 @@ const aboutPeople = [
   {
     id: "sidi-aliyu",
     group: "advisor",
-    name: "Abdullahi Sid-Aliyu",
+    name: "Abdullahi Sidi-Aliyu",
     role: "Strategic Advisor",
     photo: "/images/about/sidi-aliyu.webp",
     bioSummary:
       "Retired Nigerian Export Promotion Council director with over 30 years of public-sector experience in export promotion, trade policy, and AfCFTA-related capacity building.",
     bioParagraphs: [
-      "Abdullahi Sid-Aliyu is a retired civil servant who served for 35 years in various capacities. Apart from five years spent as an Economic Planning Officer and Senior Research Officer with the Federal Capital Development Authority (FCDA) and National Directorate of Employment respectively, he spent 30 years of his career with the Nigerian Export Promotion Council (NEPC), where he retired in 2020 having served for 10 years as a Director.",
+      "Abdullahi Sidi-Aliyu is a retired civil servant who served for 35 years in various capacities. Apart from five years spent as an Economic Planning Officer and Senior Research Officer with the Federal Capital Development Authority (FCDA) and National Directorate of Employment respectively, he spent 30 years of his career with the Nigerian Export Promotion Council (NEPC), where he retired in 2020 having served for 10 years as a Director.",
       "He obtained a BSc Degree in Economics in 1983 from Ahmadu Bello University Zaria and later in 2014 a master's degree in development studies from Bayero University, Kano. He was exposed to a wide range of local and international trainings in the course of his career.",
       "Over these years of service, Mr. Sidi-Aliyu has acquired in-depth understanding of export business including export trends, challenges, opportunities, multilateral and bilateral trade challenges, the African Growth & Opportunity Act (AGOA), export competency development, capacity building, and the Africa Continental Free Trade Agreement (AfCFTA).",
       "Mr. Sidi-Aliyu is currently a director responsible for export trade development with the International Trade Facilitation Association (ITFA), a team of professionals engaging in providing support to SMEs aspiring to become visible in the export business and to be globally competitive. He is also the CEO of A S Dynamic Ventures Limited.",

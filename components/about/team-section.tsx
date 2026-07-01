@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 
+import { PersonPhoto } from "@/components/about/person-photo";
 import { PersonProfileDialog } from "@/components/about/person-profile-dialog";
 import { PersonSocialLinks } from "@/components/about/person-social-links";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
@@ -39,15 +39,13 @@ function TeamCard({
         aria-label={`View profile for ${member.name}`}
         className="group focus-visible:ring-leaf-400 flex flex-1 flex-col text-left outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
-        <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-xl">
-          <Image
-            src={member.photo}
-            alt={member.name}
-            fill
-            sizes="(max-width: 1024px) 100vw, 33vw"
-            className="object-cover object-[center_20%] transition-transform duration-300 group-hover:scale-[1.02]"
-          />
-        </div>
+        <PersonPhoto
+          src={member.photo}
+          alt={member.name}
+          sizes="(max-width: 1024px) 100vw, 33vw"
+          className="aspect-4/3 rounded-xl"
+          imageClassName="object-[center_20%] transition-transform duration-300 group-hover:scale-[1.02]"
+        />
         <CardContent className="flex flex-1 flex-col p-0 pt-3">
           <div className="flex flex-wrap items-center gap-x-2 text-sm">
             <span className="text-foreground font-semibold">{member.name}</span>
