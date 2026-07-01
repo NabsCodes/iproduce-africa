@@ -89,6 +89,30 @@ Sanity MCP / docs also recommend:
 
 **Studio path:** `/admin` (matches q-das; less collision with public “studio” language than `/studio`).
 
+### Studio layout vs site chrome (locked)
+
+Root `app/layout.tsx` currently wraps **all** routes in `<Header>` / `<Footer>`.
+Nested `app/admin/layout.tsx` does **not** remove that chrome — Studio would
+render inside the marketing shell (double scroll, nav over Studio toolbar).
+
+**Decision: pathname-gated chrome skip (option a).** Do **not** adopt the
+`(site)` route-group split for Phase 1 — it touches every route file for a
+single exception. Do **not** ship Studio wrapped in site chrome (option c).
+
+Implementation:
+
+1. Extract marketing chrome to `components/layout/site-chrome.tsx` (`"use client"`).
+2. `usePathname()` — if path starts with `/admin`, render `{children}` only.
+3. Root layout keeps fonts, `AppProviders`, `Analytics`; wraps page body in
+   `<SiteChrome>{children}</SiteChrome>`.
+4. Add `app/admin/layout.tsx` for Studio-only concerns: `robots: noindex`,
+   full-viewport height shell (`min-h-dvh`), no extra padding — same pattern as
+   q-das `app/admin/layout.tsx`.
+
+q-das uses the `(main)` route-group pattern because its root layout is already
+chrome-free. iProduce’s root layout owns chrome today; a one-file gate is the
+lower-churn equivalent.
+
 ---
 
 ## Content inventory: CMS vs code-only
@@ -561,10 +585,55 @@ approval.
    `scripts/migrate-phase2-to-sanity.ts`; same dataset policy.
 4. **Default target:** `development` dataset; require
    `--dataset production --confirm` for production writes.
-5. **Idempotent:** skip existing `slug.current` per type; support `--dry-run`.
-6. **Manifest:** log image upload failures, slug collisions, skipped records.
-7. **Rollback:** move static files to `content/_archived/` for one release after
+5. **Idempotent:** deterministic document `_id` per record (see below); use
+   `createIfNotExists` on write. **Do not** rely on auto `_id` + slug GROQ
+   lookup alone.
+6. **`--dry-run`:** API read-only against the target dataset (see below).
+7. **Manifest:** log image upload failures, slug/id collisions, skipped records.
+8. **Rollback:** move static files to `content/_archived/` for one release after
    cutover — do not delete immediately.
+
+### Deterministic `_id` + idempotency (locked)
+
+| Document type     | `_id` pattern              | Example                              |
+| ----------------- | -------------------------- | ------------------------------------ |
+| `academyArticle`  | `academyArticle.{slug}`    | `academyArticle.unlocking-trade`     |
+| `academyWebinar`  | `academyWebinar.{slug}`    | `academyWebinar.intro-to-export`     |
+| `academyCourse`   | `academyCourse.{slug}`     | `academyCourse.agribusiness-basics`  |
+| `author`          | `author.{slug}`            | `author.ada-okonkwo`                 |
+| Phase 2 types     | `{_type}.{slug}` or `{id}` | `partner.{id}`, `teamMember.{slug}`, … |
+
+- Slug segment = `slug.current` from static source (already kebab-case).
+- Write path: `client.createIfNotExists({ _id, _type, … })` then patch assets
+  on subsequent runs if images failed first time.
+- Re-run behaviour: existing `_id` → **SKIP** (manifest line); no duplicate docs.
+- Slug edits after publish are editorial (append-only policy already locked);
+  changing slug without a migration leaves an orphan `_id` — acceptable v1 risk.
+
+Published-content GROQ still filters `!(_id in path("drafts.**"))`; listing
+queries continue to use `slug.current`, not `_id`.
+
+### `--dry-run` semantics (locked)
+
+**Default `--dry-run` = read-only against Sanity** (accurate CREATE/SKIP preview):
+
+- Requires `NEXT_PUBLIC_SANITY_PROJECT_ID` + target `--dataset` (read access;
+  write token **not** required).
+- For each planned document: `getDocument(_id)` (or equivalent).
+  - Missing → manifest `CREATE`
+  - Present → manifest `SKIP`
+  - Present but `slug.current` differs from static source → `SKIP` + `WARN` slug
+    drift (do not mutate in dry-run).
+- **No** asset uploads, **no** `create` / `patch` / `delete` mutations.
+- Image step: scan `public/` paths and report `WOULD_UPLOAD` / missing file
+  errors without calling Sanity assets API.
+
+**Optional `--dry-run --offline`:** validate static `content/*` sources and print
+the same manifest shape without calling Sanity — for local/CI before the project
+exists. Idempotency preview is **plan only** in this mode (no verified SKIP).
+
+**Default-safe:** running the script with no flags performs **no writes**; pass
+`--execute` (or `--confirm` combined with dataset flags) to mutate.
 
 ---
 

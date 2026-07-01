@@ -85,8 +85,13 @@ lib/sanity/
   portable-text.ts                 # PT → BlogArticleBlock[]
   guards.ts                        # featured fallback, empty arrays
 
-app/admin/[[...index]]/page.tsx
+app/admin/
+  layout.tsx                       # noindex + full-viewport shell (no site chrome)
+  [[...index]]/page.tsx            # Embedded Studio
 app/api/revalidate/route.ts
+
+# Site chrome: root layout uses SiteChrome (skip Header/Footer when path /admin/*)
+# See docs/cms-migration-spec.md — Studio layout vs site chrome
 
 scripts/
   migrate-academy-to-sanity.ts
@@ -440,11 +445,14 @@ replace or delete from `/admin`, they do not re-type demo content by hand.
 3. **Articles:** iterate `blogArticles` from `content/blog-articles.ts`
 4. **Webinars:** iterate `webinarsContent.webinars`
 5. **Courses:** iterate `coursesContent.courses`
-6. For each: upload images from `public/` → create document (**auto `_id`**)
+6. For each: deterministic `_id` (`academyArticle.{slug}`, etc.) →
+   `createIfNotExists` → upload images from `public/` → patch asset refs
 7. **Default `--dataset development`** — full placeholder seed runs here first;
    production requires `--dataset production --confirm` after QA
-8. `--dry-run` + migration manifest (failures, skips, collisions)
-9. Print summary counts
+8. **No writes by default** — `--dry-run` (API read-only SKIP/CREATE preview);
+   `--execute` to mutate; optional `--dry-run --offline` before project exists
+9. Migration manifest: failures, skips, slug-drift warnings, collisions
+10. Print summary counts
 
 Phase 2 uses the same pattern for testimonials, partners, team, advisors, FAQs,
 and member stories — migrate static placeholders into `development`, not empty
