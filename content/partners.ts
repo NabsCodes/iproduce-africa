@@ -20,32 +20,39 @@ export const partnersList: Partner[] = [
     order: 1,
   },
   {
+    id: "wima",
+    name: "Women in Mechanized Agriculture Association (WIMA)",
+    logo: "/images/partners/wima.webp",
+    href: "https://wimanigeria.com/",
+    order: 2,
+  },
+  {
     id: "icreate-africa",
     name: "iCreate Africa",
     logo: "/images/partners/icreate-africa.webp",
     href: "https://icreateafrica.com/",
-    order: 2,
+    order: 3,
   },
   {
     id: "nicert",
     name: "NICERT",
     logo: "/images/partners/nicert.webp",
     href: "https://nicert.net/",
-    order: 3,
+    order: 4,
   },
   {
     id: "jaiz-bank",
     name: "Jaiz Bank",
     logo: "/images/partners/jaiz-bank.webp",
     href: "https://jaizbankplc.com/",
-    order: 4,
+    order: 5,
   },
   {
     id: "the-cfg-advisory",
     name: "The CFG Advisory",
     logo: "/images/partners/the-cfg-advisory.webp",
     href: "https://thecfgadvisory.com/",
-    order: 5,
+    order: 6,
   },
 ];
 
