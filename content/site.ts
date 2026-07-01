@@ -52,8 +52,10 @@ export const siteConfig = {
       description: "Get updates on new trainings and ecosystem news.",
       placeholder: "Your email address",
       submitLabel: "Subscribe to newsletter",
+      submittingLabel: "Subscribing...",
       successMessage:
         "Thanks for subscribing. A confirmation may arrive in your inbox shortly.",
+      subscribeAgainLabel: "Subscribe with another email",
     },
     legalLinks: [
       { label: "Privacy", href: undefined },

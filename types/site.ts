@@ -24,7 +24,9 @@ export type SiteFooterConfig = {
     description: string;
     placeholder: string;
     submitLabel: string;
+    submittingLabel: string;
     successMessage: string;
+    subscribeAgainLabel: string;
   };
   legalLinks: readonly SiteLinkItem[];
 };

@@ -117,10 +117,12 @@ Sanity MCP / docs also recommend:
 | **Community FAQs**           | `content/community.ts`                                         | **CMS** Phase 2                | Same `faq` model, `section: community`                  |
 | **Partners FAQs**            | `content/partners.ts`                                          | **CMS** Phase 2                | Same model                                              |
 | **Contact FAQs**             | `content/contact.ts`                                           | **CMS** Phase 2                | Same model                                              |
-| **Partner logos**            | `content/partners.ts` `partnersList`                           | **CMS** Phase 2                | Client adds logos without deploy                        |
-| **Partner voices grid**      | derived from `partnersList`                                    | **CMS** Phase 2                | Order/visibility flags on partner docs                  |
-| **About team**               | `content/about.ts` `team`                                      | **CMS** Phase 2                | Names, roles, photos change                             |
-| **About advisors**           | `content/about.ts` `advisors`                                  | **CMS** Phase 2                | Same `teamMember` type, different role tag              |
+| **Partner logos**            | `content/partners.ts` `partnersList`                           | **CMS** Phase 2                | Home marquee + partners page                            |
+| **Partner voice quotes**     | `content/partners.ts` `voices.items`                           | **CMS** Phase 2                | `testimonial` placement `partners-voices`               |
+| **Partner voices logo grid** | derived from `partnersList`                                    | **CMS** Phase 2                | `partner.showInVoices` + order                          |
+| **About team**               | `content/about.ts` `team`                                      | **CMS** Phase 2                | `teamMember` `group: team`                              |
+| **About advisors**           | `content/about.ts` `advisors`                                  | **CMS** Phase 2                | `teamMember` `group: advisor`                           |
+| **Community member stories** | `content/community.ts` `memberStories`                         | **CMS** Phase 2                | `memberStory` — placeholder case studies today          |
 | **About story / mission**    | `content/about.ts`                                             | **CMS-lite** Phase 3           | Long prose; fewer edits than catalogue                  |
 | **About journey timeline**   | `content/about.ts`                                             | **Code** for v1                | Motion + sticky UX tightly coupled; CMS later if needed |
 | **Home hero / sections**     | `content/home.ts`                                              | **CMS-lite** Phase 3           | Page singletons when client edit cadence justifies      |
@@ -139,11 +141,17 @@ Sanity MCP / docs also recommend:
 
 ### Client-facing summary (for handoff conversations)
 
-**Give editors first (high value, low risk):** Academy catalogues → testimonials →
-partners → team → FAQs.
+**Phase 1:** Academy catalogues (articles, webinars, courses, authors).
 
-**Keep with engineering longer:** navigation, forms, registration flows, system
-pages, journey/timeline motion sections until there is a clear edit cadence.
+**Phase 2 (scoped — not optional):** shared trust & people content across
+routes — testimonials, FAQs, partner logos, partner voice quotes, team,
+advisors, community member stories. Full placeholder seed into Studio; same
+handoff pattern as Academy.
+
+**Phase 3+:** page marketing copy singletons (heroes, long sections).
+
+**Stays with engineering:** navigation, forms, registration, system pages,
+journey/timeline motion.
 
 ---
 
@@ -163,15 +171,82 @@ pages, journey/timeline motion sections until there is a clear edit cadence.
 **Exit criteria:** all Academy slug routes build; search + home preview use Sanity
 catalogues; related/featured/empty rules pass QA.
 
-### Phase 2 — Shared collections
+### Phase 2 — Trust, partners & people (scoped)
 
-- `testimonial`, `faq`, `partner`, `teamMember` (team + advisors via role/placement field)
-- Page-level **placement** field or references (see FAQ model below)
-- Update `TestimonialsSection`, `FaqSection`, partners marquee/voices, About team
-- Add **empty-state guards** on every CMS-driven section (mandatory)
+Phase 2 is **in the delivery plan**, not a backlog nice-to-have. Implements all
+Tier 1 + Tier 2 CMS surfaces agreed for sign-off.
 
-**Exit criteria:** editors can add/remove testimonials and partners without empty
-layout gaps; FAQs filter correctly per page.
+#### Document types
+
+| Type          | Maps to                  | Static source                                                                 |
+| ------------- | ------------------------ | ----------------------------------------------------------------------------- |
+| `testimonial` | `TestimonialItem`        | `content/home.ts`, `content/academy.ts`, `content/partners.ts` `voices.items` |
+| `faq`         | `FaqItem`                | FAQs on home, community, partners, contact, academy                           |
+| `partner`     | `Partner`                | `content/partners.ts` `partnersList`                                          |
+| `teamMember`  | About team/advisor cards | `content/about.ts` `team`, `advisors`                                         |
+| `memberStory` | `MemberStoryItem`        | `content/community.ts` `memberStories.items`                                  |
+
+`author` remains Phase 1 (Academy).
+
+#### Routes wired in Phase 2
+
+| Route        | CMS-fed sections                                                  |
+| ------------ | ----------------------------------------------------------------- |
+| `/` (Home)   | Testimonials, FAQs, partner marquee                               |
+| `/about`     | Team, advisors                                                    |
+| `/academy`   | Hub testimonials, hub FAQs (catalogues already Phase 1)           |
+| `/community` | FAQs, member stories                                              |
+| `/partners`  | Partner logos (marquee + voices grid), partner voice quotes, FAQs |
+| `/contact`   | FAQs                                                              |
+
+Page heroes and section intros stay static in Phase 2 unless noted in Phase 3.
+
+#### Implementation bundle (Phase 2 — ship as three internal slices)
+
+Same phase, smaller PRs. Each slice: schemas + fetch + migrate seed to
+`development` + wire routes + guards + webhook paths for its types.
+
+**2A — Testimonials & FAQs**
+
+- `testimonial`, `faq` schemas + fetch
+- Wire: Home/Academy testimonials, Partners voice quotes, all five FAQ sections
+- FAQ projection pattern (see `faq` model below)
+
+**2B — Partners**
+
+- `partner` schema + fetch + `expandVoicesLogoGrid()` helper (code-owned layout)
+- Wire: Home marquee, Partners marquee + voices logo grid + voice quotes already
+  in 2A for quotes — order 2A before 2B or ship quotes with 2A and logos in 2B
+
+**2C — People**
+
+- `teamMember`, `memberStory` schemas + fetch
+- Wire: About team/advisors, Community member stories
+
+Shared across slices:
+
+1. Empty-state guards (Rules 1–3)
+2. Hybrid cutover: static fallback until CMS returns ≥1 doc per section, then
+   CMS-only; hide if empty after cutover
+3. `scripts/migrate-phase2-to-sanity.ts` — can run per slice or once at end of
+   Phase 2; always targets **`development` first**
+
+**Production dataset:** migrate placeholders only after client/staging review —
+see Migration & seeding.
+
+**Exit criteria:** editors can add/edit/delete testimonials, FAQs, partners,
+team, advisors, and member stories from `/admin` without deploy; no empty layout
+bands; all Phase 2 placeholders visible in Studio on handoff.
+
+#### Phase 2 revalidation paths (add to webhook map)
+
+| `_type`       | `revalidatePath`                                       |
+| ------------- | ------------------------------------------------------ |
+| `testimonial` | `/`, `/academy`, `/partners`                           |
+| `faq`         | `/`, `/community`, `/partners`, `/contact`, `/academy` |
+| `partner`     | `/`, `/partners`                                       |
+| `teamMember`  | `/about`                                               |
+| `memberStory` | `/community`                                           |
 
 ### Phase 3 — Page singletons & marketing copy
 
@@ -224,23 +299,29 @@ not as the long-term fallback for missing Sanity assets on production pages.
 
 ---
 
-## Shared document models (Phase 2 preview)
+## Phase 2 document models
+
+Full field definitions for Phase 2 implementation. Types must satisfy existing
+contracts in `types/content.ts` and `types/community.ts`.
 
 ### `testimonial`
 
 Maps to `types/content.ts` → `TestimonialItem`.
 
-| Field        | Type                              | Notes                              |
-| ------------ | --------------------------------- | ---------------------------------- |
-| `quote`      | text                              | required                           |
-| `name`       | string                            | required                           |
-| `role`       | string                            | required                           |
-| `image`      | image + alt                       | optional → initials fallback in UI |
-| `initials`   | string                            | optional override                  |
-| `placements` | array of string (controlled list) | e.g. `home`, `academy`, `partners` |
-| `order`      | number                            | sort within placement              |
+| Field        | Type                    | Notes                                |
+| ------------ | ----------------------- | ------------------------------------ |
+| `quote`      | text                    | required                             |
+| `name`       | string                  | required                             |
+| `role`       | string                  | required                             |
+| `image`      | image + alt             | optional → initials in UI            |
+| `initials`   | string                  | optional override                    |
+| `placements` | array (controlled list) | `home`, `academy`, `partners-voices` |
+| `order`      | number                  | sort within placement                |
 
-_No `isPublished` — use Sanity publish workflow + drafts filter._
+**Partner voice quotes** (`/partners` carousel) use placement `partners-voices`.
+Home and Academy hub carousels use `home` and `academy` respectively. One doc
+can list multiple placements if the same quote should appear in more than one
+surface.
 
 ### `faq`
 
@@ -254,33 +335,86 @@ Maps to `FaqItem` + page filter.
 | `section`  | string | **controlled `list`:** `home`, `community`, `partners`, `contact`, `academy` |
 | `order`    | number | optional                                                                     |
 
-**Alternative (heavier):** FAQ groups embedded in page singletons — simpler for
-editors per page, worse for cross-page reuse. **Recommend flat `faq` docs + `section`
-filter** unless client insists on per-page FAQ documents.
+**`FaqSection` projection (matches `FaqSectionContent` in `types/content.ts`):**
+
+| Part | Source | Notes |
+| ---- | ------ | ----- |
+| `eyebrow`, `title`, `description` | **Code** — per-page in `content/*.ts` | Section chrome unchanged in Phase 2 |
+| `categories` | **Code** — per-page controlled list | Must include `"All"` first (e.g. `homeContent.faqCategories`). **Do not** derive tabs from CMS in v1 — avoids filter drift |
+| `items` | **CMS** — `faq` docs where `section == page` | Each doc `category` must match a value in that page's `categories` list (excluding `All`) |
+
+Fetch helper returns `{ categories, items }` merged with static section chrome at
+the page boundary.
+
+**Alternative (heavier):** FAQ groups embedded in page singletons — rejected
+for Phase 2 in favour of flat `faq` docs + `section` filter.
 
 ### `partner`
 
-Maps to `content/partners.ts` → `Partner`.
+Maps to `content/partners.ts` → `Partner` (`id`, `name`, `logo`, `href?`).
 
-| Field           | Type    | Notes                |
-| --------------- | ------- | -------------------- |
-| `name`          | string  |                      |
-| `logo`          | image   | required for display |
-| `website`       | url     | optional             |
-| `showInMarquee` | boolean | home + partners band |
-| `showInVoices`  | boolean | partners voices grid |
-| `order`         | number  |                      |
+| Sanity field | Type | Projects to |
+| ------------ | ---- | ----------- |
+| `slug` | slug (required, unique) | `id` — stable key, e.g. `icreate-africa` (matches current `partnersList[].id`) |
+| `name` | string | `name` |
+| `logo` | image + alt (required) | `logo` URL string |
+| `website` | url optional | `href` — omit when unset |
+| `showInMarquee` | boolean | Home + partners logo marquee bands |
+| `showInVoices` | boolean | Eligible for voices logo grid (see layout rule below) |
+| `order` | number | Sort within marquee / voices pool |
+
+**Voices logo grid — CMS data vs code layout**
+
+Today `voicesLogoOrder` in `content/partners.ts` repeats three partner logos into
+a **12-cell** grid so the section reads fuller without inventing brands.
+
+| Layer | Owner |
+| ----- | ----- |
+| Which partners appear | CMS — `showInVoices` + `order` |
+| 12-cell repetition / rotation | **Code** — `expandVoicesLogoGrid(partners, { targetCount: 12 })` in `lib/partners/` (port of current `voicesLogoOrder` logic) |
+| When unique partners ≥ target | Show one cell per partner (no repetition) |
+
+Do **not** model per-cell repeats in Sanity for v1. Editors add real partners;
+layout helper fills the grid until the catalogue is large enough.
 
 ### `teamMember`
 
-Maps to About team/advisor cards.
+Maps to `types/about.ts` → `AboutTeamMember` (group `team`) and `AboutAdvisor`
+(group `advisor`). Projections must satisfy both contracts.
 
-| Field                 | Type                | Notes |
-| --------------------- | ------------------- | ----- |
-| `name`, `role`, `bio` |                     |       |
-| `image`               | image               |       |
-| `group`               | `team` \| `advisor` |       |
-| `order`               | number              |       |
+| Sanity field | Type | Projects to | Required |
+| ------------ | ---- | ----------- | -------- |
+| `name` | string | `name` | yes |
+| `role` | string | `role` | yes |
+| `bio` | text | `bio` | yes — Studio validation |
+| `photo` | image + alt | `photo` URL string | yes — Studio validation; runtime `CmsFallbackImage` only if asset missing after migration |
+| `group` | list | `team` \| `advisor` | yes |
+| `linkedin` | url | `socials.linkedin` (team) or `linkedin` (advisor) | optional |
+| `facebook` | url | `socials.facebook` (team only) | optional |
+| `order` | number | carousel/grid sort | optional |
+
+Section chrome (`eyebrow`, `title`, `description` on `AboutTeam` / `AboutAdvisors`)
+stays **code-owned** in `content/about.ts` for Phase 2 — only `members[]` from CMS.
+
+### `memberStory`
+
+Maps to `types/community.ts` → `MemberStoryItem`. Community page only.
+
+| Field          | Type   | Notes                       |
+| -------------- | ------ | --------------------------- |
+| `result`       | text   | required — outcome headline |
+| `challenge`    | text   | required                    |
+| `withIProduce` | text   | required                    |
+| `name`         | string | required                    |
+| `role`         | string | required                    |
+| `country`      | string | required                    |
+| `initials`     | string | required                    |
+| `age`          | number | optional                    |
+| `order`        | number | carousel/grid sort          |
+
+Studio seeds all four current placeholder stories from `content/community.ts`.
+
+_No `isPublished` on Phase 2 types — Sanity publish + drafts filter only._
 
 ---
 
@@ -300,9 +434,9 @@ the entire section** (`return null`), not an empty carousel/grid shell.
 if (!items?.length) return null;
 ```
 
-Applies to: `TestimonialsSection`, `FaqSection`, partners marquee, team grids,
-Academy related grids, listing grids (fallback to empty state copy only on
-**listing routes**, not home/marketing bands).
+Applies to: `TestimonialsSection`, `FaqSection`, partners marquee/voices,
+About team/advisors grids, community member stories, Academy related grids,
+listing grids (fallback to empty state copy only on **listing routes**).
 
 ### Rule 2 — Listing pages vs marketing bands
 
@@ -314,13 +448,16 @@ Academy related grids, listing grids (fallback to empty state copy only on
 
 ### Rule 3 — Minimum items before showing a band
 
-| Band                                  | Minimum | Fallback                                                           |
-| ------------------------------------- | ------- | ------------------------------------------------------------------ |
-| Testimonials carousel                 | 1       | hide section                                                       |
-| FAQ accordion                         | 1       | hide section                                                       |
-| Partners marquee                      | 1       | hide section (or keep static fallback logos until Phase 2 cutover) |
-| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly                  |
-| Related items                         | 1       | hide related block                                                 |
+| Band                                  | Minimum | Fallback                                                     |
+| ------------------------------------- | ------- | ------------------------------------------------------------ |
+| Testimonials carousel                 | 1       | hide section                                                 |
+| FAQ accordion                         | 1       | hide section                                                 |
+| Partners marquee                      | 1       | hide section (hybrid static until Phase 2 cutover)           |
+| Partner voices quotes                 | 1       | hide quotes band; logo grid uses `expandVoicesLogoGrid` (may repeat few logos) |
+| Team / advisors grid                  | 1       | hide section                                                 |
+| Community member stories              | 1       | hide section                                                 |
+| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly            |
+| Related items                         | 1       | hide related block                                           |
 
 Document thresholds in the spec checklist when implementing each page.
 
@@ -406,16 +543,22 @@ Align with `docs/routes/academy-spec.md`:
 
 ## Migration & seeding
 
-**Handoff rule:** editors receive a **pre-filled** Studio on `development` (then
-`production` after QA) — all current static placeholders migrated by script, not
-typed manually. Clients typically keep placeholder docs until real content is
-ready, then edit or delete from `/admin`. Empty Studio on day one is not
-acceptable for demo or handoff.
+**Handoff rule:** editors receive a **pre-filled** Studio on **`development`**
+first — all current static placeholders migrated by script, not typed manually.
+Clients edit or delete from `/admin` while reviewing on staging.
+
+**`production` dataset:** run the same migration scripts **only after**
+client/staging sign-off on placeholder content. Demo team names, partner quotes,
+and member stories must not become live CMS truth by accident. Promote
+`development` → `production` via explicit `--dataset production --confirm` after
+approval.
 
 1. **Script** (from q-das `scripts/migrate-to-sanity.ts`): read static
    `content/*` collections → create documents + upload images from `public/`.
-2. **Phase 1:** all Academy catalogues + authors (full static set).
-3. **Phase 2:** testimonials, partners, team, FAQs — same full-seed approach.
+2. **Phase 1:** all Academy catalogues + authors → `development`, then production
+   when approved.
+3. **Phase 2:** testimonials, FAQs, partners, team/advisors, member stories —
+   `scripts/migrate-phase2-to-sanity.ts`; same dataset policy.
 4. **Default target:** `development` dataset; require
    `--dataset production --confirm` for production writes.
 5. **Idempotent:** skip existing `slug.current` per type; support `--dry-run`.
@@ -440,9 +583,10 @@ People & trust                     — Phase 2
   Team & advisors
   Testimonials
   Partners
+  Member stories                   — Community page
 ─────────────────────────────────
 FAQs                               — Phase 2
-  (filtered views by section)
+  All sections (filtered desk views)
 ```
 
 Academy Phase 1 desk: three catalogues + Authors. **No Vision plugin** in the

@@ -86,7 +86,9 @@ export type BlogNewsletterContent = {
   inputLabel: string;
   inputPlaceholder: string;
   submitLabel: string;
+  submittingLabel: string;
   successMessage: string;
+  subscribeAgainLabel: string;
 };
 
 export type BlogShareControlsContent = {

@@ -49,8 +49,10 @@ export const blogContent: BlogPageContent = {
     inputLabel: "Email address",
     inputPlaceholder: "Your email address",
     submitLabel: "Subscribe",
+    submittingLabel: "Subscribing...",
     successMessage:
       "Thanks for subscribing. A confirmation may arrive in your inbox shortly.",
+    subscribeAgainLabel: "Subscribe with another email",
   },
   shareControls: {
     heading: "Share Article",

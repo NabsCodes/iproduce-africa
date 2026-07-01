@@ -6,6 +6,10 @@ Desktop footer direction is now implemented against the supplied screenshot.
 Newsletter remains UI-only, and placeholder footer links stay non-interactive
 until the matching routes or flows exist.
 
+Newsletter signup is live via `NewsletterSignupForm` → `/api/newsletter`.
+Success shows inline copy plus **Subscribe with another email** (resets form +
+Turnstile). Submit button swaps to a spinner while posting.
+
 ## Purpose
 
 The footer should close the site with confidence, useful navigation, and strong
@@ -18,7 +22,7 @@ brand tone without pretending final integrations already exist.
 - Current social destinations are data-driven from `content/site.ts`, but final
   URLs are still pending
 - Address data now lives in `content/site.ts`
-- Newsletter treatment is static-only until a later phase
+- Newsletter treatment is live (Resend + Turnstile); subscribe-again reset matches Contact form UX
 - Footer can include visible placeholder items from the design, but they should
   not become dead links
 
@@ -36,4 +40,4 @@ brand tone without pretending final integrations already exist.
 - [x] Desktop composition approved in code
 - [x] Mobile composition approved
 - [x] Footer copy aligned with static MVP boundaries
-- [x] Newsletter block marked for later integration
+- [x] Newsletter block wired to `/api/newsletter` with spinner + subscribe-again reset

@@ -28,5 +28,5 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [ ] Resend domain verified + production env on Vercel (client ops)
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
-- [ ] Client sign-off on CMS scope (`docs/cms-client-summary.md`)
+- [ ] Client sign-off on CMS scope — Phase 1 + Phase 2 (`docs/cms-client-summary.md`)
 - [ ] Sanity project + implementation (post-approval)

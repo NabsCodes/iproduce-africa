@@ -25,7 +25,7 @@ review. No code until parent checklist is signed off.
 ### Out of scope (Phase 1)
 
 - Academy hub hero, tabs, opportunities, participants, testimonials, FAQs
-- Team, partners, site-wide FAQs (Phase 2)
+- Team, partners, FAQs, member stories (**Phase 2** — `docs/cms-migration-spec.md`)
 - Visual Editing / draft preview (deferred)
 - Algolia or server search API
 - TypeGen (Phase 1b after schema stabilises)
@@ -446,8 +446,9 @@ replace or delete from `/admin`, they do not re-type demo content by hand.
 8. `--dry-run` + migration manifest (failures, skips, collisions)
 9. Print summary counts
 
-Phase 2 uses the same pattern for testimonials, partners, team, FAQs — migrate
-static placeholders into `development`, not empty collections.
+Phase 2 uses the same pattern for testimonials, partners, team, advisors, FAQs,
+and member stories — migrate static placeholders into `development`, not empty
+collections (see `docs/cms-migration-spec.md` Phase 2).
 
 **Post-migration:** static catalogue arrays move to `content/_archived/` after
 cutover QA — do not delete in the same PR as fetch swap.

@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
 import { asFormResolver } from "@/lib/forms/as-form-resolver";
 import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
@@ -33,7 +34,9 @@ export type NewsletterSignupCopy = {
   inputLabel: string;
   placeholder: string;
   submitLabel: string;
+  submittingLabel?: string;
   successMessage: string;
+  subscribeAgainLabel: string;
   formAriaLabel?: string;
 };
 
@@ -51,6 +54,7 @@ export function NewsletterSignupForm({
   className,
 }: NewsletterSignupFormProps) {
   const [submitted, setSubmitted] = useState(false);
+  const submittingLabel = copy.submittingLabel ?? "Subscribing...";
   const {
     isSubmitting,
     submitError,
@@ -78,23 +82,50 @@ export function NewsletterSignupForm({
     }
   }
 
-  if (submitted) {
-    return (
-      <p
-        role="status"
-        aria-live="polite"
-        className={cn(
-          "text-fg-muted text-sm leading-6",
-          variant === "footer" ? "mt-6" : "mt-5",
-          className,
-        )}
-      >
-        {copy.successMessage}
-      </p>
-    );
+  function handleSubscribeAgain() {
+    form.reset(withPublicFormSecurity(newsletterDefaultValues));
+    bumpTurnstileReset();
+    setSubmitted(false);
   }
 
   const isCompact = variant === "compact";
+  const successSpacing = isCompact ? "mt-5" : "mt-6";
+
+  if (submitted) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        className={cn(
+          "flex flex-col items-start gap-3",
+          successSpacing,
+          className,
+        )}
+      >
+        <p
+          className={cn(
+            "text-sm leading-6",
+            isCompact ? "text-fg-muted" : "text-white/70",
+          )}
+        >
+          {copy.successMessage}
+        </p>
+        <Button
+          type="button"
+          variant="link"
+          onClick={handleSubscribeAgain}
+          className={cn(
+            "h-auto p-0 text-sm font-semibold",
+            isCompact
+              ? "text-leaf-700"
+              : "text-leaf-300 hover:text-leaf-200 focus-visible:text-leaf-200",
+          )}
+        >
+          {copy.subscribeAgainLabel}
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -128,6 +159,7 @@ export function NewsletterSignupForm({
                     autoCapitalize="off"
                     spellCheck={false}
                     placeholder={copy.placeholder}
+                    disabled={isSubmitting}
                     className={cn(
                       isCompact
                         ? "min-w-0 flex-1 bg-white"
@@ -144,14 +176,22 @@ export function NewsletterSignupForm({
             variant="tangerine"
             size={isCompact ? "icon-sm" : undefined}
             disabled={isSubmitting}
-            aria-label={copy.submitLabel}
-            title={copy.submitLabel}
+            aria-busy={isSubmitting}
+            aria-label={isSubmitting ? submittingLabel : copy.submitLabel}
+            title={isSubmitting ? submittingLabel : copy.submitLabel}
             className={cn(
               !isCompact &&
                 "hover:shadow-tangerine-500/25 active:bg-tangerine-600 size-14 shrink-0 p-0 transition-all",
             )}
           >
-            <Send className={isCompact ? "size-4" : "size-5"} aria-hidden />
+            {isSubmitting ? (
+              <Spinner
+                aria-hidden
+                className={isCompact ? "size-4" : "size-5"}
+              />
+            ) : (
+              <Send className={isCompact ? "size-4" : "size-5"} aria-hidden />
+            )}
           </Button>
         </Field>
 
@@ -165,7 +205,13 @@ export function NewsletterSignupForm({
         />
 
         {submitError ? (
-          <p className="text-destructive mt-2 text-xs" role="alert">
+          <p
+            className={cn(
+              "text-destructive mt-2 text-xs",
+              !isCompact && "text-rose-300",
+            )}
+            role="alert"
+          >
             {submitError}
           </p>
         ) : null}

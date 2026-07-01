@@ -14,7 +14,9 @@ export function NewsletterForm() {
         inputLabel: "Email address",
         placeholder: copy.placeholder,
         submitLabel: copy.submitLabel,
+        submittingLabel: copy.submittingLabel,
         successMessage: copy.successMessage,
+        subscribeAgainLabel: copy.subscribeAgainLabel,
       }}
     />
   );

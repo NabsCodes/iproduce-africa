@@ -31,8 +31,10 @@ courses via the detail page's related section.
   folded into the Webinars & Events catalogue. See
   [Navbar + footer migration](#navbar--footer-migration).
 - Static-first MVP: no Sanity, no comments, no auth. Newsletter signup uses
-  RHF + Zod (`schemas/newsletter.ts`, `NewsletterSignupForm`) and POSTs to
-  `/api/newsletter` (Resend + Turnstile). Inline success + Sonner toast.
+  shared `NewsletterSignupForm` (RHF + Zod) and POSTs to `/api/newsletter`
+  (Resend + Turnstile). Inline success + Sonner toast. **Subscribe with another
+  email** resets the form + Turnstile without refresh. Submit shows spinner on
+  the send button while loading.
 - Reuse existing primitives: `ContentCard`, `EyebrowPill`, `SiteCtaButton`,
   `CtaSection`. Motion primitives (`MotionFade`, `MotionStagger`) apply on
   day one — the full motion pass is shipped.

@@ -3,6 +3,18 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Newsletter submit UX (2026-07-01)
+
+**`NewsletterSignupForm`:** send button shows spinner + `aria-busy` while
+posting; email input disabled during submit. Success panel adds **Subscribe with
+another email** (resets RHF + Turnstile, same pattern as Contact). Copy in
+`content/site.ts` (footer) and `content/blog.ts` (sidebar). Docs: `footer-spec`,
+`blog-spec`.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
 ## Form + dialog UX pass (2026-06-24)
 
 **Multi-step dialogs (Become Partner, Membership Application, Academy
@@ -13,10 +25,10 @@ flex (fixed back/submit, centered step counter). Mobile submit keeps **Submit**
   slightly tighter mobile width/height and extra scroll padding. **Become Partner
   review:** stacked header, interest chips, wrapping org name. **Membership
   review:** static **Community application** badge (parallel to Partner inquiry)
-  + dynamic **Your sector** chip; organisation-only subtitle; sector removed
-  from detail grid. **2026-07-01 follow-up:** membership review uses **Option B**
-  — tangerine badge shows selected sector label only (no static application badge,
-  no chip row).
+  - dynamic **Your sector** chip; organisation-only subtitle; sector removed
+    from detail grid. **2026-07-01 follow-up:** membership review uses **Option B**
+    — tangerine badge shows selected sector label only (no static application badge,
+    no chip row).
 
 **Page forms:** Added `components/shared/form-submit-button.tsx` (spinner +
 submitting label). Wired Contact, Partners inquiry, Community application.
@@ -27,6 +39,29 @@ and Community application (resets RHF + Turnstile).
 `community-membership-dialog-spec`.
 
 **Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
+## CMS Phase 2 scope + contract fixes (2026-06-28)
+
+Patched after review: `teamMember` aligned to `AboutTeamMember`/`AboutAdvisor`
+(required bio + photo, social URLs), `partner` slug→`id` + `website`→`href`,
+voices grid repetition stays code-owned (`expandVoicesLogoGrid`), FAQ
+categories code-owned + items from CMS, Phase 2 slices 2A/2B/2C, production
+migrate only after client approval.
+
+**Verification:** Docs-only.
+
+---
+
+## CMS Phase 2 scope locked (2026-06-28)
+
+Expanded `docs/cms-migration-spec.md` and `docs/cms-client-summary.md`: Phase 2
+is explicitly scoped (not backlog) — testimonial, faq, partner, teamMember,
+memberStory across Home, About, Academy hub, Community, Partners, Contact.
+Full placeholder seed + route wiring + revalidation map documented.
+
+**Verification:** Docs-only.
 
 ---
 

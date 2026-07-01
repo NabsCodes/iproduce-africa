@@ -140,7 +140,9 @@ export function BlogArticleSidebar({
             inputLabel: newsletter.inputLabel,
             placeholder: newsletter.inputPlaceholder,
             submitLabel: newsletter.submitLabel,
+            submittingLabel: newsletter.submittingLabel,
             successMessage: newsletter.successMessage,
+            subscribeAgainLabel: newsletter.subscribeAgainLabel,
             formAriaLabel: newsletter.eyebrow,
           }}
         />
