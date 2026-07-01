@@ -160,9 +160,10 @@ to the X intent otherwise.
 - **Header progress bar** — `ReadingProgress` rendered inside sticky
   `Header` when pathname matches `/academy/blog/[slug]`. Sits flush on
   the nav bottom edge (leaf fill, grey track). Not site-wide.
-- **Scroll to top** — `ScrollToTop` via `AcademyDetailShell`
-  `showScrollToTop` on blog slug pages only. Fixed bottom-right with
-  progress ring; appears after ~400px scroll.
+- **Scroll to top** — `ScrollToTop` in root `app/layout.tsx` (all routes).
+  Shows only when the page is long enough (`scrollHeight > 1.5× viewport`)
+  and the user has scrolled past ~400px. **Progress ring** on blog slug routes
+  only (pairs with header bar); other long pages get a plain ↑ button.
 - **No breadcrumbs** on detail pages — rejected after QA (cluttered the  
   hero/metadata rhythm).
 

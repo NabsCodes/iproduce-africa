@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/footer";
 import { HashScrollHandler } from "@/components/layout/hash-scroll-handler";
 import { Header } from "@/components/layout/header";
+import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { createSiteMetadata, viewport } from "@/lib/metadata";
 import { AppProviders } from "@/providers/app-providers";
 
@@ -39,6 +40,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </AppProviders>
+        <ScrollToTop />
         <Analytics />
         <HashScrollHandler />
       </body>

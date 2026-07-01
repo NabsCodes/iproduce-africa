@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";
-import { ScrollToTop } from "@/components/shared/scroll-to-top";
 
 /**
  * Slot-based layout shell for Academy detail pages — Blog, Webinars, Courses.
@@ -15,8 +14,6 @@ type AcademyDetailShellProps = {
   sidebar: ReactNode;
   related: ReactNode;
   cta: ReactNode;
-  /** Long-form reads (blog articles) — pairs with header reading progress. */
-  showScrollToTop?: boolean;
 };
 
 export function AcademyDetailShell({
@@ -26,7 +23,6 @@ export function AcademyDetailShell({
   sidebar,
   related,
   cta,
-  showScrollToTop = false,
 }: AcademyDetailShellProps) {
   return (
     <>
@@ -60,8 +56,6 @@ export function AcademyDetailShell({
       </section>
 
       {cta}
-
-      {showScrollToTop ? <ScrollToTop /> : null}
     </>
   );
 }

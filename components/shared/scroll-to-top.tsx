@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -12,28 +13,41 @@ const STROKE_WIDTH = 2;
 const RING_RADIUS = BUTTON_SIZE / 2 - STROKE_WIDTH;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 const SHOW_AFTER_PX = 400;
+const LONG_PAGE_HEIGHT_RATIO = 1.5;
+
+const blogArticlePath = /^\/academy\/blog\/[^/]+$/;
 
 export function ScrollToTop() {
+  const pathname = usePathname();
   const reduce = useReducedMotionSafe();
+  const showProgressRing = blogArticlePath.test(pathname);
   const [isVisible, setIsVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => {
-      const scrollHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+    const update = () => {
+      const viewportHeight = window.innerHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+      const scrollableDistance = pageHeight - viewportHeight;
+      const isLongPage = pageHeight > viewportHeight * LONG_PAGE_HEIGHT_RATIO;
       const nextProgress =
-        scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+        scrollableDistance > 0
+          ? (window.scrollY / scrollableDistance) * 100
+          : 0;
 
       setProgress(nextProgress);
-      setIsVisible(window.scrollY > SHOW_AFTER_PX);
+      setIsVisible(isLongPage && window.scrollY > SHOW_AFTER_PX);
     };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [pathname]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -69,32 +83,34 @@ export function ScrollToTop() {
           )}
           aria-label="Scroll to top"
         >
-          <svg
-            className="pointer-events-none absolute inset-0 size-full -rotate-90"
-            aria-hidden
-          >
-            <circle
-              cx="50%"
-              cy="50%"
-              r={RING_RADIUS}
-              stroke="currentColor"
-              strokeWidth={STROKE_WIDTH}
-              fill="transparent"
-              className="text-leaf-200"
-            />
-            <circle
-              cx="50%"
-              cy="50%"
-              r={RING_RADIUS}
-              stroke="currentColor"
-              strokeWidth={STROKE_WIDTH}
-              fill="transparent"
-              strokeDasharray={RING_CIRCUMFERENCE}
-              strokeDashoffset={ringOffset}
-              strokeLinecap="round"
-              className="text-leaf-600 transition-[stroke-dashoffset] duration-200"
-            />
-          </svg>
+          {showProgressRing ? (
+            <svg
+              className="pointer-events-none absolute inset-0 size-full -rotate-90"
+              aria-hidden
+            >
+              <circle
+                cx="50%"
+                cy="50%"
+                r={RING_RADIUS}
+                stroke="currentColor"
+                strokeWidth={STROKE_WIDTH}
+                fill="transparent"
+                className="text-leaf-200"
+              />
+              <circle
+                cx="50%"
+                cy="50%"
+                r={RING_RADIUS}
+                stroke="currentColor"
+                strokeWidth={STROKE_WIDTH}
+                fill="transparent"
+                strokeDasharray={RING_CIRCUMFERENCE}
+                strokeDashoffset={ringOffset}
+                strokeLinecap="round"
+                className="text-leaf-600 transition-[stroke-dashoffset] duration-200"
+              />
+            </svg>
+          ) : null}
 
           <ArrowUp
             className="relative z-10 size-5 transition-transform duration-200 group-hover:-translate-y-0.5"

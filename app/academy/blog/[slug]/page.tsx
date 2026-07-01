@@ -64,7 +64,6 @@ export default async function BlogArticlePage({
 
   return (
     <AcademyDetailShell
-      showScrollToTop
       hero={<AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />}
       metadata={
         <AcademyDetailMetadata

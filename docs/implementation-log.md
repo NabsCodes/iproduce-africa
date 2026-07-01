@@ -3,6 +3,17 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Scroll-to-top — site-wide (2026-07-01)
+
+Moved `<ScrollToTop />` to `app/layout.tsx`. Visible on long pages only
+(`scrollHeight > 1.5× viewport`, `scrollY > 400px`). Progress ring stays
+blog-slug-only; other routes get plain arrow. Removed `showScrollToTop` from
+`AcademyDetailShell`.
+
+**Verification:** `pnpm typecheck`, `pnpm lint`.
+
+---
+
 ## Partners voices grid — CMS contract + window rule (2026-07-01)
 
 Documented shipped `buildVoicesLogoGrid` / `VoicesLogoGrid` behaviour in
