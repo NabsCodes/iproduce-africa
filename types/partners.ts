@@ -58,17 +58,10 @@ export type PartnerVoice = {
   role: string;
 };
 
-export type PartnerLogoCell = {
-  id: string;
-  name: string;
-  logo: string;
-};
-
 export type PartnerVoicesContent = {
   eyebrow: string;
   title: string;
   items: readonly PartnerVoice[];
-  logos: readonly PartnerLogoCell[];
 };
 
 export type PartnerOpportunityIconKey =

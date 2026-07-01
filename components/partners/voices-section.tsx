@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { Quote } from "lucide-react";
 
+import { VoicesLogoGrid } from "@/components/partners/voices-logo-grid";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
-import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import {
   Carousel,
   CarouselContent,
@@ -66,36 +65,7 @@ export function VoicesSection() {
             </MotionFade>
           </div>
 
-          <MotionStagger className="grid min-w-0 grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-            {section.logos.slice(0, 6).map((logo) => (
-              <div
-                key={logo.id}
-                className="border-grey-200 flex aspect-5/3 min-w-0 items-center justify-center rounded-md border bg-white p-4 sm:p-5"
-              >
-                <Image
-                  src={logo.logo}
-                  alt={logo.name}
-                  width={140}
-                  height={60}
-                  className="h-auto max-h-10 w-auto max-w-full object-contain opacity-80 sm:max-h-14"
-                />
-              </div>
-            ))}
-            {section.logos.slice(6).map((logo) => (
-              <div
-                key={logo.id}
-                className="border-grey-200 hidden aspect-5/3 min-w-0 items-center justify-center rounded-md border bg-white p-4 sm:flex sm:p-5"
-              >
-                <Image
-                  src={logo.logo}
-                  alt={logo.name}
-                  width={140}
-                  height={60}
-                  className="h-auto max-h-10 w-auto max-w-full object-contain opacity-80 sm:max-h-14"
-                />
-              </div>
-            ))}
-          </MotionStagger>
+          <VoicesLogoGrid />
         </div>
       </div>
     </section>

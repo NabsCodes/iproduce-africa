@@ -245,7 +245,7 @@ Same phase, smaller PRs. Each slice: schemas + fetch + migrate seed to
 
 **2B — Partners**
 
-- `partner` schema + fetch + `expandVoicesLogoGrid()` helper (code-owned layout)
+- `partner` schema + fetch + `buildVoicesLogoGrid()` helper (code-owned layout)
 - Wire: Home marquee, Partners marquee + voices logo grid + voice quotes already
   in 2A for quotes — order 2A before 2B or ship quotes with 2A and logos in 2B
 
@@ -396,17 +396,188 @@ Maps to `content/partners.ts` → `Partner` (`id`, `name`, `logo`, `href?`).
 
 **Voices logo grid — CMS data vs code layout**
 
-Today `voicesLogoOrder` in `content/partners.ts` repeats three partner logos into
-a **12-cell** grid so the section reads fuller without inventing brands.
+Static v1: `partnersList` feeds **both** the marquee and the voices grid. There
+is **no** per-cell logo array in content — the grid is derived at render time.
 
-| Layer                         | Owner                                                                                                                         |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Which partners appear         | CMS — `showInVoices` + `order`                                                                                                |
-| 12-cell repetition / rotation | **Code** — `expandVoicesLogoGrid(partners, { targetCount: 12 })` in `lib/partners/` (port of current `voicesLogoOrder` logic) |
-| When unique partners ≥ target | Show one cell per partner (no repetition)                                                                                     |
+| Layer                                         | Owner                                                                   |
+| --------------------------------------------- | ----------------------------------------------------------------------- |
+| Partner catalogue (name, logo, href, order)   | **CMS** — `partner` documents                                           |
+| Which partners are eligible for marquee       | **CMS** — `showInMarquee` (static v1: all entries)                      |
+| Which partners are eligible for voices grid   | **CMS** — `showInVoices` (static v1: all entries)                       |
+| Sort order within each pool                   | **CMS** — `order` (lower first), then `name`                            |
+| 12-cell layout, fair repeats, window rotation | **Code** — `lib/partners/voices-logo-grid.ts` → `buildVoicesLogoGrid()` |
+| Crossfade between windows                     | **Code** — `components/partners/voices-logo-grid.tsx`                   |
 
-Do **not** model per-cell repeats in Sanity for v1. Editors add real partners;
-layout helper fills the grid until the catalogue is large enough.
+Do **not** model per-cell repeats or a 12-slot logo array in Sanity for v1.
+Editors add real partners; the layout helper fills or rotates the grid.
+
+#### Section wireframe (`/partners` — Voices band)
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│  PARTNERS PAGE — "Voices" section (bg-subtle)                           │
+│                                                                         │
+│  ┌──────────────────────────────┐  ┌──────────────────────────────────┐ │
+│  │  Eyebrow + title             │  │                                  │ │
+│  │                              │  │     LOGO GRID  (VoicesLogoGrid) │ │
+│  │  ┌────────────────────────┐  │  │                                  │ │
+│  │  │  Quote carousel        │  │  │                                  │ │
+│  │  │  (testimonial docs)    │  │  │                                  │ │
+│  │  │  • • • dots            │  │  │                                  │ │
+│  │  └────────────────────────┘  │  │                                  │ │
+│  └──────────────────────────────┘  └──────────────────────────────────┘ │
+│         LEFT (quotes)                      RIGHT (logos)                  │
+│                                                                         │
+│  Mobile: stacks — quotes on top, grid below (full width)                │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Logo cell chrome (code-owned)
+
+```
+┌─────────────────────┐
+│                     │
+│      [  LOGO  ]     │  white card, border, logo centered (aspect ~5:3)
+│                     │
+└─────────────────────┘
+```
+
+Reuses `<PartnerLogo />` from `components/shared/partner-logo.tsx`. Card
+wrapper lives in `voices-logo-grid.tsx` — not the marquee card.
+
+#### Desktop grid — 12 slots (3 columns × 4 rows)
+
+Target constant: `VOICES_LOGO_GRID_TARGET = 12`.
+
+```
+┌─────────┬─────────┬─────────┐
+│    1    │    2    │    3    │  row 1
+├─────────┼─────────┼─────────┤
+│    4    │    5    │    6    │  row 2
+├─────────┼─────────┼─────────┤
+│    7    │    8    │    9    │  row 3
+├─────────┼─────────┼─────────┤
+│   10    │   11    │   12    │  row 4
+└─────────┴─────────┴─────────┘
+```
+
+#### Mobile grid — 6 visible slots (2 columns × 3 rows)
+
+Same 12-cell build; cells 7–12 use `hidden sm:flex`. Mobile shows indices 0–5
+only.
+
+```
+┌─────────┬─────────┐
+│    1    │    2    │  row 1
+├─────────┼─────────┤
+│    3    │    4    │  row 2
+├─────────┼─────────┤
+│    5    │    6    │  row 3
+└─────────┴─────────┘
+   (rows 4–6 hidden below sm)
+```
+
+#### Fill rules (`buildVoicesLogoGrid`)
+
+Partners are sorted by `order` asc, then `name`. Let `N` = eligible partner
+count, `T` = 12.
+
+| Condition | Behaviour                                                                                                                                       |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `N === 0` | Return `[]`; section guard may hide grid                                                                                                        |
+| `N < T`   | **Round-robin** fill to `T` cells — fair rotation through the pool; skip a candidate when it would sit **adjacent** to the same `id`            |
+| `N ≥ T`   | **Rotating window** — always `T` cells; start at `(windowIndex × T) % N`, walk forward with **modulo wrap** through the sorted pool (see below) |
+
+Example with 5 partners and `T = 12` (round-robin):
+
+```
+Pool (by order):  [1][2][3][4][5]
+
+12 cells:         [1][2][3][4][5][1][2][3][4][5][1][2]
+```
+
+Not random — deterministic for QA and sponsor fairness.
+
+#### Overflow rotation (`N > T`)
+
+When the catalogue exceeds 12, advance `windowIndex` on a timer; the entire grid
+crossfades (not per-cell shuffle). Each window always shows **exactly `T`
+cells** — the grid never shrinks.
+
+**Window selection (intentional — matches `selectPartnerWindow`):**
+
+```
+start = (windowIndex × T) % N
+cell[i] = pool[(start + i) % N]   for i = 0 … T−1
+```
+
+`windowCount = ceil(N / T)` — same as `getVoicesLogoWindowCount()`.
+
+When `N` is an exact multiple of `T` (e.g. 24), windows are non-overlapping
+chunks with no wrap inside a window:
+
+```
+Window 0: partners  1–12
+Window 1: partners 13–24
+```
+
+When `T < N < 2T` (e.g. `N = 15`), later windows **wrap** through the pool to
+fill all 12 cells — some partners reappear within that window. That is
+acceptable for sponsor exposure; we do **not** use strict non-overlapping slices
+(option B rejected for v1).
+
+```
+N = 15, T = 12
+
+Window 0 (start 0):  [1][2][3]…[12]
+Window 1 (start 12): [13][14][15][1][2][3][4][5][6][7][8][9]
+                     └── wrap ──┘
+```
+
+```
+┌── Window 0 ──┐     ~10s crossfade     ┌── Window 1 (wraps) ──┐
+│ 1 … 12       │  ───────────────────►  │ 13,14,15,1,2,3,4,5,6,7,8,9 │
+└──────────────┘                        └──────────────────────────┘
+```
+
+| Motion rule                        | Implementation                                  |
+| ---------------------------------- | ----------------------------------------------- |
+| Rotate only when `windowCount > 1` | `getVoicesLogoWindowCount()`                    |
+| Interval ~10s                      | `ROTATE_INTERVAL_MS` in `voices-logo-grid.tsx`  |
+| Pause on hover                     | `onMouseEnter` / `onMouseLeave` on grid wrapper |
+| `prefers-reduced-motion`           | No rotation; show window 0 only                 |
+
+Home/About **marquee** is separate: infinite horizontal scroll of the marquee
+pool (`showInMarquee`), not this 3×4 grid.
+
+#### CMS fetch (Phase 2)
+
+```groq
+// Marquee pool
+*[_type == "partner" && showInMarquee == true && !(_id in path("drafts.**"))]
+  | order(order asc, name asc) { "id": slug.current, name, "logo": logo.asset->url, website }
+
+// Voices grid pool
+*[_type == "partner" && showInVoices == true && !(_id in path("drafts.**"))]
+  | order(order asc, name asc) { "id": slug.current, name, "logo": logo.asset->url, website }
+```
+
+Projection uses `logo.asset->url` for documentation clarity. Implementation should
+map logos through the shared Sanity image helper (`urlFor()` or equivalent) for
+CDN params and consistent sizing — not raw URLs inlined in components.
+
+Map `website` → `href`. Pass voices pool into `<VoicesLogoGrid partners={...} />`.
+Do not persist grid cells in Sanity.
+
+#### What editors control vs engineering
+
+| Editors (CMS)                           | Engineering (code)                                         |
+| --------------------------------------- | ---------------------------------------------------------- |
+| Add/remove partner logos                | 12-cell target count                                       |
+| Set `order` for tiering                 | Round-robin + anti-adjacent-repeat                         |
+| Toggle `showInMarquee` / `showInVoices` | Modulo window walk when `N ≥ 12` (wrap on partial windows) |
+| Upload logo image + alt                 | Crossfade timing, pause-on-hover, reduced motion           |
+| Partner `website` URL                   | Mobile 6 / desktop 12 visibility split                     |
 
 ### `teamMember`
 
@@ -415,18 +586,18 @@ About team carousel and advisors grid; query twice on `/about` with
 `group == 'team'` and `group == 'advisor'`. Static v1 mirror:
 `content/about-people.ts`.
 
-| Sanity field       | Type                                 | Projects to             | Required                           |
-| ------------------ | ------------------------------------ | ----------------------- | ---------------------------------- |
-| `slug` / stable id | slug                                 | `id`                    | yes — React keys, dialog state     |
-| `name`             | string                               | `name`                  | yes                                |
-| `role`             | string                               | `role`                  | yes                                |
-| `bioSummary`       | text                                 | `bioSummary`            | yes — card teaser (`line-clamp-3`) |
-| `bioParagraphs`    | array of text / portable text blocks | `bioParagraphs[]`       | yes — profile dialog body          |
-| `credentials`      | string                               | `credentials`           | optional — modal header under role |
-| `photo`            | image + alt                          | `photo` URL string      | yes                                |
-| `group`            | list                                 | `team` \| `advisor`     | yes                                |
+| Sanity field       | Type                                   | Projects to                  | Required                                                                                                                                       |
+| ------------------ | -------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slug` / stable id | slug                                   | `id`                         | yes — React keys, dialog state                                                                                                                 |
+| `name`             | string                                 | `name`                       | yes                                                                                                                                            |
+| `role`             | string                                 | `role`                       | yes                                                                                                                                            |
+| `bioSummary`       | text                                   | `bioSummary`                 | yes — card teaser (`line-clamp-3`)                                                                                                             |
+| `bioParagraphs`    | array of text / portable text blocks   | `bioParagraphs[]`            | yes — profile dialog body                                                                                                                      |
+| `credentials`      | string                                 | `credentials`                | optional — modal header under role                                                                                                             |
+| `photo`            | image + alt                            | `photo` URL string           | yes                                                                                                                                            |
+| `group`            | list                                   | `team` \| `advisor`          | yes                                                                                                                                            |
 | `socials`          | array of `{ platform, value, label? }` | `socials[]` on `AboutPerson` | optional — `platform`: `linkedin` \| `facebook` \| `x` \| `instagram` \| `telegram` \| `website` \| `email` \| `phone`; email/phone modal-only |
-| `order`            | number                               | carousel/grid sort      | optional                           |
+| `order`            | number                                 | carousel/grid sort           | optional                                                                                                                                       |
 
 Section chrome (`eyebrow`, `title`, `description`, `viewProfileLabel`,
 `readMoreLabel` on `AboutTeam` / `AboutAdvisors`) stays **code-owned** in
@@ -484,16 +655,16 @@ listing grids (fallback to empty state copy only on **listing routes**).
 
 ### Rule 3 — Minimum items before showing a band
 
-| Band                                  | Minimum | Fallback                                                                       |
-| ------------------------------------- | ------- | ------------------------------------------------------------------------------ |
-| Testimonials carousel                 | 1       | hide section                                                                   |
-| FAQ accordion                         | 1       | hide section                                                                   |
-| Partners marquee                      | 1       | hide section (hybrid static until Phase 2 cutover)                             |
-| Partner voices quotes                 | 1       | hide quotes band; logo grid uses `expandVoicesLogoGrid` (may repeat few logos) |
-| Team / advisors grid                  | 1       | hide section                                                                   |
-| Community member stories              | 1       | hide section                                                                   |
-| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly                              |
-| Related items                         | 1       | hide related block                                                             |
+| Band                                  | Minimum | Fallback                                                                      |
+| ------------------------------------- | ------- | ----------------------------------------------------------------------------- |
+| Testimonials carousel                 | 1       | hide section                                                                  |
+| FAQ accordion                         | 1       | hide section                                                                  |
+| Partners marquee                      | 1       | hide section (hybrid static until Phase 2 cutover)                            |
+| Partner voices quotes                 | 1       | hide quotes band; logo grid uses `buildVoicesLogoGrid` (may repeat few logos) |
+| Team / advisors grid                  | 1       | hide section                                                                  |
+| Community member stories              | 1       | hide section                                                                  |
+| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly                             |
+| Related items                         | 1       | hide related block                                                            |
 
 Document thresholds in the spec checklist when implementing each page.
 

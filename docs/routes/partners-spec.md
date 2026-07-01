@@ -202,8 +202,10 @@ slightly smaller scale (`p-3 + size-10` icon).
   - role: `Partnerships Director, DGT Ltd`
   - small carousel dots with tangerine active state
 - Right side:
-  - static logo grid using the confirmed partner logos, repeated as shown
-  - 3 columns x 4 rows on desktop
+  - logo grid from `partnersList` via `<VoicesLogoGrid />` — 12 cells on
+    desktop (3×4), 6 on mobile; fill/rotation rules are **code-owned** (see
+    [Voices logo grid — CMS contract](../cms-migration-spec.md#partner) in
+    `cms-migration-spec.md`)
 - Decorative tangerine ring partially clipped at the top-right.
 
 ### Mobile / Tablet
@@ -387,7 +389,7 @@ with Home defaults preserved. Partners passes a single-button override
 | Path                                            | Notes                                                                                          |
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `components/partners/benefits-section.tsx`      | 6-card grid; icon chips stay inactive until card hover. Header split layout.                   |
-| `components/partners/voices-section.tsx`        | Testimonial card + 3×4 logo grid; tangerine `DecorativeRing` top-right (md+ only).             |
+| `components/partners/voices-section.tsx`        | Testimonial carousel + `<VoicesLogoGrid />`; tangerine `DecorativeRing` top-right (md+ only). Grid contract: `cms-migration-spec.md` → `partner` → Voices logo grid. |
 | `components/partners/opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.             |
 | `components/partners/inquiry-form.tsx`          | Client form consuming shared field wrappers and `schemas/partners.ts`; phone via shared input. |
 | `components/partners/inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`.  |

@@ -3,6 +3,19 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Partners voices grid — CMS contract + window rule (2026-07-01)
+
+Documented shipped `buildVoicesLogoGrid` / `VoicesLogoGrid` behaviour in
+`docs/cms-migration-spec.md` (wireframes, fill table, GROQ pools, editor vs
+engineering split). Locked **option A**: modulo wrap when `T < N < 2T` (e.g.
+`N=15` window 1 shows 13–15 then wraps 1–9) — matches `selectPartnerWindow`.
+Cross-link from `docs/routes/partners-spec.md`; fixed `expandVoicesLogoGrid`
+typo in implementation-log.
+
+**Verification:** Docs-only.
+
+---
+
 ## About team & advisors — profile dialogs (2026-06-24)
 
 **People registry:** `content/about-people.ts` — canonical `aboutPeople[]` with
@@ -66,7 +79,7 @@ and Community application (resets RHF + Turnstile).
 
 Patched after review: `teamMember` aligned to `AboutTeamMember`/`AboutAdvisor`
 (required bio + photo, social URLs), `partner` slug→`id` + `website`→`href`,
-voices grid repetition stays code-owned (`expandVoicesLogoGrid`), FAQ
+voices grid repetition stays code-owned (`buildVoicesLogoGrid`), FAQ
 categories code-owned + items from CMS, Phase 2 slices 2A/2B/2C, production
 migrate only after client approval.
 

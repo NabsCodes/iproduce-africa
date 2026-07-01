@@ -7,55 +7,47 @@ export type Partner = {
   name: string;
   logo: string;
   href?: string;
+  /** Lower numbers surface first in marquee + voices grid (CMS `order`). */
+  order?: number;
 };
 
 export const partnersList: Partner[] = [
   {
-    id: "icreate-africa",
-    name: "iCreate Africa",
-    logo: "/images/partners/icreate-africa.webp",
-  },
-  {
     id: "islamic-development-bank",
     name: "Islamic Development Bank",
     logo: "/images/partners/islamic-development-bank.webp",
+    href: "https://www.isdb.org/",
+    order: 1,
+  },
+  {
+    id: "icreate-africa",
+    name: "iCreate Africa",
+    logo: "/images/partners/icreate-africa.webp",
+    href: "https://icreateafrica.com/",
+    order: 2,
   },
   {
     id: "nicert",
     name: "NICERT",
     logo: "/images/partners/nicert.webp",
+    href: "https://nicert.net/",
+    order: 3,
+  },
+  {
+    id: "jaiz-bank",
+    name: "Jaiz Bank",
+    logo: "/images/partners/jaiz-bank.webp",
+    href: "https://jaizbankplc.com/",
+    order: 4,
+  },
+  {
+    id: "the-cfg-advisory",
+    name: "The CFG Advisory",
+    logo: "/images/partners/the-cfg-advisory.webp",
+    href: "https://thecfgadvisory.com/",
+    order: 5,
   },
 ];
-
-// 12-cell logo grid for the partner voices section — repeats the available
-// logos in a deliberate rotation so the grid reads as 'many partners' without
-// inventing logos we don't have yet.
-const voicesLogoOrder: string[] = [
-  "islamic-development-bank",
-  "icreate-africa",
-  "nicert",
-  "nicert",
-  "islamic-development-bank",
-  "icreate-africa",
-  "icreate-africa",
-  "nicert",
-  "islamic-development-bank",
-  "islamic-development-bank",
-  "icreate-africa",
-  "nicert",
-];
-
-const voicesLogos = voicesLogoOrder.map((id, index) => {
-  const partner = partnersList.find((p) => p.id === id);
-  if (!partner) {
-    throw new Error(`Unknown partner id in voicesLogoOrder: ${id}`);
-  }
-  return {
-    id: `${id}-${index}`,
-    name: partner.name,
-    logo: partner.logo,
-  };
-});
 
 export const partnersPageContent = {
   hero: {
@@ -186,7 +178,6 @@ export const partnersPageContent = {
         role: "Director of Research, AgriFutures Africa",
       },
     ],
-    logos: voicesLogos,
   },
   opportunities: {
     eyebrow: "Partnership Opportunities",
