@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
 
 import { PersonProfileDialog } from "@/components/about/person-profile-dialog";
+import { PersonSocialLinks } from "@/components/about/person-social-links";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/carousel";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
+import { getAboutPersonCardSocials } from "@/lib/about-person-socials";
 import type { AboutPerson } from "@/types/about";
 
 function TeamCard({
@@ -28,11 +28,14 @@ function TeamCard({
   viewProfileLabel: string;
   onViewProfile: (person: AboutPerson) => void;
 }) {
+  const cardSocials = getAboutPersonCardSocials(member.socials);
+
   return (
     <Card className="border-default hover:border-leaf-300 focus-within:border-leaf-300 h-full flex-col gap-0 border bg-white p-4 shadow-none ring-0 transition-colors">
       <button
         type="button"
         onClick={() => onViewProfile(member)}
+        aria-haspopup="dialog"
         aria-label={`View profile for ${member.name}`}
         className="group focus-visible:ring-leaf-400 flex flex-1 flex-col text-left outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
@@ -45,7 +48,7 @@ function TeamCard({
             className="object-cover object-[center_20%] transition-transform duration-300 group-hover:scale-[1.02]"
           />
         </div>
-        <CardContent className="flex flex-1 flex-col p-0 pt-4">
+        <CardContent className="flex flex-1 flex-col p-0 pt-3">
           <div className="flex flex-wrap items-center gap-x-2 text-sm">
             <span className="text-foreground font-semibold">{member.name}</span>
             <span className="text-fg-subtle" aria-hidden>
@@ -58,37 +61,20 @@ function TeamCard({
           </p>
           <span className="text-leaf-700 decoration-leaf-700/50 group-hover:decoration-leaf-700 mt-3 inline-flex items-center gap-1 text-sm font-semibold underline underline-offset-4 transition">
             {viewProfileLabel}
-            <ChevronRight className="size-4" aria-hidden />
+            <ChevronRight
+              className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+              aria-hidden
+            />
           </span>
         </CardContent>
       </button>
-      {member.linkedin || member.facebook ? (
-        <div className="mt-3 flex items-center gap-2 pt-1">
-          {member.linkedin ? (
-            <Link
-              href={member.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name} on LinkedIn`}
-              className="border-default text-fg-muted hover:bg-muted inline-flex size-8 items-center justify-center rounded-md border transition"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <FaLinkedinIn className="size-3.5" />
-            </Link>
-          ) : null}
-          {member.facebook ? (
-            <Link
-              href={member.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name} on Facebook`}
-              className="border-default text-fg-muted hover:bg-muted inline-flex size-8 items-center justify-center rounded-md border transition"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <FaFacebookF className="size-3.5" />
-            </Link>
-          ) : null}
-        </div>
+      {cardSocials.length > 0 ? (
+        <PersonSocialLinks
+          socials={cardSocials}
+          personName={member.name}
+          className="mt-3 pt-1"
+          onLinkClick={(event) => event.stopPropagation()}
+        />
       ) : null}
     </Card>
   );

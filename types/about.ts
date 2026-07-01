@@ -87,6 +87,22 @@ export type AboutJourney = {
 
 export type AboutPersonGroup = "team" | "advisor";
 
+export type AboutPersonSocialPlatform =
+  | "linkedin"
+  | "facebook"
+  | "x"
+  | "instagram"
+  | "telegram"
+  | "website"
+  | "email"
+  | "phone";
+
+export type AboutPersonSocial = {
+  platform: AboutPersonSocialPlatform;
+  value: string;
+  label?: string;
+};
+
 export type AboutPerson = {
   id: string;
   group: AboutPersonGroup;
@@ -97,10 +113,7 @@ export type AboutPerson = {
   bioParagraphs: readonly string[];
   credentials?: string;
   order: number;
-  linkedin?: string;
-  facebook?: string;
-  email?: string;
-  phone?: string;
+  socials?: readonly AboutPersonSocial[];
 };
 
 export type AboutTeam = {

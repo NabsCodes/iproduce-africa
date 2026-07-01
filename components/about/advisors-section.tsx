@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { FaLinkedinIn } from "react-icons/fa6";
 
 import { PersonProfileDialog } from "@/components/about/person-profile-dialog";
+import { PersonSocialLinks } from "@/components/about/person-social-links";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
+import { getAboutPersonCardSocials } from "@/lib/about-person-socials";
 import type { AboutPerson } from "@/types/about";
 
 function AdvisorCard({
@@ -24,8 +24,10 @@ function AdvisorCard({
   readMoreLabel: string;
   onReadMore: (person: AboutPerson) => void;
 }) {
+  const cardSocials = getAboutPersonCardSocials(advisor.socials, { limit: 1 });
+
   return (
-    <Card className="border-default h-full flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 sm:flex-row">
+    <Card className="border-default h-full min-h-0 flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 sm:min-h-44 sm:flex-row lg:min-h-48">
       <div className="bg-muted relative aspect-5/3 w-full shrink-0 sm:aspect-square sm:w-32 sm:self-stretch lg:w-40">
         <Image
           src={advisor.photo}
@@ -48,22 +50,17 @@ function AdvisorCard({
             type="button"
             variant="green-link"
             size="sm"
+            aria-haspopup="dialog"
             onClick={() => onReadMore(advisor)}
             className="decoration-leaf-700/50 hover:decoration-leaf-700 h-auto p-0 text-sm font-semibold underline underline-offset-4"
           >
             {readMoreLabel}
           </Button>
-          {advisor.linkedin ? (
-            <Link
-              href={advisor.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${advisor.name} on LinkedIn`}
-              className="border-default text-fg-muted hover:bg-muted inline-flex size-8 shrink-0 items-center justify-center rounded-md border transition"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <FaLinkedinIn className="size-3.5" />
-            </Link>
+          {cardSocials.length > 0 ? (
+            <PersonSocialLinks
+              socials={cardSocials}
+              personName={advisor.name}
+            />
           ) : null}
         </div>
       </CardContent>

@@ -425,10 +425,7 @@ About team carousel and advisors grid; query twice on `/about` with
 | `credentials`      | string                               | `credentials`           | optional — modal header under role |
 | `photo`            | image + alt                          | `photo` URL string      | yes                                |
 | `group`            | list                                 | `team` \| `advisor`     | yes                                |
-| `linkedin`         | url                                  | `linkedin`              | optional                           |
-| `facebook`         | url                                  | `facebook` (team cards) | optional                           |
-| `email`            | string                               | `email` (modal footer)  | optional                           |
-| `phone`            | string                               | `phone` (modal footer)  | optional                           |
+| `socials`          | array of `{ platform, value, label? }` | `socials[]` on `AboutPerson` | optional — `platform`: `linkedin` \| `facebook` \| `x` \| `instagram` \| `telegram` \| `website` \| `email` \| `phone`; email/phone modal-only |
 | `order`            | number                               | carousel/grid sort      | optional                           |
 
 Section chrome (`eyebrow`, `title`, `description`, `viewProfileLabel`,

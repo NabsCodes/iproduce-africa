@@ -75,7 +75,9 @@ target.
 **Interaction:** the card body is a `<button>` that opens
 `PersonProfileDialog` (`components/about/person-profile-dialog.tsx`).
 Social icon links use `stopPropagation` so LinkedIn/Facebook do not open
-the modal. Hover/focus uses a subtle border shift (`border-leaf-300` /
+the modal. Cards show up to **two** link socials by priority (LinkedIn
+first); email/phone and any remaining links appear in the modal only.
+Hover/focus uses a subtle border shift (`border-leaf-300` /
 `ring-leaf-400`) — no shadow elevation.
 
 **Data:** roster lives in `content/about-people.ts` (`group: 'team'`);
@@ -138,7 +140,9 @@ CMS-readiness highlights: every `image` field is a plain URL,
 editors can change a milestone's media without touching code, and
 `linkedin` / `facebook` / `email` / `phone` keys are optional so missing
 accounts render nothing rather than dead icons. Profile modals use
-`bioParagraphs[]`; cards use `bioSummary` only.
+`bioParagraphs[]`; cards use `bioSummary` only. Contact/social links use
+`socials[]` (`platform` + `value`) — email/phone render as icons in the
+modal footer with hover title; link platforms show on cards when set.
 
 ## Placeholder Imagery
 

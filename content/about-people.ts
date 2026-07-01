@@ -16,7 +16,12 @@ const aboutPeople = [
       "Holds a Doctorate in Economics & Trade Law, with research focused on utilizing WTO dispute settlement mechanisms to dismantle trade barriers for African agricultural exports.",
     ],
     order: 1,
-    linkedin: "https://www.linkedin.com/in/aisha-waziri-umar-53438468",
+    socials: [
+      {
+        platform: "linkedin",
+        value: "https://www.linkedin.com/in/aisha-waziri-umar-53438468",
+      },
+    ],
   },
   {
     id: "mustapha-yakubu",
@@ -79,8 +84,10 @@ const aboutPeople = [
       "Mr. Sidi-Aliyu is currently a director responsible for export trade development with the International Trade Facilitation Association (ITFA), a team of professionals engaging in providing support to SMEs aspiring to become visible in the export business and to be globally competitive. He is also the CEO of A S Dynamic Ventures Limited.",
     ],
     order: 3,
-    email: "s.aliyu@icloud.com",
-    phone: "+2348139167775",
+    socials: [
+      { platform: "email", value: "s.aliyu@icloud.com" },
+      { platform: "phone", value: "+2348139167775" },
+    ],
   },
 ] as const satisfies readonly AboutPerson[];
 
