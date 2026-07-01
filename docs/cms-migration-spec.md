@@ -102,10 +102,17 @@ single exception. Do **not** ship Studio wrapped in site chrome (option c).
 Implementation:
 
 1. Extract marketing chrome to `components/layout/site-chrome.tsx` (`"use client"`).
-2. `usePathname()` — if path starts with `/admin`, render `{children}` only.
-3. Root layout keeps fonts, `AppProviders`, `Analytics`; wraps page body in
-   `<SiteChrome>{children}</SiteChrome>`.
-4. Add `app/admin/layout.tsx` for Studio-only concerns: `robots: noindex`,
+2. **Path gate (precise):** `pathname === "/admin" || pathname.startsWith("/admin/")`
+   — not bare `startsWith("/admin")` (would false-positive paths like
+   `/administration`).
+3. **`SiteChrome` receives slots from the server layout** — root `app/layout.tsx`
+   passes `header` and `footer` React nodes as props; the client gate renders
+   `{children}` only under `/admin`, else `header` + `<main>` + `footer`. Do
+   **not** import `Header` / `Footer` inside the client component (keeps server
+   components out of the client bundle).
+4. Root layout keeps fonts, `AppProviders`, `Analytics`; wraps page body in
+   `<SiteChrome header={…} footer={…}>{children}</SiteChrome>`.
+5. Add `app/admin/layout.tsx` for Studio-only concerns: `robots: noindex`,
    full-viewport height shell (`min-h-dvh`), no extra padding — same pattern as
    q-das `app/admin/layout.tsx`.
 
@@ -604,8 +611,12 @@ approval.
 | Phase 2 types     | `{_type}.{slug}` or `{id}` | `partner.{id}`, `teamMember.{slug}`, … |
 
 - Slug segment = `slug.current` from static source (already kebab-case).
-- Write path: `client.createIfNotExists({ _id, _type, … })` then patch assets
-  on subsequent runs if images failed first time.
+- **Write order (required images):** upload assets from `public/` first, then
+  `createIfNotExists` with complete image refs. Do **not** create documents with
+  missing required images and patch later on first execute — that leaves invalid
+  Studio rows. Re-runs / failed-image recovery use `patch` on existing `_id`.
+- Write path: `client.createIfNotExists({ _id, _type, … })` with asset refs
+  already set when images are required.
 - Re-run behaviour: existing `_id` → **SKIP** (manifest line); no duplicate docs.
 - Slug edits after publish are editorial (append-only policy already locked);
   changing slug without a migration leaves an orphan `_id` — acceptable v1 risk.

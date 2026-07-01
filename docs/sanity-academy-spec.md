@@ -90,7 +90,8 @@ app/admin/
   [[...index]]/page.tsx            # Embedded Studio
 app/api/revalidate/route.ts
 
-# Site chrome: root layout uses SiteChrome (skip Header/Footer when path /admin/*)
+# Site chrome: root layout uses SiteChrome (slot-based client gate; skip when
+# pathname === "/admin" || pathname.startsWith("/admin/"))
 # See docs/cms-migration-spec.md — Studio layout vs site chrome
 
 scripts/
@@ -445,8 +446,9 @@ replace or delete from `/admin`, they do not re-type demo content by hand.
 3. **Articles:** iterate `blogArticles` from `content/blog-articles.ts`
 4. **Webinars:** iterate `webinarsContent.webinars`
 5. **Courses:** iterate `coursesContent.courses`
-6. For each: deterministic `_id` (`academyArticle.{slug}`, etc.) →
-   `createIfNotExists` → upload images from `public/` → patch asset refs
+6. For each: upload images from `public/` first (when required), then
+   deterministic `_id` (`academyArticle.{slug}`, etc.) → `createIfNotExists`
+   with complete image refs; `patch` on re-runs / failed-image recovery only
 7. **Default `--dataset development`** — full placeholder seed runs here first;
    production requires `--dataset production --confirm` after QA
 8. **No writes by default** — `--dry-run` (API read-only SKIP/CREATE preview);
