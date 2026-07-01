@@ -59,17 +59,23 @@ export const placeholderImages = {
     story:
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
     journey: {
-      idea: "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=900&q=80",
+      /** 2021 The Idea — African agripreneur in production (women-in-ag focus) */
+      idea: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=900&q=80",
+      /** 2022 First Cohort — group learning session (African participants) */
       cohort:
-        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&w=900&q=80",
+      /** 2023 Ecosystem Expansion — stakeholder / partnership meeting */
       expansion:
-        "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1573164574397-dd250bc8a598?auto=format&fit=crop&w=900&q=80",
+      /** 2024 Platform Launch — digital tools + connected work */
       platform:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1573164574230-db1d5e960238?auto=format&fit=crop&w=900&q=80",
+      /** 2026 Continent-Wide — pastoral agriculture / pan-African scale */
       continent:
-        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=900&q=80",
+      /** Legacy key — webinar / speaker slot if a milestone needs it later */
       speaker:
-        "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1573879404555-3f82d0582798?auto=format&fit=crop&w=900&q=80",
     },
     portrait:
       "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",

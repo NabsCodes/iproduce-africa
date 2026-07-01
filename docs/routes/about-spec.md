@@ -148,7 +148,10 @@ modal footer with hover title; link platforms show on cards when set.
 
 `lib/placeholder-images.ts` exposes `placeholderImages.about` with
 `story`, `journey.{idea,cohort,expansion,platform,continent,speaker}`,
-and `portrait`. Swap out as final assets arrive.
+and `portrait`. Journey placeholders are theme-matched Unsplash
+stand-ins featuring **African people and contexts** (agriculture, cohort
+learning, partnerships, digital platform, continental scale) until client
+exports real milestone photography to `public/images/about/journey/`.
 
 ## Placeholder Copy / Metrics
 

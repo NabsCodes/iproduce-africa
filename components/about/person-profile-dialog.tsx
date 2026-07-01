@@ -32,7 +32,7 @@ export function PersonProfileDialog({
             "max-h-[calc(100vh-1rem)] max-w-[calc(100vw-0.75rem)] gap-0 overflow-hidden p-0 sm:max-w-3xl",
           )}
         >
-          <div className="flex max-h-[calc(100vh-1rem)] flex-col overflow-hidden sm:h-[32rem] sm:max-h-[min(32rem,calc(100vh-2rem))] sm:flex-row">
+          <div className="flex max-h-[calc(100vh-1rem)] flex-col overflow-hidden sm:h-128 sm:max-h-[min(32rem,calc(100vh-2rem))] sm:flex-row">
             <PersonPhoto
               src={person.photo}
               alt={person.name}
