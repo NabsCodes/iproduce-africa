@@ -53,15 +53,15 @@ future verified `value` is supplied.
 
 ### 5. Journey — `components/about/journey-section.tsx`
 
-The scroll-driven storytelling section. Three-column layout on `lg`
-(title+left-image / timeline / right focus panel). Years stay on the
-timeline as era markers. The right sticky card shows qualitative
-`focusPoints` per milestone (no numeric stats). **Desktop:** sticky right
-panel lists focus points for the active milestone. **Mobile/tablet:** timeline
-copy only — focus chips hidden. Left image is
-`lg:sticky` and cross-fades between milestone-matched photos as the user
-scrolls. Active milestone uses scroll position at ~45% viewport; active
-dot fills `bg-leaf-600`.
+Figma-aligned editorial timeline with light scroll guidance. Three-column
+layout on `lg` (title + **story images** / timeline / **anchor image**).
+
+**Left story:** per-milestone `image` cross-fades on a **350ms delay** after
+the active year settles — text/dot update first, photo follows (no race while
+reading). **Right anchor:** single tall sticky `anchorImage` + caption;
+desktop only (`lg+`). **Mobile:** timeline text only — no journey images.
+
+Active milestone uses viewport-center proximity (Intersection Observer).
 
 ### 6. Team — `components/about/team-section.tsx`
 
@@ -105,21 +105,13 @@ Optional `email` / `phone` render in the modal footer only (not on cards).
 
 ## Motion Adoption
 
-This page is the first home for `motion/react` (the post-Framer package).
-Scope is intentionally narrow: **Journey section** (sticky scroll image
-cross-fades) and the shared impact/proof cards when numeric values are
-approved. We use
-`useInView` per milestone, `AnimatePresence` for image cross-fades,
-`motion.div` for the cross-fading sticky panel, and `useMotionValue` +
-`animate` for future stat counters.
+This page uses `motion/react` narrowly on shared impact/proof cards when
+numeric values are approved. The **Journey** section uses CSS transitions
+for active-year emphasis only — no scroll-jacked image cross-fades.
 
 **Rule for future agents:** do not extend `motion/react` to other sections
-without a specific UX justification. CSS transitions plus
-`IntersectionObserver` cover most needs and keep bundle pressure low.
-Motion earns its weight when the design intent is explicitly cinematic.
-
-Reduced-motion: respected via the global `prefers-reduced-motion` rule in
-`app/globals.css`. Cross-fades collapse to snaps without breaking layout.
+without a specific UX justification. CSS transitions plus scroll position
+cover most needs and keep bundle pressure low.
 
 ## Data Shapes
 
@@ -136,8 +128,8 @@ Type aliases (`AboutStory`, `AboutMissionVisionObjective`,
 the data so the upcoming Sanity migration can bind directly.
 
 CMS-readiness highlights: every `image` field is a plain URL,
-`journey.milestones[]` each carry their own `leftImage`/`rightImage` so
-editors can change a milestone's media without touching code, and
+`journey.milestones[]` carry `image` + `imageAlt` for the left story stack;
+`journey.anchorImage` is the stable right-column community frame.
 `linkedin` / `facebook` / `email` / `phone` keys are optional so missing
 accounts render nothing rather than dead icons. Profile modals use
 `bioParagraphs[]`; cards use `bioSummary` only. Contact/social links use

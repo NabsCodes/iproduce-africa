@@ -112,13 +112,17 @@ export const aboutPageContent = {
     eyebrow: "Our Journey",
     title: "How we've gone thus far over the years",
     focusPanelLabel: "What we focused on",
+    anchorImage: "/images/about/journey-woman.webp",
+    anchorImageAlt: "Agribusiness leader speaking at a community event",
+    anchorImageCaption: "Voices from the community we serve",
     milestones: [
       {
         year: "2021",
         title: "The Idea",
         description:
           "Founded in Lagos with a simple belief: Africa's agribusiness actors needed a shared digital home — a place to learn, connect, and grow together.",
-        leftImage: placeholderImages.about.journey.idea,
+        image: placeholderImages.about.journey.idea,
+        imageAlt: "Agripreneur working in a greenhouse",
         focusPoints: [
           "Small founding team",
           "First online sessions",
@@ -130,7 +134,8 @@ export const aboutPageContent = {
         title: "First Cohort",
         description:
           "Launched our inaugural training cohort across several African markets. The response confirmed the need was real and urgent.",
-        leftImage: placeholderImages.about.journey.cohort,
+        image: placeholderImages.about.journey.cohort,
+        imageAlt: "Participants in a group learning session",
         focusPoints: [
           "Inaugural training programmes",
           "Cross-border participation",
@@ -142,7 +147,8 @@ export const aboutPageContent = {
         title: "Ecosystem Expansion",
         description:
           "Opened institutional partnerships with universities, development agencies, and agricultural bodies across West and East Africa.",
-        leftImage: placeholderImages.about.journey.expansion,
+        image: placeholderImages.about.journey.expansion,
+        imageAlt: "Stakeholders meeting to build partnerships",
         focusPoints: [
           "Institutional partnerships",
           "Regional ecosystem reach",
@@ -154,7 +160,8 @@ export const aboutPageContent = {
         title: "Platform Launch",
         description:
           "Released the full iProduce platform — integrating learning, networking, and partner services into one connected ecosystem.",
-        leftImage: placeholderImages.about.journey.platform,
+        image: placeholderImages.about.journey.platform,
+        imageAlt: "Digital tools supporting connected agribusiness work",
         focusPoints: [
           "Learning and networking together",
           "Partner services integrated",
@@ -166,7 +173,8 @@ export const aboutPageContent = {
         title: "Continent-Wide",
         description:
           "Today, a growing community across the continent is building agribusiness futures through iProduce Africa.",
-        leftImage: placeholderImages.about.journey.continent,
+        image: placeholderImages.about.journey.continent,
+        imageAlt: "Pastoral agriculture at golden hour across the continent",
         focusPoints: [
           "Pan-African community",
           "Programmes at scale",

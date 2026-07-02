@@ -74,7 +74,8 @@ export type AboutJourneyMilestone = {
   year: string;
   title: string;
   description: string;
-  leftImage: string;
+  image: string;
+  imageAlt: string;
   focusPoints: readonly AboutJourneyFocusPoint[];
 };
 
@@ -82,6 +83,10 @@ export type AboutJourney = {
   eyebrow: string;
   title: string;
   focusPanelLabel: string;
+  /** Stable right-column frame — community / voice (does not change per year). */
+  anchorImage: string;
+  anchorImageAlt: string;
+  anchorImageCaption: string;
   milestones: readonly AboutJourneyMilestone[];
 };
 
