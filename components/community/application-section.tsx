@@ -11,7 +11,7 @@ export function MembershipApplicationSection() {
   return (
     <section
       id={section.id}
-      className="bg-subtle scroll-mt-28 py-14 sm:py-16 md:scroll-mt-36 lg:py-20"
+      className="bg-subtle scroll-mt-24 py-14 sm:py-16 lg:py-20"
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-14">

@@ -220,6 +220,43 @@ Two different patterns — do not conflate labels:
 Hub count copy uses honest framing derived from canonical catalogue lengths,
 e.g. `4 highlighted · 7 in the full catalogue` — not invented Figma totals.
 
+## Empty-state behaviour for hub bands + Home Spotlight (2026-07-04)
+
+Sections 6–8 above (`Webinars & Events` / `Courses` / `Blog`) and the Home
+Academy Spotlight (`components/home/academy-spotlight-section.tsx`) are not
+allowed to collapse to blank space when their catalogue has zero items —
+they're marketing surfaces on pages the client will show prospects, not
+listing routes. Full rule + rationale lives in
+`docs/cms-migration-spec.md` → "Edge cases & empty content" → Rule 2/3, this
+is the route-level summary:
+
+| Surface                                                                 | Behaviour when empty                                                                                                                                                                                                                                                                                      |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Academy hub band (`LearningListingSection`, sections 6–8)               | **Never hidden.** Eyebrow/heading/anchor id stay — the sticky tab strip and the Learning Opportunities "Jump to section" cards scroll-link to `#webinars-events` / `#courses` / `#blog`, so the section can't disappear. The card grid + "Browse all …" control swap for `<CatalogueEmptyState>` instead. |
+| Home Academy Spotlight tab (`upcoming` / `training`)                    | That tab's grid swaps for `<CatalogueEmptyState>`; the other tab and the tab strip itself are unaffected.                                                                                                                                                                                                 |
+| `/academy/blog`, `/academy/webinars`, `/academy/courses` listing routes | Unchanged — honest inline "No X yet" empty state (Rule 2, not this component).                                                                                                                                                                                                                            |
+
+`CatalogueEmptyState` (`components/shared/catalogue-empty-state.tsx`) is the
+shared panel: leaf-tinted circle badge + lucide icon, serif heading, muted
+description, `green`-variant `ButtonLink` CTA — same visual family as
+`PeopleRosterEmpty` on About. Content shape is `CatalogueEmptyStateContent`
+(`types/content.ts`) and lives per-band/per-tab in `content/academy.ts`
+(`academyContent.{scheduled,courses,blog}.emptyState`,
+`academyHomePreview.spotlightEmptyState.{upcoming,training}`) —
+`LearningListingSection` takes it as an optional `emptyState` prop,
+`AcademySpotlightSection`'s `SpotlightGrid` reads it directly from
+`academyHomePreview`.
+
+This wasn't a hypothetical when it shipped: for a window around 2026-07-04,
+all four hub-scheduled demo webinar dates in `content/webinars.ts` had
+passed, so `academyHomePreview.spotlight.upcoming` was genuinely empty and
+the Home Spotlight's "Upcoming Events" tab rendered the empty-state panel in
+production — confirmed live before the dates were pushed forward again. The
+Academy hub bands still show real data because `academyContent.scheduled/
+courses/blog` aren't date-filtered — their empty-state branch is real but
+currently only reachable once the Sanity fetch layer can return a genuinely
+empty catalogue.
+
 ## Link policy (2026-06-24)
 
 1. **Navbar** — Academy dropdown children point at listing routes
@@ -403,6 +440,7 @@ blog detail's related section consumes `getRelatedArticles()` from
 - [x] Hub search navigates to `/academy/search?q=` (unified static search)
 - [x] Listing featured + filter bands (webinars + courses; blog already had)
 - [x] Browser QA + Lighthouse on hub + three catalogues (+ blog long/short article UX)
+- [x] Empty-state handling for hub bands + Home Spotlight tabs (`CatalogueEmptyState`, 2026-07-04) — see "Empty-state behaviour" section above
 - [ ] Sanity wiring + `docs/sanity-academy-spec.md` (**next doc** — content-shape map from `types/` + `content/`)
 - [ ] Real photography for hero, courses, blog articles, participant cards
 - [ ] Search wired to Sanity / Algolia (beyond `/academy/search` client filter)

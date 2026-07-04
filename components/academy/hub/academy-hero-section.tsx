@@ -19,7 +19,7 @@ export function AcademyHeroSection() {
   return (
     <section
       id="overview"
-      className="bg-subtle relative scroll-mt-36 overflow-x-clip pt-12 pb-16 sm:pt-16 sm:pb-20 md:scroll-mt-48 lg:scroll-mt-52 lg:pt-20 lg:pb-24"
+      className="bg-subtle relative scroll-mt-36 overflow-x-clip pt-12 pb-16 sm:pt-16 sm:pb-20 lg:scroll-mt-40 lg:pt-20 lg:pb-24"
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">

@@ -83,7 +83,7 @@ export function ContactIntroSection() {
   return (
     <section
       id="contact-form"
-      className="bg-subtle scroll-mt-28 pb-14 sm:pb-16 lg:pb-20"
+      className="bg-subtle scroll-mt-24 pb-14 sm:pb-16 lg:pb-20"
     >
       {/* Mobile: stacked hero */}
       <div className="bg-forest-950 px-4 py-10 sm:px-6 sm:py-12 lg:hidden">

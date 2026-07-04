@@ -368,7 +368,7 @@ export function JourneySection() {
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <MotionFade>
           <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr_1fr] lg:items-start lg:gap-12 xl:gap-14">
-            <div className="lg:sticky lg:top-34 lg:self-start">
+            <div className="lg:sticky lg:top-24 lg:self-start">
               <EyebrowBadge tone="neutral">{journey.eyebrow}</EyebrowBadge>
               <h2 className="text-foreground mt-4 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
                 {journey.title}
@@ -396,7 +396,7 @@ export function JourneySection() {
               ))}
             </div>
 
-            <div className="hidden lg:sticky lg:top-34 lg:block lg:self-start">
+            <div className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
               <JourneyImage
                 src={journey.anchorImage}
                 alt={journey.anchorImageAlt}

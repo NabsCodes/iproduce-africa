@@ -10,7 +10,7 @@ export function InquirySection() {
   return (
     <section
       id={section.id}
-      className="bg-subtle scroll-mt-28 py-14 sm:py-16 lg:py-20"
+      className="bg-subtle scroll-mt-24 py-14 sm:py-16 lg:py-20"
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-14">

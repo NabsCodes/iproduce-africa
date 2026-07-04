@@ -84,6 +84,7 @@ export default function AcademyPage() {
         viewMoreLabel={scheduled.viewMoreLabel}
         viewMoreHref="/academy/webinars"
         countLabel={scheduled.countLabel}
+        emptyState={scheduled.emptyState}
       />
 
       <LearningListingSection
@@ -103,6 +104,7 @@ export default function AcademyPage() {
         viewMoreLabel={courses.viewMoreLabel}
         viewMoreHref="/academy/courses"
         countLabel={courses.countLabel}
+        emptyState={courses.emptyState}
       />
 
       <LearningListingSection
@@ -122,6 +124,7 @@ export default function AcademyPage() {
         viewMoreLabel={blog.viewMoreLabel}
         viewMoreHref="/academy/blog"
         countLabel={blog.countLabel}
+        emptyState={blog.emptyState}
       />
 
       <TestimonialsSection

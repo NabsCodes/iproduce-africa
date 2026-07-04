@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Calendar, GraduationCap } from "lucide-react";
+import { CatalogueEmptyState } from "@/components/shared/catalogue-empty-state";
 import { ContentCard } from "@/components/shared/content-card";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
@@ -22,6 +23,21 @@ const tabs = [
 
 function SpotlightGrid({ tabId }: { tabId: AcademySpotlightTab }) {
   const cards = academyHomePreview.spotlight[tabId];
+
+  if (cards.length === 0) {
+    const empty = academyHomePreview.spotlightEmptyState[tabId];
+    return (
+      <div className="mt-8 sm:mt-10">
+        <CatalogueEmptyState
+          icon={empty.icon}
+          title={empty.title}
+          description={empty.description}
+          ctaLabel={empty.ctaLabel}
+          ctaHref={empty.ctaHref}
+        />
+      </div>
+    );
+  }
 
   return (
     <MotionStagger className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">

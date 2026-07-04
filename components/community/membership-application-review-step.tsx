@@ -94,7 +94,7 @@ export function MembershipApplicationReviewStep({
           </div>
         </div>
         {sectorLabel ? (
-          <span className="bg-tangerine-100 text-tangerine-800 max-w-[44%] shrink-0 rounded-full px-3 py-1 text-right text-xs leading-5 font-semibold wrap-break-word sm:max-w-[11rem]">
+          <span className="bg-tangerine-100 text-tangerine-800 max-w-[44%] shrink-0 rounded-full px-3 py-1 text-right text-xs leading-5 font-semibold wrap-break-word sm:max-w-44">
             {sectorLabel}
           </span>
         ) : null}

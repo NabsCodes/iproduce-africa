@@ -84,7 +84,7 @@ const hubScheduledWebinars: AcademyWebinar[] = [
   {
     slug: "post-harvest-handling-essentials",
     type: "TRAINING",
-    date: "2026-06-24",
+    date: "2026-07-08",
     title: "Post-Harvest Handling Essentials",
     description:
       "Cut losses and protect quality with practical storage, packaging and cold-chain methods.",
@@ -100,7 +100,7 @@ const hubScheduledWebinars: AcademyWebinar[] = [
   {
     slug: "ask-an-agronomist-soil-health",
     type: "LIVE Q&A",
-    date: "2026-07-02",
+    date: "2026-07-10",
     title: "Ask an Agronomist: Soil Health",
     description:
       "A live session on soil testing, fertility and regenerative practices — bring your questions.",
@@ -116,7 +116,7 @@ const hubScheduledWebinars: AcademyWebinar[] = [
   {
     slug: "building-export-ready-business",
     type: "WEBINAR",
-    date: "2026-07-09",
+    date: "2026-07-14",
     title: "Building an Export-Ready Business",
     description:
       "Standards, certification and the paperwork behind successful cross-border trade.",

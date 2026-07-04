@@ -32,7 +32,7 @@ const badgeVariants = cva(
 
         /* Eyebrow pill + label treatments */
         "pill-leaf":
-          "bg-leaf-50/95 text-leaf-600 h-auto rounded-full px-4 py-2 text-xs font-semibold tracking-[0.04em] uppercase backdrop-blur-sm",
+          "bg-leaf-subtle text-leaf-600 h-auto rounded-full px-4 py-2 text-xs font-semibold tracking-[0.04em] uppercase backdrop-blur-sm",
         "pill-tangerine":
           "bg-tangerine-subtle text-tangerine-600 h-auto rounded-full px-4 py-2 text-xs font-semibold tracking-[0.04em] uppercase backdrop-blur-sm",
         eyebrow:

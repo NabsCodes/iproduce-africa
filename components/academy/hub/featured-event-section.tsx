@@ -98,7 +98,7 @@ export function FeaturedEventSection() {
   return (
     <section
       id="featured-event"
-      className="scroll-mt-36 bg-white py-14 sm:py-16 md:scroll-mt-48 lg:scroll-mt-52 lg:py-20"
+      className="scroll-mt-36 bg-white py-14 sm:py-16 lg:scroll-mt-40 lg:py-20"
     >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <MotionFade>

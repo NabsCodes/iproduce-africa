@@ -386,13 +386,13 @@ with Home defaults preserved. Partners passes a single-button override
 
 ### Partners section components
 
-| Path                                            | Notes                                                                                          |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `components/partners/benefits-section.tsx`      | 6-card grid; icon chips stay inactive until card hover. Header split layout.                   |
+| Path                                            | Notes                                                                                                                                                                |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/partners/benefits-section.tsx`      | 6-card grid; icon chips stay inactive until card hover. Header split layout.                                                                                         |
 | `components/partners/voices-section.tsx`        | Testimonial carousel + `<VoicesLogoGrid />`; tangerine `DecorativeRing` top-right (md+ only). Grid contract: `cms-migration-spec.md` → `partner` → Voices logo grid. |
-| `components/partners/opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.             |
-| `components/partners/inquiry-form.tsx`          | Client form consuming shared field wrappers and `schemas/partners.ts`; phone via shared input. |
-| `components/partners/inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`.  |
+| `components/partners/opportunities-section.tsx` | `bg-leaf-subtle rounded-xl` outer panel + 6 white cards (2-col) with forest chips.                                                                                   |
+| `components/partners/inquiry-form.tsx`          | Client form consuming shared field wrappers and `schemas/partners.ts`; phone via shared input.                                                                       |
+| `components/partners/inquiry-section.tsx`       | Split layout: copy + 5-item checklist (left) + form card (right). `id="partnership-enquiry"`.                                                                        |
 
 ### Anchor migration: `#partner` → `#partnership-enquiry`
 

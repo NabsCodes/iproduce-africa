@@ -3,6 +3,57 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Empty-state handling for Academy hub bands + Home Spotlight (2026-07-04)
+
+New shared `components/shared/catalogue-empty-state.tsx` (quiet, on-brand —
+same visual family as `PeopleRosterEmpty`). Refined the CMS empty-content
+rules: hub bands (`Webinars & Events`/`Courses`/`Blog` on `/academy`) can
+never hide since the tab strip + Opportunities cards scroll-link to their
+anchors — only the grid swaps for the empty-state panel, header stays. Home
+Spotlight tabs (`upcoming`/`training`) get the same panel per-tab; the tab
+strip and sibling tab are unaffected. Listing routes (`/academy/blog` etc.)
+are unchanged. New `CatalogueEmptyStateContent` type (`types/content.ts`),
+wired via `AcademyListing.emptyState` and
+`AcademyHomePreview.spotlightEmptyState`; copy added to `content/academy.ts`.
+Full rationale + rule tables: `docs/cms-migration-spec.md` Rule 2/3,
+`docs/routes/academy-spec.md` "Empty-state behaviour" section.
+
+Verified live: the Home Spotlight's "Upcoming Events" tab was organically
+empty for a window around 2026-07-04 (all four hub-scheduled demo webinar
+dates in `content/webinars.ts` had passed) and correctly rendered the new
+panel — confirmed via direct HTML inspection, not just typecheck. Three of
+those dates were then pushed into July (`post-harvest-handling-essentials`,
+`ask-an-agronomist-soil-health`, `building-export-ready-business`) so the
+demo shows real upcoming sessions again; `scaling-smallholder-farms-with-data`
+stays in the past on purpose — it's the deliberate "closed/session ended"
+registration-state demo entry.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
+## Sanity CMS Phase 1 — foundation slice (2026-07-02)
+
+Scaffolded Sanity schemas (`academyArticle`, `academyWebinar`, `academyCourse`,
+`author`, `registrationConfig`, PT blocks `callout`/`table`/`codeBlock`/
+`bodyImage`/`orderedStep`), embedded Studio at `/admin` (`SiteChrome` skips
+Header/Footer for `/admin*`, Header/Footer passed as slots so `Footer` stays
+server-only), and `scripts/migrate-academy-to-sanity.ts` (deterministic
+`{type}.{slug}` IDs, `--offline`/dry-run/`--execute` modes, asset dedup +
+image-recovery patch, hard-refuses any dataset but `development`). Body
+`block` marks (bold/italic/link) are disabled in Studio v1 — no adapter yet
+to render them publicly. `lib/sanity/{client,image,queries,fetch/*,
+portable-text,guards}.ts` scaffolded but **unwired** — no `app/` route reads
+from Sanity yet; Academy pages still run on `content/*.ts`. No
+`app/api/revalidate/route.ts` yet (next slice). Never touches the
+`production` dataset.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build` (all pass with
+zero Sanity env vars set); `pnpm migrate:academy -- --offline` prints a
+correct manifest with no network calls.
+
+---
+
 ## Scroll-to-top — site-wide (2026-07-01)
 
 Moved `<ScrollToTop />` to `app/layout.tsx`. Visible on long pages only

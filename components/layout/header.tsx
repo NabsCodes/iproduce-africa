@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Clock3, Mail, Phone } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +12,7 @@ import {
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { CommunityJoinButton } from "@/components/layout/community-join-button";
 import { SiteLogo } from "@/components/layout/site-logo";
-import { SocialIcon } from "@/components/layout/social-icon";
 import { mainNavigation } from "@/content/navigation";
-import { siteConfig } from "@/content/site";
 import { useRouteHash } from "@/hooks/use-route-hash";
 import { useScrolled } from "@/hooks/use-scrolled";
 import { ReadingProgress } from "@/components/shared/reading-progress";
@@ -46,76 +43,6 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white">
-      <div className="bg-forest-900 hidden text-white md:block">
-        <div className="max-w-8xl mx-auto flex h-[42px] w-full items-center justify-between gap-4 px-4 text-[13px] sm:px-6 lg:gap-8 lg:px-8 lg:text-[14px] xl:px-10">
-          <p className="flex min-w-0 items-center gap-2 font-medium tracking-[-0.01em] text-white/95 lg:gap-2.5">
-            <Clock3 className="size-4 shrink-0" aria-hidden />
-            <span className="truncate lg:whitespace-normal">
-              {siteConfig.hours}
-            </span>
-          </p>
-          <div className="flex min-w-0 shrink-0 items-center gap-2.5 lg:gap-4">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              aria-label={`Email ${siteConfig.email}`}
-              className="hover:text-leaf-100 inline-flex min-w-0 items-center gap-2 text-white/95 transition-colors focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
-            >
-              <Mail className="size-4 shrink-0" aria-hidden />
-              <span className="max-w-[165px] truncate lg:max-w-[210px]">
-                {siteConfig.email}
-              </span>
-            </a>
-            <Separator
-              orientation="vertical"
-              className="h-4 w-px bg-white/60"
-            />
-            <a
-              href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-              aria-label={`Call ${siteConfig.phone}`}
-              className="hover:text-leaf-100 inline-flex items-center gap-2 text-white/95 transition-colors focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
-            >
-              <Phone className="size-4 shrink-0" aria-hidden />
-              <span className="whitespace-nowrap tabular-nums">
-                {siteConfig.phone}
-              </span>
-            </a>
-            <Separator
-              orientation="vertical"
-              className="h-4 w-px bg-white/60"
-            />
-            <div className="flex items-center gap-2 lg:gap-2.5">
-              {siteConfig.socialLinks.map((social) => {
-                if (social.href) {
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={social.label}
-                      className="inline-flex size-7 items-center justify-center rounded-md border border-white/20 text-white/95 transition-colors hover:border-white/35 hover:text-white focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none lg:size-6"
-                    >
-                      <SocialIcon platform={social.platform} />
-                    </a>
-                  );
-                }
-
-                return (
-                  <span
-                    key={social.label}
-                    role="img"
-                    aria-label={social.label}
-                    className="inline-flex size-7 items-center justify-center rounded-full border border-white/20 text-white/60 lg:size-6"
-                  >
-                    <SocialIcon platform={social.platform} />
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div
         className={cn(
           "relative bg-white transition-[border-color]",

@@ -42,7 +42,7 @@ export function AcademyDetailShell({
               {main}
             </div>
 
-            <aside className="flex flex-col gap-6 lg:sticky lg:top-36 lg:self-start">
+            <aside className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
               {sidebar}
             </aside>
           </div>

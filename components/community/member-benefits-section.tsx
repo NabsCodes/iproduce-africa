@@ -9,7 +9,7 @@ export function MemberBenefitsSection() {
       chipShape="round"
       headerLayout="stacked"
       interactive
-      className="scroll-mt-28 md:scroll-mt-36"
+      className="scroll-mt-24"
     />
   );
 }

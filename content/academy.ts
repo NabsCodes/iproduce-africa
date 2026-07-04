@@ -82,6 +82,7 @@ export const academyContent = {
   },
   tabs: [
     { label: "Overview", targetId: "overview" },
+    { label: "Featured Event", targetId: "featured-event" },
     { label: "Webinars & Events", targetId: "webinars-events" },
     { label: "Evergreen courses", targetId: "courses" },
     { label: "Blog", targetId: "blog" },
@@ -180,6 +181,14 @@ export const academyContent = {
     viewMoreLabel: "Browse all webinars & events",
     total: webinarsContent.webinars.length,
     items: webinarsToHubScheduledItems(academyHubScheduledWebinars),
+    emptyState: {
+      icon: "calendar",
+      title: "Nothing scheduled right now",
+      description:
+        "We're lining up the next round of webinars and live sessions — check back soon.",
+      ctaLabel: "Browse all webinars & events",
+      ctaHref: "/academy/webinars",
+    },
   },
   courses: {
     eyebrow: "Learning Opportunities",
@@ -188,6 +197,14 @@ export const academyContent = {
     viewMoreLabel: "Browse all courses",
     total: coursesContent.courses.length,
     items: academyHubCourses,
+    emptyState: {
+      icon: "graduation-cap",
+      title: "No courses open right now",
+      description:
+        "New cohorts and programmes post here as soon as enrolment opens.",
+      ctaLabel: "Browse all courses",
+      ctaHref: "/academy/courses",
+    },
   },
   blog: {
     eyebrow: "Blog",
@@ -196,6 +213,14 @@ export const academyContent = {
     viewMoreLabel: "Browse all articles",
     total: blogContent.articles.length,
     items: getBlogHubPreviewItems(HUB_BLOG_HIGHLIGHT_COUNT),
+    emptyState: {
+      icon: "newspaper",
+      title: "No articles published yet",
+      description:
+        "Fresh insights and analysis post here as soon as they're live.",
+      ctaLabel: "Browse all articles",
+      ctaHref: "/academy/blog",
+    },
   },
   testimonials: {
     eyebrow: "Our Impact",
@@ -344,6 +369,24 @@ export const academyHomePreview = {
         title: course.title,
         description: course.description,
       })),
+  },
+  spotlightEmptyState: {
+    upcoming: {
+      icon: "calendar",
+      title: "Nothing scheduled right now",
+      description:
+        "New webinars and events post here the moment one's confirmed.",
+      ctaLabel: "Browse all webinars & events",
+      ctaHref: "/academy/webinars",
+    },
+    training: {
+      icon: "graduation-cap",
+      title: "No courses open right now",
+      description:
+        "New cohorts and programmes post here as soon as enrolment opens.",
+      ctaLabel: "Browse all courses",
+      ctaHref: "/academy/courses",
+    },
   },
   blog: academyContent.blog.items.map((article) => ({
     key: article.slug,

@@ -39,7 +39,7 @@ export function AcademyTabsSection() {
   }, [tabs]);
 
   return (
-    <div className="border-default sticky top-[72px] z-30 border-y bg-white/95 backdrop-blur md:top-[114px] lg:top-[118px]">
+    <div className="border-default sticky top-[72px] z-30 border-y bg-white/95 backdrop-blur lg:top-[76px]">
       <div className="max-w-8xl mx-auto w-full overflow-x-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <LayoutGroup>
           <nav

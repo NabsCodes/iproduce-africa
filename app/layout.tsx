@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/footer";
 import { HashScrollHandler } from "@/components/layout/hash-scroll-handler";
 import { Header } from "@/components/layout/header";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { createSiteMetadata, viewport } from "@/lib/metadata";
 import { AppProviders } from "@/providers/app-providers";
@@ -34,11 +35,9 @@ export default function RootLayout({
     >
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">
         <AppProviders>
-          <div className="flex min-h-full flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <SiteChrome header={<Header />} footer={<Footer />}>
+            {children}
+          </SiteChrome>
         </AppProviders>
         <ScrollToTop />
         <Analytics />

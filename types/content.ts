@@ -12,6 +12,16 @@ export type JumpSectionIconKey =
   | "users"
   | "newspaper";
 
+export type CatalogueEmptyIconKey = "calendar" | "graduation-cap" | "newspaper";
+
+export type CatalogueEmptyStateContent = {
+  icon: CatalogueEmptyIconKey;
+  title: string;
+  description: string;
+  ctaLabel: string;
+  ctaHref: string;
+};
+
 export type PageHeroContent = {
   eyebrow: string;
   eyebrowTone?: EyebrowTone;

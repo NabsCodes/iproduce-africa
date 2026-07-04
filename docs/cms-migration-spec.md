@@ -645,28 +645,60 @@ Applies to: `TestimonialsSection`, `FaqSection`, partners marquee/voices,
 About team/advisors grids, community member stories, Academy related grids,
 listing grids (fallback to empty state copy only on **listing routes**).
 
-### Rule 2 — Listing pages vs marketing bands
+### Rule 2 — Listing pages vs marketing bands vs anchor-linked hub bands
 
-| Surface                         | Empty catalogue behaviour                                |
-| ------------------------------- | -------------------------------------------------------- |
-| `/academy/blog` (etc.)          | Show listing hero + honest “No articles yet” empty state |
-| Home / Academy hub preview band | **Omit band** if below minimum items (see Rule 3)        |
-| Related section on detail slug  | **Omit block** if no related items                       |
+Not every empty band is the same kind of empty. Split by whether the section
+has an identity other pieces of the page depend on:
+
+| Surface                                                             | Empty catalogue behaviour                                                                                                                                                                                                                |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/academy/blog` (etc.), listing routes                              | Show listing hero + honest "No articles yet" empty state (unchanged)                                                                                                                                                                     |
+| Home Academy Spotlight tab (upcoming events / training)             | Swap **that tab's** grid for a quiet on-brand empty-state panel (`CatalogueEmptyState`) — the tab strip and the other tab stay live; nothing about the section hides                                                                     |
+| Academy hub band (Webinars & Events / Courses / Blog on `/academy`) | **Never hide.** Header, eyebrow, and anchor id (`#webinars-events` etc.) must survive — the tab strip and the Learning Opportunities "Jump to section" cards scroll-link straight to it. Swap the grid for `CatalogueEmptyState` instead |
+| Related section on detail slug                                      | **Omit block** if no related items                                                                                                                                                                                                       |
+
+**Why the hub row changed (2026-07-04):** the original rule treated "Home /
+Academy hub preview band" as one case and said "omit band if below minimum
+items." That's correct for Home (its Spotlight tabs are pure marketing
+teasers with no anchor dependency) but wrong for the hub page — `/academy`'s
+three catalogue bands are the actual scroll targets for the sticky tab strip
+and the Opportunities "Jump to section" cards elsewhere on the same page.
+Hiding the section would leave those links scrolling to nothing. So the hub
+gets its own row: never hidden, always shows its header, only the grid
+underneath swaps to an empty-state panel.
 
 ### Rule 3 — Minimum items before showing a band
 
-| Band                                  | Minimum | Fallback                                                                      |
-| ------------------------------------- | ------- | ----------------------------------------------------------------------------- |
-| Testimonials carousel                 | 1       | hide section                                                                  |
-| FAQ accordion                         | 1       | hide section                                                                  |
-| Partners marquee                      | 1       | hide section (hybrid static until Phase 2 cutover)                            |
-| Partner voices quotes                 | 1       | hide quotes band; logo grid uses `buildVoicesLogoGrid` (may repeat few logos) |
-| Team / advisors grid                  | 1       | hide section                                                                  |
-| Community member stories              | 1       | hide section                                                                  |
-| Hub spotlight (webinars/courses/blog) | 1       | hide subsection; do not collapse layout awkwardly                             |
-| Related items                         | 1       | hide related block                                                            |
+| Band                                              | Minimum | Fallback                                                                                    |
+| ------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
+| Testimonials carousel                             | 1       | hide section                                                                                |
+| FAQ accordion                                     | 1       | hide section                                                                                |
+| Partners marquee                                  | 1       | hide section (hybrid static until Phase 2 cutover)                                          |
+| Partner voices quotes                             | 1       | hide quotes band; logo grid uses `buildVoicesLogoGrid` (may repeat few logos)               |
+| Team / advisors grid                              | 1       | hide section                                                                                |
+| Community member stories                          | 1       | hide section                                                                                |
+| Home Academy Spotlight tab (webinars/courses)     | 1       | swap that tab's grid for `CatalogueEmptyState` — never hides the whole section (see Rule 2) |
+| Academy hub band (webinars & events/courses/blog) | 1       | **never hide** — swap grid for `CatalogueEmptyState`, header/anchor stays (see Rule 2)      |
+| Related items                                     | 1       | hide related block                                                                          |
 
 Document thresholds in the spec checklist when implementing each page.
+
+**Implementation (shipped 2026-07-04, ahead of the fetch-layer cutover):**
+`components/shared/catalogue-empty-state.tsx` is the shared quiet on-brand
+panel (leaf-tinted circle badge, serif heading, muted description, `green`
+button CTA — same visual language as `PeopleRosterEmpty`). Content shape is
+`CatalogueEmptyStateContent` (`types/content.ts`): `icon` (`"calendar"` |
+`"graduation-cap"` | `"newspaper"`), `title`, `description`, `ctaLabel`,
+`ctaHref`. Wired via `AcademyListing<TItem>.emptyState?` (hub bands,
+`components/academy/hub/learning-listing-section.tsx`) and
+`AcademyHomePreview.spotlightEmptyState.{upcoming,training}` (Home,
+`components/home/academy-spotlight-section.tsx`). Copy lives in
+`content/academy.ts` alongside each band/tab's existing chrome — no new
+content module. This is static-content-only today (the current
+`content/academy.ts` catalogues are never actually empty), but the branch is
+real and was verified live: as of 2026-07-04 the Home Spotlight's "Upcoming
+Events" tab was organically empty (demo webinar dates had passed) and
+correctly rendered the empty-state panel before dates were pushed forward.
 
 ### Rule 4 — Featured / pointer fields
 

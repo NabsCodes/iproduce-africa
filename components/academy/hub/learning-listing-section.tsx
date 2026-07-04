@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { CatalogueEmptyState } from "@/components/shared/catalogue-empty-state";
 import {
   ContentCard,
   type ContentCardTone,
@@ -9,6 +10,7 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { cn } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/button";
+import type { CatalogueEmptyStateContent } from "@/types/content";
 
 export type LearningListingItem = {
   href: string;
@@ -32,6 +34,8 @@ type LearningListingSectionProps = {
   countLabel?: string;
   className?: string;
   headerSlot?: ReactNode;
+  /** Rendered in place of the grid + view-more control when `items` is empty. */
+  emptyState?: CatalogueEmptyStateContent;
 };
 
 const columnClassByCount: Record<3 | 4, string> = {
@@ -50,12 +54,15 @@ export function LearningListingSection({
   countLabel,
   className,
   headerSlot,
+  emptyState,
 }: LearningListingSectionProps) {
+  const hasItems = items.length > 0;
+
   return (
     <section
       id={id}
       className={cn(
-        "scroll-mt-36 bg-white py-14 sm:py-16 md:scroll-mt-48 lg:scroll-mt-52 lg:py-20",
+        "scroll-mt-36 bg-white py-14 sm:py-16 lg:scroll-mt-40 lg:py-20",
         className,
       )}
     >
@@ -69,33 +76,48 @@ export function LearningListingSection({
             {headerSlot}
           </div>
 
-          <div
-            className={cn(
-              "mt-10 grid gap-5 sm:gap-6 lg:mt-12",
-              columnClassByCount[columns],
-            )}
-          >
-            {items.map((item) => (
-              <ContentCard
-                key={item.title}
-                image={item.image}
-                imageAlt={item.imageAlt}
-                href={item.href}
-                category={item.category}
-                categoryTone={item.categoryTone}
-                meta={item.meta}
-                title={item.title}
-                description={item.description}
-              />
-            ))}
-          </div>
+          {hasItems ? (
+            <>
+              <div
+                className={cn(
+                  "mt-10 grid gap-5 sm:gap-6 lg:mt-12",
+                  columnClassByCount[columns],
+                )}
+              >
+                {items.map((item) => (
+                  <ContentCard
+                    key={item.title}
+                    image={item.image}
+                    imageAlt={item.imageAlt}
+                    href={item.href}
+                    category={item.category}
+                    categoryTone={item.categoryTone}
+                    meta={item.meta}
+                    title={item.title}
+                    description={item.description}
+                  />
+                ))}
+              </div>
 
-          <div className="mt-10 flex flex-col items-center gap-3 sm:mt-12">
-            <ViewMoreControl href={viewMoreHref} label={viewMoreLabel} />
-            {countLabel ? (
-              <p className="text-fg-subtle text-center text-sm">{countLabel}</p>
-            ) : null}
-          </div>
+              <div className="mt-10 flex flex-col items-center gap-3 sm:mt-12">
+                <ViewMoreControl href={viewMoreHref} label={viewMoreLabel} />
+                {countLabel ? (
+                  <p className="text-fg-subtle text-center text-sm">
+                    {countLabel}
+                  </p>
+                ) : null}
+              </div>
+            </>
+          ) : emptyState ? (
+            <CatalogueEmptyState
+              icon={emptyState.icon}
+              title={emptyState.title}
+              description={emptyState.description}
+              ctaLabel={emptyState.ctaLabel}
+              ctaHref={emptyState.ctaHref}
+              className="mt-10 lg:mt-12"
+            />
+          ) : null}
         </MotionFade>
       </div>
     </section>

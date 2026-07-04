@@ -1,4 +1,5 @@
 import type {
+  CatalogueEmptyStateContent,
   CommunityHeroMember,
   EyebrowTone,
   FaqCategory,
@@ -212,6 +213,10 @@ export type AcademyHomePreview = {
     upcoming: readonly AcademyHomeCard[];
     training: readonly AcademyHomeCard[];
   };
+  spotlightEmptyState: {
+    upcoming: CatalogueEmptyStateContent;
+    training: CatalogueEmptyStateContent;
+  };
   blog: readonly AcademyHomeCard[];
 };
 
@@ -222,6 +227,7 @@ export type AcademyListing<TItem> = {
   viewMoreLabel: string;
   total: number;
   items: readonly TItem[];
+  emptyState?: CatalogueEmptyStateContent;
 };
 
 export type AcademyOpportunitySection = {
@@ -251,7 +257,6 @@ export type AcademyFaqSection = {
   items: readonly FaqItem[];
 };
 
-/** Shared copy block for slug-page related grids (blog, courses, webinars). */
 export type AcademyRelatedSectionContent = {
   eyebrow: string;
   title: string;

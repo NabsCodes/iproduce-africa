@@ -1,7 +1,8 @@
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { BlogArticle, BlogAuthor } from "@/types/blog";
 
-const authors = {
+/** Exported so the Sanity migration script can key deterministic author IDs off these map keys. */
+export const authors = {
   amara: { name: "Amara Okafor", role: "Trade & Policy Analyst" },
   kofi: { name: "Kofi Mensah", role: "AgriTech Editor" },
   fatima: { name: "Fatima Yusuf", role: "Sustainability Lead" },
