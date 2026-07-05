@@ -126,6 +126,17 @@ export function getRelatedArticles(excludeSlug: string, limit = 3) {
   return [...sameCategory, ...rest].slice(0, limit).map(articleToRelatedItem);
 }
 
+export const blogListing = {
+  filterEmptyState: {
+    icon: "newspaper",
+    title: "No articles in this category yet",
+    description:
+      "Try another topic or browse the full blog for the latest insights.",
+    ctaLabel: "View all articles",
+    ctaHref: "/academy/blog",
+  },
+} as const;
+
 export function getArticle(slug: string): BlogArticle | undefined {
   return blogContent.articles.find((article) => article.slug === slug);
 }

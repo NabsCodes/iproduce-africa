@@ -1,9 +1,12 @@
 "use client";
 
 import { ListingCardGrid } from "@/components/academy/listings/listing-card-grid";
-import { ListingFilterBar } from "@/components/academy/listings/listing-filter-bar";
+import {
+  ALL_LISTING_FILTER,
+  ListingFilterBar,
+} from "@/components/academy/listings/listing-filter-bar";
 import type { WebinarFilterType } from "@/content/webinars";
-import { webinarToCardItem } from "@/content/webinars";
+import { webinarToCardItem, webinarsListing } from "@/content/webinars";
 import { useListingFilter } from "@/hooks/use-listing-filter";
 import type { AcademyWebinar } from "@/types/academy";
 
@@ -38,7 +41,10 @@ export function WebinarsListingBody({
         <ListingCardGrid
           resetKey={resetKey}
           items={filtered.map(webinarToCardItem)}
-          emptyLabel="No webinars or events match this filter yet."
+          emptyState={{
+            ...webinarsListing.filterEmptyState,
+            onCtaClick: () => setActiveFilter(ALL_LISTING_FILTER),
+          }}
         />
       </div>
     </section>

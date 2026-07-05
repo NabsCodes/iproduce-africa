@@ -37,13 +37,13 @@ const aboutPeople = [
       "Earlier in his career, he served as a Regional Sales Manager at Jumia, where he gained hands-on experience in sales execution, team support, customer engagement and commercial growth. He later worked with two Y Combinator-backed companies, supporting operations, learner success, admissions, customer journeys and cross-functional team coordination across global markets.",
       "He brings to iProduce Africa a practical blend of strategic thinking, technology fluency, commercial awareness and operational discipline, with a strong interest in using digital platforms to expand access to learning, opportunity and business growth across Africa.",
     ],
-    order: 2,
+    order: 3,
   },
   {
     id: "wilson-agaba",
     group: "team",
     name: "Dr. Wilson Agaba",
-    role: "Director of Training",
+    role: "Director of Programs",
     photo: "/images/about/wilson-agaba.webp",
     bioSummary:
       "Business consultant, financial analyst, and educationist with broad experience across business strategy, finance, agribusiness, education, and institutional management.",
@@ -51,7 +51,46 @@ const aboutPeople = [
       "Dr. Wilson Agaba is a business consultant, financial analyst, researcher, educationist, and public affairs analyst with broad experience across business strategy, finance, agribusiness, education, project development, and institutional management. He has held senior leadership roles at Dreamheight Global Consult Ltd, Dreamheight Global Farm Ltd, and Maslaha Seeds Ltd, where he has supported strategy formulation, financial planning, business development, research coordination, and organisational growth.",
       "His professional background also includes banking, education administration, training, and enterprise support. At iProduce, Wilson brings strong expertise in agribusiness advisory, capacity building, market linkage facilitation, and entrepreneurial development, supporting the platform's mission to connect African agripreneurs with resources, opportunities, and growth pathways.",
     ],
-    order: 3,
+    order: 2,
+  },
+  {
+    id: "umma-umar",
+    group: "team",
+    name: "Umma Umar",
+    role: "Director of Partnerships",
+    photo: "/images/about/umma-umar.webp",
+    credentials:
+      "LL.B. (University of Sussex, United Kingdom) · Project management · Law · NGO operations",
+    bioSummary:
+      "Project manager at the intersection of law, project management, and non-governmental operations in Nigeria, leading iProduce Africa's engagement with donors, institutions, and ecosystem partners.",
+    bioParagraphs: [
+      "Umma Umar holds a Bachelor of Laws (LL.B.) from the University of Sussex, United Kingdom. She is an experienced project manager working at the intersection of law, project management, and non-governmental operations in Nigeria.",
+      "As Director of Partnerships at iProduce Africa, Umma leads the organization's engagement with donors, government agencies, corporate sponsors, and civil society organizations.",
+    ],
+    order: 4,
+  },
+  {
+    id: "usman-dagona",
+    group: "team",
+    name: "Usman Umar Dagona",
+    role: "Project Coordinator (North)",
+    photo: "/images/about/usman-dagona.webp",
+    credentials:
+      "NCE, Chemistry Education (Umar Suleiman College of Education, Gashua) · B.Sc. (Hons.) Chemistry (Federal University Gashua) · International Chemistry ambassador",
+    bioSummary:
+      "Nigerian scientist, researcher, innovator, and farmer — an International Chemistry ambassador with a passion for using science and technology to improve agriculture and empower communities across Africa.",
+    bioParagraphs: [
+      "Usman Umar Dagona is a Nigerian scientist, researcher, innovator, farmer, and International Chemistry ambassador awarded by the Molecular and International Chemistry Organization, with a passion for using science and technology to improve agriculture and empower communities across Africa.",
+      "He holds a Nigeria Certificate in Education (NCE) in Chemistry Education from Umar Suleiman College of Education, Gashua, and a Bachelor of Science (B.Sc. Hons.) degree in Chemistry from Federal University Gashua.",
+      "Usman has gained national recognition for applied science and innovation, including winning the Imagine National Chemistry Competition, and continues to combine teaching, research, and community-facing technical work through his science foundation.",
+    ],
+    order: 5,
+    socials: [
+      {
+        platform: "linkedin",
+        value: "https://www.linkedin.com/in/usman-umar-dagona-a079391bb",
+      },
+    ],
   },
   {
     id: "inonge-margaret-imasiku",

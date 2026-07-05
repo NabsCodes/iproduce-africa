@@ -190,4 +190,12 @@ export const coursesListing = {
   featuredSlug: coursesContent.featuredSlug,
   filterLevels: COURSE_LEVELS,
   items: coursesContent.courses.map(courseToCardItem),
-};
+  filterEmptyState: {
+    icon: "graduation-cap",
+    title: "No courses at this level yet",
+    description:
+      "Try another level or browse everything currently in the catalogue.",
+    ctaLabel: "View all courses",
+    ctaHref: "/academy/courses",
+  },
+} as const;

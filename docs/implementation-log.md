@@ -3,7 +3,41 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
-## Partner Spotlight — alternating rows (2026-07-05)
+## Partners page — section order + copy refresh (2026-07-05)
+
+Reordered `/partners`: Hero → Spotlight → Benefits → Opportunities → Voices →
+Inquiry. Refreshed hero, why-partner, spotlight intro, and opportunities copy;
+reframed Voices (ecosystem partners description, removed placeholder quotes,
+single static quote card); fixed inquiry title and checklist language. Spotlight
+roster content: WIMA → IsDB → Jaiz → CFG with researched copy; Malam Alu replaced
+by IsDB. UI remains compact advisor-style cards pending designer pass.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
+## Partner Spotlight — compact grid (2026-07-05)
+
+Removed bento; partner spotlight uses compact horizontal cards in a 2-col grid +
+story dialog (advisor-card pattern).
+
+---
+
+## Partners page content refresh (2026-07-05)
+
+Reordered `/partners` to proof-first flow: Hero → Spotlight → Benefits →
+Opportunities → Voices → Inquiry. Tightened Benefits copy (why iProduce) vs
+Opportunities (what to co-create). Reframed Voices as ecosystem section with
+`logoGridLabel`, removed placeholder testimonials, kept Musa Fajuyi quote only.
+Spotlight partners: WIMA, IsDB, Jaiz Bank, CFG Advisory with researched
+copy. Inquiry copy: iProduce capitalisation, partnership follow-up checklist,
+partnership consent text. Hero description nods to partner types.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
+## Partner Spotlight — alternating rows (2026-07-05, superseded)
 
 Removed the founding-partner bento experiment (`components/ui/bento-grid.tsx`
 deleted; inline bento cards removed from `partner-spotlight-section.tsx`).

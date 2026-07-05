@@ -34,13 +34,15 @@ live partner portal.
 ## Target Section Order
 
 1. `PartnersHeroSection`
-2. `BenefitsSection`
-3. shared `ImpactStatsSection` only when the impact/proof section is restored
-4. `VoicesSection`
-5. `OpportunitiesSection`
+2. `PartnerSpotlightSection` — proof-first: named partners and stories
+3. `BenefitsSection` — why organisations partner with iProduce
+4. `OpportunitiesSection` — concrete collaboration formats
+5. `VoicesSection` — testimonial carousel + logo grid
 6. `InquirySection`
 7. Shared/prop-driven `FaqSection`
 8. Partners-specific CTA band
+
+Shared `ImpactStatsSection` stays out until verified metrics are approved.
 
 The screenshots do **not** show the Home-style standalone partners marquee
 directly under the hero. Logo repetition appears inside the partner voices
@@ -191,8 +193,8 @@ slightly smaller scale (`p-3 + size-10` icon).
 
 Added after the original screenshot-driven spec, in response to client
 feedback that the site under-represents named partners and the nature of
-each partnership. Renders between Benefits and Voices
-(`components/partners/partner-spotlight-section.tsx`).
+each partnership. Renders directly after the hero (proof-first page flow) in
+`components/partners/partner-spotlight-section.tsx`.
 
 ### Composition (shipped 2026-07-05)
 

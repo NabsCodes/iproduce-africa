@@ -4,7 +4,7 @@ import {
   Newspaper,
   type LucideIcon,
 } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { CatalogueEmptyIconKey } from "@/types/content";
 
@@ -19,7 +19,8 @@ type CatalogueEmptyStateProps = {
   title: string;
   description: string;
   ctaLabel: string;
-  ctaHref: string;
+  ctaHref?: string;
+  onCtaClick?: () => void;
   className?: string;
 };
 
@@ -35,6 +36,7 @@ export function CatalogueEmptyState({
   description,
   ctaLabel,
   ctaHref,
+  onCtaClick,
   className,
 }: CatalogueEmptyStateProps) {
   const Icon = catalogueEmptyIcons[icon];
@@ -56,9 +58,21 @@ export function CatalogueEmptyState({
       <p className="text-fg-muted mt-2 max-w-sm text-[15px] leading-6">
         {description}
       </p>
-      <ButtonLink href={ctaHref} variant="green" size="md" className="mt-6">
-        {ctaLabel}
-      </ButtonLink>
+      {onCtaClick ? (
+        <Button
+          type="button"
+          variant="green"
+          size="md"
+          className="mt-6"
+          onClick={onCtaClick}
+        >
+          {ctaLabel}
+        </Button>
+      ) : ctaHref ? (
+        <ButtonLink href={ctaHref} variant="green" size="md" className="mt-6">
+          {ctaLabel}
+        </ButtonLink>
+      ) : null}
     </div>
   );
 }

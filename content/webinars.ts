@@ -290,4 +290,12 @@ export const webinarsListing = {
   featuredSlug: webinarsContent.featuredSlug,
   filterTypes: WEBINAR_TYPES,
   items: webinarsContent.webinars.map(webinarToCardItem),
-};
+  filterEmptyState: {
+    icon: "calendar",
+    title: "Nothing matches this filter",
+    description:
+      "Try another type or browse the full webinar and events catalogue.",
+    ctaLabel: "View all webinars & events",
+    ctaHref: "/academy/webinars",
+  },
+} as const;

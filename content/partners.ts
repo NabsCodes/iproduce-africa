@@ -67,7 +67,7 @@ export const partnersPageContent = {
       accentTwo: "Future",
     },
     description:
-      "We collaborate with organisations, institutions, and ecosystem leaders to create opportunities, build capacity, and strengthen agribusiness across Africa.",
+      "We collaborate with organisations, institutions, and ecosystem leaders to create opportunities, build capacity, and strengthen agribusiness across Africa — from development finance and banking to mechanisation, advisory, and skills.",
     primaryCta: {
       label: "Become a Partner",
       href: "#partnership-enquiry",
@@ -89,46 +89,46 @@ export const partnersPageContent = {
     },
   },
   whyPartner: {
-    eyebrow: "Trusted Partnerships",
-    title: "Why Organizations Choose to Partner With Us",
+    eyebrow: "Why iProduce",
+    title: "Why organizations partner with us",
     description:
-      "iProduce Africa serves as a platform that connects stakeholders across the agricultural ecosystem. Through partnerships, we help create meaningful impact by fostering collaboration, knowledge exchange, innovation, and industry growth.",
+      "iProduce Africa connects banks, institutions, advisory firms, and sector leaders with agripreneurs who need training, market access, and finance. Partnering here means visibility across a growing ecosystem — not a one-off sponsorship slot.",
     items: [
       {
         icon: "globe",
         title: "Pan-African Reach",
         description:
-          "Connect with stakeholders across African markets and value chains.",
+          "Reach agripreneurs, SMEs, and sector actors across Nigerian and wider African value chains through one platform.",
       },
       {
         icon: "graduation-cap",
         title: "Capacity Building",
         description:
-          "Support programmes that empower youth, women, and agribusiness entrepreneurs.",
+          "Co-deliver training, mentorship, and export-readiness programmes with measurable participant outcomes.",
       },
       {
         icon: "network",
         title: "Industry Network",
         description:
-          "Engage with professionals and organisations shaping agribusiness across Africa.",
+          "Connect with banks, development institutions, advisory firms, and producer associations in one ecosystem.",
       },
       {
         icon: "lightbulb",
         title: "Knowledge Exchange",
         description:
-          "Promote learning through shared expertise, research, and industry insights.",
+          "Share research, insights, and practical expertise with an audience already engaged in agribusiness growth.",
       },
       {
         icon: "bike",
         title: "Innovation Focus",
         description:
-          "Advance technology adoption and future-ready agribusiness solutions.",
+          "Pilot climate-smart tools, digital channels, and new models alongside implementation partners in the field.",
       },
       {
         icon: "sprout",
         title: "Sustainable Impact",
         description:
-          "Create measurable outcomes that strengthen communities and agricultural ecosystems.",
+          "Align programmes with livelihoods, gender inclusion, and long-term value-chain resilience.",
       },
     ],
   },
@@ -164,7 +164,7 @@ export const partnersPageContent = {
     eyebrow: "Partner spotlight",
     title: "Partnerships in practice",
     description:
-      "Who we work with and what we build together — a closer look at current partnership agreements.",
+      "Organisations we work with today — who they are, what they bring, and how they fit the iProduce ecosystem.",
     readMoreLabel: "Read more",
     viewStoryLabel: "View story",
     websiteLabel: "Visit website",
@@ -187,22 +187,6 @@ export const partnersPageContent = {
         order: 1,
       },
       {
-        id: "jaiz-bank",
-        name: "Jaiz Bank",
-        descriptor: "Non-interest banking · Nigeria",
-        description:
-          "Nigeria's pioneer full-fledged Islamic bank, with agribusiness finance products and over ₦75 billion deployed across the agricultural value chain in its first decade.",
-        story: [
-          "Jaiz Bank Plc is Nigeria's first full-fledged non-interest bank. Its agribusiness portfolio includes Jaiz Agro Finance through Shariah-compliant contracts such as Salam, Murabaha, and Ijarah — supporting rice mills, SME agribusiness, and wider value-chain financing.",
-          "Public reporting places Jaiz among the leading banks financing Nigeria's rice value chain. iProduce Africa's ecosystem work on export readiness and non-interest finance for agripreneurs aligns with the bank's long-standing focus on ethical, asset-backed agricultural financing.",
-        ],
-        image: "/images/partners/jaiz-bank.webp",
-        imageAlt: "Jaiz Bank logo",
-        imageVariant: "logo",
-        website: "https://jaizbankplc.com/",
-        order: 2,
-      },
-      {
         id: "islamic-development-bank",
         name: "Islamic Development Bank (IsDB)",
         descriptor: "Development finance · Multilateral",
@@ -216,6 +200,22 @@ export const partnersPageContent = {
         imageAlt: "Islamic Development Bank logo",
         imageVariant: "logo",
         website: "https://www.isdb.org/",
+        order: 2,
+      },
+      {
+        id: "jaiz-bank",
+        name: "Jaiz Bank",
+        descriptor: "Non-interest banking · Nigeria",
+        description:
+          "Nigeria's pioneer full-fledged Islamic bank, with agribusiness finance products and over ₦75 billion deployed across the agricultural value chain in its first decade.",
+        story: [
+          "Jaiz Bank Plc is Nigeria's first full-fledged non-interest bank. Its agribusiness portfolio includes Jaiz Agro Finance through Shariah-compliant contracts such as Salam, Murabaha, and Ijarah — supporting rice mills, SME agribusiness, and wider value-chain financing.",
+          "Public reporting places Jaiz among the leading banks financing Nigeria's rice value chain. iProduce Africa's ecosystem work on export readiness and non-interest finance for agripreneurs aligns with the bank's long-standing focus on ethical, asset-backed agricultural financing.",
+        ],
+        image: "/images/partners/jaiz-bank.webp",
+        imageAlt: "Jaiz Bank logo",
+        imageVariant: "logo",
+        website: "https://jaizbankplc.com/",
         order: 3,
       },
       {
@@ -263,53 +263,53 @@ export const partnersPageContent = {
     ],
   },
   opportunities: {
-    eyebrow: "Partnership Opportunities",
-    title: "Ways We Can Work Together",
+    eyebrow: "Partnership opportunities",
+    title: "Ways we can work together",
     description:
-      "Every partnership is unique. Whether you're looking to support a programme, sponsor an event, or co-create initiatives, we'll work with you to identify the right collaboration approach.",
+      "Every partnership starts differently. Tell us what you want to co-create — programmes, events, research, sponsorship, or strategic collaboration — and we'll shape the fit together.",
     items: [
       {
         icon: "graduation-cap",
         title: "Training & Capacity Building",
         description:
-          "Support workshops, mentorship programmes, and professional development initiatives that empower agricultural stakeholders.",
+          "Co-design Academy workshops, cohort programmes, and mentorship tracks for agripreneurs and producer groups.",
       },
       {
         icon: "coins",
         title: "Sponsorship Opportunities",
         description:
-          "Support programmes and events that create measurable impact across the agricultural ecosystem.",
+          "Fund events, competitions, or community programmes with clear brand presence and participant access.",
       },
       {
         icon: "network",
         title: "Events & Industry Engagement",
         description:
-          "Collaborate on conferences, forums, networking events, and knowledge-sharing opportunities.",
+          "Host or co-host forums, webinars, and convenings that bring your audience into the iProduce network.",
       },
       {
         icon: "search",
         title: "Research & Knowledge Sharing",
         description:
-          "Partner on industry insights, publications, thought leadership, and collaborative research projects.",
+          "Publish joint insights, case studies, or policy briefs drawn from shared programme work.",
       },
       {
         icon: "handshake",
         title: "Strategic Partnerships",
         description:
-          "Work together on initiatives that strengthen agricultural value chains, innovation, and market access.",
+          "Build multi-year initiatives around finance, mechanisation, market access, or export readiness.",
       },
       {
         icon: "users",
         title: "Community Development Initiatives",
         description:
-          "Support programmes that improve livelihoods, encourage entrepreneurship, and foster agricultural growth.",
+          "Support livelihood and entrepreneurship programmes tied to women, youth, or rural producer communities.",
       },
     ],
   },
   inquiry: {
     id: "partnership-enquiry",
     eyebrow: "Become a Partner",
-    title: "Ready to partner with iproduce?",
+    title: "Ready to partner with iProduce?",
     description:
       "Interested in collaborating with iProduce Africa? Tell us about your organization and partnership goals, and a member of our team will be in touch.",
     checklist: [
@@ -317,14 +317,14 @@ export const partnersPageContent = {
       "Free to apply — no card required",
       "Open to individuals and organisations",
       "Reviewed within 5 working days",
-      "Community invite sent on approval",
+      "Partnership follow-up within one week of approval",
     ],
     form: {
       title: "Partnership Enquiry Form",
       note: "All fields are required. Takes about two minutes.",
       submitLabel: "Submit Inquiry",
       consentText:
-        "By making inquiry you agree to receive community updates and event invitations by email.",
+        "By submitting this inquiry you agree to receive partnership updates and event invitations by email.",
       successTitle: "Inquiry sent",
       successDescription:
         "Thanks for your interest in partnering with iProduce Africa. Our partnerships team will review your inquiry and follow up within five working days.",

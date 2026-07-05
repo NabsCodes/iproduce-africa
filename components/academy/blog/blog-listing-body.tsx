@@ -5,6 +5,7 @@ import {
   ALL_CATEGORIES,
   CategoryFilterBar,
 } from "@/components/academy/blog/category-filter-bar";
+import { blogListing } from "@/content/blog";
 import { useListingFilter } from "@/hooks/use-listing-filter";
 import type { BlogArticle } from "@/types/blog";
 
@@ -36,7 +37,15 @@ export function BlogListingBody({
           />
         </div>
 
-        <ArticleGrid key={resetKey} articles={filtered} />
+        <ArticleGrid
+          key={resetKey}
+          resetKey={resetKey}
+          articles={filtered}
+          emptyState={{
+            ...blogListing.filterEmptyState,
+            onCtaClick: () => setActiveFilter(ALL_CATEGORIES),
+          }}
+        />
       </div>
     </section>
   );

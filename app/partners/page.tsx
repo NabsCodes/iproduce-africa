@@ -19,6 +19,7 @@ export default function PartnersPage() {
   return (
     <>
       <PartnersHeroSection />
+      <PartnerSpotlightSection />
       <BenefitsSection />
       {/* Client said take the impact stats section out for now. I will add it back in later.*/}
       {/* <ImpactStatsSection
@@ -27,9 +28,8 @@ export default function PartnersPage() {
         description={impact.description}
         items={impact.items}
       /> */}
-      <PartnerSpotlightSection />
-      <VoicesSection />
       <OpportunitiesSection />
+      <VoicesSection />
       <InquirySection />
       <FaqSection content={partnersPageContent.faqs} />
       <CtaSection content={partnersPageContent.cta} overlapNext={false} />

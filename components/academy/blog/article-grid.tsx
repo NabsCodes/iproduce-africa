@@ -1,16 +1,24 @@
 "use client";
 
 import { ListingCardGrid } from "@/components/academy/listings/listing-card-grid";
+import type { ListingEmptyState } from "@/components/academy/listings/listing-card-grid";
 import type { BlogArticle } from "@/types/blog";
 
 type ArticleGridProps = {
   articles: readonly BlogArticle[];
+  resetKey?: string;
+  emptyState: ListingEmptyState;
 };
 
-export function ArticleGrid({ articles }: ArticleGridProps) {
+export function ArticleGrid({
+  articles,
+  resetKey = "all",
+  emptyState,
+}: ArticleGridProps) {
   return (
     <ListingCardGrid
-      emptyLabel="No articles in this category yet."
+      resetKey={resetKey}
+      emptyState={emptyState}
       items={articles.map((article) => ({
         key: article.slug,
         href: `/academy/blog/${article.slug}`,

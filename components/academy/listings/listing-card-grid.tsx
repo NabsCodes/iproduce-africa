@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
+import { CatalogueEmptyState } from "@/components/shared/catalogue-empty-state";
 import {
   ContentCard,
   type ContentCardTone,
 } from "@/components/shared/content-card";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { Button } from "@/components/ui/button";
+import type { CatalogueEmptyStateContent } from "@/types/content";
 
 const INITIAL_VISIBLE = 5;
 const PAGE_SIZE = 6;
@@ -25,17 +27,21 @@ export type ListingCardGridItem = {
   description?: string;
 };
 
+export type ListingEmptyState = CatalogueEmptyStateContent & {
+  onCtaClick?: () => void;
+};
+
 type ListingCardGridProps = {
   items: readonly ListingCardGridItem[];
   /** Re-mount to reset pagination — e.g. pass active filter value. */
   resetKey?: string;
-  emptyLabel?: string;
+  emptyState: ListingEmptyState;
 };
 
 export function ListingCardGrid({
   items,
   resetKey = "all",
-  emptyLabel = "No items to show yet.",
+  emptyState,
 }: ListingCardGridProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
@@ -65,7 +71,15 @@ export function ListingCardGrid({
           ))}
         </MotionStagger>
       ) : (
-        <p className="text-fg-muted py-10 text-sm">{emptyLabel}</p>
+        <CatalogueEmptyState
+          className="w-full"
+          icon={emptyState.icon}
+          title={emptyState.title}
+          description={emptyState.description}
+          ctaLabel={emptyState.ctaLabel}
+          ctaHref={emptyState.ctaHref}
+          onCtaClick={emptyState.onCtaClick}
+        />
       )}
 
       {hasMore ? (

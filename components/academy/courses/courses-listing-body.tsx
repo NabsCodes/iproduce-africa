@@ -1,9 +1,12 @@
 "use client";
 
 import { ListingCardGrid } from "@/components/academy/listings/listing-card-grid";
-import { ListingFilterBar } from "@/components/academy/listings/listing-filter-bar";
+import {
+  ALL_LISTING_FILTER,
+  ListingFilterBar,
+} from "@/components/academy/listings/listing-filter-bar";
 import type { CourseFilterLevel } from "@/content/courses";
-import { courseToCardItem } from "@/content/courses";
+import { courseToCardItem, coursesListing } from "@/content/courses";
 import { useListingFilter } from "@/hooks/use-listing-filter";
 import type { AcademyCourseDetail } from "@/types/academy";
 
@@ -37,7 +40,10 @@ export function CoursesListingBody({
         <ListingCardGrid
           resetKey={resetKey}
           items={filtered.map(courseToCardItem)}
-          emptyLabel="No courses match this level yet."
+          emptyState={{
+            ...coursesListing.filterEmptyState,
+            onCtaClick: () => setActiveFilter(ALL_LISTING_FILTER),
+          }}
         />
       </div>
     </section>
