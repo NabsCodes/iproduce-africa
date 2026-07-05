@@ -64,6 +64,42 @@ export type PartnerVoicesContent = {
   items: readonly PartnerVoice[];
 };
 
+export type PartnerSpotlightItem = {
+  id: string;
+  name: string;
+  /** Short line under the name — sector, location, or partnership type. */
+  descriptor: string;
+  /** Short teaser shown on the card/tile (~1–2 sentences, clamped). */
+  description: string;
+  /**
+   * Longer version shown in the story dialog. Falls back to `[description]`
+   * when omitted, so this is optional until the client sends fuller copy.
+   */
+  story?: readonly string[];
+  image: string;
+  imageAlt: string;
+  /** Use `logo` for partner marks until photography is supplied. */
+  imageVariant?: "photo" | "logo";
+  /** Partner's own site — shown as a secondary link in the story dialog. */
+  website?: string;
+  readMore?: {
+    label: string;
+    href: string;
+  };
+  order: number;
+};
+
+export type PartnerSpotlightContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  readMoreLabel: string;
+  viewStoryLabel: string;
+  websiteLabel: string;
+  showMoreLabel: string;
+  items: readonly PartnerSpotlightItem[];
+};
+
 export type PartnerOpportunityIconKey =
   | "graduation-cap"
   | "coins"
@@ -208,6 +244,7 @@ export type PartnersPageContent = {
   hero: PartnersHeroContent;
   whyPartner: PartnerBenefitsContent;
   impact: PartnersImpactContent;
+  spotlight: PartnerSpotlightContent;
   voices: PartnerVoicesContent;
   opportunities: PartnerOpportunitiesContent;
   inquiry: PartnerInquiryContent;

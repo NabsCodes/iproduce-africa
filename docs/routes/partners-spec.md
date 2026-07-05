@@ -187,6 +187,34 @@ slightly smaller scale (`p-3 + size-10` icon).
 - Cards can reuse the shared impact/proof helper if useful, but avoid  
   over-abstracting just for this page.
 
+## Partner Spotlight (client-driven addition, not in original screenshots)
+
+Added after the original screenshot-driven spec, in response to client
+feedback that the site under-represents named partners and the nature of
+each partnership. Renders between Benefits and Voices
+(`components/partners/partner-spotlight-section.tsx`).
+
+### Composition (shipped 2026-07-05)
+
+- Compact **2-column grid** of horizontal partner cards (same visual family as
+  About advisors): small image/logo on the left, name + descriptor + two-line
+  teaser + "View story" on the right. Full write-up stays in
+  `PartnerStoryDialog`.
+- First four partners visible by default; more load via "Show more partners"
+  (+4 per click). Same card template as the roster grows — no layout
+  redesign.
+- Alternating full-width rows and bento were tried and dropped — both read too
+  large for four partners on a page that already carries a lot of content.
+
+### Content Ownership
+
+- `story` is optional — falls back to `description` in the dialog until fuller
+  copy is supplied per partner.
+- `readMore` is optional — only set when an Academy blog post exists for that
+  partnership.
+- Labels (`viewStoryLabel`, `websiteLabel`, `readMoreLabel`, `showMoreLabel`)
+  live in `content/partners.ts` → `spotlight`.
+
 ## 4. Hear From Our Valuable Partners
 
 ### Desktop Composition

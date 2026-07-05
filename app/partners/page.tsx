@@ -1,4 +1,5 @@
 import { PartnersHeroSection } from "@/components/partners/hero-section";
+import { PartnerSpotlightSection } from "@/components/partners/partner-spotlight-section";
 import { VoicesSection } from "@/components/partners/voices-section";
 import { InquirySection } from "@/components/partners/inquiry-section";
 import { OpportunitiesSection } from "@/components/partners/opportunities-section";
@@ -26,6 +27,7 @@ export default function PartnersPage() {
         description={impact.description}
         items={impact.items}
       /> */}
+      <PartnerSpotlightSection />
       <VoicesSection />
       <OpportunitiesSection />
       <InquirySection />

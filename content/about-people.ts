@@ -27,7 +27,7 @@ const aboutPeople = [
     id: "mustapha-yakubu",
     group: "team",
     name: "Mustapha Yakubu",
-    role: "Operations & Technology",
+    role: "Director of IT & Business Development",
     photo: "/images/about/mustapha-yakubu.webp",
     bioSummary:
       "Technology, operations, and commercial strategy professional with experience across digital education, customer success, and executive advisory at global and high-growth organizations.",
@@ -38,6 +38,20 @@ const aboutPeople = [
       "He brings to iProduce Africa a practical blend of strategic thinking, technology fluency, commercial awareness and operational discipline, with a strong interest in using digital platforms to expand access to learning, opportunity and business growth across Africa.",
     ],
     order: 2,
+  },
+  {
+    id: "wilson-agaba",
+    group: "team",
+    name: "Dr. Wilson Agaba",
+    role: "Director of Training",
+    photo: "/images/about/wilson-agaba.webp",
+    bioSummary:
+      "Business consultant, financial analyst, and educationist with broad experience across business strategy, finance, agribusiness, education, and institutional management.",
+    bioParagraphs: [
+      "Dr. Wilson Agaba is a business consultant, financial analyst, researcher, educationist, and public affairs analyst with broad experience across business strategy, finance, agribusiness, education, project development, and institutional management. He has held senior leadership roles at Dreamheight Global Consult Ltd, Dreamheight Global Farm Ltd, and Maslaha Seeds Ltd, where he has supported strategy formulation, financial planning, business development, research coordination, and organisational growth.",
+      "His professional background also includes banking, education administration, training, and enterprise support. At iProduce, Wilson brings strong expertise in agribusiness advisory, capacity building, market linkage facilitation, and entrepreneurial development, supporting the platform's mission to connect African agripreneurs with resources, opportunities, and growth pathways.",
+    ],
+    order: 3,
   },
   {
     id: "inonge-margaret-imasiku",
@@ -57,7 +71,7 @@ const aboutPeople = [
     id: "aisha-yakubu-bako",
     group: "advisor",
     name: "Aisha Yakubu Bako",
-    role: "Senior Advisor",
+    role: "Senior Technical Advisor",
     photo: "/images/about/aisha-yakubu-bako.webp",
     bioSummary:
       "Leading investment promotion and private sector development expert with over 20 years of experience driving economic growth and women's participation in agricultural mechanisation across Nigeria.",
@@ -73,7 +87,7 @@ const aboutPeople = [
     id: "sidi-aliyu",
     group: "advisor",
     name: "Abdullahi Sidi-Aliyu",
-    role: "Strategic Advisor",
+    role: "Director Strategy",
     photo: "/images/about/sidi-aliyu.webp",
     bioSummary:
       "Retired Nigerian Export Promotion Council director with over 30 years of public-sector experience in export promotion, trade policy, and AfCFTA-related capacity building.",

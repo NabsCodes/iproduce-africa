@@ -3,6 +3,50 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Partner Spotlight — alternating rows (2026-07-05)
+
+Removed the founding-partner bento experiment (`components/ui/bento-grid.tsx`
+deleted; inline bento cards removed from `partner-spotlight-section.tsx`).
+Partner Spotlight now uses Mustafa's original template: one alternating
+image + write-up row per partner, dialog for full story, "Show more" after
+the first four. Dropped `featured`, `featuredLabel`, `featuredCtaLabel`, and
+`moreLabel` from spotlight types/content.
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`.
+
+---
+
+## Partner Spotlight — founding-partner bento (2026-07-04, superseded)
+
+Replaced the "featured banner + tile grid + show more" Partner Spotlight
+layout with a hand-composed bento: the first four partners (by `order`) form
+a fixed hero (large, `featured: true` item) + wide card + two square tiles,
+auto-placed via plain CSS grid (`lg:grid-cols-4`, hero gets
+`lg:col-span-2 lg:row-span-2`, everything else default — no explicit
+`col-start`/`row-start` needed, the grid's own auto-flow slots the rest in
+correctly). This composition only works cleanly for a known, closed set of
+four, which is exactly what the real roster is today — going with a true
+Aceternity-style bento for the _whole_, ever-growing partner list would break
+every time a partner is added. Partner #5 onward renders in a plain
+`MotionStagger` grid below (`section.moreLabel` heading + existing
+`PartnerTile` + "show more" pagination), hidden entirely while the roster
+stays at four. Same `PartnerStoryDialog` opens from every card (hero, wide,
+tile, growth-grid). New content fields: `PartnerSpotlightContent.moreLabel`
+/ `showMoreLabel`; `featuredLabel` copy changed from "Featured partner" to
+"Founding partner" to match the new framing.
+
+Rejected alternatives (see chat discussion): a full Aceternity-style bento
+for all partners (breaks past a fixed curated set, and cells are too small
+for real partner copy), and a full "journey"-style sticky-crossfade scroll
+list (scales better long-term but bigger build, better revisited once the
+roster is large enough that the fixed bento stops making sense).
+
+**Verification:** `pnpm format`, `lint`, `typecheck`, `build`; visually
+checked in-browser at desktop width (bento renders hero/wide/tile-tile as
+designed, story dialog opens from a tile).
+
+---
+
 ## Empty-state handling for Academy hub bands + Home Spotlight (2026-07-04)
 
 New shared `components/shared/catalogue-empty-state.tsx` (quiet, on-brand —
