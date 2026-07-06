@@ -37,7 +37,7 @@ export function PersonProfileDialog({
               src={person.photo}
               alt={person.name}
               sizes="(max-width: 640px) 100vw, 40vw"
-              className="aspect-4/3 w-full shrink-0 sm:aspect-auto sm:h-full sm:w-2/5"
+              className="border-grey-200 aspect-4/3 w-full shrink-0 border-r sm:aspect-auto sm:h-full sm:w-2/5"
               imageClassName="object-[center_22%]"
             />
 

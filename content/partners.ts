@@ -167,7 +167,7 @@ export const partnersPageContent = {
       "Organisations we work with today — who they are, what they bring, and how they fit the iProduce ecosystem.",
     readMoreLabel: "Read more",
     viewStoryLabel: "View story",
-    websiteLabel: "Visit website",
+    websiteLabel: "View website",
     showMoreLabel: "Show more partners",
     items: [
       {

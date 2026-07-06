@@ -39,19 +39,31 @@ export function PartnerStoryDialog({
           <div className="flex max-h-[calc(100vh-1rem)] flex-col overflow-hidden sm:h-128 sm:max-h-[min(32rem,calc(100vh-2rem))] sm:flex-row">
             <div
               className={cn(
-                "relative aspect-4/3 w-full shrink-0 overflow-hidden sm:aspect-auto sm:h-full sm:w-2/5",
-                isLogo ? "bg-subtle" : "bg-muted",
+                "border-grey-200 bg-subtle relative flex shrink-0 items-center justify-center border-r",
+                isLogo
+                  ? "aspect-square max-h-64 w-full py-10 sm:aspect-auto sm:max-h-none sm:w-64 sm:self-stretch sm:py-14 lg:w-72 lg:py-16"
+                  : "aspect-4/3 w-full overflow-hidden sm:aspect-auto sm:h-full sm:w-2/5",
               )}
             >
-              <Image
-                src={partner.image}
-                alt={partner.imageAlt}
-                fill
-                sizes="(max-width: 640px) 100vw, 40vw"
-                className={cn(
-                  isLogo ? "object-contain p-10 sm:p-12" : "object-cover",
-                )}
-              />
+              {isLogo ? (
+                <div className="relative aspect-square w-[min(58vw,13rem)] sm:w-[min(100%,11rem)] lg:w-48">
+                  <Image
+                    src={partner.image}
+                    alt={partner.imageAlt}
+                    fill
+                    sizes="(max-width: 640px) 58vw, 192px"
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <Image
+                  src={partner.image}
+                  alt={partner.imageAlt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              )}
             </div>
 
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white">
@@ -65,11 +77,11 @@ export function PartnerStoryDialog({
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto px-5 sm:px-6">
-                <div className="flex flex-col gap-4 py-5 sm:py-6">
+                <div className="flex flex-col gap-4 py-5 sm:gap-5 sm:py-6">
                   {paragraphs.map((paragraph, index) => (
                     <p
                       key={index}
-                      className="text-fg-muted text-sm leading-6 sm:text-[15px]"
+                      className="text-fg-muted text-sm leading-7 sm:text-[15px]"
                     >
                       {paragraph}
                     </p>
@@ -77,36 +89,34 @@ export function PartnerStoryDialog({
                 </div>
               </div>
 
-              <div
-                className={cn(
-                  "border-grey-200 bg-subtle shrink-0 border-t",
-                  hasFooterLinks &&
-                    "flex flex-wrap gap-x-5 gap-y-2 px-5 py-4 sm:px-6",
-                )}
-              >
-                {partner.readMore ? (
-                  <ButtonLink
-                    href={partner.readMore.href}
-                    variant="green-link"
-                    size="sm"
-                    className="decoration-leaf-700/50 hover:decoration-leaf-700 h-auto p-0 text-sm font-semibold underline underline-offset-4"
-                  >
-                    {partner.readMore.label ?? readMoreLabel}
-                    <ArrowRight className="size-4" aria-hidden />
-                  </ButtonLink>
-                ) : null}
-                {partner.website ? (
-                  <a
-                    href={partner.website}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-fg-muted hover:text-foreground decoration-fg-muted/50 inline-flex items-center gap-1.5 text-sm font-medium underline underline-offset-4 transition-colors"
-                  >
-                    {websiteLabel}
-                    <ExternalLink className="size-3.5" aria-hidden />
-                  </a>
-                ) : null}
-              </div>
+              {hasFooterLinks ? (
+                <div className="border-grey-200 bg-subtle flex shrink-0 flex-wrap gap-x-5 gap-y-2 border-t px-5 py-4 sm:px-6">
+                  {partner.website ? (
+                    <a
+                      href={partner.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={cn(
+                        "text-leaf-700 hover:text-leaf-800 decoration-leaf-700/50 hover:decoration-leaf-700 inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4 transition-colors",
+                      )}
+                    >
+                      {websiteLabel}
+                      <ExternalLink className="size-3.5 shrink-0" aria-hidden />
+                    </a>
+                  ) : null}
+                  {partner.readMore ? (
+                    <ButtonLink
+                      href={partner.readMore.href}
+                      variant="green-link"
+                      size="sm"
+                      className="decoration-leaf-700/50 hover:decoration-leaf-700 h-auto p-0 text-sm font-semibold underline underline-offset-4"
+                    >
+                      {partner.readMore.label ?? readMoreLabel}
+                      <ArrowRight className="size-4" aria-hidden />
+                    </ButtonLink>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
         </DialogContent>
