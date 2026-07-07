@@ -16,7 +16,7 @@ Current mapping:
 - Community: `community-spec.md` (+ wizard: `community-membership-dialog-spec.md`)
 - Partners: `partners-spec.md`
 - Contact: `contact-spec.md`
-- Legal: `legal-pages-spec.md` (Privacy, Terms, Cookies, Accessibility — pending Codex review)
+- Legal: `legal-pages-spec.md` (Privacy, Terms, Cookies, Accessibility — implemented)
 
 If a page grows into multiple internal sections later, keep one parent spec and
 split only when the extra complexity actually helps.

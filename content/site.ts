@@ -58,10 +58,10 @@ export const siteConfig = {
       subscribeAgainLabel: "Subscribe with another email",
     },
     legalLinks: [
-      { label: "Privacy", href: undefined },
-      { label: "Terms", href: undefined },
-      { label: "Cookies", href: undefined },
-      { label: "Accessibility", href: undefined },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Cookies", href: "/cookies" },
+      { label: "Accessibility", href: "/accessibility" },
     ],
   },
 } satisfies SiteConfig;

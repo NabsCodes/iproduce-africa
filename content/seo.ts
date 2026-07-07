@@ -59,6 +59,30 @@ export const pageSeo = {
       "Self-paced Academy courses that turn agricultural know-how into practical business skills across the value chain.",
     path: "/academy/courses",
   },
+  privacy: {
+    title: "Privacy Policy",
+    description:
+      "How iProduce Africa collects, uses, and protects information submitted through this website.",
+    path: "/privacy",
+  },
+  terms: {
+    title: "Terms of Use",
+    description:
+      "The rules that govern your use of the iProduce Africa website.",
+    path: "/terms",
+  },
+  cookies: {
+    title: "Cookie Policy",
+    description:
+      "How the iProduce Africa website uses cookies and similar technologies.",
+    path: "/cookies",
+  },
+  accessibility: {
+    title: "Accessibility Statement",
+    description:
+      "iProduce Africa's commitment to an accessible website experience.",
+    path: "/accessibility",
+  },
 } as const;
 
 export const sitemapRoutes = [
@@ -68,4 +92,8 @@ export const sitemapRoutes = [
   { href: "/community", priority: 0.9, changeFrequency: "weekly" },
   { href: "/partners", priority: 0.8, changeFrequency: "monthly" },
   { href: "/contact", priority: 0.7, changeFrequency: "monthly" },
+  { href: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+  { href: "/terms", priority: 0.3, changeFrequency: "yearly" },
+  { href: "/cookies", priority: 0.3, changeFrequency: "yearly" },
+  { href: "/accessibility", priority: 0.3, changeFrequency: "yearly" },
 ] as const satisfies readonly SitemapRoute[];

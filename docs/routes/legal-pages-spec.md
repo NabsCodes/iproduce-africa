@@ -2,12 +2,8 @@
 
 ## Status
 
-**Approved for implementation** — Codex review 2026-07-07 (contact field fix,
-cookies honesty rules, replaceable entity/governing-law wording applied).
-Footer legal links remain non-interactive placeholders until routes ship.
-
-**Next step:** Implement per checklist below (`content/legal.ts` → components →
-four routes → footer/SEO/sitemap).
+**Implemented** (2026-07-07) — all four routes shipped per the checklist
+below. Footer legal links are now live internal links.
 
 ## Purpose
 
@@ -146,8 +142,8 @@ Keep visibly **replaceable** until client counsel confirms:
 - **Operator / data controller:** default to **iProduce Africa** with one sentence
   that the platform is associated with **Inara Foundation** — do not present
   either as finally settled legal entity language.
-- **Governing law / venue:** draft as *"laws of the Federal Republic of Nigeria"*
-  and *"courts in Abuja, Nigeria"* with wording like *"as applicable"* or the
+- **Governing law / venue:** draft as _"laws of the Federal Republic of Nigeria"_
+  and _"courts in Abuja, Nigeria"_ with wording like _"as applicable"_ or the
   baseline notice above — counsel may substitute registered entity name and
   exact venue.
 
@@ -157,14 +153,14 @@ Keep visibly **replaceable** until client counsel confirms:
 
 ### Form surfaces → API routes
 
-| User action           | Component                         | API route                           | Typical fields (verify in `schemas/`)                                                                 |
-| --------------------- | --------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Contact form          | `contact-form.tsx`                | `POST /api/contact`                 | `firstName`, `lastName`, `email`, `subject`, optional `subjectOther`, `message` — **no phone** (`schemas/contact.ts`) |
+| User action           | Component                         | API route                           | Typical fields (verify in `schemas/`)                                                                                                                                               |
+| --------------------- | --------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Contact form          | `contact-form.tsx`                | `POST /api/contact`                 | `firstName`, `lastName`, `email`, `subject`, optional `subjectOther`, `message` — **no phone** (`schemas/contact.ts`)                                                               |
 | Partner inquiry       | `inquiry-form.tsx`                | `POST /api/partners/inquiry`        | `fullName`, `organisation`, `role`, optional `roleOther`, `country`, `sector`, optional `sectorOther`, `email`, `phone`, `areaOfInterest`, optional `areaOfInterestOther`, `reason` |
-| Become partner dialog | `become-partner-dialog.tsx`       | `POST /api/partners/become-partner` | org profile, interests, contact (`schemas/partners.ts` → `becomePartnerSchema`)                       |
-| Community application | `application-form.tsx` / dialog   | `POST /api/community/application`   | membership fields (`schemas/community.ts`)                                                            |
-| Academy registration  | `academy-registration-dialog.tsx` | `POST /api/academy/register`        | name, email, phone, organisation, slug/kind (`schemas/academy-registration.ts`)                     |
-| Newsletter            | `newsletter-signup-form.tsx`      | `POST /api/newsletter`              | email                                                                                                 |
+| Become partner dialog | `become-partner-dialog.tsx`       | `POST /api/partners/become-partner` | org profile, interests, contact (`schemas/partners.ts` → `becomePartnerSchema`)                                                                                                     |
+| Community application | `application-form.tsx` / dialog   | `POST /api/community/application`   | membership fields (`schemas/community.ts`)                                                                                                                                          |
+| Academy registration  | `academy-registration-dialog.tsx` | `POST /api/academy/register`        | name, email, phone, organisation, slug/kind (`schemas/academy-registration.ts`)                                                                                                     |
+| Newsletter            | `newsletter-signup-form.tsx`      | `POST /api/newsletter`              | email                                                                                                                                                                               |
 
 All public forms use:
 
@@ -179,15 +175,15 @@ stored in a user account portal (there is none).
 
 ### Non-form processing
 
-| Service                          | Purpose                                                            | Disclose on                              |
-| -------------------------------- | ------------------------------------------------------------------ | ---------------------------------------- |
-| **Vercel**                       | Hosting, deployment                                                | Privacy                                  |
+| Service                          | Purpose                                                                                                                                                                                    | Disclose on                              |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| **Vercel**                       | Hosting, deployment                                                                                                                                                                        | Privacy                                  |
 | **Vercel Analytics**             | Aggregate page-view analytics (`@vercel/analytics` in root layout); [Vercel docs](https://vercel.com/docs/analytics) state Web Analytics uses anonymized data and **does not use cookies** | Privacy, Cookies                         |
-| **Resend**                       | Transactional email delivery                                       | Privacy                                  |
-| **Cloudflare Turnstile**         | Bot/spam protection on forms; may use strictly necessary cookies or security signals per [Cloudflare](https://www.cloudflare.com/turnstile-privacy-policy/) | Privacy, Cookies                         |
-| **Upstash**                      | Rate-limit counters (request metadata)                             | Privacy                                  |
-| **Sanity**                       | CMS / Studio at `/admin` for editorial content                     | Privacy (brief)                          |
-| **Google Fonts via `next/font`** | Fraunces + Plus Jakarta (self-hosted through Next.js)              | Cookies (note: not third-party font CDN) |
+| **Resend**                       | Transactional email delivery                                                                                                                                                               | Privacy                                  |
+| **Cloudflare Turnstile**         | Bot/spam protection on forms; may use strictly necessary cookies or security signals per [Cloudflare](https://www.cloudflare.com/turnstile-privacy-policy/)                                | Privacy, Cookies                         |
+| **Upstash**                      | Rate-limit counters (request metadata)                                                                                                                                                     | Privacy                                  |
+| **Sanity**                       | CMS / Studio at `/admin` for editorial content                                                                                                                                             | Privacy (brief)                          |
+| **Google Fonts via `next/font`** | Fraunces + Plus Jakarta (self-hosted through Next.js)                                                                                                                                      | Cookies (note: not third-party font CDN) |
 
 ### Explicitly out of scope for policies
 
@@ -230,19 +226,19 @@ Do **not** claim or imply:
 
 **Subtitle:** Rules for using the iProduce Africa website.
 
-| #   | Section ID                | Title                   | Key points                                                                                                          |
-| --- | ------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| 1   | `acceptance`              | Acceptance of terms     | By using the site you agree; link to Privacy                                                                        |
-| 2   | `about-the-site`          | About the site          | Informational marketing site; Academy/Community/Partners pathways; **no user accounts**                             |
-| 3   | `form-submissions`        | Form submissions        | Accurate info; permission to contact you; no guarantee of acceptance (community/partnership/academy)                |
-| 4   | `acceptable-use`          | Acceptable use          | No unlawful use, scraping abuse, malware, impersonation, harassment                                                 |
-| 5   | `intellectual-property`   | Intellectual property   | Site content owned by iProduce Africa / licensors; limited personal viewing; no commercial reuse without permission |
-| 6   | `third-party-links`       | Third-party links       | Partner sites, social, map embeds — not responsible for external content                                            |
-| 7   | `disclaimers`             | Disclaimers             | Training/content is general information, not professional/legal/financial advice                                    |
-| 8   | `limitation-of-liability` | Limitation of liability | Standard marketing-site limitation; no indirect damages; cap where lawful                                           |
+| #   | Section ID                | Title                   | Key points                                                                                                                              |
+| --- | ------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `acceptance`              | Acceptance of terms     | By using the site you agree; link to Privacy                                                                                            |
+| 2   | `about-the-site`          | About the site          | Informational marketing site; Academy/Community/Partners pathways; **no user accounts**                                                 |
+| 3   | `form-submissions`        | Form submissions        | Accurate info; permission to contact you; no guarantee of acceptance (community/partnership/academy)                                    |
+| 4   | `acceptable-use`          | Acceptable use          | No unlawful use, scraping abuse, malware, impersonation, harassment                                                                     |
+| 5   | `intellectual-property`   | Intellectual property   | Site content owned by iProduce Africa / licensors; limited personal viewing; no commercial reuse without permission                     |
+| 6   | `third-party-links`       | Third-party links       | Partner sites, social, map embeds — not responsible for external content                                                                |
+| 7   | `disclaimers`             | Disclaimers             | Training/content is general information, not professional/legal/financial advice                                                        |
+| 8   | `limitation-of-liability` | Limitation of liability | Standard marketing-site limitation; no indirect damages; cap where lawful                                                               |
 | 9   | `governing-law`           | Governing law           | Federal Republic of Nigeria; courts in Abuja, Nigeria — **draft wording, confirm with counsel** (see Entity & governing-law copy above) |
-| 10  | `changes`                 | Changes                 | Updates posted on this page                                                                                         |
-| 11  | `contact`                 | Contact                 | info@                                                                                                               |
+| 10  | `changes`                 | Changes                 | Updates posted on this page                                                                                                             |
+| 11  | `contact`                 | Contact                 | info@                                                                                                                                   |
 
 ### 3. Cookie Policy (`/cookies`)
 
@@ -263,15 +259,15 @@ Do **not** claim or imply:
 - Prefer a short **category table** (Essential / Analytics / Preferences) with
   honest "not used" or "provider-dependent" cells over a fake exhaustive list.
 
-| #   | Section ID             | Title                | Key points                                                                                   |
-| --- | ---------------------- | -------------------- | -------------------------------------------------------------------------------------------- |
-| 1   | `what-are-cookies`     | What are cookies?    | Short plain-language definition; mention similar technologies (local storage, signals)       |
-| 2   | `how-we-use`           | How we use cookies   | Turnstile = necessary security; Vercel Analytics = anonymized metrics **without analytics cookies**; no advertising cookies in v1 |
-| 3   | `cookies-we-use`       | Cookies & similar technologies we use | Category table per copy rules above — honest, no invented names/durations              |
-| 4   | `managing-cookies`     | Managing cookies     | Browser controls; blocking Turnstile may break forms; **no consent banner in v1** — state clearly |
-| 5   | `third-party-policies` | Third-party policies | Links: [Cloudflare Turnstile](https://www.cloudflare.com/turnstile-privacy-policy/), [Vercel](https://vercel.com/docs/analytics) |
-| 6   | `changes`              | Changes              | Updates to this policy                                                                       |
-| 7   | `contact`              | Contact              | info@                                                                                        |
+| #   | Section ID             | Title                                 | Key points                                                                                                                        |
+| --- | ---------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `what-are-cookies`     | What are cookies?                     | Short plain-language definition; mention similar technologies (local storage, signals)                                            |
+| 2   | `how-we-use`           | How we use cookies                    | Turnstile = necessary security; Vercel Analytics = anonymized metrics **without analytics cookies**; no advertising cookies in v1 |
+| 3   | `cookies-we-use`       | Cookies & similar technologies we use | Category table per copy rules above — honest, no invented names/durations                                                         |
+| 4   | `managing-cookies`     | Managing cookies                      | Browser controls; blocking Turnstile may break forms; **no consent banner in v1** — state clearly                                 |
+| 5   | `third-party-policies` | Third-party policies                  | Links: [Cloudflare Turnstile](https://www.cloudflare.com/turnstile-privacy-policy/), [Vercel](https://vercel.com/docs/analytics)  |
+| 6   | `changes`              | Changes                               | Updates to this policy                                                                                                            |
+| 7   | `contact`              | Contact                               | info@                                                                                                                             |
 
 ### 4. Accessibility Statement (`/accessibility`)
 
@@ -289,9 +285,9 @@ Do **not** claim or imply:
 
 ## Cookie Consent Banner — Decision
 
-| Phase                       | Scope                                                                                                                                                    |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **v1 (this spec)**          | Cookies **policy page** only; disclose Turnstile + Vercel Analytics per copy rules above; **no** new banner component |
+| Phase                       | Scope                                                                                                                                                       |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v1 (this spec)**          | Cookies **policy page** only; disclose Turnstile + Vercel Analytics per copy rules above; **no** new banner component                                       |
 | **v2 (optional follow-up)** | WardWise-style consent banner if client targets EU-grade opt-in or counsel requires it — only if non-cookie analytics or marketing trackers are added later |
 
 Codex (2026-07-07): v1 without banner is **approved** — Vercel Web Analytics is
@@ -338,25 +334,27 @@ Optional follow-up: add Privacy link near form consent text (not required for v1
 
 ## Implementation Checklist (post-approval)
 
-- [ ] Codex review of this spec — approved / edits noted
-- [ ] `types/legal.ts`
-- [ ] `content/legal.ts` — full section copy (all four pages)
-- [ ] `components/legal/legal-page-layout.tsx`
-- [ ] `components/legal/legal-section-content.tsx`
-- [ ] `app/privacy/page.tsx`
-- [ ] `app/terms/page.tsx`
-- [ ] `app/cookies/page.tsx`
-- [ ] `app/accessibility/page.tsx`
-- [ ] `content/seo.ts` — four entries
-- [ ] `content/site.ts` — legal link hrefs
-- [ ] `sitemapRoutes` — four hrefs
-- [ ] `docs/shared/footer-spec.md` — update status (live links)
-- [ ] `docs/status-board.md` — tick Legal section
-- [ ] `docs/implementation-log.md` — session row
-- [ ] `docs/routes/README.md` — add legal-pages-spec to mapping
+- [x] Codex review of this spec — approved / edits noted
+- [x] `types/legal.ts`
+- [x] `content/legal.ts` — full section copy (all four pages)
+- [x] `components/legal/legal-page-layout.tsx`
+- [x] `components/legal/legal-section-content.tsx`
+- [x] `app/privacy/page.tsx`
+- [x] `app/terms/page.tsx`
+- [x] `app/cookies/page.tsx`
+- [x] `app/accessibility/page.tsx`
+- [x] `content/seo.ts` — four entries
+- [x] `content/site.ts` — legal link hrefs
+- [x] `sitemapRoutes` — four hrefs
+- [x] `docs/shared/footer-spec.md` — update status (live links)
+- [x] `docs/status-board.md` — tick Legal section
+- [x] `docs/implementation-log.md` — session row
+- [x] `docs/routes/README.md` — add legal-pages-spec to mapping
 - [ ] Notion iProduce Dev Notes — tick Legal pages; note baseline for counsel
-- [ ] `pnpm format && pnpm lint && pnpm typecheck && pnpm build`
-- [ ] Manual: open all four routes desktop + 390px; footer links; sitemap.xml
+- [x] `pnpm format && pnpm lint && pnpm typecheck && pnpm build`
+- [x] Manual: open all four routes via dev server (200s), footer links resolve,
+      sitemap.xml lists all four — verified via curl (no headless-browser
+      tooling available in this environment for a visual 390px screenshot)
 
 ---
 

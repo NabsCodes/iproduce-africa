@@ -3,6 +3,76 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Legal pages: dropped docs-site polish (2026-07-07)
+
+Reverted the heading hash/permalink icons and the desktop "On this page"
+section TOC added in the prior pass. On reflection those are docs-site
+conventions (MDN, GitHub docs) that most legal/privacy pages (Apple, Stripe,
+GitHub ToS) don't actually use — plain scroll + a static cross-doc nav is the
+norm, and the TOC duplicated functionality already covered by the section
+`id`s. Kept: section `id`s + `scroll-mt-*` (harmless, keeps `/privacy#contact`
+style deep links usable later), the desktop sticky "Legal documents" cross-doc
+card, and the mobile sticky doc switcher — none of those were in question.
+
+**Verification:** `pnpm format` (pass), `pnpm lint` (pass), `pnpm typecheck`
+(pass), `pnpm build` (pass). Manual: confirmed via dev server HTML that hash
+icons and "On this page" are gone, cross-doc nav and section `id`s remain.
+
+---
+
+## Legal pages nav/UX follow-up (2026-07-07)
+
+Fixed desktop sticky sidebar (root cause: `lg:items-start` on the grid
+container collapsed the aside to content height, leaving `position: sticky`
+no room to travel — removed it so the aside stretches to the row height).
+Replaced the mobile horizontal-scroll pill bar with a sticky "Legal
+documents" dropdown switcher (`legal-doc-switcher.tsx`) — these are separate
+pages, not tabs, so a segmented-pill bar was the wrong pattern; a single
+"jump to document" trigger reads correctly and takes far less mobile screen
+real estate. Also: fixed a `focus-visible:outline-none` regression with no
+replacement ring on the new switcher (now `focus-visible:ring-2
+focus-visible:ring-leaf-300`, matching the rest of the design system); added
+an in-page "On this page" section TOC to the desktop sidebar; added
+`print:hidden` / `print:block` / `print:max-w-none` so a printed policy
+doesn't waste a page on chrome; added a small `#` deep-link icon next to each
+`h2` so a specific clause can be linked directly.
+
+Docs updated: `docs/implementation-log.md` only (no architecture change to
+the approved spec).
+
+**Verification:** `pnpm format` (pass), `pnpm lint` (pass), `pnpm typecheck`
+(pass), `pnpm build` (pass). Manual: verified via dev server that the sticky
+mobile switcher, sticky desktop card, `focus-visible:ring-2` classes, section
+TOC anchors, and heading deep-links all render correctly in HTML.
+
+---
+
+## Legal pages implementation (2026-07-07)
+
+Implemented the four legal/compliance routes per the approved spec
+(`docs/routes/legal-pages-spec.md`): `types/legal.ts`, `content/legal.ts`
+(baseline copy for Privacy, Terms, Cookies, Accessibility grounded in the real
+stack — Resend, Turnstile, Upstash, Vercel Analytics, Sanity `/admin`),
+`components/legal/legal-page-layout.tsx` + `legal-doc-nav.tsx` +
+`legal-section-content.tsx` (shared shell with sticky `lg+` cross-doc nav,
+mobile pill row, last-updated badge, category table support for Cookies), and
+`app/privacy`, `app/terms`, `app/cookies`, `app/accessibility` route pages.
+Wired `siteConfig.footer.legalLinks` to real hrefs and added four `pageSeo` +
+`sitemapRoutes` entries (priority 0.3, yearly). Cookies page uses a category
+table instead of inventing cookie names/durations, per Codex review. No
+consent banner in v1.
+
+Docs updated: `docs/status-board.md`, `docs/shared/footer-spec.md`,
+`docs/routes/README.md`.
+
+**Verification:** `pnpm format` (pass), `pnpm lint` (pass), `pnpm typecheck`
+(pass), `pnpm build` (pass — all four routes prerender static, appear in
+`sitemap.xml`). Manual: `/privacy`, `/terms`, `/cookies`, `/accessibility`
+return 200 via dev server; footer links resolve to the new routes; cross-doc
+nav and last-updated date render correctly in the rendered HTML.
+
+---
+
 ## Production form-delivery cutover audit (2026-07-07)
 
 Audited the live Resend + Turnstile + Upstash + Vercel form-delivery path from

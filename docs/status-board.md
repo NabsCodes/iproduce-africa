@@ -20,13 +20,12 @@ Use this as the quick checkpoint list across shared sections and public pages.
 
 ## Legal / Compliance Pages
 
-- [ ] `/privacy`, `/terms`, `/cookies`, `/accessibility` routes + shared legal
-      layout — **spec approved** (`docs/routes/legal-pages-spec.md`, Codex
-      2026-07-07); ready to implement
-- [ ] Baseline copy grounded in real stack (Resend, Turnstile, Upstash, Vercel,
+- [x] `/privacy`, `/terms`, `/cookies`, `/accessibility` routes + shared legal
+      layout implemented (`docs/routes/legal-pages-spec.md`)
+- [x] Baseline copy grounded in real stack (Resend, Turnstile, Upstash, Vercel,
       Sanity, form data) — clearly a working baseline, client counsel replaces
-- [ ] Wire `siteConfig.footer.legalLinks` to the new routes
-- [ ] Add legal routes to `content/seo.ts` + `sitemap.ts`
+- [x] Wire `siteConfig.footer.legalLinks` to the new routes
+- [x] Add legal routes to `content/seo.ts` + `sitemap.ts`
 
 ## Integration Readiness
 

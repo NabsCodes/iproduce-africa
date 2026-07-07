@@ -12,6 +12,11 @@ Turnstile). Submit button swaps to a spinner while posting. The footer passes
 the current pathname as `sourcePath`, so footer submissions from article pages
 no longer appear as homepage submissions in the inbox.
 
+Footer `legalLinks` (Privacy, Terms, Cookies, Accessibility) are now live
+internal links to `/privacy`, `/terms`, `/cookies`, `/accessibility` — see
+`docs/routes/legal-pages-spec.md`. They are no longer non-interactive
+placeholder spans.
+
 ## Purpose
 
 The footer should close the site with confidence, useful navigation, and strong
@@ -35,7 +40,7 @@ brand tone without pretending final integrations already exist.
 
 - final social/contact destinations
 - exact mobile footer sign-off against a dedicated reference, if one is shared
-- future legal and careers routes once those pages are in scope
+- future careers route once that page is in scope
 
 ## Checklist
 
@@ -46,3 +51,4 @@ brand tone without pretending final integrations already exist.
 - [x] Mobile composition approved
 - [x] Footer copy aligned with static MVP boundaries
 - [x] Newsletter block wired to `/api/newsletter` with spinner, subscribe-again reset, current-path source attribution, and current-session de-dupe
+- [x] Legal links (Privacy, Terms, Cookies, Accessibility) live — routes shipped
