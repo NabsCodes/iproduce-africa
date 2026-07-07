@@ -54,6 +54,13 @@ export const partnersList: Partner[] = [
     href: "https://thecfgadvisory.com/",
     order: 6,
   },
+  {
+    id: "flowdiary",
+    name: "Flowdiary",
+    logo: "/images/partners/flowdiary.png",
+    href: "https://flowdiary.com.ng/",
+    order: 7,
+  },
 ];
 
 export const partnersPageContent = {

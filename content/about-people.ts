@@ -93,6 +93,23 @@ const aboutPeople = [
     ],
   },
   {
+    id: "tobi-seun-ajayi",
+    group: "team",
+    name: "Tobi Seun Ajayi",
+    role: "Project Coordinator (South)",
+    photo: "/images/about/tobi.webp",
+    credentials:
+      "B.Sc. Computer Science (Ibadan Polytechnic) · Project coordination · IT · Graphic design",
+    bioSummary:
+      "Project coordinator, IT professional, and creative designer with over seven years of experience across project delivery, technology, and digital communications.",
+    bioParagraphs: [
+      "Tobi Seun Ajayi is a Project Coordinator, IT professional, and creative designer with over seven years of experience in project coordination, information technology, graphic design, and digital communications.",
+      "A graduate of Computer Science from Ibadan Polytechnic, he has worked with both local and international organisations, including a U.S.-based print production company, delivering technology-driven solutions and supporting high-volume production workflows.",
+      "At iProduce Africa, he supports project implementation, creative design, and initiatives that strengthen Africa's agricultural ecosystem.",
+    ],
+    order: 6,
+  },
+  {
     id: "inonge-margaret-imasiku",
     group: "advisor",
     name: "Inonge Margaret Imasiku",

@@ -83,8 +83,7 @@ Hover/focus uses a subtle border shift (`border-leaf-300` /
 **Data:** roster lives in `content/about-people.ts` (`group: 'team'`);
 `content/about.ts` projects members via `getAboutPeopleByGroup('team')`.
 Current core team: Aisha Waziri Umar, Wilson Agaba, Mustapha Yakubu, Umma
-Umar, and Usman Dagona. **Tobi Ajayi** (Project Coordinator, South) pending
-photo + bio.
+Umar, Usman Dagona, and Tobi Seun Ajayi.
 
 ### 7. Advisors — `components/about/advisors-section.tsx`
 
@@ -151,9 +150,8 @@ exports real milestone photography to `public/images/about/journey/`.
 
 Public traction metrics are intentionally removed from the hero, story, and
 impact proof cards until the client approves verified numbers. Team/advisor
-roster uses real bios and photos in `content/about-people.ts` (v1: five
-team members, three advisors). **Tobi Ajayi** (Project Coordinator, South)
-is pending client photo + bio — add as a registry entry when assets arrive. Journey milestone copy
+roster uses real bios and photos in `content/about-people.ts` (v1: six
+team members, three advisors). Journey milestone copy
 remains placeholder pending client data.
 
 ## Checklist
@@ -168,6 +166,6 @@ remains placeholder pending client data.
 - [x] Team + advisor profile dialogs + `about-people.ts` registry
 - [x] CTA + Partners shared sections wired
 - [x] Motion adoption scope documented
-- [x] Real photography for team / advisors (Tobi Ajayi pending)
+- [x] Real photography for team / advisors
 - [ ] Real photography for journey milestones
 - [ ] Story video link wired to a real asset
