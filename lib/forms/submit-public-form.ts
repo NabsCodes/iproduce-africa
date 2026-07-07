@@ -6,6 +6,8 @@ export const PUBLIC_FORM_VALIDATION_ERROR =
 export const PUBLIC_FORM_VERIFICATION_ERROR =
   "Please complete the verification step and try again.";
 
+export const PUBLIC_FORM_VERIFICATION_UNAVAILABLE_ERROR = `Verification is temporarily unavailable. Please email us at ${siteConfig.email}.`;
+
 export const PUBLIC_FORM_DELIVERY_ERROR = `We couldn't send your message right now. Please try again or email us at ${siteConfig.email}.`;
 
 export const PUBLIC_FORM_RATE_LIMIT_ERROR =

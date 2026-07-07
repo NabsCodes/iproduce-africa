@@ -86,14 +86,14 @@ export function PublicFormSecurityFields<T extends FieldValues>({
 
       {isTurnstileRequiredInProduction() ? (
         <p className="text-destructive text-sm">
-          Verification is temporarily unavailable. Please email{" "}
+          Verification is temporarily unavailable. Please email us at{" "}
           <a
             href={`mailto:${siteConfig.email}`}
             className="text-forest-700 font-medium underline underline-offset-2"
           >
             {siteConfig.email}
-          </a>{" "}
-          for now.
+          </a>
+          .
         </p>
       ) : null}
     </div>

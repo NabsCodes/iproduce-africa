@@ -18,29 +18,32 @@ and more task-oriented.
 7. `layout-system.md`
 8. `design-system.md`
 9. `email-structure.md` when touching transactional email
-10. `cms-migration-spec.md` + `sanity-academy-spec.md` when CMS work is in scope
-11. `implementation-log.md`
+10. `production-form-delivery-cutover.md` when preparing Resend / Turnstile /
+    Upstash / Vercel production handoff
+11. `cms-migration-spec.md` + `sanity-academy-spec.md` when CMS work is in scope
+12. `implementation-log.md`
 
 ## Documents
 
-| File                         | Purpose                                                                           |
-| ---------------------------- | --------------------------------------------------------------------------------- |
-| `workflow.md`                | Explains the screenshot-to-spec-to-code loop for this repo.                       |
-| `mvp-phases.md`              | Defines what is in scope now, what comes next, and what is deliberately deferred. |
-| `homepage-static-spec.md`    | Working spec for the current Home page milestone.                                 |
-| `file-structure-proposal.md` | Recommended long-term folder ownership and migration direction.                   |
-| `routes/`                    | Route-by-route specs and checklists.                                              |
-| `shared/`                    | Shared-section specs such as navbar and footer.                                   |
-| `layout-system.md`           | Shared page structure, section rhythm, and responsive composition rules.          |
-| `design-system.md`           | Visual language for tokens, typography, buttons, cards, imagery, and UI tone.     |
-| `status-board.md`            | Quick to-do board across shared sections and pages.                               |
-| `implementation-log.md`      | Short running log so future agents can catch up quickly.                          |
-| `handoff-template.md`        | Copy-paste structure for incomplete work or QA handoff.                           |
-| `resend-integration-spec.md` | Resend + React Email + Turnstile integration (env, API, account strategy).        |
-| `email-structure.md`         | Email folder tree, logic vs helpers, dual UI, config suggestions.                 |
-| `cms-migration-spec.md`      | Sanity master plan: phases, CMS vs code, edge cases, folder layout.               |
-| `sanity-academy-spec.md`     | Phase 1 Academy catalogues: schemas, GROQ, migration, acceptance criteria.        |
-| `cms-client-summary.md`      | One-page client sign-off: what moves to CMS and when.                             |
+| File                                  | Purpose                                                                           |
+| ------------------------------------- | --------------------------------------------------------------------------------- |
+| `workflow.md`                         | Explains the screenshot-to-spec-to-code loop for this repo.                       |
+| `mvp-phases.md`                       | Defines what is in scope now, what comes next, and what is deliberately deferred. |
+| `homepage-static-spec.md`             | Working spec for the current Home page milestone.                                 |
+| `file-structure-proposal.md`          | Recommended long-term folder ownership and migration direction.                   |
+| `routes/`                             | Route-by-route specs and checklists.                                              |
+| `shared/`                             | Shared-section specs such as navbar and footer.                                   |
+| `layout-system.md`                    | Shared page structure, section rhythm, and responsive composition rules.          |
+| `design-system.md`                    | Visual language for tokens, typography, buttons, cards, imagery, and UI tone.     |
+| `status-board.md`                     | Quick to-do board across shared sections and pages.                               |
+| `implementation-log.md`               | Short running log so future agents can catch up quickly.                          |
+| `handoff-template.md`                 | Copy-paste structure for incomplete work or QA handoff.                           |
+| `resend-integration-spec.md`          | Resend + React Email + Turnstile integration (env, API, account strategy).        |
+| `email-structure.md`                  | Email folder tree, logic vs helpers, dual UI, config suggestions.                 |
+| `production-form-delivery-cutover.md` | Production checklist for Resend, Turnstile, Upstash, and Vercel form delivery.    |
+| `cms-migration-spec.md`               | Sanity master plan: phases, CMS vs code, edge cases, folder layout.               |
+| `sanity-academy-spec.md`              | Phase 1 Academy catalogues: schemas, GROQ, migration, acceptance criteria.        |
+| `cms-client-summary.md`               | One-page client sign-off: what moves to CMS and when.                             |
 
 ## Source Of Truth Order
 

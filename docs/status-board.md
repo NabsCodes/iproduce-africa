@@ -18,6 +18,16 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Partners page, inquiry form, and partner dialog built and documented beyond scaffold
 - [x] Contact page built and documented beyond scaffold
 
+## Legal / Compliance Pages
+
+- [ ] `/privacy`, `/terms`, `/cookies`, `/accessibility` routes + shared legal
+      layout — **spec approved** (`docs/routes/legal-pages-spec.md`, Codex
+      2026-07-07); ready to implement
+- [ ] Baseline copy grounded in real stack (Resend, Turnstile, Upstash, Vercel,
+      Sanity, form data) — clearly a working baseline, client counsel replaces
+- [ ] Wire `siteConfig.footer.legalLinks` to the new routes
+- [ ] Add legal routes to `content/seo.ts` + `sitemap.ts`
+
 ## Integration Readiness
 
 - [x] Static content structure is stable enough for Sanity mapping
@@ -25,6 +35,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Form integration scope documented (`docs/resend-integration-spec.md`)
 - [x] Resend + React Email + Turnstile implementation (6 API routes, 7 form surfaces, dual-email delivery)
 - [x] Email folder structure + dual UI documented (`docs/email-structure.md`)
+- [x] Client mail host confirmed — **Zoho Mail** (`dev@`, `content@` created; temp passwords, rotate at handover)
+- [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
 - [ ] Resend domain verified + production env on Vercel (client ops)
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**

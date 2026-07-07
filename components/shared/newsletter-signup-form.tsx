@@ -29,6 +29,84 @@ import type { PublicFormEnvelope } from "@/schemas/public-form";
 
 type NewsletterClientValues = NewsletterValues & PublicFormEnvelope;
 
+type NewsletterSubmitResult =
+  | { success: true }
+  | { success: false; error: string };
+
+const NEWSLETTER_SUBMITTED_EMAILS_STORAGE_KEY =
+  "iproduce:newsletter-submitted-emails:v1";
+
+const newsletterSubmittedEmails = new Set<string>();
+const newsletterInFlightSubmissions = new Map<
+  string,
+  Promise<NewsletterSubmitResult>
+>();
+let hasLoadedSubmittedEmails = false;
+
+function normalizeNewsletterEmail(email: string) {
+  return email.trim().toLowerCase();
+}
+
+function loadSubmittedEmails() {
+  if (hasLoadedSubmittedEmails || typeof window === "undefined") return;
+
+  hasLoadedSubmittedEmails = true;
+
+  try {
+    const saved = window.sessionStorage.getItem(
+      NEWSLETTER_SUBMITTED_EMAILS_STORAGE_KEY,
+    );
+    if (!saved) return;
+
+    const emails = JSON.parse(saved);
+    if (!Array.isArray(emails)) return;
+
+    for (const email of emails) {
+      if (typeof email === "string" && email.length > 0) {
+        newsletterSubmittedEmails.add(email);
+      }
+    }
+  } catch {
+    // Session storage is an enhancement only; the in-memory set still works.
+  }
+}
+
+function hasSubmittedNewsletterEmail(email: string) {
+  loadSubmittedEmails();
+  return newsletterSubmittedEmails.has(email);
+}
+
+function rememberSubmittedNewsletterEmail(email: string) {
+  loadSubmittedEmails();
+  newsletterSubmittedEmails.add(email);
+
+  if (typeof window === "undefined") return;
+
+  try {
+    window.sessionStorage.setItem(
+      NEWSLETTER_SUBMITTED_EMAILS_STORAGE_KEY,
+      JSON.stringify([...newsletterSubmittedEmails]),
+    );
+  } catch {
+    // Duplicate protection should not block a successful subscription.
+  }
+}
+
+function submitNewsletterOnce(
+  email: string,
+  submitter: () => Promise<NewsletterSubmitResult>,
+) {
+  const inFlight = newsletterInFlightSubmissions.get(email);
+  if (inFlight) return inFlight;
+
+  const request = submitter().finally(() => {
+    newsletterInFlightSubmissions.delete(email);
+  });
+
+  newsletterInFlightSubmissions.set(email, request);
+  return request;
+}
+
 export type NewsletterSignupCopy = {
   inputId: string;
   inputLabel: string;
@@ -61,6 +139,7 @@ export function NewsletterSignupForm({
     turnstileResetNonce,
     bumpTurnstileReset,
     submit,
+    clearSubmitError,
   } = usePublicFormSubmit("/api/newsletter", {
     successToast: copy.successMessage,
   });
@@ -72,12 +151,30 @@ export function NewsletterSignupForm({
   });
 
   async function onSubmit(values: NewsletterClientValues) {
-    const result = await submit({
+    const normalizedEmail = normalizeNewsletterEmail(values.email);
+    const submissionBody = {
       ...values,
       sourcePath,
-    });
+    };
+
+    if (normalizedEmail && hasSubmittedNewsletterEmail(normalizedEmail)) {
+      clearSubmitError();
+      setSubmitted(true);
+      return;
+    }
+
+    const hasTurnstileToken = values.turnstileToken.trim().length > 0;
+    const result =
+      normalizedEmail && hasTurnstileToken
+        ? await submitNewsletterOnce(normalizedEmail, () =>
+            submit(submissionBody),
+          )
+        : await submit(submissionBody);
 
     if (result.success) {
+      if (normalizedEmail) {
+        rememberSubmittedNewsletterEmail(normalizedEmail);
+      }
       setSubmitted(true);
     }
   }
@@ -85,6 +182,7 @@ export function NewsletterSignupForm({
   function handleSubscribeAgain() {
     form.reset(withPublicFormSecurity(newsletterDefaultValues));
     bumpTurnstileReset();
+    clearSubmitError();
     setSubmitted(false);
   }
 

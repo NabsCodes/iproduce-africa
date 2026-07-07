@@ -4,6 +4,7 @@
 
 **Implemented** (2026-06-26) — code shipped; production blocked on client Resend domain
 verification + Vercel env. File/folder map: `docs/email-structure.md`.
+Production handoff checklist: `docs/production-form-delivery-cutover.md`.
 
 Original planning reference: mirror patterns from `wardwise-demo` (`src/lib/email/`,
 `pnpm email:dev`, API route shape, Turnstile verification, honeypot handling).
@@ -141,7 +142,7 @@ auth, audit logging, Prisma, or admin stack.
 
 All schemas live in `schemas/`. All UI wired to API routes via `usePublicFormSubmit`.
 
-| Form                         | UI entry                                                             | Schema                                         | API route (planned)                                       | Internal email              | Submitter receipt | Spam protection      |
+| Form                         | UI entry                                                             | Schema                                         | API route                                                 | Internal email              | Submitter receipt | Spam protection      |
 | ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------- | --------------------------- | ----------------- | -------------------- |
 | Contact                      | `components/contact/contact-form.tsx`                                | `schemas/contact.ts`                           | `POST /api/contact`                                       | Yes → `CONTACT_TO_EMAIL`    | Yes               | Turnstile + honeypot |
 | Partner inquiry (page)       | `components/partners/inquiry-form.tsx`                               | `schemas/partners.ts` → `partnerInquirySchema` | `POST /api/partners/inquiry`                              | Yes → `PARTNERS_TO_EMAIL`   | Yes               | Turnstile + honeypot |
@@ -163,6 +164,17 @@ client-sent titles.
 Newsletter must send an internal notification as well as the subscriber
 confirmation. Because this integration does not store subscribers in a DB or
 Resend Audience, the internal notification is the operational record for now.
+
+Duplicate-submit handling is intentionally client-side for this phase:
+
+- `usePublicFormSubmit` has a synchronous in-flight lock so repeat clicks or
+  Enter-key repeats cannot start a second POST before React finishes disabling
+  the button.
+- `NewsletterSignupForm` de-dupes normalized email addresses within the current
+  browser session (in memory + `sessionStorage`). This covers the blog sidebar
+  plus global footer case without adding a subscriber database early.
+- This is not a durable mailing-list uniqueness guarantee. Real cross-device or
+  long-term de-dupe belongs with the future subscriber list tool / CRM.
 
 Marketing campaigns (Mailchimp/Brevo) stay out of scope until the client asks.
 
@@ -328,6 +340,10 @@ this integration lands.
 
 ## Environment Variables
 
+For production cutover order, smoke tests, and vendor ownership notes, use
+`docs/production-form-delivery-cutover.md`. This table is the source for exact
+env names used by code.
+
 | Variable                         | Required      | Example                                     | Purpose                                                                     |
 | -------------------------------- | ------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
 | `RESEND_API_KEY`                 | Yes (prod)    | `re_...`                                    | Resend API                                                                  |
@@ -345,7 +361,8 @@ this integration lands.
 | `NEXT_PUBLIC_SITE_URL`           | Yes (pre-DNS) | `https://iproduce-africa.vercel.app`        | Public origin for metadata + email links until `iproduceafrica.com` is live |
 | `EMAIL_ASSETS_BASE_URL`          | Yes (pre-DNS) | `https://iproduce-africa.vercel.app`        | Absolute logo URL in sent mail (`/brand/email-logo.png`)                    |
 
-Document in `.env.example` (no secrets). Vercel: set per environment. After domain cutover, point both URL vars at `https://iproduceafrica.com`.
+Document in `.env.example` (no secrets). Vercel: set per environment. After
+domain cutover, point both URL vars at `https://iproduceafrica.com`.
 
 ---
 
@@ -526,6 +543,7 @@ Deliver to client:
 - [x] All API routes
 - [x] All form components wired with fetch + Turnstile + honeypot
 - [x] All live success copy updated
-- [x] `.env.example` + Vercel env
+- [x] `.env.example`
+- [ ] Production Vercel env configured and smoke-tested
 - [ ] Domain verified on production
 - [x] Route specs + `implementation-log.md` updated

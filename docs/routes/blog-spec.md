@@ -34,7 +34,10 @@ courses via the detail page's related section.
   shared `NewsletterSignupForm` (RHF + Zod) and POSTs to `/api/newsletter`
   (Resend + Turnstile). Inline success + Sonner toast. **Subscribe with another
   email** resets the form + Turnstile without refresh. Submit shows spinner on
-  the send button while loading.
+  the send button while loading. Since blog detail pages can show both the
+  sidebar newsletter form and the global footer newsletter form, the shared
+  newsletter form de-dupes the same normalized email within the current browser
+  session.
 - Reuse existing primitives: `ContentCard`, `EyebrowPill`, `SiteCtaButton`,
   `CtaSection`. Motion primitives (`MotionFade`, `MotionStagger`) apply on
   day one — the full motion pass is shipped.
@@ -139,7 +142,10 @@ Body content is **structured blocks** (not MDX/HTML strings) — see
 
 `<BlogArticleSidebar />` composes newsletter + share controls. Newsletter uses
 shared `NewsletterSignupForm` (`compact` variant) with the same Zod schema as
-the footer. Share row: WhatsApp, LinkedIn, X, copy-link (+ optional native
+the footer. The sidebar passes the article path as newsletter `sourcePath`; the
+footer passes the current pathname, and current-session email de-dupe prevents
+the two newsletter surfaces from creating duplicate inbox notifications for the
+same address. Share row: WhatsApp, LinkedIn, X, copy-link (+ optional native
 share on mobile) — see table below.
 
 | Control     | Action                                                                                           |

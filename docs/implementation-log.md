@@ -3,6 +3,88 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Production form-delivery cutover audit (2026-07-07)
+
+Audited the live Resend + Turnstile + Upstash + Vercel form-delivery path from
+the six API routes through `handlePublicFormPost`, email orchestrators,
+Turnstile verification, and rate limiting. Added non-secret server logs for
+missing production config, blocked doomed submits when the public Turnstile key
+is absent in production, clarified `.env.example`, and added
+`docs/production-form-delivery-cutover.md` for the actual DNS/env handoff.
+
+Docs updated: `docs/README.md`, `docs/resend-integration-spec.md`,
+`docs/status-board.md`.
+
+**Verification:** `pnpm format` (pass), `pnpm lint` (pass), `pnpm typecheck`
+(pass), `pnpm build` (pass).
+
+---
+
+## Newsletter duplicate-submit hardening (2026-07-07)
+
+Investigated the July 1 inbox pattern for newsletter notifications and found
+repeated notification/receipt pairs for the same address, including article
+sidebar + footer paths. Patched `usePublicFormSubmit` with a synchronous
+in-flight lock, added same-session normalized-email de-dupe inside
+`NewsletterSignupForm`, and made the footer pass the current pathname as
+`sourcePath` instead of always reporting `/`.
+
+Docs updated: `docs/resend-integration-spec.md`, `docs/shared/footer-spec.md`,
+and `docs/routes/blog-spec.md`.
+
+**Verification:** `pnpm format` (pass), `pnpm lint` (pass), `pnpm typecheck`
+(pass), `pnpm build` (pass).
+
+---
+
+## Legal pages spec — Codex approved (2026-07-07)
+
+Codex approved `docs/routes/legal-pages-spec.md` with edits applied: contact
+fields match `schemas/contact.ts` (no phone); cookies copy rules (Vercel Analytics
+= no analytics cookies; Turnstile = necessary signals only, no invented names);
+entity/governing-law wording marked replaceable for counsel. **Ready to
+implement** — blocked only on next agent session.
+
+---
+
+## Legal pages spec draft (2026-07-07)
+
+Drafted `docs/routes/legal-pages-spec.md` for Codex review: four routes
+(Privacy, Terms, Cookies, Accessibility), WardWise-style `content/legal.ts`
+structure, iProduce shared chrome + design system, processor/form disclosure
+table grounded in repo (Resend, Turnstile, Upstash, Vercel Analytics). v1
+explicitly **no cookie consent banner** — policy disclosure only. Implementation
+blocked until Codex approves spec.
+
+---
+
+## Team roster + partners + dialog polish (2026-07-07)
+
+- **About team** now six members in `content/about-people.ts`: added Umma Umar
+  (Director of Partnerships), Usman Umar Dagona (Project Coordinator, North),
+  Tobi Seun Ajayi (Project Coordinator, South). Corrected Mustapha Yakubu to
+  Director of IT and Wilson Agaba to Director of Programs.
+- **Partners** — added Flowdiary to `partnersList` (`order: 7`), so it renders
+  in the Voices logo grid + shared marquee. Logo at
+  `public/images/partners/flowdiary.png`.
+- **Partner story dialog** — mixed Figma + live: softened logo panel into a
+  centred brand lockup on `bg-subtle` (kept right-hand `border-r`), kept the
+  subtle header/footer bands for scroll affordance, `View website` now leaf
+  underline + external icon. Label `Visit website` → `View website`.
+- **Voices** — reverted to original headings + three quotes (two intentional
+  placeholders) and the carousel; removed the single-quote / logoGridLabel
+  experiment.
+- **Catalogue empty states** — Academy courses/webinars/blog filters now render
+  the shared `CatalogueEmptyState` (with an in-place "view all" reset) instead
+  of muted one-liner text.
+
+**Next:** legal pages (Privacy, Terms, Cookies, Accessibility) — real baseline
+content grounded in the actual stack; plan goes to Codex before build.
+
+**Verification:** `pnpm typecheck` green on each change.
+
+---
+
 ## Partners page — section order + copy refresh (2026-07-05)
 
 Reordered `/partners`: Hero → Spotlight → Benefits → Opportunities → Voices →

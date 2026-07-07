@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { z } from "zod";
 
-import { isEmailDeliveryConfigured, readTrimmedEnv } from "@/lib/email/send";
+import { readTrimmedEnv } from "@/lib/email/send";
 import {
   PUBLIC_FORM_DELIVERY_ERROR,
   PUBLIC_FORM_RATE_LIMIT_ERROR,
@@ -24,6 +24,10 @@ type HandlePublicFormPostOptions<T extends z.ZodTypeAny> = {
   handler: (data: z.infer<T>) => Promise<void>;
 };
 
+function logPublicFormConfigIssue(message: string) {
+  console.error(`Public form configuration issue: ${message}`);
+}
+
 export async function handlePublicFormPost<T extends z.ZodTypeAny>({
   request,
   schema,
@@ -38,6 +42,10 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
     );
 
     if ("misconfigured" in rateLimitResult) {
+      logPublicFormConfigIssue(
+        "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required when VERCEL_ENV=production.",
+      );
+
       return NextResponse.json(
         { error: PUBLIC_FORM_DELIVERY_ERROR },
         { status: 503 },
@@ -91,6 +99,12 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
     if (!verification.success) {
       const isConfigIssue = verification.reason === "not_configured";
 
+      if (isConfigIssue) {
+        logPublicFormConfigIssue(
+          "NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY must both be set outside local development.",
+        );
+      }
+
       return NextResponse.json(
         {
           error: isConfigIssue
@@ -101,7 +115,17 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
       );
     }
 
-    if (!isEmailDeliveryConfigured() || !readTrimmedEnv(toEmailEnv)) {
+    const missingEmailEnv = [
+      readTrimmedEnv("RESEND_API_KEY") ? null : "RESEND_API_KEY",
+      readTrimmedEnv("EMAIL_FROM") ? null : "EMAIL_FROM",
+      readTrimmedEnv(toEmailEnv) ? null : toEmailEnv,
+    ].filter((name): name is string => Boolean(name));
+
+    if (missingEmailEnv.length > 0) {
+      logPublicFormConfigIssue(
+        `Missing email environment variable(s): ${missingEmailEnv.join(", ")}.`,
+      );
+
       return NextResponse.json(
         { error: PUBLIC_FORM_DELIVERY_ERROR },
         { status: 503 },
