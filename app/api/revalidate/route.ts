@@ -3,13 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
 /**
- * Sanity webhook → `revalidatePath`. `academyArticle` (blog track) and
- * `academyWebinar` (webinars track) are wired — the `academyCourse` row
- * gets added when that track cuts over, per
- * docs/sanity-academy-spec.md's revalidation table.
+ * Sanity webhook → `revalidatePath`. `academyArticle` (blog track),
+ * `academyWebinar` (webinars track), and `academyCourse` (courses track)
+ * are all wired now — see docs/sanity-academy-spec.md's revalidation table.
  *
  * Studio-side webhook setup (manual, sanity.io dashboard, one per `_type`):
- * trigger on create/update/delete, filter e.g. `_type == "academyWebinar"`,
+ * trigger on create/update/delete, filter e.g. `_type == "academyCourse"`,
  * and set the payload projection to
  * `{"_type": _type, "slug": slug.current, "previousSlug": before().slug.current}`
  * so old-slug detail paths can be revalidated on a slug change — this route
@@ -25,12 +24,14 @@ type SanityWebhookPayload = {
 const STATIC_PATHS_BY_TYPE: Record<string, readonly string[]> = {
   academyArticle: ["/academy/blog", "/academy", "/", "/academy/search"],
   academyWebinar: ["/academy/webinars", "/academy", "/", "/academy/search"],
+  academyCourse: ["/academy/courses", "/academy", "/", "/academy/search"],
 };
 
 /** Detail route prefix per `_type`, for old/new slug revalidation on change. */
 const DETAIL_PATH_PREFIX_BY_TYPE: Record<string, string> = {
   academyArticle: "/academy/blog",
   academyWebinar: "/academy/webinars",
+  academyCourse: "/academy/courses",
 };
 
 export async function POST(request: NextRequest) {

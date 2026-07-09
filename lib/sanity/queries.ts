@@ -78,25 +78,38 @@ export const relatedWebinarsQuery = `*[
 
 // ─── Courses ─────────────────────────────────────────────────────────────
 
+/** No author, no separate image-alt field — `AcademyCourse` has neither. */
+const COURSE_PROJECTION = `{
+  ...,
+  "slug": slug.current
+}`;
+
 export const courseSlugsQuery = `*[_type == "academyCourse" && ${DRAFT_FILTER}].slug.current`;
 
-export const courseBySlugQuery = `*[_type == "academyCourse" && slug.current == $slug && ${DRAFT_FILTER}][0]`;
+export const courseBySlugQuery = `*[_type == "academyCourse" && slug.current == $slug && ${DRAFT_FILTER}][0]${COURSE_PROJECTION}`;
 
-export const coursesListingQuery = `*[_type == "academyCourse" && ${DRAFT_FILTER}]`;
+/**
+ * `order(_createdAt asc)` — without an explicit order, Sanity returns
+ * documents non-deterministically. The static `coursesContent.courses`
+ * array has a deliberate curriculum sequence (Foundations → Financing →
+ * Market Access) that doesn't map to any content field, but the migration
+ * script created the three course documents in that exact order, so
+ * `_createdAt asc` reproduces it — same field `featuredCourseQuery` already
+ * uses for its fallback order.
+ */
+export const coursesListingQuery = `*[_type == "academyCourse" && ${DRAFT_FILTER}] | order(_createdAt asc)${COURSE_PROJECTION}`;
 
-export const featuredCourseQuery = featuredQuery("academyCourse", "_createdAt");
+export const featuredCourseQuery = `(${featuredQuery("academyCourse", "_createdAt")})${COURSE_PROJECTION}`;
 
-export const hubCoursesQuery = `*[_type == "academyCourse" && ${DRAFT_FILTER}][0...$limit]`;
+export const hubCoursesQuery = `*[_type == "academyCourse" && ${DRAFT_FILTER}] | order(_createdAt asc)[0...$limit]${COURSE_PROJECTION}`;
 
 export const relatedCoursesQuery = `*[
   _type == "academyCourse" && slug.current != $slug && ${DRAFT_FILTER}
-][0...$limit]`;
+] | order(_createdAt asc)[0...$limit]${COURSE_PROJECTION}`;
 
 // ─── Cross-cutting ───────────────────────────────────────────────────────
-
-/** Session title lookup for the registration email resolver, by kind + slug. */
-export function resolveSessionTitleQuery(
-  type: "academyWebinar" | "academyCourse",
-) {
-  return `*[_type == "${type}" && slug.current == $slug && ${DRAFT_FILTER}][0].title`;
-}
+//
+// Session title + registration status for the registration email resolver
+// reuses fetchWebinarBySlug/fetchCourseBySlug (lib/sanity/fetch/*.ts) —
+// see lib/email/academy-registration.ts's resolveAcademySession(). No
+// dedicated title-only query needed.

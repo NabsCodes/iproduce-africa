@@ -8,14 +8,14 @@ review.
 
 **Implementation progress (2026-07-09):** foundation (schemas, Studio,
 migration script) shipped and seeded into `development` — see
-`docs/implementation-log.md`. Cutover sequence steps 1–5 done for the
-**blog and webinars tracks** (`/academy/blog`, `/academy/blog/[slug]`,
-`/academy/webinars`, `/academy/webinars/[slug]`, plus the revalidate
-webhook's `academyArticle` and `academyWebinar` rows). Courses, the
-`/academy` hub, `/academy/search`, Home spotlight preview, and the
-registration email resolver are still fully static — each is its own review
-checkpoint before starting, per explicit direction not to flip the whole
-Academy area at once.
+`docs/implementation-log.md`. Cutover sequence steps 1–5 done for
+**blog, webinars, courses, and the registration email resolver** (all six
+listing/detail routes, the revalidate webhook's
+`academyArticle`/`academyWebinar`/`academyCourse` rows, and
+`/api/academy/register` now resolving session title + registration status
+from Sanity). Only the `/academy` hub, `/academy/search`, and Home spotlight
+preview remain static — each is its own review checkpoint before starting,
+per explicit direction not to flip the whole Academy area at once.
 
 ---
 
@@ -354,10 +354,15 @@ until Phase 2 hub singleton.
 
 ### Cross-cutting
 
-| Query key                  | Purpose              | Replaces                                     |
-| -------------------------- | -------------------- | -------------------------------------------- |
-| `academyHomePreviewQuery`  | `AcademyHomePreview` | `academyHomePreview` in `content/academy.ts` |
-| `resolveSessionTitleQuery` | title by kind + slug | `resolveAcademySessionTitle`                 |
+| Query key                 | Purpose              | Replaces                                     |
+| ------------------------- | -------------------- | -------------------------------------------- |
+| `academyHomePreviewQuery` | `AcademyHomePreview` | `academyHomePreview` in `content/academy.ts` |
+
+Session title + registration status for `/api/academy/register` is resolved
+by `resolveAcademySession()` (`lib/email/academy-registration.ts`) reusing
+the existing `fetchWebinarBySlug`/`fetchCourseBySlug` from
+`lib/sanity/fetch/{webinars,courses}.ts` — no dedicated GROQ query. There is
+no separate `resolveSessionTitleQuery`/title-only projection in code.
 
 ---
 

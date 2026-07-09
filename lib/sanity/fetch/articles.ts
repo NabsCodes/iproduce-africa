@@ -33,16 +33,43 @@ type RawArticleDoc = {
 
 const WORDS_PER_MINUTE = 200;
 
-/** Only used when a Studio editor hasn't set an explicit override. */
+/** All the text a reader actually sees, across every block kind `ArticleBody` renders. */
+function blockText(block: PortableTextBlock): string {
+  switch (block._type) {
+    case "block":
+      return (block.children ?? []).map((span) => span.text ?? "").join(" ");
+    case "callout":
+      return [block.title, block.text].filter(Boolean).join(" ");
+    case "table":
+      return [
+        block.caption,
+        ...((block.headers as string[] | undefined) ?? []),
+        ...((block.rows as { cells: string[] }[] | undefined) ?? []).flatMap(
+          (row) => row.cells,
+        ),
+      ]
+        .filter(Boolean)
+        .join(" ");
+    case "codeBlock":
+      return (block.code as string | undefined) ?? "";
+    case "bodyImage":
+      return (block.caption as string | undefined) ?? "";
+    case "orderedStep":
+      return [block.title, block.body].filter(Boolean).join(" ");
+    default:
+      return "";
+  }
+}
+
+/** Auto-calculated by default; the Studio field is an optional override. */
 function estimateReadTimeMinutes(body: readonly PortableTextBlock[]): number {
   const wordCount = body
-    .filter((block) => block._type === "block")
-    .flatMap((block) => (block.children ?? []).map((span) => span.text ?? ""))
+    .map(blockText)
     .join(" ")
     .split(/\s+/)
     .filter(Boolean).length;
 
-  return Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE));
+  return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
 }
 
 function normalizeArticle(raw: RawArticleDoc): BlogArticle {

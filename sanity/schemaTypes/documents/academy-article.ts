@@ -62,6 +62,8 @@ export const academyArticle = defineType({
       name: "readTimeMinutes",
       title: "Read time (minutes)",
       type: "number",
+      description:
+        "Optional override. Leave blank to auto-calculate from the body word count.",
       validation: (Rule) => Rule.positive().integer(),
     }),
     defineField({

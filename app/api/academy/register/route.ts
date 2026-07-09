@@ -8,12 +8,18 @@ export async function POST(request: Request) {
     toEmailEnv: "ACADEMY_TO_EMAIL",
     rateLimitRoute: "academy-register",
     handler: async (data) => {
-      const { resolveAcademySessionTitle, sendAcademyRegistrationEmails } =
+      const { resolveAcademySession, sendAcademyRegistrationEmails } =
         await import("@/lib/email/academy-registration");
 
-      const sessionTitle = resolveAcademySessionTitle(data.kind, data.slug);
-      if (!sessionTitle) {
+      const session = await resolveAcademySession(data.kind, data.slug);
+      if (session.status === "not_found") {
         throw new Error("session_not_found");
+      }
+      if (session.status === "closed") {
+        throw new Error("registration_closed");
+      }
+      if (session.status === "external") {
+        throw new Error("registration_external");
       }
 
       const result = await sendAcademyRegistrationEmails({
@@ -23,6 +29,7 @@ export async function POST(request: Request) {
         organisation: data.organisation,
         kind: data.kind,
         slug: data.slug,
+        sessionTitle: session.title,
         submittedAt: new Date(),
         sourcePath: `/academy/${data.kind}s/${data.slug}`,
       });

@@ -9,16 +9,19 @@ import { CourseRegistrationPanel } from "@/components/academy/courses/course-reg
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Badge } from "@/components/ui/badge";
 import { CtaSection } from "@/components/shared/cta-section";
-import {
-  courseToCardItem,
-  coursesContent,
-  getCourse,
-  getRelatedCourses,
-} from "@/content/courses";
+import { courseToCardItem, coursesContent } from "@/content/courses";
 import { createPageMetadata } from "@/lib/metadata";
+import {
+  fetchCourseBySlug,
+  fetchCourseSlugs,
+  fetchRelatedCourses,
+} from "@/lib/sanity/fetch/courses";
 
-export function generateStaticParams() {
-  return coursesContent.courses.map((course) => ({ slug: course.slug }));
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const slugs = await fetchCourseSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -27,7 +30,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = await fetchCourseBySlug(slug);
 
   if (!course) {
     return createPageMetadata({
@@ -50,12 +53,12 @@ export default async function CourseDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = await fetchCourseBySlug(slug);
 
   if (!course) notFound();
 
   const card = courseToCardItem(course);
-  const related = getRelatedCourses(slug);
+  const related = await fetchRelatedCourses(slug);
 
   return (
     <AcademyDetailShell

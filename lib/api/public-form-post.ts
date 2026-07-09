@@ -28,6 +28,18 @@ function logPublicFormConfigIssue(message: string) {
   console.error(`Public form configuration issue: ${message}`);
 }
 
+/**
+ * Internal `Error` messages a route handler can throw to get the same
+ * client-facing validation response (`PUBLIC_FORM_VALIDATION_ERROR`, 400) —
+ * distinct messages stay useful in server logs without inventing new
+ * client-visible error strings for each one.
+ */
+const VALIDATION_ERROR_MESSAGES = new Set([
+  "session_not_found",
+  "registration_closed",
+  "registration_external",
+]);
+
 export async function handlePublicFormPost<T extends z.ZodTypeAny>({
   request,
   schema,
@@ -136,7 +148,10 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof Error && error.message === "session_not_found") {
+    if (
+      error instanceof Error &&
+      VALIDATION_ERROR_MESSAGES.has(error.message)
+    ) {
       return NextResponse.json(
         { error: PUBLIC_FORM_VALIDATION_ERROR },
         { status: 400 },

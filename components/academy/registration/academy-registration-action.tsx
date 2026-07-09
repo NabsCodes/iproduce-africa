@@ -51,17 +51,25 @@ export function AcademyRegistrationAction(
     );
   }
 
-  if (registration.mode === "external" && registration.url) {
+  if (registration.mode === "external") {
+    if (registration.url) {
+      return (
+        <ButtonLink
+          href={registration.url}
+          variant="tangerine"
+          size={buttonSize}
+          className={className}
+        >
+          {registration.label ?? "View recording"}
+          <ArrowRight className="size-4" />
+        </ButtonLink>
+      );
+    }
+
     return (
-      <ButtonLink
-        href={registration.url}
-        variant="tangerine"
-        size={buttonSize}
-        className={className}
-      >
-        {registration.label ?? "View recording"}
-        <ArrowRight className="size-4" />
-      </ButtonLink>
+      <p className={className ?? "text-fg-muted text-sm leading-6"}>
+        Registration for this session is managed externally.
+      </p>
     );
   }
 

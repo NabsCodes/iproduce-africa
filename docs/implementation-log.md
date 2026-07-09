@@ -3,6 +3,160 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Registration resolver: `external` mode fix (2026-07-09)
+
+Review found `resolveAcademySession` treated any non-`closed` registration
+mode as open — but per `docs/sanity-academy-spec.md`, `mode: "external"`
+means "UI links out; API not used." Also found the actual client bug this
+was guarding against: `components/academy/registration/academy-registration-action.tsx`
+only rendered the external "View recording"-style link when
+`registration.mode === "external" && registration.url` — if an editor picked
+External without setting a URL, that condition was false and the component
+fell through to the **internal** register button, which would have POSTed
+to `/api/academy/register` for a session that's supposed to be managed
+elsewhere.
+
+**Fixed:**
+
+- `resolveAcademySession` (`lib/email/academy-registration.ts`) now returns
+  a third `"external"` status alongside `"closed"`/`"open"`/`"not_found"`.
+- `app/api/academy/register/route.ts` throws `"registration_external"` for
+  it, mapped in `lib/api/public-form-post.ts` to the same
+  `{error: PUBLIC_FORM_VALIDATION_ERROR}`/400 response as `closed`/`not_found`
+  — no new client-visible error string, per direction. Refactored the
+  matching condition into a `VALIDATION_ERROR_MESSAGES` Set now that there
+  are three internal messages mapping to one client response.
+- `sanity/schemaTypes/objects/registration-config.ts` — `url` now has
+  `Rule.custom` requiring a value when `mode === "external"`, closing the
+  authoring gap at the source.
+- `components/academy/registration/academy-registration-action.tsx` — the
+  `external` branch now fails closed: if `registration.url` is missing, it
+  renders a plain "Registration for this session is managed externally."
+  message instead of falling through to the internal register button. This
+  is defense-in-depth alongside the Studio validation above — old/bad CMS
+  data (published before the validation existed, or written outside Studio)
+  can't silently trigger the internal registration flow either.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass.
+Temporarily patched a real seeded webinar
+(`digital-tools-cooperative-management`) to `mode: "external"` via a
+one-off script (bypassing the app's guarded client, same pattern as the
+migration script), confirmed the API now correctly returns
+`400 {error: PUBLIC_FORM_VALIDATION_ERROR}` for it, then reverted the
+document back to `mode: "open"` and confirmed the revert via a direct
+document fetch.
+
+## Sanity CMS fetch-layer cutover — registration email resolver (2026-07-09)
+
+Final Academy-specific piece after blog/webinars/courses: `/api/academy/register`
+now resolves session title + registration status from Sanity instead of
+static content. Narrow scope per direction — the Resend/email-template
+pipeline, rate limiting, Turnstile, and `handlePublicFormPost`'s envelope are
+untouched.
+
+**Two real gaps fixed, not just the static→Sanity swap:**
+
+- The old `resolveAcademySessionTitle` was called _twice_ per submission —
+  once in the route to short-circuit on `session_not_found`, again inside
+  `sendAcademyRegistrationEmails`. Harmless as a sync in-memory lookup;
+  would've been two redundant Sanity fetches per registration. Consolidated
+  to one resolve in the route (`resolveAcademySession`), with the title
+  passed into `sendAcademyRegistrationEmails` as a plain input instead of
+  being re-derived.
+- There was no closed-session rejection anywhere in the code despite the
+  spec calling for it — `handlePublicFormPost`'s catch block only
+  special-cased `"session_not_found"`. Added a `"registration_closed"`
+  branch mapping to the same client-facing `{error: PUBLIC_FORM_VALIDATION_ERROR}`/400
+  shape (distinct internal `Error` message, same client response — no new
+  client-visible error string, per spec).
+
+`resolveAcademySession` reuses the already-tested
+`resolveWebinarRegistration()`/`resolveCourseRegistration()` from
+`lib/academy-registration.ts` (the same functions the UI already uses to
+decide whether to show a register button) rather than re-implementing the
+"closed, or open but the date already passed" rule server-side. Reuses
+`fetchWebinarBySlug`/`fetchCourseBySlug` from the already-shipped fetch
+layer — no new GROQ query needed.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass. Manual
+`curl` testing against a real dev server (temporarily blanked the Turnstile
+env vars to hit the existing `NODE_ENV=development` bypass, restored
+afterward) confirmed all three paths: an open future-dated webinar and an
+"interest"-mode course both succeed; the seeded `scaling-smallholder-farms-with-data`
+webinar (explicit `mode: "closed"`) and a nonexistent slug both correctly
+return `400 {error: PUBLIC_FORM_VALIDATION_ERROR}`, not a 500. Also caught
+the `post-harvest-handling-essentials` webinar organically auto-closing
+during testing — its seeded date (2026-07-08) had passed relative to the
+test date (2026-07-09), confirming the reused past-date-closes rule works
+correctly server-side, not just in the UI.
+
+This completes the Academy-specific Sanity cutover other than the
+`/academy` hub page, `/academy/search`, and Home spotlight preview — still
+static, still separate checkpoints. `content/webinars.ts`/`content/courses.ts`
+untouched.
+
+## Article read-time auto-calculation fix (2026-07-09)
+
+`readTimeMinutes` was already falling back to a word-count estimate when a
+Studio editor left the field blank, but two things were off: the extractor
+in `lib/sanity/fetch/articles.ts` only counted words inside native `block`
+(paragraph/heading/blockquote) entries, ignoring text in `callout`, `table`,
+`codeBlock`, `bodyImage`, and `orderedStep` — every other block kind
+`ArticleBody` actually renders. Replaced the single `_type === "block"`
+filter with a small `blockText()` switch covering all six kinds, and
+switched the final calculation from `Math.round` to `Math.ceil` (a partial
+minute should round up, not down — a 3.2-minute article shouldn't display
+as "3 min read"). Also added a Studio field description on
+`readTimeMinutes` (`sanity/schemaTypes/documents/academy-article.ts`)
+clarifying it's an optional override and auto-calculation is the default —
+there was no description at all before.
+
+Verified against the real seeded articles (including
+`cold-chain-economics-for-fresh-produce`, which has a `table` block) that
+read-time values render sensibly and nothing crashes. `pnpm format`/`lint`/
+`typecheck`/`build` all pass.
+
+## Sanity CMS fetch-layer cutover — courses track (2026-07-09)
+
+Third public route cutover, same checkpoint discipline: only
+`/academy/courses` + `/academy/courses/[slug]` moved to Sanity this pass.
+Simplest track so far — no author, no date-based filtering (courses have no
+`date` field), `resolveCourseRegistration()` is trivial (`registration ??
+{mode: "interest"}`). `CoursesListingBody` confirmed to already do its own
+client-side filter/sort on raw `AcademyCourseDetail[]`, same as webinars.
+
+**Real gap found and fixed:** `coursesListingQuery`, `hubCoursesQuery`, and
+`relatedCoursesQuery` had no `order()` clause — Sanity returns unordered
+results without one. The static content's curriculum order (Foundations →
+Financing → Market Access) doesn't map to any content field, but the
+migration script created the three documents in that exact sequence, so
+`order(_createdAt asc)` reproduces it (same field `featuredCourseQuery`
+already used for its fallback). Also fixed `fetchHubCourses`'s return type —
+it claimed the full `AcademyCourseDetail` shape but the hub band only ever
+needs the reduced `AcademyCourse` projection.
+
+**What changed:**
+
+- `lib/sanity/queries.ts` — added `COURSE_PROJECTION`, `order(_createdAt asc)`
+  on all three unordered queries (including `hubCoursesQuery`, not wired
+  into a route yet — hub checkpoint).
+- `lib/sanity/fetch/courses.ts` — rewritten to real projections via
+  `sanityFetch()`; `fetchRelatedCourses` reuses the existing
+  `courseToRelatedItem()` from `content/courses.ts`.
+- `app/academy/courses/(listing)/page.tsx`, `[slug]/page.tsx` — now `async`,
+  fetch from Sanity, `revalidate = 3600`. `content/courses.ts` untouched.
+- `app/api/revalidate/route.ts` — added the `academyCourse` row.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass; all 3
+course slugs generate with `revalidate: 1h`, listing order confirmed correct
+(Foundations → Financing → Market Access). Manually confirmed in dev: all 3
+detail pages render, "interest" registration mode shows "Register interest"
+CTA (all three seeded courses use `mode: "interest"`), related-courses band
+on `foundations-of-agribusiness` correctly shows the other two.
+
+**Registration email resolver is now unblocked** (needed both webinars and
+courses done) — next checkpoint.
+
 ## Sanity CMS fetch-layer cutover — webinars track (2026-07-09)
 
 Second public route cutover, same checkpoint discipline as blog: only
@@ -50,6 +204,7 @@ register button; related-sessions band on `post-harvest-handling-essentials`
 correctly returns exactly 3 items, excluding the current slug and past dates.
 
 **Two review findings patched before commit:**
+
 - `hubScheduledWebinarsQuery`/`relatedWebinarsQuery` compared `date >= now()`.
   Since some seeded `date` values are date-only strings (no time component),
   a lexicographic string comparison against `now()`'s full timestamp

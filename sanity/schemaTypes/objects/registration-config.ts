@@ -26,6 +26,14 @@ export const registrationConfig = defineType({
       title: "External URL",
       type: "url",
       hidden: ({ parent }) => parent?.mode !== "external",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { mode?: string } | undefined;
+          if (parent?.mode === "external" && !value) {
+            return "Required when Mode is External.";
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "label",
