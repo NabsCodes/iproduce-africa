@@ -3,8 +3,9 @@
 ## Status
 
 Desktop footer direction is now implemented against the supplied screenshot.
-Newsletter remains UI-only, and placeholder footer links stay non-interactive
-until the matching routes or flows exist.
+Newsletter is live (see below), and the four legal links are live internal
+routes. Social icons remain placeholder pending final destinations (see
+Current Questions).
 
 Newsletter signup is live via `NewsletterSignupForm` → `/api/newsletter`.
 Success shows inline copy plus **Subscribe with another email** (resets form +

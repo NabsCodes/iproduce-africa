@@ -30,7 +30,7 @@ export function LegalPageLayout({ content }: { content: LegalPageContent }) {
           <div className="max-w-3xl print:max-w-none">
             <EyebrowBadge tone="neutral">{content.eyebrow}</EyebrowBadge>
 
-            <h1 className="text-foreground mt-4 font-serif text-[28px] leading-tight font-semibold tracking-[-0.01em] sm:text-4xl lg:text-5xl">
+            <h1 className="text-foreground mt-4 font-serif text-[28px] leading-tight font-semibold sm:text-4xl lg:text-5xl">
               {content.title}
             </h1>
 
@@ -60,15 +60,12 @@ export function LegalPageLayout({ content }: { content: LegalPageContent }) {
           </div>
 
           <aside className="hidden lg:block print:hidden">
-            <nav
-              aria-label="Legal documents"
-              className="border-border sticky top-28 rounded-xl border bg-white p-4"
-            >
+            <div className="border-border sticky top-28 rounded-xl border bg-white p-4">
               <p className="text-fg-subtle px-2 text-xs font-semibold tracking-[0.14em] uppercase">
                 Legal documents
               </p>
               <LegalDocNav className="mt-3" />
-            </nav>
+            </div>
           </aside>
         </div>
       </section>

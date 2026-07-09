@@ -22,10 +22,9 @@ it and that formal legal review may supersede sections.
 
 ## Confirmed Inputs
 
-- Footer already lists four items in `content/site.ts` →
-  `footer.legalLinks`: Privacy, Terms, Cookies, Accessibility — all
-  `href: undefined` today (rendered as non-clickable spans per
-  `docs/shared/footer-spec.md`).
+- Footer lists four items in `content/site.ts` → `footer.legalLinks`: Privacy,
+  Terms, Cookies, Accessibility — now live internal links to `/privacy`,
+  `/terms`, `/cookies`, `/accessibility` (see `docs/shared/footer-spec.md`).
 - Site identity and contact from `content/site.ts`:
   - Name: **iProduce Africa**
   - Email: **info@iproduceafrica.com**

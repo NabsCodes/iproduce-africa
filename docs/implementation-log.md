@@ -3,6 +3,25 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Legal pages: review cleanup (2026-07-07)
+
+Applied three P3 review findings: the desktop sidebar had a `nav` nested
+inside another `nav` (both labelled "Legal documents") — outer wrapper is now
+a plain `div`, `LegalDocNav` owns the sole landmark. Removed
+`tracking-[-0.01em]` from the legal H1 (project rule: letter-spacing should
+be `0`, not negative). Refreshed two stale doc status lines that predated
+implementation — `legal-pages-spec.md` no longer says footer hrefs are
+`undefined`, and `footer-spec.md`'s top status no longer says newsletter/legal
+links are placeholder-only (now notes social icons are the only remaining
+placeholder).
+
+**Verification:** `pnpm format` (pass), `pnpm lint` (pass), `pnpm typecheck`
+(pass), `pnpm build` (pass). Manual: confirmed via dev server HTML that only
+one `nav aria-label="Legal documents"` landmark renders and the H1 no longer
+carries negative tracking.
+
+---
+
 ## Legal pages: dropped docs-site polish (2026-07-07)
 
 Reverted the heading hash/permalink icons and the desktop "On this page"
