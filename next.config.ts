@@ -5,15 +5,14 @@ const nextConfig: NextConfig = {
     "@react-email/components",
     "@react-email/render",
     "resend",
-    // Sanity's bundled code assumes `swr`'s default (non-"react-server")
-    // export unconditionally; Turbopack's RSC module graph resolves `swr`
-    // via the "react-server" condition instead, which has no default
-    // export, and the build fails resolving it. Marking these external
-    // skips Turbopack's bundling for them entirely — Node resolves them
-    // normally at runtime instead.
-    "sanity",
-    "next-sanity",
   ],
+  // `sanity` / `next-sanity` need Next's own bundler pass (not full
+  // externalization) so "use client" boundaries inside next-sanity/studio
+  // are respected — otherwise the Studio's lazily-loaded client component
+  // runs against a detached React module instance ("Invalid hook call").
+  // `transpilePackages` keeps them in Next's controlled compilation pass
+  // instead of raw external Node resolution.
+  transpilePackages: ["sanity", "next-sanity"],
   images: {
     remotePatterns: [
       {

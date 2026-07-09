@@ -3,6 +3,59 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS Phase 1 — first live dataset seed + Studio boot fix (2026-07-09)
+
+Ran the migration script for real against the actual `development` dataset
+(project ID + `SANITY_API_WRITE_TOKEN` now in `.env.local`, not committed):
+dry-run first, then `--execute`. Created 30 documents — 10 authors, 10
+articles, 7 webinars, 3 courses — 0 errors/warnings. Verified count via an
+authenticated GROQ `count()` query against the live dataset.
+
+Also fixed two real bugs surfaced only once real credentials/a live project
+existed:
+
+- `pnpm migrate:academy` read `SANITY_API_WRITE_TOKEN` etc. via bare
+  `process.env`, but a standalone `tsx` script doesn't auto-load `.env.local`
+  the way Next's own dev/build does. Fixed by changing the script to
+  `tsx --env-file-if-exists=.env.local scripts/migrate-academy-to-sanity.ts`
+  (Node 22.6+ / this repo's Node 25 supports that flag natively).
+- `/admin` threw "Invalid hook call" / "Cannot read properties of null
+  (reading 'useMemoCache')" on every request, in both dev (Turbopack and
+  webpack) and `next start` production builds. Root cause:
+  `serverExternalPackages: ["sanity", "next-sanity"]` (added in the
+  foundation slice to fix an unrelated `swr` "react-server" export-condition
+  build error) fully externalizes those packages, which skips Turbopack's
+  RSC client-boundary analysis. `next-sanity/studio`'s entry point isn't
+  itself marked `"use client"` — it does a server-safe `preloadModule()`
+  call, then lazily loads the real Studio component from a separate
+  `"use client"` file. With the whole package externalized, that lazy-loaded
+  component ends up running against a detached React module instance instead
+  of the one used by the client bundle. Fixed by switching to
+  `transpilePackages: ["sanity", "next-sanity"]` in `next.config.ts` instead
+  — this keeps both packages in Next's own controlled compilation pass
+  (respecting `"use client"` boundaries correctly) rather than raw external
+  Node resolution, and still resolves the original `swr` build error.
+  `app/admin/[[...index]]/page.tsx` was also marked `"use client"` directly
+  (was a plain Server Component passing `config` as a prop to `<NextStudio>`)
+  since `sanity.config`'s schema is full of validation/structure functions
+  that can't cross a Server→Client serialization boundary once Turbopack
+  properly recognizes that boundary exists. Also bumped `react`/`react-dom`
+  to `19.2.7` (from `19.2.4`) to match a stricter peer-dependency range pulled
+  in transitively by `@portabletext/editor`, and `next`/`eslint-config-next`
+  to `16.2.10` (from `16.2.9`) while investigating — the version bump alone
+  did not fix the hook error, `transpilePackages` did, but keeping the newer
+  patch versions since they're strictly newer and nothing regressed.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass. Confirmed
+via `next start` (production mode, not just dev) that `/admin` returns 200
+with no console errors across repeated requests, page HTML contains
+`<title>Studio | iProduce Africa</title>`, and `SiteChrome` isolation still
+holds (`/` renders header/footer, `/admin` renders neither).
+
+**Still unwired, unchanged from the foundation slice:** `lib/sanity/fetch/*`
+is not imported by any `app/` route yet; no `/api/revalidate` route; no
+`production` dataset support in the migration script.
+
 ## Legal pages: review cleanup (2026-07-07)
 
 Applied three P3 review findings: the desktop sidebar had a `nav` nested
