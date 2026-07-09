@@ -9,10 +9,15 @@ import { ArticleBody } from "@/components/academy/blog/article-body";
 import { ArticleAuthor } from "@/components/academy/blog/article-author";
 import { ArticleMetaBadges } from "@/components/academy/blog/article-meta-badges";
 import { BlogArticleSidebar } from "@/components/academy/blog/blog-article-sidebar";
+import { CmsFallbackImage } from "@/components/shared/cms-fallback-image";
 import { CtaSection } from "@/components/shared/cta-section";
-import { blogContent, getArticle, getRelatedArticles } from "@/content/blog";
+import { blogContent, getBlogHeroImage } from "@/content/blog";
 import { createArticleMetadata, createPageMetadata } from "@/lib/metadata";
-import { getBlogHeroImage } from "@/content/blog";
+import {
+  fetchArticleBySlug,
+  fetchArticleSlugs,
+  fetchRelatedArticles,
+} from "@/lib/sanity/fetch/articles";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -20,8 +25,11 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
 });
 
-export function generateStaticParams() {
-  return blogContent.articles.map((article) => ({ slug: article.slug }));
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const slugs = await fetchArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -30,7 +38,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await fetchArticleBySlug(slug);
 
   if (!article) {
     return createPageMetadata({
@@ -55,16 +63,25 @@ export default async function BlogArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await fetchArticleBySlug(slug);
 
   if (!article) notFound();
 
   const hero = getBlogHeroImage(article);
-  const relatedArticles = getRelatedArticles(slug);
+  const relatedArticles = await fetchRelatedArticles(slug, article.category);
 
   return (
     <AcademyDetailShell
-      hero={<AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />}
+      hero={
+        hero.src ? (
+          <AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />
+        ) : (
+          <CmsFallbackImage
+            alt={hero.alt}
+            className="aspect-video w-full lg:aspect-21/9"
+          />
+        )
+      }
       metadata={
         <AcademyDetailMetadata
           eyebrow={blogContent.hero.eyebrow}

@@ -18,26 +18,30 @@ export function featuredQuery(type: string, orderField: string) {
 
 // ─── Articles ────────────────────────────────────────────────────────────
 
+/**
+ * Shared projection for every article query: flattens `slug` to a plain
+ * string and dereferences `author` to just the fields `BlogAuthor` needs.
+ * Everything else (`cardImage`/`heroImage`/`body`/etc.) passes through raw
+ * via `...` — image URL resolution and the Portable Text → BlogArticleBlock
+ * adapter both happen in JS, in `lib/sanity/fetch/articles.ts`.
+ */
+const ARTICLE_PROJECTION = `{
+  ...,
+  "slug": slug.current,
+  "author": author->{name, role}
+}`;
+
 export const articleSlugsQuery = `*[_type == "academyArticle" && ${DRAFT_FILTER}].slug.current`;
 
-export const articleBySlugQuery = `*[_type == "academyArticle" && slug.current == $slug && ${DRAFT_FILTER}][0]{
-  ...,
-  author->{name, role, "photo": photo.asset->url}
-}`;
+export const articleBySlugQuery = `*[_type == "academyArticle" && slug.current == $slug && ${DRAFT_FILTER}][0]${ARTICLE_PROJECTION}`;
 
-export const articlesListingQuery = `*[_type == "academyArticle" && ${DRAFT_FILTER}] | order(publishedAt desc){
-  ...,
-  author->{name, role}
-}`;
+export const articlesListingQuery = `*[_type == "academyArticle" && ${DRAFT_FILTER}] | order(publishedAt desc)${ARTICLE_PROJECTION}`;
 
-export const featuredArticleQuery = featuredQuery(
-  "academyArticle",
-  "publishedAt",
-);
+export const featuredArticleQuery = `(${featuredQuery("academyArticle", "publishedAt")})${ARTICLE_PROJECTION}`;
 
 export const relatedArticlesQuery = `*[
   _type == "academyArticle" && slug.current != $slug && ${DRAFT_FILTER}
-] | order(publishedAt desc)`;
+] | order(publishedAt desc)${ARTICLE_PROJECTION}`;
 
 export const articleSearchProjection = `{title, excerpt, category, "slug": slug.current}`;
 

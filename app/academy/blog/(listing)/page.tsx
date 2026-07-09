@@ -4,36 +4,26 @@ import { FeaturedArticleSection } from "@/components/academy/blog/featured-artic
 import { CtaSection } from "@/components/shared/cta-section";
 import { blogCategories, blogContent } from "@/content/blog";
 import { pageSeo } from "@/content/seo";
+import {
+  fetchArticlesListing,
+  fetchFeaturedArticle,
+} from "@/lib/sanity/fetch/articles";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata(pageSeo.blog);
+export const revalidate = 3600;
 
-function resolveFeaturedArticle() {
-  const sorted = [...blogContent.articles].sort((a, b) =>
-    b.publishedAt.localeCompare(a.publishedAt),
-  );
-
-  if (blogContent.featuredArticleSlug) {
-    const match = sorted.find(
-      (article) => article.slug === blogContent.featuredArticleSlug,
-    );
-    if (match) return match;
-  }
-
-  return sorted[0];
-}
-
-export default function BlogIndexPage() {
-  const featured = resolveFeaturedArticle();
+export default async function BlogIndexPage() {
+  const [articles, featured] = await Promise.all([
+    fetchArticlesListing(),
+    fetchFeaturedArticle(blogContent.featuredArticleSlug),
+  ]);
 
   return (
     <>
       <AcademyListingHeroSection content={blogContent.hero} />
       {featured ? <FeaturedArticleSection article={featured} /> : null}
-      <BlogListingBody
-        categories={blogCategories}
-        articles={blogContent.articles}
-      />
+      <BlogListingBody categories={blogCategories} articles={articles} />
       <CtaSection overlapNext={false} content={blogContent.cta} />
     </>
   );

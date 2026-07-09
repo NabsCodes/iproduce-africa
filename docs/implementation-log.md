@@ -3,6 +3,80 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS fetch-layer cutover — blog track (2026-07-09)
+
+First public route cutover from static `content/*.ts` to real Sanity fetches,
+scoped deliberately to **blog only** per explicit review direction — webinars,
+courses, the `/academy` hub, `/academy/search`, Home spotlight, and the
+registration email resolver are still 100% static and untouched. Each of
+those is its own follow-up checkpoint, not started yet.
+
+**Constraint change (approved):** the foundation slice's "`pnpm build` must
+pass with zero Sanity env vars" now applies only to `/admin`. Public
+CMS-backed routes (starting with the two blog routes) require
+`NEXT_PUBLIC_SANITY_PROJECT_ID` and a read-capable token, and fail loudly at
+module-eval time if missing — `lib/sanity/client.ts` throws a specific error
+naming the exact env var, instead of `next-sanity`'s own generic
+"Configuration must contain `projectId`".
+
+**Real bug found and fixed during this slice:** the `development` dataset is
+private. `lib/sanity/client.ts` didn't pass a `token` to `createClient()` at
+all, so every unauthenticated query silently returned an **empty result set**
+(not a 403) — `generateStaticParams` for blog quietly produced 0 pages at
+first build. Fixed by adding `token` (prefers `SANITY_API_READ_TOKEN`, falls
+back to `SANITY_API_WRITE_TOKEN` since a write token can read too) and adding
+the module-level config guard described above so this class of failure is
+loud next time, not silent.
+
+**What changed:**
+
+- `lib/sanity/client.ts` — added the config guard + token wiring.
+- `lib/sanity/image.ts` — added `resolveImageUrl()` (Sanity image field →
+  plain URL string, since every existing content type has `image: string`,
+  not a Sanity image object).
+- `lib/sanity/queries.ts` — added a shared `ARTICLE_PROJECTION` fragment
+  (flattens `slug.current` → `slug`, dereferences `author`) applied
+  consistently across every article query, including the coalesce
+  featured-article query (previously had no projection at all).
+- `lib/sanity/fetch/articles.ts` — rewritten from raw `client.fetch(query)`
+  scaffolding to real projections: image resolution, the existing Portable
+  Text → `BlogArticleBlock[]` adapter, `readTimeMinutes` fallback
+  (word-count estimate) when a Studio override isn't set, and
+  `fetchRelatedArticles` reproducing the same-category-first ordering from
+  `content/blog.ts`'s `getRelatedArticles` (reuses its `articleToRelatedItem`
+  mapper rather than duplicating it).
+- `components/shared/cms-fallback-image.tsx` — new, per
+  `docs/cms-migration-spec.md` Rule 6 (branded fallback for a missing CMS
+  image). Wired into the blog detail hero image only this pass.
+- `app/academy/blog/(listing)/page.tsx`, `app/academy/blog/[slug]/page.tsx` —
+  now `async`, fetch from Sanity; `export const revalidate = 3600` added to
+  both. Page chrome (hero copy, newsletter, share controls, related-section
+  labels, CTA) stays imported from `content/blog.ts`, unchanged.
+- `app/api/revalidate/route.ts` — new webhook route using `next-sanity/webhook`'s
+  `parseBody()` for HMAC signature verification. Only the `academyArticle`
+  row from the spec's revalidation table is wired; webinar/course rows get
+  added when those tracks cut over.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass with real
+env vars. Confirmed via a standalone script that all 10 seeded articles fetch
+and normalize correctly, including every real block kind in the fixture data
+(paragraph, heading2, blockquote, callout, table, bullet list, ordered list —
+`heading3`/`code`/`image` block kinds have zero real fixtures to test
+against, pre-existing limitation, not new). Confirmed in both `pnpm dev` and
+`pnpm start` (production mode): listing + all 10 detail pages return correct
+content; a nonexistent slug returns the not-found UI (noted: HTTP status is
+200 not 404 for this, but confirmed identical, pre-existing behavior on the
+still-static `/academy/courses/[missing]` and `/academy/webinars/[missing]`
+routes too — not a regression from this slice, left alone). Deliberately
+unset `NEXT_PUBLIC_SANITY_PROJECT_ID` and confirmed the build fails with the
+new clear config-guard error.
+
+**Explicitly deferred, in order, each its own review checkpoint:** webinars
+track, courses track, `/academy` hub page, `/academy/search`, Home spotlight
+preview, registration email resolver (only after webinars+courses land),
+then finally archiving the static catalogue arrays once everything is cut
+over and QA'd.
+
 ## Sanity CMS Phase 1 — first live dataset seed + Studio boot fix (2026-07-09)
 
 Ran the migration script for real against the actual `development` dataset

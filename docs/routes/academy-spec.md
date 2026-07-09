@@ -441,6 +441,6 @@ blog detail's related section consumes `getRelatedArticles()` from
 - [x] Listing featured + filter bands (webinars + courses; blog already had)
 - [x] Browser QA + Lighthouse on hub + three catalogues (+ blog long/short article UX)
 - [x] Empty-state handling for hub bands + Home Spotlight tabs (`CatalogueEmptyState`, 2026-07-04) — see "Empty-state behaviour" section above
-- [ ] Sanity wiring + `docs/sanity-academy-spec.md` (**next doc** — content-shape map from `types/` + `content/`)
+- [x] Sanity wiring — blog track only (`/academy/blog`, `/academy/blog/[slug]`, 2026-07-09); webinars/courses/hub/search/home preview still static, see `docs/sanity-academy-spec.md` status
 - [ ] Real photography for hero, courses, blog articles, participant cards
 - [ ] Search wired to Sanity / Algolia (beyond `/academy/search` client filter)

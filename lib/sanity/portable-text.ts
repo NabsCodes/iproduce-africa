@@ -13,7 +13,7 @@ import type { BlogArticleBlock } from "@/types/blog";
  * docs/sanity-academy-spec.md) before that schema change ships, not after.
  */
 
-type PortableTextBlock = {
+export type PortableTextBlock = {
   _type: string;
   _key: string;
   style?: string;

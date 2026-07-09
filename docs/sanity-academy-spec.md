@@ -4,7 +4,16 @@
 
 **Approved with edits** — 2026-06-27. Companion to `docs/cms-migration-spec.md`.
 Phase 1: **Academy editorial catalogues only**. Patched after Codex + Claude
-review. No code until parent checklist is signed off.
+review.
+
+**Implementation progress (2026-07-09):** foundation (schemas, Studio,
+migration script) shipped and seeded into `development` — see
+`docs/implementation-log.md`. Cutover sequence steps 1–5 done for the **blog
+track only** (`/academy/blog`, `/academy/blog/[slug]`, plus the revalidate
+webhook's `academyArticle` row). Webinars, courses, the `/academy` hub,
+`/academy/search`, Home spotlight preview, and the registration email
+resolver are still fully static — each is its own review checkpoint before
+starting, per explicit direction not to flip the whole Academy area at once.
 
 ---
 
