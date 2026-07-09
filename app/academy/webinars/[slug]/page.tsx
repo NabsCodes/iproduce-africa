@@ -8,13 +8,13 @@ import { AcademyDetailShell } from "@/components/academy/listings/academy-detail
 import { WebinarRegistrationPanel } from "@/components/academy/webinars/webinar-registration-panel";
 import { Badge } from "@/components/ui/badge";
 import { CtaSection } from "@/components/shared/cta-section";
-import {
-  getRelatedWebinars,
-  getWebinar,
-  webinarsContent,
-  webinarToCardItem,
-} from "@/content/webinars";
+import { webinarsContent, webinarToCardItem } from "@/content/webinars";
 import { createPageMetadata } from "@/lib/metadata";
+import {
+  fetchRelatedWebinars,
+  fetchWebinarBySlug,
+  fetchWebinarSlugs,
+} from "@/lib/sanity/fetch/webinars";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   weekday: "long",
@@ -23,8 +23,11 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
 });
 
-export function generateStaticParams() {
-  return webinarsContent.webinars.map((webinar) => ({ slug: webinar.slug }));
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const slugs = await fetchWebinarSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -33,7 +36,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const webinar = getWebinar(slug);
+  const webinar = await fetchWebinarBySlug(slug);
 
   if (!webinar) {
     return createPageMetadata({
@@ -56,12 +59,12 @@ export default async function WebinarDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const webinar = getWebinar(slug);
+  const webinar = await fetchWebinarBySlug(slug);
 
   if (!webinar) notFound();
 
   const card = webinarToCardItem(webinar);
-  const related = getRelatedWebinars(slug);
+  const related = await fetchRelatedWebinars(slug);
 
   return (
     <AcademyDetailShell

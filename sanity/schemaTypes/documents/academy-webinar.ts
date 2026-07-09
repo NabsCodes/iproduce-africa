@@ -92,7 +92,7 @@ export const academyWebinar = defineType({
       title: "Date label override",
       type: "string",
       description:
-        "Optional — computed from date in the fetch layer by default.",
+        "Optional display override. The public UI falls back to the formatted date when this is empty.",
     }),
     defineField({
       name: "location",

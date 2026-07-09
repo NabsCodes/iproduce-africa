@@ -47,21 +47,34 @@ export const articleSearchProjection = `{title, excerpt, category, "slug": slug.
 
 // ─── Webinars ────────────────────────────────────────────────────────────
 
+/** No author dereference needed — webinars have no reference fields. */
+const WEBINAR_PROJECTION = `{
+  ...,
+  "slug": slug.current
+}`;
+
 export const webinarSlugsQuery = `*[_type == "academyWebinar" && ${DRAFT_FILTER}].slug.current`;
 
-export const webinarBySlugQuery = `*[_type == "academyWebinar" && slug.current == $slug && ${DRAFT_FILTER}][0]`;
+export const webinarBySlugQuery = `*[_type == "academyWebinar" && slug.current == $slug && ${DRAFT_FILTER}][0]${WEBINAR_PROJECTION}`;
 
-export const webinarsListingQuery = `*[_type == "academyWebinar" && ${DRAFT_FILTER}] | order(date asc)`;
+export const webinarsListingQuery = `*[_type == "academyWebinar" && ${DRAFT_FILTER}] | order(date asc)${WEBINAR_PROJECTION}`;
 
-export const featuredWebinarQuery = featuredQuery("academyWebinar", "date");
+export const featuredWebinarQuery = `(${featuredQuery("academyWebinar", "date")})${WEBINAR_PROJECTION}`;
 
+/**
+ * `$today` is a date-only string (`YYYY-MM-DD`), not `now()` — matches
+ * `content/webinars.ts`'s `sessionDateKey`/`isUpcomingSession` exactly.
+ * Some seeded `date` values are date-only strings themselves; comparing
+ * against `now()`'s full timestamp would lexicographically exclude a
+ * same-day webinar the moment any time has passed today.
+ */
 export const hubScheduledWebinarsQuery = `*[
-  _type == "academyWebinar" && date >= now() && ${DRAFT_FILTER}
-] | order(date asc)[0...$limit]`;
+  _type == "academyWebinar" && date >= $today && ${DRAFT_FILTER}
+] | order(date asc)[0...$limit]${WEBINAR_PROJECTION}`;
 
 export const relatedWebinarsQuery = `*[
-  _type == "academyWebinar" && slug.current != $slug && date >= now() && ${DRAFT_FILTER}
-] | order(date asc)[0...$limit]`;
+  _type == "academyWebinar" && slug.current != $slug && date >= $today && ${DRAFT_FILTER}
+] | order(date asc)[0...$limit]${WEBINAR_PROJECTION}`;
 
 // ─── Courses ─────────────────────────────────────────────────────────────
 

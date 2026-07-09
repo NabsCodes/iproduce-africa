@@ -2,25 +2,29 @@ import { AcademyListingHeroSection } from "@/components/academy/listings/listing
 import { FeaturedWebinarSection } from "@/components/academy/webinars/featured-webinar-section";
 import { WebinarsListingBody } from "@/components/academy/webinars/webinars-listing-body";
 import { CtaSection } from "@/components/shared/cta-section";
-import {
-  getWebinar,
-  webinarsContent,
-  webinarsListing,
-} from "@/content/webinars";
+import { webinarsContent, webinarsListing } from "@/content/webinars";
 import { pageSeo } from "@/content/seo";
+import {
+  fetchFeaturedWebinar,
+  fetchWebinarsListing,
+} from "@/lib/sanity/fetch/webinars";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata(pageSeo.webinars);
+export const revalidate = 3600;
 
-export default function WebinarsIndexPage() {
-  const featured = getWebinar(webinarsListing.featuredSlug);
+export default async function WebinarsIndexPage() {
+  const [webinars, featured] = await Promise.all([
+    fetchWebinarsListing(),
+    fetchFeaturedWebinar(webinarsListing.featuredSlug),
+  ]);
 
   return (
     <>
       <AcademyListingHeroSection content={webinarsListing.hero} />
       {featured ? <FeaturedWebinarSection webinar={featured} /> : null}
       <WebinarsListingBody
-        webinars={webinarsContent.webinars}
+        webinars={webinars}
         filterTypes={webinarsListing.filterTypes}
       />
       <CtaSection overlapNext={false} content={webinarsContent.cta} />

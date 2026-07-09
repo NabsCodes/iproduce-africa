@@ -3,6 +3,67 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS fetch-layer cutover — webinars track (2026-07-09)
+
+Second public route cutover, same checkpoint discipline as blog: only
+`/academy/webinars` + `/academy/webinars/[slug]` moved to Sanity this pass.
+Courses, the `/academy` hub, search, Home spotlight, and the registration
+email resolver are still fully static.
+
+**Two things the spec suggested that turned out unnecessary, confirmed by
+reading the actual components before writing any code:**
+
+- No `dateLabel` compute-from-`date` helper — `webinar-registration-panel.tsx`
+  already does `webinar.dateLabel ?? dateFormatter.format(new Date(webinar.date))`,
+  so the fallback lives in the component and needs no fetch-layer duplicate.
+- No card-shaping in the fetch layer — `WebinarsListingBody` is a client
+  component that takes raw `AcademyWebinar[]` and does its own client-side
+  filter/sort via the existing `webinarToCardItem()`. The fetch layer just
+  returns the same shape the static content did.
+
+**What changed:**
+
+- `lib/sanity/queries.ts` — added `WEBINAR_PROJECTION` (flattens
+  `slug.current` → `slug`; no author dereference needed) applied to all
+  webinar queries including `hubScheduledWebinarsQuery` (fixed for
+  correctness even though it's not wired into a route yet — that's the hub
+  checkpoint).
+- `lib/sanity/fetch/webinars.ts` — rewritten from raw scaffolding to real
+  projections using the guarded `sanityFetch()`: image resolution,
+  `body` passed through as-is (schema stores it as plain strings, no
+  Portable Text for webinars), `fetchRelatedWebinars` reusing the existing
+  `webinarToRelatedItem()` mapper from `content/webinars.ts`.
+- `app/academy/webinars/(listing)/page.tsx`, `[slug]/page.tsx` — now
+  `async`, fetch from Sanity, `revalidate = 3600`. `content/webinars.ts`
+  itself untouched — still owns page chrome and is used internally by
+  client components and the still-static hub/featured-event wrapper.
+- `app/api/revalidate/route.ts` — added the `academyWebinar` row (refactored
+  the old/new-slug branch into a small `DETAIL_PATH_PREFIX_BY_TYPE` lookup
+  instead of duplicating the `if` block, since courses will add a third).
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass; all 7
+seeded webinar slugs generate with `revalidate: 1h`. Manually confirmed in
+dev: listing + featured band + all 7 detail pages render correctly; the
+seeded `scaling-smallholder-farms-with-data` webinar
+(`registration.mode: "closed"`) correctly shows "Session ended" instead of a
+register button; related-sessions band on `post-harvest-handling-essentials`
+correctly returns exactly 3 items, excluding the current slug and past dates.
+
+**Two review findings patched before commit:**
+- `hubScheduledWebinarsQuery`/`relatedWebinarsQuery` compared `date >= now()`.
+  Since some seeded `date` values are date-only strings (no time component),
+  a lexicographic string comparison against `now()`'s full timestamp
+  excludes a same-day webinar the moment any time has passed today — it
+  would only count as "upcoming" exactly at midnight. Fixed by passing a
+  date-only `$today` (`YYYY-MM-DD`) param instead, matching
+  `content/webinars.ts`'s `sessionDateKey`/`isUpcomingSession` exactly.
+- `sanity/schemaTypes/documents/academy-webinar.ts`'s `dateLabel` field
+  description said "computed from date in the fetch layer" — stale now that
+  the fallback correctly lives in `WebinarRegistrationPanel` instead (see
+  above). Reworded to describe the actual behavior.
+
+**Next checkpoint:** courses track, queued separately.
+
 ## Sanity CMS fetch-layer cutover — blog track (2026-07-09)
 
 First public route cutover from static `content/*.ts` to real Sanity fetches,
