@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
+import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { ButtonLink } from "@/components/ui/button";
 import {
   Dialog,
@@ -46,22 +46,20 @@ export function PartnerStoryDialog({
               )}
             >
               {isLogo ? (
-                <div className="relative aspect-square w-[min(58vw,13rem)] sm:w-[min(100%,11rem)] lg:w-48">
-                  <Image
-                    src={partner.image}
-                    alt={partner.imageAlt}
-                    fill
-                    sizes="(max-width: 640px) 58vw, 192px"
-                    className="object-contain"
-                  />
-                </div>
-              ) : (
-                <Image
+                <CatalogueImage
                   src={partner.image}
                   alt={partner.imageAlt}
-                  fill
+                  fit="contain"
+                  sizes="(max-width: 640px) 58vw, 192px"
+                  className="aspect-square w-[min(58vw,13rem)] sm:w-[min(100%,11rem)] lg:w-48"
+                  imageClassName="p-2"
+                />
+              ) : (
+                <CatalogueImage
+                  src={partner.image}
+                  alt={partner.imageAlt}
                   sizes="(max-width: 640px) 100vw, 40vw"
-                  className="object-cover"
+                  className="absolute inset-0"
                 />
               )}
             </div>

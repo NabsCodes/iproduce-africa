@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
@@ -16,16 +16,14 @@ export function FeaturedCourseSection({ course }: FeaturedCourseSectionProps) {
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-          <div className="relative aspect-5/4 overflow-hidden rounded-xl lg:aspect-4/3">
-            <Image
-              src={course.image}
-              alt={course.title}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+          <CatalogueImage
+            src={course.image}
+            alt={course.title}
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="aspect-5/4 rounded-xl lg:aspect-4/3"
+            showLoadingSkeleton
+          />
 
           <MotionFade className="flex flex-col">
             <EyebrowBadge>Featured course</EyebrowBadge>

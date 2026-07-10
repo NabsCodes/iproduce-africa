@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 import type { Partner } from "@/content/partners";
@@ -9,13 +12,26 @@ type PartnerLogoProps = {
 };
 
 export function PartnerLogo({ partner, className }: PartnerLogoProps) {
-  const image = (
+  const [failed, setFailed] = useState(false);
+  const showFallback = !partner.logo?.trim() || failed;
+
+  const image = showFallback ? (
+    <span
+      className={cn(
+        "text-fg-subtle inline-flex h-9 max-w-[12rem] items-center text-xs font-semibold tracking-wide uppercase sm:h-10 lg:h-12",
+        className,
+      )}
+    >
+      {partner.name}
+    </span>
+  ) : (
     <Image
       src={partner.logo}
       alt={partner.name}
       width={200}
       height={64}
       style={{ width: "auto" }}
+      onError={() => setFailed(true)}
       className={cn(
         "h-9 object-contain opacity-70 transition hover:opacity-100 sm:h-10 lg:h-12",
         className,

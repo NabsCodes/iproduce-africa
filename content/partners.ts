@@ -40,26 +40,27 @@ export const partnersList: Partner[] = [
     href: "https://nicert.net/",
     order: 4,
   },
-  {
-    id: "jaiz-bank",
-    name: "Jaiz Bank",
-    logo: "/images/partners/jaiz-bank.webp",
-    href: "https://jaizbankplc.com/",
-    order: 5,
-  },
+  // Jaiz Bank is not a partner yet hidden for now
+  // {
+  //   id: "jaiz-bank",
+  //   name: "Jaiz Bank",
+  //   logo: "/images/partners/jaiz-bank.webp",
+  //   href: "https://jaizbankplc.com/",
+  //   order: 5,
+  // },
   {
     id: "the-cfg-advisory",
     name: "The CFG Advisory",
     logo: "/images/partners/the-cfg-advisory.webp",
     href: "https://thecfgadvisory.com/",
-    order: 6,
+    order: 5,
   },
   {
     id: "flowdiary",
     name: "Flowdiary",
     logo: "/images/partners/flowdiary.png",
     href: "https://flowdiary.com.ng/",
-    order: 7,
+    order: 6,
   },
 ];
 
@@ -209,22 +210,23 @@ export const partnersPageContent = {
         website: "https://www.isdb.org/",
         order: 2,
       },
-      {
-        id: "jaiz-bank",
-        name: "Jaiz Bank",
-        descriptor: "Non-interest banking · Nigeria",
-        description:
-          "Nigeria's pioneer full-fledged Islamic bank, with agribusiness finance products and over ₦75 billion deployed across the agricultural value chain in its first decade.",
-        story: [
-          "Jaiz Bank Plc is Nigeria's first full-fledged non-interest bank. Its agribusiness portfolio includes Jaiz Agro Finance through Shariah-compliant contracts such as Salam, Murabaha, and Ijarah — supporting rice mills, SME agribusiness, and wider value-chain financing.",
-          "Public reporting places Jaiz among the leading banks financing Nigeria's rice value chain. iProduce Africa's ecosystem work on export readiness and non-interest finance for agripreneurs aligns with the bank's long-standing focus on ethical, asset-backed agricultural financing.",
-        ],
-        image: "/images/partners/jaiz-bank.webp",
-        imageAlt: "Jaiz Bank logo",
-        imageVariant: "logo",
-        website: "https://jaizbankplc.com/",
-        order: 3,
-      },
+      // Jaiz Bank is not a partner yet hidden for now
+      // {
+      //   id: "jaiz-bank",
+      //   name: "Jaiz Bank",
+      //   descriptor: "Non-interest banking · Nigeria",
+      //   description:
+      //     "Nigeria's pioneer full-fledged Islamic bank, with agribusiness finance products and over ₦75 billion deployed across the agricultural value chain in its first decade.",
+      //   story: [
+      //     "Jaiz Bank Plc is Nigeria's first full-fledged non-interest bank. Its agribusiness portfolio includes Jaiz Agro Finance through Shariah-compliant contracts such as Salam, Murabaha, and Ijarah — supporting rice mills, SME agribusiness, and wider value-chain financing.",
+      //     "Public reporting places Jaiz among the leading banks financing Nigeria's rice value chain. iProduce Africa's ecosystem work on export readiness and non-interest finance for agripreneurs aligns with the bank's long-standing focus on ethical, asset-backed agricultural financing.",
+      //   ],
+      //   image: "/images/partners/jaiz-bank.webp",
+      //   imageAlt: "Jaiz Bank logo",
+      //   imageVariant: "logo",
+      //   website: "https://jaizbankplc.com/",
+      //   order: 3,
+      // },
       {
         id: "the-cfg-advisory",
         name: "The CFG Advisory",

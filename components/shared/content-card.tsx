@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { Badge } from "@/components/ui/badge";
 import type { ContentCardTone } from "@/types/content";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,15 +40,13 @@ export function ContentCard({
     >
       <CardContent className="flex flex-1 flex-col p-0">
         <Link href={href} className="group flex h-full flex-col">
-          <div className="relative aspect-4/3 overflow-hidden rounded-xl">
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 33vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-            />
-          </div>
+          <CatalogueImage
+            src={image}
+            alt={imageAlt}
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            className="aspect-4/3 rounded-xl"
+            imageClassName="transition-transform duration-300 group-hover:scale-[1.02]"
+          />
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Badge variant={categoryTone}>{category}</Badge>

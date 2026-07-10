@@ -10,6 +10,7 @@ type TurnstileWidgetProps = {
   size?: "normal" | "compact";
   fallbackEmail?: string;
   onRetry?: () => void;
+  tone?: "default" | "dark";
 };
 
 export function TurnstileWidget({
@@ -19,6 +20,7 @@ export function TurnstileWidget({
   size = "normal",
   fallbackEmail,
   onRetry,
+  tone = "default",
 }: TurnstileWidgetProps) {
   const ref = useRef<TurnstileInstance>(null);
   const previousResetNonceRef = useRef(resetNonce);
@@ -72,12 +74,24 @@ export function TurnstileWidget({
       />
       {hasError ? (
         <div className="flex flex-col gap-2 text-xs leading-5">
-          <p className="text-destructive">Verification could not load.</p>
-          <div className="text-fg-muted flex flex-wrap items-center gap-x-3 gap-y-1">
+          <p className={tone === "dark" ? "text-rose-300" : "text-destructive"}>
+            Verification could not load.
+          </p>
+          <div
+            className={
+              tone === "dark"
+                ? "flex flex-wrap items-center gap-x-2 gap-y-1 text-white/60"
+                : "text-fg-muted flex flex-wrap items-center gap-x-2 gap-y-1"
+            }
+          >
             <button
               type="button"
               onClick={handleRetry}
-              className="text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
+              className={
+                tone === "dark"
+                  ? "text-leaf-300 hover:text-leaf-200 font-medium underline underline-offset-2"
+                  : "text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
+              }
             >
               Retry verification
             </button>
@@ -86,7 +100,11 @@ export function TurnstileWidget({
                 Or email{" "}
                 <a
                   href={`mailto:${fallbackEmail}`}
-                  className="text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
+                  className={
+                    tone === "dark"
+                      ? "text-leaf-300 hover:text-leaf-200 font-medium underline underline-offset-2"
+                      : "text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
+                  }
                 >
                   {fallbackEmail}
                 </a>

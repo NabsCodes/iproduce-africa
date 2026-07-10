@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { CalendarDays, MapPin, Users } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { AcademyRegistrationAction } from "@/components/academy/registration/academy-registration-action";
+import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { Badge } from "@/components/ui/badge";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
@@ -114,15 +114,12 @@ export function FeaturedEventSection() {
           duration={0.48}
           className="border-default bg-subtle mt-10 grid overflow-hidden rounded-xl border lg:grid-cols-2"
         >
-          <div className="bg-muted relative aspect-4/3 min-h-[280px] lg:aspect-auto">
-            <Image
-              src={featured.image}
-              alt={featured.imageAlt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+          <CatalogueImage
+            src={featured.image}
+            alt={featured.imageAlt}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="aspect-4/3 min-h-[280px] lg:aspect-auto lg:min-h-0"
+          />
 
           <div className="flex flex-col gap-5 p-6 sm:gap-6 sm:p-8 lg:p-10">
             <div className="flex flex-wrap items-center gap-2">

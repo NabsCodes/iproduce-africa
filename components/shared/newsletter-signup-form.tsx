@@ -299,6 +299,7 @@ export function NewsletterSignupForm({
           resetNonce={turnstileResetNonce}
           turnstileSize={isCompact ? "compact" : "normal"}
           onTurnstileRetry={bumpTurnstileReset}
+          tone={isCompact ? "default" : "dark"}
           className="mt-4"
         />
 

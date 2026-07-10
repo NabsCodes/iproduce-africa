@@ -7,10 +7,8 @@ type CmsFallbackImageProps = {
 };
 
 /**
- * Defensive placeholder for a catalogue image that failed to resolve from
- * Sanity — shouldn't trigger in practice since Studio requires an image +
- * alt whenever the field is set, but a resolver gap shouldn't render a
- * broken `<img>` on the public site.
+ * Themed placeholder when a catalogue card or detail hero image is missing or
+ * fails to load — keeps broken-browser-icon UX off public surfaces.
  */
 export function CmsFallbackImage({ alt, className }: CmsFallbackImageProps) {
   return (

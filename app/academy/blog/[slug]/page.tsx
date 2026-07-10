@@ -9,7 +9,6 @@ import { ArticleBody } from "@/components/academy/blog/article-body";
 import { ArticleAuthor } from "@/components/academy/blog/article-author";
 import { ArticleMetaBadges } from "@/components/academy/blog/article-meta-badges";
 import { BlogArticleSidebar } from "@/components/academy/blog/blog-article-sidebar";
-import { CmsFallbackImage } from "@/components/shared/cms-fallback-image";
 import { CtaSection } from "@/components/shared/cta-section";
 import { blogContent, getBlogHeroImage } from "@/content/blog";
 import { createArticleMetadata, createPageMetadata } from "@/lib/metadata";
@@ -72,16 +71,7 @@ export default async function BlogArticlePage({
 
   return (
     <AcademyDetailShell
-      hero={
-        hero.src ? (
-          <AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />
-        ) : (
-          <CmsFallbackImage
-            alt={hero.alt}
-            className="aspect-video w-full lg:aspect-21/9"
-          />
-        )
-      }
+      hero={<AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />}
       metadata={
         <AcademyDetailMetadata
           eyebrow={blogContent.hero.eyebrow}

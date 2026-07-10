@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { ArticleBodyImage } from "@/components/academy/blog/article-body-image";
 import type { BlogArticleBlock } from "@/types/blog";
 
 type ArticleBodyProps = {
@@ -152,22 +151,12 @@ export function ArticleBody({ blocks }: ArticleBodyProps) {
             );
           case "image":
             return (
-              <figure key={index} className="overflow-hidden rounded-xl">
-                <div className="bg-muted relative aspect-16/10 w-full">
-                  <Image
-                    src={block.src}
-                    alt={block.alt}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 768px"
-                    className="object-cover"
-                  />
-                </div>
-                {block.caption ? (
-                  <figcaption className="text-fg-subtle mt-2 text-sm">
-                    {block.caption}
-                  </figcaption>
-                ) : null}
-              </figure>
+              <ArticleBodyImage
+                key={index}
+                src={block.src}
+                alt={block.alt}
+                caption={block.caption}
+              />
             );
         }
       })}

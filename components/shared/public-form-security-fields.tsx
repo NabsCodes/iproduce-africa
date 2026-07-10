@@ -19,6 +19,7 @@ type PublicFormSecurityFieldsProps<T extends FieldValues> = {
   turnstileSize?: "normal" | "compact";
   className?: string;
   onTurnstileRetry?: () => void;
+  tone?: "default" | "dark";
 };
 
 export function PublicFormSecurityFields<T extends FieldValues>({
@@ -28,6 +29,7 @@ export function PublicFormSecurityFields<T extends FieldValues>({
   turnstileSize = "normal",
   className,
   onTurnstileRetry,
+  tone = "default",
 }: PublicFormSecurityFieldsProps<T>) {
   const { field: honeypotField } = useController({
     control,
@@ -60,14 +62,23 @@ export function PublicFormSecurityFields<T extends FieldValues>({
             fallbackEmail={siteConfig.email}
             onRetry={onTurnstileRetry}
             onTokenChange={(token) => turnstileField.onChange(token)}
+            tone={tone}
           />
-          <p className="text-fg-muted text-xs leading-5">
+          <p
+            className={cn(
+              "text-xs leading-5",
+              tone === "dark" ? "text-white/50" : "text-fg-muted",
+            )}
+          >
             Protected by Cloudflare Turnstile.{" "}
             <a
               href="https://www.cloudflare.com/privacypolicy/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2"
+              className={cn(
+                "underline underline-offset-2 transition-colors",
+                tone === "dark" && "hover:text-white/80",
+              )}
             >
               Privacy
             </a>{" "}
@@ -76,7 +87,10 @@ export function PublicFormSecurityFields<T extends FieldValues>({
               href="https://www.cloudflare.com/website-terms/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2"
+              className={cn(
+                "underline underline-offset-2 transition-colors",
+                tone === "dark" && "hover:text-white/80",
+              )}
             >
               Terms
             </a>
@@ -85,11 +99,19 @@ export function PublicFormSecurityFields<T extends FieldValues>({
       ) : null}
 
       {isTurnstileRequiredInProduction() ? (
-        <p className="text-destructive text-sm">
+        <p
+          className={cn(
+            "text-sm",
+            tone === "dark" ? "text-rose-300" : "text-destructive",
+          )}
+        >
           Verification is temporarily unavailable. Please email us at{" "}
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-forest-700 font-medium underline underline-offset-2"
+            className={cn(
+              "font-medium underline underline-offset-2",
+              tone === "dark" ? "text-leaf-300" : "text-forest-700",
+            )}
           >
             {siteConfig.email}
           </a>

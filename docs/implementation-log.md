@@ -3,6 +3,19 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Footer verification contrast polish (2026-07-10)
+
+Added a dark-surface tone to the shared Turnstile security UI and applied it
+to the footer newsletter. Error, retry, fallback-email, privacy, and terms
+states now retain accessible contrast against the forest footer without
+duplicating the shared verification behavior used by light form surfaces.
+
+- Files: `components/shared/turnstile-widget.tsx`,
+  `components/shared/public-form-security-fields.tsx`,
+  `components/shared/newsletter-signup-form.tsx`
+- Verification: `pnpm exec prettier --write` (pass), `git diff --check`
+  (pass), `pnpm lint` (pass), `pnpm typecheck` (pass), `pnpm build` (pass)
+
 ## Registration resolver: `external` mode fix (2026-07-09)
 
 Review found `resolveAcademySession` treated any non-`closed` registration

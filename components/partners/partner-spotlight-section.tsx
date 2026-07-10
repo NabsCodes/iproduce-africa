@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
 import { PartnerStoryDialog } from "@/components/partners/partner-story-dialog";
+import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { Button } from "@/components/ui/button";
@@ -30,23 +30,20 @@ function PartnerSpotlightCard({
 
   return (
     <Card className="group border-default hover:border-leaf-300 focus-within:border-leaf-300 h-full min-h-0 flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 transition-colors sm:min-h-44 sm:flex-row lg:min-h-48">
-      <div
+      <CatalogueImage
+        src={item.image}
+        alt={item.imageAlt}
+        fit={isLogo ? "contain" : "cover"}
+        sizes="(min-width: 1024px) 160px, (min-width: 640px) 128px, 100vw"
         className={cn(
-          "relative aspect-5/3 w-full shrink-0 overflow-hidden sm:aspect-square sm:w-32 sm:self-stretch lg:w-40",
+          "aspect-5/3 w-full shrink-0 sm:aspect-square sm:w-32 sm:self-stretch lg:w-40",
           isLogo ? "bg-subtle" : "bg-muted",
         )}
-      >
-        <Image
-          src={item.image}
-          alt={item.imageAlt}
-          fill
-          sizes="(min-width: 1024px) 160px, (min-width: 640px) 128px, 100vw"
-          className={cn(
-            "transition-transform duration-300 group-hover:scale-[1.02]",
-            isLogo ? "object-contain p-4 sm:p-5" : "object-cover",
-          )}
-        />
-      </div>
+        imageClassName={cn(
+          "transition-transform duration-300 group-hover:scale-[1.02]",
+          isLogo ? "p-4 sm:p-5" : undefined,
+        )}
+      />
 
       <CardContent className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="text-foreground font-serif text-base font-semibold sm:text-lg">
