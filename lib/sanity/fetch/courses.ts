@@ -18,6 +18,8 @@ import type {
   AcademyRelatedItem,
 } from "@/types/academy";
 
+type SanityImageField = Image & { alt?: string };
+
 type RawCourseDoc = {
   slug: string;
   title: string;
@@ -25,7 +27,7 @@ type RawCourseDoc = {
   duration: string;
   description: string;
   excerpt: string;
-  image: Image | null;
+  image: SanityImageField | null;
   body: string[];
   modules: string[];
   registration?: AcademyRegistrationConfig | null;
@@ -39,6 +41,7 @@ function normalizeCourse(raw: RawCourseDoc): AcademyCourseDetail {
     duration: raw.duration,
     description: raw.description,
     image: resolveImageUrl(raw.image) ?? "",
+    imageAlt: raw.image?.alt,
     excerpt: raw.excerpt,
     body: raw.body,
     modules: raw.modules,
@@ -74,10 +77,13 @@ export async function fetchFeaturedCourse(
 }
 
 /**
- * Not wired into any route yet — scaffolding for the `/academy` hub
- * checkpoint. Returns the reduced `AcademyCourse` shape (no
- * excerpt/body/modules/registration) to match how the hub band actually
- * uses it — mirrors `content/courses.ts`'s `academyHubCourses` projection.
+ * Used by the Home spotlight preview (`fetchHomeAcademyPreview`), which has
+ * no other reason to fetch the full course listing. The `/academy` hub page
+ * derives its course band directly from `fetchCoursesListing()` instead,
+ * since it fetches that listing anyway for its total-count label — calling
+ * this too would be a redundant, near-duplicate request. Returns the reduced
+ * `AcademyCourse` shape (no excerpt/body/modules/registration) — mirrors
+ * `content/courses.ts`'s `academyHubCourses` projection.
  */
 export async function fetchHubCourses(limit: number): Promise<AcademyCourse[]> {
   const raw = await sanityFetch<RawCourseDoc[]>(hubCoursesQuery, { limit });
@@ -88,6 +94,7 @@ export async function fetchHubCourses(limit: number): Promise<AcademyCourse[]> {
     duration,
     description,
     image: resolveImageUrl(image) ?? "",
+    imageAlt: image?.alt,
   }));
 }
 

@@ -5,9 +5,17 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { academyHomePreview } from "@/content/academy";
+import type { AcademyHomeCard } from "@/types/academy";
 
-export function FeaturedArticlesSection() {
+type FeaturedArticlesSectionProps = {
+  articles: readonly AcademyHomeCard[];
+};
+
+export function FeaturedArticlesSection({
+  articles,
+}: FeaturedArticlesSectionProps) {
+  if (articles.length === 0) return null;
+
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -32,10 +40,11 @@ export function FeaturedArticlesSection() {
         </MotionFade>
 
         <MotionStagger className="mt-8 grid gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-3">
-          {academyHomePreview.blog.map((article) => (
+          {articles.map((article) => (
             <ContentCard
               key={article.key}
               image={article.image}
+              imageAlt={article.imageAlt}
               href={article.href}
               category={article.category}
               categoryTone={article.categoryTone}

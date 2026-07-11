@@ -16,7 +16,7 @@ export const BLOG_CATEGORIES = [
 /** Re-export for consumers that import categories from content. */
 export const blogCategories = BLOG_CATEGORIES;
 
-function toHubArticleCategory(
+export function toHubArticleCategory(
   category: BlogCategory,
 ): AcademyArticle["category"] {
   const normalized = category.toUpperCase();

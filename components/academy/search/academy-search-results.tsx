@@ -8,8 +8,12 @@ import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import {
   searchAcademy,
+  type AcademySearchResult,
   type AcademySearchResultKind,
 } from "@/lib/academy-search";
+import { fetchArticlesListing } from "@/lib/sanity/fetch/articles";
+import { fetchCoursesListing } from "@/lib/sanity/fetch/courses";
+import { fetchWebinarsListing } from "@/lib/sanity/fetch/webinars";
 
 type AcademySearchResultsProps = {
   query: string;
@@ -54,13 +58,22 @@ function SearchIntro({
   );
 }
 
-export function AcademySearchResults({
+export async function AcademySearchResults({
   query,
   searchPlaceholder,
   searchLabel,
 }: AcademySearchResultsProps) {
   const trimmed = query.trim();
-  const results = searchAcademy(trimmed);
+
+  let results: AcademySearchResult[] = [];
+  if (trimmed) {
+    const [webinars, courses, articles] = await Promise.all([
+      fetchWebinarsListing(),
+      fetchCoursesListing(),
+      fetchArticlesListing(),
+    ]);
+    results = searchAcademy(trimmed, { webinars, courses, articles });
+  }
 
   const intro = !trimmed
     ? {

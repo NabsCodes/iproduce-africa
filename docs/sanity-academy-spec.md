@@ -6,16 +6,19 @@
 Phase 1: **Academy editorial catalogues only**. Patched after Codex + Claude
 review.
 
-**Implementation progress (2026-07-09):** foundation (schemas, Studio,
+**Implementation progress (2026-07-11):** foundation (schemas, Studio,
 migration script) shipped and seeded into `development` — see
-`docs/implementation-log.md`. Cutover sequence steps 1–5 done for
-**blog, webinars, courses, and the registration email resolver** (all six
-listing/detail routes, the revalidate webhook's
-`academyArticle`/`academyWebinar`/`academyCourse` rows, and
-`/api/academy/register` now resolving session title + registration status
-from Sanity). Only the `/academy` hub, `/academy/search`, and Home spotlight
-preview remain static — each is its own review checkpoint before starting,
-per explicit direction not to flip the whole Academy area at once.
+`docs/implementation-log.md`. Cutover sequence steps 1–7 now done for
+**all Phase 1 Academy surfaces** — blog/webinars/courses listing+detail
+routes, the registration email resolver, the `/academy` hub (all three
+catalogue bands + featured event), Home spotlight + featured articles, and
+`/academy/search`, plus `app/sitemap.ts`. Every public catalogue surface now
+reads from the same Sanity source — no more static/Sanity split between
+`/academy/blog/[slug]` and the hub/home/search surfaces. Remaining Phase 1
+steps are non-code: QA on staging, archiving the static catalogue arrays
+(not yet done — kept for rollback), and production dataset + webhook
+configuration (manual, external). Phase 2 (testimonials, partners, team,
+FAQs, member stories) is next after that.
 
 ---
 

@@ -8,7 +8,7 @@ import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { academyHomePreview } from "@/content/academy";
+import type { AcademyHomePreview } from "@/types/academy";
 
 type AcademySpotlightTab = "upcoming" | "training";
 
@@ -21,11 +21,19 @@ const tabs = [
   icon: typeof Calendar;
 }[];
 
-function SpotlightGrid({ tabId }: { tabId: AcademySpotlightTab }) {
-  const cards = academyHomePreview.spotlight[tabId];
+function SpotlightGrid({
+  tabId,
+  spotlight,
+  spotlightEmptyState,
+}: {
+  tabId: AcademySpotlightTab;
+  spotlight: AcademyHomePreview["spotlight"];
+  spotlightEmptyState: AcademyHomePreview["spotlightEmptyState"];
+}) {
+  const cards = spotlight[tabId];
 
   if (cards.length === 0) {
-    const empty = academyHomePreview.spotlightEmptyState[tabId];
+    const empty = spotlightEmptyState[tabId];
     return (
       <div className="mt-8 sm:mt-10">
         <CatalogueEmptyState
@@ -45,6 +53,7 @@ function SpotlightGrid({ tabId }: { tabId: AcademySpotlightTab }) {
         <ContentCard
           key={card.key}
           image={card.image}
+          imageAlt={card.imageAlt}
           href={card.href}
           category={card.category}
           meta={card.meta}
@@ -57,7 +66,15 @@ function SpotlightGrid({ tabId }: { tabId: AcademySpotlightTab }) {
   );
 }
 
-export function AcademySpotlightSection() {
+type AcademySpotlightSectionProps = {
+  spotlight: AcademyHomePreview["spotlight"];
+  spotlightEmptyState: AcademyHomePreview["spotlightEmptyState"];
+};
+
+export function AcademySpotlightSection({
+  spotlight,
+  spotlightEmptyState,
+}: AcademySpotlightSectionProps) {
   return (
     <section className="bg-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -104,7 +121,11 @@ export function AcademySpotlightSection() {
 
           {tabs.map((tab) => (
             <TabsContent key={tab.id} value={tab.id} className="mt-0">
-              <SpotlightGrid tabId={tab.id} />
+              <SpotlightGrid
+                tabId={tab.id}
+                spotlight={spotlight}
+                spotlightEmptyState={spotlightEmptyState}
+              />
             </TabsContent>
           ))}
 

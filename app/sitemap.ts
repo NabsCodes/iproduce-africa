@@ -1,13 +1,24 @@
 import type { MetadataRoute } from "next";
-import { blogContent } from "@/content/blog";
-import { coursesContent } from "@/content/courses";
-import { webinarsContent } from "@/content/webinars";
 import { sitemapRoutes } from "@/content/seo";
 import { getSiteUrl } from "@/lib/metadata";
+import { fetchArticleSitemapEntries } from "@/lib/sanity/fetch/articles";
+import { fetchCourseSlugs } from "@/lib/sanity/fetch/courses";
+import { fetchWebinarSlugs } from "@/lib/sanity/fetch/webinars";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
   const lastModified = new Date();
+
+  // Narrow projections/slug fetchers only — the sitemap doesn't need full
+  // article bodies, images, or registration data, just slugs (+ publishedAt
+  // for articles' per-item lastModified).
+  const [articles, webinarSlugs, courseSlugs] = await Promise.all([
+    fetchArticleSitemapEntries(),
+    fetchWebinarSlugs(),
+    fetchCourseSlugs(),
+  ]);
 
   const baseRoutes = sitemapRoutes.map((route) => ({
     url: `${siteUrl}${route.href}`,
@@ -32,22 +43,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  const blogArticles = blogContent.articles.map((article) => ({
+  const blogArticles = articles.map((article) => ({
     url: `${siteUrl}/academy/blog/${article.slug}`,
     lastModified: new Date(article.publishedAt),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  const webinarPages = webinarsContent.webinars.map((webinar) => ({
-    url: `${siteUrl}/academy/webinars/${webinar.slug}`,
+  const webinarPages = webinarSlugs.map((slug) => ({
+    url: `${siteUrl}/academy/webinars/${slug}`,
     lastModified,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  const coursePages = coursesContent.courses.map((course) => ({
-    url: `${siteUrl}/academy/courses/${course.slug}`,
+  const coursePages = courseSlugs.map((slug) => ({
+    url: `${siteUrl}/academy/courses/${slug}`,
     lastModified,
     changeFrequency: "monthly" as const,
     priority: 0.6,

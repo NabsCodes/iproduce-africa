@@ -1,5 +1,5 @@
 import type { Image } from "sanity";
-import { articleToRelatedItem } from "@/content/blog";
+import { articleToRelatedItem, toHubArticleCategory } from "@/content/blog";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";
 import {
@@ -8,12 +8,13 @@ import {
 } from "@/lib/sanity/portable-text";
 import {
   articleBySlugQuery,
+  articleSitemapEntriesQuery,
   articlesListingQuery,
   articleSlugsQuery,
   featuredArticleQuery,
   relatedArticlesQuery,
 } from "@/lib/sanity/queries";
-import type { AcademyRelatedItem } from "@/types/academy";
+import type { AcademyArticle, AcademyRelatedItem } from "@/types/academy";
 import type { BlogArticle, BlogCategory } from "@/types/blog";
 
 type SanityImageField = Image & { alt?: string };
@@ -93,6 +94,13 @@ export async function fetchArticleSlugs(): Promise<string[]> {
   return sanityFetch<string[]>(articleSlugsQuery);
 }
 
+/** Narrow shape for `app/sitemap.ts` — see `articleSitemapEntriesQuery`. */
+export async function fetchArticleSitemapEntries(): Promise<
+  { slug: string; publishedAt: string }[]
+> {
+  return sanityFetch(articleSitemapEntriesQuery);
+}
+
 export async function fetchArticleBySlug(
   slug: string,
 ): Promise<BlogArticle | null> {
@@ -105,6 +113,38 @@ export async function fetchArticleBySlug(
 export async function fetchArticlesListing(): Promise<BlogArticle[]> {
   const raw = await sanityFetch<RawArticleDoc[]>(articlesListingQuery);
   return raw.map(normalizeArticle);
+}
+
+/**
+ * Applies the spec-locked 8→3 category collapse via the shared
+ * `toHubArticleCategory()` from `content/blog.ts`. Exported so callers that
+ * already have a `BlogArticle[]` listing in hand (e.g. the `/academy` hub
+ * page, which fetches the full listing anyway for its total-count label)
+ * can derive hub cards without a second `fetchArticlesListing()` round trip.
+ */
+export function articleToHubShape(article: BlogArticle): AcademyArticle {
+  return {
+    category: toHubArticleCategory(article.category),
+    readTime: `${article.readTimeMinutes} min read`,
+    title: article.title,
+    description: article.excerpt,
+    image: article.cardImage,
+    imageAlt: article.cardImageAlt,
+    slug: article.slug,
+  };
+}
+
+/**
+ * Hub/home preview shape — reuses `fetchArticlesListing()` (already ordered
+ * by `publishedAt desc`) rather than a separate GROQ query. Only for callers
+ * that don't already have the full listing (e.g. Home) — see
+ * `articleToHubShape` above for callers that do.
+ */
+export async function fetchHubArticles(
+  limit: number,
+): Promise<AcademyArticle[]> {
+  const articles = await fetchArticlesListing();
+  return articles.slice(0, limit).map(articleToHubShape);
 }
 
 export async function fetchFeaturedArticle(

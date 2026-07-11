@@ -3,6 +3,127 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS — Academy surfaces slice: hub + home + search + sitemap (2026-07-11)
+
+Combined the four remaining Phase 1 Academy surfaces into one slice (per
+discussion — hub/home share fetch-layer infrastructure, search/sitemap are
+small isolated refactors, one review pass instead of four). All catalogue
+surfaces now read from the same Sanity source — previously
+`/academy/blog/[slug]` was live on Sanity while `/academy`, `/`, and
+`/academy/search` still showed the old static catalogue, so the site could
+show inconsistent content between surfaces.
+
+**Confirmed stale scaffolding, rebuilt rather than wired as-is:**
+`lib/sanity/fetch/academy-preview.ts` used raw `client.fetch()` (not the
+guarded `sanityFetch()`), never passed `$today` to `hubScheduledWebinarsQuery`,
+did no image resolution/slug flattening/category collapse. Rebuilt as a thin
+composition (`fetchHomeAcademyPreview()`) on top of the already-tested
+`fetchHubScheduledWebinars`/`fetchHubCourses` (webinars/courses tracks) and a
+new `fetchHubArticles()` (articles track) — no new GROQ queries, only new
+display-shape mapping.
+
+**What changed:**
+
+- `content/blog.ts` — exported `toHubArticleCategory()` (was module-private)
+  so the fetch layer can reuse the spec-locked 8→3 category collapse instead
+  of reimplementing it.
+- `lib/sanity/fetch/articles.ts` — added `fetchHubArticles(limit)`, reusing
+  `fetchArticlesListing()`.
+- `lib/sanity/fetch/academy-preview.ts` — full rewrite (see above).
+- `app/academy/page.tsx` — now `async`, `revalidate = 3600`. Fetches hub-scoped
+  - full-listing (for count labels) webinars/courses/articles in parallel,
+    plus the featured webinar. `countLabel` strings now computed from real
+    counts instead of a hardcoded static string (strictly more correct — the
+    old version always claimed "4 highlighted" regardless of actual data).
+    `content/academy.ts` untouched structurally — the page just stopped
+    reading its now-superseded `.items`/`.countLabel`/`.total`/`.featuredEvent`
+    fields, still reads `.eyebrow`/`.title`/`.viewMoreLabel`/`.emptyState` and
+    destructures the copy-only subset of `.featuredEvent` (`eyebrow`,
+    `sectionTitle`, `category`, `registerLabel`).
+- `components/academy/hub/featured-event-section.tsx` — now takes
+  `featured`/`webinar` props instead of reading static content internally;
+  hidden entirely if the featured-webinar coalesce query returns null (Rule 4).
+- `app/page.tsx` — now `async`, `revalidate = 3600`, calls
+  `fetchHomeAcademyPreview()` once, merges with the still-static
+  `opportunities`/`spotlightEmptyState` from `content/academy.ts`.
+- `components/home/academy-spotlight-section.tsx` — takes `spotlight`/
+  `spotlightEmptyState` props instead of a static import.
+- `components/home/featured-articles-section.tsx` — takes an `articles`
+  prop; also added a missing empty-state guard (`if (articles.length === 0)
+return null`) — it had none before, would have rendered an empty grid.
+- `components/home/what-we-do-section.tsx` — **not touched**, per explicit
+  direction (`opportunities` stays code-owned).
+- `lib/academy-search.ts` — `searchAcademy()` now takes catalogues as a
+  parameter instead of importing `content/*` directly; matching logic
+  unchanged.
+- `components/academy/search/academy-search-results.tsx` — now `async`,
+  fetches the three catalogues only when there's an actual query (skips the
+  fetch entirely on a bare `/academy/search` page load).
+- `app/sitemap.ts` — now `async`, `revalidate = 3600`, reads slugs from the
+  Sanity fetch functions instead of static content.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass. Manual
+QA in dev confirmed: hub's featured event matches the webinars listing's
+featured webinar; hub bands (4 webinars / 3 courses / 3 articles) correctly
+exclude past webinars via the same `$today` UTC-date comparison fixed
+during the webinars-track review; Home's spotlight "upcoming" tab and
+featured articles match the hub bands exactly (the actual cross-surface
+consistency this slice was for); Home's "training" tab data was verified via
+the client hydration payload rather than raw HTML, since Radix Tabs doesn't
+mount inactive tab panels into static HTML — a curl-based check alone would
+have been a false negative here, not a real gap; search correctly matches
+across all three catalogues (verified with a real query hitting an article,
+a course, and content mentioning "trade"); sitemap contains 20 CMS-derived
+detail URLs (10 articles + 7 webinars + 3 courses), matching the seeded
+dataset, alongside the static base/listing routes (33 URLs total).
+
+**Still deferred:** archiving/deleting static catalogue arrays in
+`content/*.ts` (kept for rollback + page chrome — separate step after this
+slice is QA'd on staging), production dataset migration, Vercel env vars,
+Sanity dashboard webhook configuration (all manual, external steps), Phase 2
+(testimonials, partners, team, FAQs, member stories).
+
+**Review fixes applied after the initial cutover:**
+
+1. **CMS image alt text was being discarded** — `AcademyCourse`/`AcademyArticle`
+   (the reduced hub/home display types) had no `imageAlt` field at all, so
+   Studio's required editorial alt text for course and article images never
+   reached `ContentCard`, which defaulted to an empty `alt`. Added
+   `imageAlt?: string` to both types, populated it in
+   `fetchHubCourses`/`fetchHubArticles`/`normalizeCourse`, and wired it
+   through `academy-preview.ts`'s card mappers, `academy-spotlight-section.tsx`,
+   `featured-articles-section.tsx`, and all three hub bands in
+   `app/academy/page.tsx`. Webinars already carried `imageAlt` at the fetch
+   layer — only the consumption sites were missing it.
+2. **Sitemap fetched full documents just for slugs** — `app/sitemap.ts` was
+   calling `fetchArticlesListing`/`fetchWebinarsListing`/`fetchCoursesListing`,
+   which normalize complete documents (Portable Text, image resolution,
+   author dereference) the sitemap never uses. Switched webinars/courses to
+   the existing bare-slug fetchers (`fetchWebinarSlugs`/`fetchCourseSlugs`)
+   and added a narrow `fetchArticleSitemapEntries()` (new
+   `articleSitemapEntriesQuery`, just `slug` + `publishedAt`) for articles,
+   which need per-item `lastModified`.
+3. **Hub page made redundant/duplicate Sanity requests** — it called
+   `fetchHubArticles()` (which internally re-fetches the full article
+   listing) _and_ `fetchArticlesListing()` again separately for the
+   total-count label — an exact duplicate request. Courses/webinars had the
+   same pattern (a hub-scoped query plus a separate full-listing query).
+   Refactored the hub page to fetch each full listing once and derive both
+   the hub band (filter/slice in JS, reusing `isUpcomingSession` from
+   `lib/academy-registration.ts` for webinars and the exported
+   `articleToHubShape` mapper for articles) and the total count from that
+   single result — down from 7 Sanity requests to 4. `fetchHubScheduledWebinars`/
+   `fetchHubCourses` are unchanged and still used by Home's
+   `fetchHomeAcademyPreview()`, which has no separate full-listing fetch to
+   derive from.
+
+Re-verified after these fixes: `pnpm format`/`lint`/`typecheck`/`build` all
+pass; real editorial alt text (course/article titles used as alt where no
+dedicated alt differs) now appears in the hub page's rendered HTML; hub
+count labels are unchanged (`4 highlighted · 7 in the full catalogue`, etc.)
+confirming the request consolidation didn't change behavior; sitemap still
+has 20 CMS-derived URLs.
+
 ## Footer verification contrast polish (2026-07-10)
 
 Added a dark-surface tone to the shared Turnstile security UI and applied it

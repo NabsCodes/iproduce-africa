@@ -1,6 +1,7 @@
-import { blogContent } from "@/content/blog";
-import { coursesContent, courseToCardItem } from "@/content/courses";
-import { webinarsContent, webinarToCardItem } from "@/content/webinars";
+import { courseToCardItem } from "@/content/courses";
+import { webinarToCardItem } from "@/content/webinars";
+import type { AcademyCourseDetail, AcademyWebinar } from "@/types/academy";
+import type { BlogArticle } from "@/types/blog";
 import type { ContentCardTone } from "@/types/content";
 
 export type AcademySearchResultKind = "webinar" | "course" | "article";
@@ -32,13 +33,22 @@ function matches(haystack: string, query: string) {
   return haystack.toLowerCase().includes(query.toLowerCase());
 }
 
-export function searchAcademy(rawQuery: string): AcademySearchResult[] {
+export type AcademySearchCatalogues = {
+  webinars: readonly AcademyWebinar[];
+  courses: readonly AcademyCourseDetail[];
+  articles: readonly BlogArticle[];
+};
+
+export function searchAcademy(
+  rawQuery: string,
+  catalogues: AcademySearchCatalogues,
+): AcademySearchResult[] {
   const query = rawQuery.trim();
   if (!query) return [];
 
   const results: AcademySearchResult[] = [];
 
-  for (const webinar of webinarsContent.webinars) {
+  for (const webinar of catalogues.webinars) {
     const haystack = [
       webinar.title,
       webinar.description,
@@ -66,7 +76,7 @@ export function searchAcademy(rawQuery: string): AcademySearchResult[] {
     });
   }
 
-  for (const course of coursesContent.courses) {
+  for (const course of catalogues.courses) {
     const haystack = [
       course.title,
       course.description,
@@ -94,7 +104,7 @@ export function searchAcademy(rawQuery: string): AcademySearchResult[] {
     });
   }
 
-  for (const article of blogContent.articles) {
+  for (const article of catalogues.articles) {
     const haystack = [article.title, article.excerpt, article.category].join(
       " ",
     );

@@ -8,9 +8,20 @@ import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
 import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { academyContent } from "@/content/academy";
+import { webinarsContent } from "@/content/webinars";
 import type { ContentCardTone } from "@/types/content";
 import { pageSeo } from "@/content/seo";
+import { isUpcomingSession } from "@/lib/academy-registration";
 import { createPageMetadata } from "@/lib/metadata";
+import {
+  articleToHubShape,
+  fetchArticlesListing,
+} from "@/lib/sanity/fetch/articles";
+import { fetchCoursesListing } from "@/lib/sanity/fetch/courses";
+import {
+  fetchFeaturedWebinar,
+  fetchWebinarsListing,
+} from "@/lib/sanity/fetch/webinars";
 import type {
   AcademyArticleCategory,
   AcademyCourseLevel,
@@ -18,6 +29,10 @@ import type {
 } from "@/types/academy";
 
 export const metadata = createPageMetadata(pageSeo.academy);
+export const revalidate = 3600;
+
+const HUB_WEBINARS_LIMIT = 4;
+const HUB_BLOG_LIMIT = 3;
 
 const scheduledTypeToneMap: Record<AcademyScheduledType, ContentCardTone> = {
   WEBINAR: "tangerine",
@@ -49,19 +64,65 @@ function formatScheduledDate(iso: string) {
   return scheduledDateFormatter.format(new Date(iso)).toUpperCase();
 }
 
-export default function AcademyPage() {
+export default async function AcademyPage() {
   const scheduled = academyContent.scheduled;
   const courses = academyContent.courses;
   const blog = academyContent.blog;
   const testimonials = academyContent.testimonials;
   const faqs = academyContent.faqs;
 
+  // Single listing fetch per catalogue — hub bands + total-count labels both
+  // derive from the same result instead of a second, overlapping request.
+  const [allWebinars, allCourses, allArticles, featuredWebinar] =
+    await Promise.all([
+      fetchWebinarsListing(),
+      fetchCoursesListing(),
+      fetchArticlesListing(),
+      fetchFeaturedWebinar(webinarsContent.featuredSlug),
+    ]);
+
+  const hubWebinars = allWebinars
+    .filter((webinar) => isUpcomingSession(webinar.date))
+    .slice(0, HUB_WEBINARS_LIMIT);
+  // No cap — the hub has always shown every course (matches the prior
+  // static `academyHubCourses`, which mapped the full catalogue unsliced).
+  const hubCourses = allCourses;
+  const hubArticles = allArticles
+    .slice(0, HUB_BLOG_LIMIT)
+    .map(articleToHubShape);
+
+  const { eyebrow, sectionTitle, category, registerLabel } =
+    academyContent.featuredEvent;
+  const featuredEvent = featuredWebinar
+    ? {
+        slug: featuredWebinar.slug,
+        eyebrow,
+        sectionTitle,
+        category,
+        registerLabel,
+        format: featuredWebinar.format ?? "Event",
+        title: featuredWebinar.title,
+        description: featuredWebinar.description,
+        image: featuredWebinar.image,
+        imageAlt: featuredWebinar.imageAlt ?? featuredWebinar.title,
+        date: featuredWebinar.date,
+        dateLabel: featuredWebinar.dateLabel ?? "",
+        location: featuredWebinar.location ?? "",
+        speakers: featuredWebinar.speakers ?? "",
+      }
+    : null;
+
   return (
     <>
       <AcademyHeroSection />
       <AcademyTabsSection />
 
-      <FeaturedEventSection />
+      {featuredEvent && featuredWebinar ? (
+        <FeaturedEventSection
+          featured={featuredEvent}
+          webinar={featuredWebinar}
+        />
+      ) : null}
 
       <LearningOpportunitiesSection />
 
@@ -72,9 +133,10 @@ export default function AcademyPage() {
         eyebrow={scheduled.eyebrow}
         title={scheduled.title}
         columns={4}
-        items={scheduled.items.map((item) => ({
+        items={hubWebinars.map((item) => ({
           href: `/academy/webinars/${item.slug}`,
           image: item.image,
+          imageAlt: item.imageAlt,
           category: item.type,
           categoryTone: scheduledTypeToneMap[item.type],
           meta: formatScheduledDate(item.date),
@@ -83,7 +145,7 @@ export default function AcademyPage() {
         }))}
         viewMoreLabel={scheduled.viewMoreLabel}
         viewMoreHref="/academy/webinars"
-        countLabel={scheduled.countLabel}
+        countLabel={`${hubWebinars.length} highlighted · ${allWebinars.length} in the full catalogue`}
         emptyState={scheduled.emptyState}
       />
 
@@ -92,9 +154,10 @@ export default function AcademyPage() {
         eyebrow={courses.eyebrow}
         title={courses.title}
         columns={3}
-        items={courses.items.map((item) => ({
+        items={hubCourses.map((item) => ({
           href: `/academy/courses/${item.slug}`,
           image: item.image,
+          imageAlt: item.imageAlt,
           category: item.level,
           categoryTone: courseLevelToneMap[item.level],
           meta: item.duration,
@@ -103,7 +166,7 @@ export default function AcademyPage() {
         }))}
         viewMoreLabel={courses.viewMoreLabel}
         viewMoreHref="/academy/courses"
-        countLabel={courses.countLabel}
+        countLabel={`${hubCourses.length} highlighted · ${allCourses.length} in the full catalogue`}
         emptyState={courses.emptyState}
       />
 
@@ -112,9 +175,10 @@ export default function AcademyPage() {
         eyebrow={blog.eyebrow}
         title={blog.title}
         columns={3}
-        items={blog.items.map((item) => ({
+        items={hubArticles.map((item) => ({
           href: `/academy/blog/${item.slug}`,
           image: item.image,
+          imageAlt: item.imageAlt,
           category: item.category,
           categoryTone: articleCategoryToneMap[item.category],
           meta: item.readTime.toUpperCase(),
@@ -123,7 +187,7 @@ export default function AcademyPage() {
         }))}
         viewMoreLabel={blog.viewMoreLabel}
         viewMoreHref="/academy/blog"
-        countLabel={blog.countLabel}
+        countLabel={`${hubArticles.length} highlighted · ${allArticles.length} in the full catalogue`}
         emptyState={blog.emptyState}
       />
 

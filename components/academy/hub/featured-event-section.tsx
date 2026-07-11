@@ -9,9 +9,8 @@ import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { Badge } from "@/components/ui/badge";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
-import { academyContent } from "@/content/academy";
-import { getWebinar } from "@/content/webinars";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
+import type { AcademyFeaturedEvent, AcademyWebinar } from "@/types/academy";
 
 type Countdown = {
   days: number;
@@ -81,9 +80,15 @@ function CountdownCard({ value, label }: { value: number; label: string }) {
   );
 }
 
-export function FeaturedEventSection() {
-  const featured = academyContent.featuredEvent;
-  const webinar = getWebinar(featured.slug);
+type FeaturedEventSectionProps = {
+  featured: AcademyFeaturedEvent;
+  webinar: AcademyWebinar;
+};
+
+export function FeaturedEventSection({
+  featured,
+  webinar,
+}: FeaturedEventSectionProps) {
   const [countdown, setCountdown] = useState<Countdown>(ZERO_COUNTDOWN);
 
   useEffect(() => {
@@ -177,14 +182,12 @@ export function FeaturedEventSection() {
               </div>
             </div>
 
-            {webinar ? (
-              <AcademyRegistrationAction
-                kind="webinar"
-                webinar={webinar}
-                defaultLabel={featured.registerLabel}
-                className="self-start"
-              />
-            ) : null}
+            <AcademyRegistrationAction
+              kind="webinar"
+              webinar={webinar}
+              defaultLabel={featured.registerLabel}
+              className="self-start"
+            />
           </div>
         </MotionFade>
       </div>

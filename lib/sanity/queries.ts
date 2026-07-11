@@ -45,6 +45,11 @@ export const relatedArticlesQuery = `*[
 
 export const articleSearchProjection = `{title, excerpt, category, "slug": slug.current}`;
 
+/** Narrow projection for `app/sitemap.ts` — slug + `publishedAt` only, no
+ * image/body/author, so sitemap generation doesn't pay for the full
+ * article normalization (Portable Text adapter, image resolution, etc.). */
+export const articleSitemapEntriesQuery = `*[_type == "academyArticle" && ${DRAFT_FILTER}]{"slug": slug.current, publishedAt}`;
+
 // ─── Webinars ────────────────────────────────────────────────────────────
 
 /** No author dereference needed — webinars have no reference fields. */

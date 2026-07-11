@@ -126,6 +126,7 @@ export type AcademyCourse = {
   title: string;
   description: string;
   image: string;
+  imageAlt?: string;
   slug: string;
 };
 
@@ -140,6 +141,7 @@ export type AcademyArticle = {
   title: string;
   description: string;
   image: string;
+  imageAlt?: string;
   slug: string;
 };
 

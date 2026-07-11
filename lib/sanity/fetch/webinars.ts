@@ -87,7 +87,13 @@ export async function fetchFeaturedWebinar(
   return raw ? normalizeWebinar(raw) : null;
 }
 
-/** Not wired into any route yet — scaffolding for the `/academy` hub checkpoint. */
+/**
+ * Used by the Home spotlight preview (`fetchHomeAcademyPreview`), which has
+ * no other reason to fetch the full webinar listing. The `/academy` hub
+ * page derives its own upcoming-webinars slice from `fetchWebinarsListing()`
+ * instead, since it fetches that listing anyway for its total-count label —
+ * calling this too would be a redundant, near-duplicate request.
+ */
 export async function fetchHubScheduledWebinars(
   limit: number,
 ): Promise<AcademyWebinar[]> {
