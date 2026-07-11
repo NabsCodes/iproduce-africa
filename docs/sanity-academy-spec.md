@@ -492,26 +492,26 @@ cutover QA — do not delete in the same PR as fetch swap.
 4. Run migration script → verify in Studio
 5. Implement `lib/sanity/fetch/*` + guards
 6. Switch Academy routes one track at a time (blog → webinars → courses)
-7. Switch search + email resolver + home preview
-8. QA: slugs, related, featured, empty, build, mobile
-9. Remove static catalogue arrays; update specs + implementation log
+7. Switch search + email resolver + home preview — **done**
+8. QA: slugs, related, featured, empty, build, mobile — **your turn on staging**
+9. Remove static catalogue arrays; update specs + implementation log — **deferred until after staging QA**
 
 ---
 
 ## Acceptance criteria (Phase 1)
 
-- [ ] All existing static slugs resolve (10 + 7 + 3)
-- [ ] `pnpm build` passes; `generateStaticParams` from Sanity
-- [ ] `ArticleBody` unchanged; adapter covers all block kinds in flagship article
-- [ ] Featured + related + upcoming logic matches static behaviour
-- [ ] Empty catalogue rules from cms-migration-spec enforced
-- [ ] Registration emails resolve session title from Sanity slug
-- [ ] Webhook revalidates listing + detail (old/new slug) + hub + home + search
-- [ ] `/academy/search` uses Sanity catalogues in Phase 1
-- [ ] Category collapse table matches hub behaviour
-- [ ] PT adapter strips marks; ordered steps map correctly
-- [ ] `registration.mode: closed` blocked in API
-- [ ] No Sanity types in root `schemas/`
+- [x] All existing static slugs resolve (10 + 7 + 3)
+- [x] `pnpm build` passes; `generateStaticParams` from Sanity
+- [x] `ArticleBody` unchanged; adapter covers all block kinds in flagship article
+- [x] Featured + related + upcoming logic matches static behaviour
+- [x] Empty catalogue rules from cms-migration-spec enforced
+- [x] Registration emails resolve session title from Sanity slug
+- [x] Webhook revalidates listing + detail (old/new slug) + hub + home + search
+- [x] `/academy/search` uses Sanity catalogues in Phase 1
+- [x] Category collapse table matches hub behaviour
+- [x] PT adapter strips marks; ordered steps map correctly
+- [x] `registration.mode: closed` blocked in API
+- [x] No Sanity types in root `schemas/`
 
 ---
 
