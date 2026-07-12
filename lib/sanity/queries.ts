@@ -134,7 +134,7 @@ export const faqsByPageQuery = `*[
 
 export const partnersQuery = `*[
   _type == "partner" && ${DRAFT_FILTER}
-] | order(coalesce(order, 9999) asc, _createdAt asc){
+] | order(coalesce(order, 9999) asc, name asc){
   "slug": slug.current,
   name,
   logo,

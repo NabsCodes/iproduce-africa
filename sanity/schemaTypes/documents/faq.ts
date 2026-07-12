@@ -66,7 +66,7 @@ export const faq = defineType({
       title: "Page",
       type: "string",
       description:
-        "Kept editable so an editor can deliberately move an FAQ between pages — the Studio list an editor created from (see the Trust & Content desk group) just prefills this.",
+        "The page where this FAQ appears. Creating it from an FAQs sub-list prefills this value.",
       options: { list: PAGE_OPTIONS },
       validation: (Rule) => Rule.required(),
     }),

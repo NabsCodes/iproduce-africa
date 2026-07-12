@@ -8,20 +8,21 @@ export const partner = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "name",
+      title: "Partner name",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      description: "The stable public identifier for this partner.",
+      description:
+        "Click Generate after entering the partner name. This is used internally and normally does not need editing.",
       options: {
         source: "name",
         isUnique: createSlugIsUnique("partner"),
       },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "name",
-      title: "Name",
-      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -35,33 +36,41 @@ export const partner = defineType({
           name: "alt",
           title: "Alt text",
           type: "string",
+          description:
+            'Describe the logo briefly, for example "Islamic Development Bank logo".',
           validation: (Rule) => Rule.required(),
         }),
       ],
     }),
     defineField({
       name: "website",
-      title: "Website",
+      title: "Website (optional)",
       type: "url",
+      description: "Leave blank if the partner does not have a public website.",
       validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
     }),
     defineField({
       name: "showInMarquee",
       title: "Show in Home marquee",
       type: "boolean",
+      description: "Show this logo in the moving partner row on the Home page.",
       initialValue: true,
     }),
     defineField({
       name: "showInVoices",
-      title: "Show in Partners voices logo grid",
+      title: "Show in Partners logo grid",
       type: "boolean",
+      description:
+        "Show this logo in the partner grid beside the Partner Voices section.",
       initialValue: true,
     }),
     defineField({
       name: "order",
-      title: "Order",
+      title: "Display order (optional)",
       type: "number",
-      description: "Lower numbers surface first.",
+      description:
+        "Lower numbers appear first. Leave blank to place this partner after numbered partners, sorted by name.",
+      validation: (Rule) => Rule.integer().min(1),
     }),
   ],
   preview: {

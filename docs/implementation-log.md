@@ -3,6 +3,32 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Partners CMS — editor UX and Spotlight removal (2026-07-12)
+
+Simplified the Studio root so editors see Partners, Testimonials, and FAQs
+directly instead of opening the internal-sounding "Trust & Content" group.
+Testimonials and FAQs keep their useful page-specific sub-lists and templates;
+Partners stays a single catalogue because its Home-marquee and Partners-grid
+toggles are independent properties of the same record.
+
+Made the Partner form self-explanatory: Partner name now comes before the slug;
+the slug explains Generate and its internal purpose; Website and Display order
+are explicitly labelled optional; logo alt, both visibility toggles, and order
+have plain-language help. A blank order is valid and intentionally places the
+partner after numbered partners, then alphabetically by name. The fetch query's
+fallback ordering was corrected to match that contract.
+
+Removed the Partner Spotlight route render, client components, static content,
+and types per the client's latest direction. The existing Partner catalogue
+continues to drive the Home marquee and the code-owned Voices logo grid; adding
+a partner requires no grid-slot editing. Preserved the 2B review fix allowing
+the Voices band to render correctly with quotes only, logos only, or both.
+
+Verification: `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm build`, and
+`git diff --check` pass. Local Studio browser QA was attempted, but the in-app
+browser could not reach the already-running localhost server; the production
+build still compiled the updated Studio structure and schema successfully.
+
 ## Turnstile UX simplification implementation (2026-07-12)
 
 Reviewed all seven public form surfaces plus the shared Turnstile client/server

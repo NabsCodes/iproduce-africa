@@ -402,15 +402,15 @@ for Phase 2 in favour of flat `faq` docs + `section` filter.
 
 Maps to `content/partners.ts` → `Partner` (`id`, `name`, `logo`, `href?`).
 
-| Sanity field    | Type                    | Projects to                                                                    |
-| --------------- | ----------------------- | ------------------------------------------------------------------------------ |
-| `slug`          | slug (required, unique) | `id` — stable key, e.g. `icreate-africa` (matches current `partnersList[].id`) |
-| `name`          | string                  | `name`                                                                         |
-| `logo`          | image + alt (required)  | `logo` URL string                                                              |
-| `website`       | url optional            | `href` — omit when unset                                                       |
-| `showInMarquee` | boolean                 | Home + partners logo marquee bands                                             |
-| `showInVoices`  | boolean                 | Eligible for voices logo grid (see layout rule below)                          |
-| `order`         | number                  | Sort within marquee / voices pool                                              |
+| Sanity field    | Type                      | Projects to                                                                    |
+| --------------- | ------------------------- | ------------------------------------------------------------------------------ |
+| `slug`          | slug (required, unique)   | `id` — stable key, e.g. `icreate-africa` (matches current `partnersList[].id`) |
+| `name`          | string                    | `name`                                                                         |
+| `logo`          | image + alt (required)    | `logo` URL string                                                              |
+| `website`       | url optional              | `href` — omit when unset                                                       |
+| `showInMarquee` | boolean                   | Home + partners logo marquee bands                                             |
+| `showInVoices`  | boolean                   | Eligible for voices logo grid (see layout rule below)                          |
+| `order`         | positive integer optional | Sort within each pool; blank partners follow numbered ones by name             |
 
 **Voices logo grid — CMS data vs code layout**
 
@@ -874,28 +874,33 @@ exists. Idempotency preview is **plan only** in this mode (no verified SKIP).
 
 ---
 
-## Studio desk structure (draft)
+## Studio desk structure (current)
 
 ```
-Site Settings (singleton)          — Phase 3
+Articles
+Webinars & Events
+Courses
+Authors
 ─────────────────────────────────
-Academy
-  Articles
-  Webinars & Events
-  Courses
-  Authors
-─────────────────────────────────
-People & trust                     — Phase 2
-  Team & advisors
-  Testimonials
+Partners
+Testimonials
+  Home
+  Academy
+  Partner Voices
+  All testimonials                 — browse only
+FAQs
+  Home & Contact
+  Academy
+  Community
   Partners
-  Member stories                   — Community page
-─────────────────────────────────
-FAQs                               — Phase 2
-  All sections (filtered desk views)
+  All FAQs                          — browse only
 ```
 
-Academy Phase 1 desk: three catalogues + Authors. **No Vision plugin** in the
+The first Studio screen uses client-facing content names rather than an
+internal "Trust & Content" umbrella. Only Testimonials and FAQs add a second
+level because their page-specific lists prefill placement/page correctly.
+Partners remain one flat catalogue; their two visibility toggles control the
+Home marquee and Partners logo grid independently. **No Vision plugin** in the
 client-facing desk (add only for internal dev if needed).
 
 ---

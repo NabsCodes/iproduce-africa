@@ -22,7 +22,12 @@ type VoicesSectionProps = {
 
 export function VoicesSection({ voices, partners }: VoicesSectionProps) {
   const section = partnersPageContent.voices;
+  const hasVoices = voices.length > 0;
   const hasLogos = partners.length > 0;
+  // Two columns only when both collections have content — either one alone
+  // gets the full-width, centered single-column treatment instead of a
+  // blank column next to it.
+  const twoColumn = hasVoices && hasLogos;
 
   return (
     <section className="bg-subtle relative overflow-clip py-14 sm:py-16 lg:py-20">
@@ -34,11 +39,11 @@ export function VoicesSection({ voices, partners }: VoicesSectionProps) {
         <div
           className={cn(
             "grid gap-10 lg:items-start lg:gap-14",
-            hasLogos ? "lg:grid-cols-[1.05fr_1fr]" : "lg:grid-cols-1",
+            twoColumn ? "lg:grid-cols-[1.05fr_1fr]" : "lg:grid-cols-1",
           )}
         >
           <div
-            className={cn("min-w-0", !hasLogos && "mx-auto w-full max-w-2xl")}
+            className={cn("min-w-0", !twoColumn && "mx-auto w-full max-w-2xl")}
           >
             <MotionFade>
               <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
@@ -47,41 +52,51 @@ export function VoicesSection({ voices, partners }: VoicesSectionProps) {
               </h2>
             </MotionFade>
 
-            <MotionFade delay={0.08}>
-              <Carousel className="mt-8" aria-label="Partner testimonials">
-                <CarouselContent>
-                  {voices.map((item) => (
-                    <CarouselItem key={item.name} className="basis-full">
-                      <article className="elevation-1 relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-md bg-white p-5 sm:p-9">
-                        <Quote
-                          className="text-fg-subtle/5 pointer-events-none absolute top-5 left-5 size-14 -rotate-180 sm:top-6 sm:left-6 sm:size-16"
-                          aria-hidden
-                        />
-                        <Quote
-                          className="text-fg-subtle/15 pointer-events-none absolute right-5 bottom-5 size-14 sm:right-6 sm:bottom-6 sm:size-16"
-                          aria-hidden
-                        />
-                        <p className="text-foreground relative flex-1 pt-10 font-serif text-lg leading-[1.65] sm:pt-12 sm:text-xl">
-                          {item.quote}
-                        </p>
-                        <div className="relative mt-6 sm:mt-8">
-                          <p className="text-foreground font-serif text-base font-semibold">
-                            {item.name}
+            {hasVoices ? (
+              <MotionFade delay={0.08}>
+                <Carousel className="mt-8" aria-label="Partner testimonials">
+                  <CarouselContent>
+                    {voices.map((item) => (
+                      <CarouselItem key={item.name} className="basis-full">
+                        <article className="elevation-1 relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-md bg-white p-5 sm:p-9">
+                          <Quote
+                            className="text-fg-subtle/5 pointer-events-none absolute top-5 left-5 size-14 -rotate-180 sm:top-6 sm:left-6 sm:size-16"
+                            aria-hidden
+                          />
+                          <Quote
+                            className="text-fg-subtle/15 pointer-events-none absolute right-5 bottom-5 size-14 sm:right-6 sm:bottom-6 sm:size-16"
+                            aria-hidden
+                          />
+                          <p className="text-foreground relative flex-1 pt-10 font-serif text-lg leading-[1.65] sm:pt-12 sm:text-xl">
+                            {item.quote}
                           </p>
-                          <p className="text-fg-muted mt-1 text-sm">
-                            {item.role}
-                          </p>
-                        </div>
-                      </article>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselDots className="mt-6" tone="tangerine" />
-              </Carousel>
-            </MotionFade>
+                          <div className="relative mt-6 sm:mt-8">
+                            <p className="text-foreground font-serif text-base font-semibold">
+                              {item.name}
+                            </p>
+                            <p className="text-fg-muted mt-1 text-sm">
+                              {item.role}
+                            </p>
+                          </div>
+                        </article>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselDots className="mt-6" tone="tangerine" />
+                </Carousel>
+              </MotionFade>
+            ) : null}
+
+            {/* Logos-only: no second grid column exists, so the grid renders
+                inline below the heading instead. */}
+            {!twoColumn && hasLogos ? (
+              <div className="mt-8">
+                <VoicesLogoGrid partners={partners} />
+              </div>
+            ) : null}
           </div>
 
-          {hasLogos ? <VoicesLogoGrid partners={partners} /> : null}
+          {twoColumn ? <VoicesLogoGrid partners={partners} /> : null}
         </div>
       </div>
     </section>

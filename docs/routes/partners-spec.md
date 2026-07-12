@@ -34,13 +34,12 @@ live partner portal.
 ## Target Section Order
 
 1. `PartnersHeroSection`
-2. `PartnerSpotlightSection` — proof-first: named partners and stories
-3. `BenefitsSection` — why organisations partner with iProduce
-4. `OpportunitiesSection` — concrete collaboration formats
-5. `VoicesSection` — testimonial carousel + logo grid
-6. `InquirySection`
-7. Shared/prop-driven `FaqSection`
-8. Partners-specific CTA band
+2. `BenefitsSection` — why organisations partner with iProduce
+3. `OpportunitiesSection` — concrete collaboration formats
+4. `VoicesSection` — testimonial carousel + logo grid
+5. `InquirySection`
+6. Shared/prop-driven `FaqSection`
+7. Partners-specific CTA band
 
 Shared `ImpactStatsSection` stays out until verified metrics are approved.
 
@@ -189,33 +188,13 @@ slightly smaller scale (`p-3 + size-10` icon).
 - Cards can reuse the shared impact/proof helper if useful, but avoid  
   over-abstracting just for this page.
 
-## Partner Spotlight (client-driven addition, not in original screenshots)
+## Partner Spotlight (removed 2026-07-12)
 
-Added after the original screenshot-driven spec, in response to client
-feedback that the site under-represents named partners and the nature of
-each partnership. Renders directly after the hero (proof-first page flow) in
-`components/partners/partner-spotlight-section.tsx`.
-
-### Composition (shipped 2026-07-05)
-
-- Compact **2-column grid** of horizontal partner cards (same visual family as
-  About advisors): small image/logo on the left, name + descriptor + two-line
-  teaser + "View story" on the right. Full write-up stays in
-  `PartnerStoryDialog`.
-- First four partners visible by default; more load via "Show more partners"
-  (+4 per click). Same card template as the roster grows — no layout
-  redesign.
-- Alternating full-width rows and bento were tried and dropped — both read too
-  large for four partners on a page that already carries a lot of content.
-
-### Content Ownership
-
-- `story` is optional — falls back to `description` in the dialog until fuller
-  copy is supplied per partner.
-- `readMore` is optional — only set when an Academy blog post exists for that
-  partnership.
-- Labels (`viewStoryLabel`, `websiteLabel`, `readMoreLabel`, `showMoreLabel`)
-  live in `content/partners.ts` → `spotlight`.
+The client asked to remove the Partner Spotlight for now. Its route render,
+components, content block, and types were deleted rather than commented out so
+the inactive feature does not remain as maintenance surface. If a future brief
+brings partner stories back, treat that as a newly approved section and rebuild
+it against the current partner catalogue instead of restoring stale copy.
 
 ## 4. Hear From Our Valuable Partners
 
@@ -385,7 +364,7 @@ from the shared CTA rules.
 - Follow the project radius rule: max `rounded-xl` for rounded rectangles.
 - Make 390px and tablet decisions in the same implementation pass.
 
-## Implementation status (sections 2-8 shipped 2026-06-18)
+## Implementation status (current sections shipped)
 
 ### New shadcn-style UI primitives
 

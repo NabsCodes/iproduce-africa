@@ -52,7 +52,7 @@ export const testimonial = defineType({
       title: "Placement",
       type: "string",
       description:
-        "Kept editable so an editor can deliberately move a testimonial between surfaces — the Studio list an editor created from (see the Trust & Content desk group) just prefills this.",
+        "The page area where this testimonial appears. Creating it from a Testimonials sub-list prefills this value.",
       options: { list: PLACEMENT_OPTIONS },
       validation: (Rule) => Rule.required(),
     }),

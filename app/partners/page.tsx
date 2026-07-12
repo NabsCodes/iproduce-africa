@@ -2,7 +2,6 @@ import { BenefitsSection } from "@/components/partners/benefits-section";
 import { PartnersHeroSection } from "@/components/partners/hero-section";
 import { InquirySection } from "@/components/partners/inquiry-section";
 import { OpportunitiesSection } from "@/components/partners/opportunities-section";
-import { PartnerSpotlightSection } from "@/components/partners/partner-spotlight-section";
 import { VoicesSection } from "@/components/partners/voices-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
@@ -28,7 +27,6 @@ export default async function PartnersPage() {
   return (
     <>
       <PartnersHeroSection />
-      <PartnerSpotlightSection />
       <BenefitsSection />
       {/* Client said take the impact stats section out for now. I will add it back in later.*/}
       {/* <ImpactStatsSection
@@ -38,7 +36,7 @@ export default async function PartnersPage() {
         items={impact.items}
       /> */}
       <OpportunitiesSection />
-      {voices.length > 0 ? (
+      {voices.length > 0 || partners.length > 0 ? (
         <VoicesSection voices={voices} partners={partners} />
       ) : null}
       <InquirySection />
