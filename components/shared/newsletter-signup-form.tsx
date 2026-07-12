@@ -295,10 +295,8 @@ export function NewsletterSignupForm({
 
         <PublicFormSecurityFields
           control={form.control}
-          turnstileTokenName="turnstileToken"
           resetNonce={turnstileResetNonce}
           turnstileSize={isCompact ? "compact" : "normal"}
-          onTurnstileRetry={bumpTurnstileReset}
           tone={isCompact ? "default" : "dark"}
           className="mt-4"
         />

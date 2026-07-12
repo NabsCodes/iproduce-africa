@@ -55,15 +55,10 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const stepIndexRef = useRef(stepIndex);
-  const {
-    isSubmitting,
-    submitError,
-    turnstileResetNonce,
-    bumpTurnstileReset,
-    submit,
-  } = usePublicFormSubmit("/api/partners/become-partner", {
-    successToast: content.success.title,
-  });
+  const { isSubmitting, submitError, turnstileResetNonce, submit } =
+    usePublicFormSubmit("/api/partners/become-partner", {
+      successToast: content.success.title,
+    });
 
   useEffect(() => {
     stepIndexRef.current = stepIndex;
@@ -232,10 +227,8 @@ export function BecomePartnerDialog({ children }: BecomePartnerDialogProps) {
               />
               <PublicFormSecurityFields
                 control={form.control}
-                turnstileTokenName="turnstileToken"
                 resetNonce={turnstileResetNonce}
                 turnstileSize="compact"
-                onTurnstileRetry={bumpTurnstileReset}
               />
               {submitError || form.formState.errors.root ? (
                 <p className="text-destructive text-sm" role="alert">

@@ -216,9 +216,7 @@ export function InquiryForm({ content }: InquiryFormProps) {
 
           <PublicFormSecurityFields
             control={form.control}
-            turnstileTokenName="turnstileToken"
             resetNonce={turnstileResetNonce}
-            onTurnstileRetry={bumpTurnstileReset}
           />
 
           {submitError ? (

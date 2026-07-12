@@ -208,9 +208,7 @@ export function MembershipApplicationForm({
 
           <PublicFormSecurityFields
             control={form.control}
-            turnstileTokenName="turnstileToken"
             resetNonce={turnstileResetNonce}
-            onTurnstileRetry={bumpTurnstileReset}
           />
 
           {submitError ? (

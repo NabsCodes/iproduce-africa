@@ -9,7 +9,6 @@ type TurnstileWidgetProps = {
   resetNonce: number;
   size?: "normal" | "compact";
   fallbackEmail?: string;
-  onRetry?: () => void;
   tone?: "default" | "dark";
 };
 
@@ -19,7 +18,6 @@ export function TurnstileWidget({
   resetNonce,
   size = "normal",
   fallbackEmail,
-  onRetry,
   tone = "default",
 }: TurnstileWidgetProps) {
   const ref = useRef<TurnstileInstance>(null);
@@ -41,9 +39,13 @@ export function TurnstileWidget({
 
   function handleRetry() {
     setHasError(false);
-    onTokenChange("");
+    onTokenChangeRef.current("");
     ref.current?.reset();
-    onRetry?.();
+  }
+
+  function handleUnavailable() {
+    setHasError(true);
+    onTokenChangeRef.current("");
   }
 
   return (
@@ -61,10 +63,10 @@ export function TurnstileWidget({
           onTokenChangeRef.current(token);
         }}
         onExpire={() => onTokenChangeRef.current("")}
-        onError={() => {
-          setHasError(true);
-          onTokenChangeRef.current("");
-        }}
+        onError={handleUnavailable}
+        onTimeout={handleUnavailable}
+        onUnsupported={handleUnavailable}
+        scriptOptions={{ onError: handleUnavailable }}
         options={{
           theme: "light",
           size,
@@ -75,7 +77,7 @@ export function TurnstileWidget({
       {hasError ? (
         <div className="flex flex-col gap-2 text-xs leading-5">
           <p className={tone === "dark" ? "text-rose-300" : "text-destructive"}>
-            Verification could not load.
+            Verification is having trouble.
           </p>
           <div
             className={
@@ -93,7 +95,7 @@ export function TurnstileWidget({
                   : "text-forest-700 hover:text-forest-800 font-medium underline underline-offset-2"
               }
             >
-              Retry verification
+              Try again
             </button>
             {fallbackEmail ? (
               <span>

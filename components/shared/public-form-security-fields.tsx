@@ -14,21 +14,17 @@ import { PUBLIC_FORM_HONEYPOT_FIELD } from "@/schemas/public-form";
 
 type PublicFormSecurityFieldsProps<T extends FieldValues> = {
   control: Control<T>;
-  turnstileTokenName?: "turnstileToken";
   resetNonce: number;
   turnstileSize?: "normal" | "compact";
   className?: string;
-  onTurnstileRetry?: () => void;
   tone?: "default" | "dark";
 };
 
 export function PublicFormSecurityFields<T extends FieldValues>({
   control,
-  turnstileTokenName = "turnstileToken",
   resetNonce,
   turnstileSize = "normal",
   className,
-  onTurnstileRetry,
   tone = "default",
 }: PublicFormSecurityFieldsProps<T>) {
   const { field: honeypotField } = useController({
@@ -37,7 +33,7 @@ export function PublicFormSecurityFields<T extends FieldValues>({
   });
   const { field: turnstileField } = useController({
     control,
-    name: turnstileTokenName as Path<T>,
+    name: "turnstileToken" as Path<T>,
   });
 
   const siteKey = getTurnstileSiteKey();
@@ -54,48 +50,14 @@ export function PublicFormSecurityFields<T extends FieldValues>({
       />
 
       {siteKey ? (
-        <>
-          <TurnstileWidget
-            siteKey={siteKey}
-            resetNonce={resetNonce}
-            size={turnstileSize}
-            fallbackEmail={siteConfig.email}
-            onRetry={onTurnstileRetry}
-            onTokenChange={(token) => turnstileField.onChange(token)}
-            tone={tone}
-          />
-          <p
-            className={cn(
-              "text-xs leading-5",
-              tone === "dark" ? "text-white/50" : "text-fg-muted",
-            )}
-          >
-            Protected by Cloudflare Turnstile.{" "}
-            <a
-              href="https://www.cloudflare.com/privacypolicy/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "underline underline-offset-2 transition-colors",
-                tone === "dark" && "hover:text-white/80",
-              )}
-            >
-              Privacy
-            </a>{" "}
-            ·{" "}
-            <a
-              href="https://www.cloudflare.com/website-terms/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "underline underline-offset-2 transition-colors",
-                tone === "dark" && "hover:text-white/80",
-              )}
-            >
-              Terms
-            </a>
-          </p>
-        </>
+        <TurnstileWidget
+          siteKey={siteKey}
+          resetNonce={resetNonce}
+          size={turnstileSize}
+          fallbackEmail={siteConfig.email}
+          onTokenChange={(token) => turnstileField.onChange(token)}
+          tone={tone}
+        />
       ) : null}
 
       {isTurnstileRequiredInProduction() ? (

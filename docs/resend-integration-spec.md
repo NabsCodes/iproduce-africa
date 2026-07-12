@@ -34,11 +34,10 @@ CMS setup.
 - Missing env config fails safely (503 + friendly copy), not silent success.
 - Client can own the Resend project and domain at handoff.
 
-## Turnstile UX Simplification Direction (planned)
+## Turnstile UX Simplification (implemented 2026-07-12)
 
-This is the approved direction for the next public-form cleanup. It is documented
-before implementation so future agents do not add more Turnstile wiring to each
-form or mistake the proposed behavior for already-shipped code.
+This is the shared behavior for all public forms. Keep future changes inside the
+shared form layer unless a form has a genuine layout-specific need.
 
 - Normal state: render no Turnstile helper copy. Keep the existing
   `appearance: "interaction-only"` behavior so Cloudflare only becomes visible
@@ -50,9 +49,12 @@ form or mistake the proposed behavior for already-shipped code.
   details to the visitor.
 - Retry behavior: one user action must cause one widget reset. Prefer the
   library's automatic retry/refresh behavior for ordinary transient failures.
-- Form API: reduce per-form Turnstile props toward
-  `<PublicFormSecurityFields control={form.control} />`; keep token/reset
-  mechanics inside the shared form layer wherever practical.
+- Form API: `PublicFormSecurityFields` owns the fixed token field name and retry
+  behavior. Forms only pass their RHF control, submit-reset nonce, and optional
+  layout choices such as compact size or dark tone.
+- Server behavior: Siteverify has an 8-second timeout. Cloudflare/network
+  failures return the temporary-unavailable `503` response; missing or invalid
+  visitor tokens remain a `400` verification response.
 - Preserve the existing synchronous submit lock, server-side verification,
   honeypot, rate limiting, and production fail-closed behavior.
 

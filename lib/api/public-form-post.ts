@@ -7,6 +7,7 @@ import {
   PUBLIC_FORM_RATE_LIMIT_ERROR,
   PUBLIC_FORM_VALIDATION_ERROR,
   PUBLIC_FORM_VERIFICATION_ERROR,
+  PUBLIC_FORM_VERIFICATION_UNAVAILABLE_ERROR,
 } from "@/lib/forms/submit-public-form";
 import {
   checkPublicFormRateLimit,
@@ -110,6 +111,8 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
 
     if (!verification.success) {
       const isConfigIssue = verification.reason === "not_configured";
+      const isServiceUnavailable =
+        isConfigIssue || verification.reason === "verification_failed";
 
       if (isConfigIssue) {
         logPublicFormConfigIssue(
@@ -117,13 +120,17 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
         );
       }
 
+      if (verification.reason === "verification_failed") {
+        console.error("Turnstile verification service is unavailable.");
+      }
+
       return NextResponse.json(
         {
-          error: isConfigIssue
-            ? PUBLIC_FORM_DELIVERY_ERROR
+          error: isServiceUnavailable
+            ? PUBLIC_FORM_VERIFICATION_UNAVAILABLE_ERROR
             : PUBLIC_FORM_VERIFICATION_ERROR,
         },
-        { status: isConfigIssue ? 503 : 400 },
+        { status: isServiceUnavailable ? 503 : 400 },
       );
     }
 

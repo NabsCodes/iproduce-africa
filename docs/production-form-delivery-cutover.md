@@ -101,6 +101,7 @@ Run these after the production redeploy:
 | Newsletter            | Internal email to `NEWSLETTER_TO_EMAIL`; subscriber confirmation best-effort |
 | Turnstile missing     | UI says verification is unavailable; API fails closed with `503` if reached  |
 | Invalid Turnstile     | API returns `400` verification error; no email sends                         |
+| Turnstile unavailable | API returns `503` after the bounded verification attempt; no email sends     |
 | Honeypot filled       | API returns success; no email sends                                          |
 | Rate limit exceeded   | API returns `429` with `Retry-After`; no email sends                         |
 | Missing email env     | API returns `503`; Vercel logs name the missing env key                      |
@@ -114,6 +115,12 @@ is not interrupted.
 - Missing Turnstile config outside local development fails closed.
 - Missing Resend, sender, or route inbox env fails closed.
 - Client-side forms reset Turnstile after success and failure.
+- Normal Turnstile verification has no persistent helper copy; the challenge is
+  visible only when Cloudflare requires interaction.
+- Widget load/timeout/unsupported failures show one retry plus email fallback;
+  one retry performs one reset.
+- Server-side Turnstile verification is bounded to 8 seconds and distinguishes
+  service unavailability (`503`) from invalid visitor verification (`400`).
 - Newsletter has same-session duplicate-submit protection, but not durable
   cross-device uniqueness.
 - Server logs now name missing config keys without printing secret values.
@@ -130,9 +137,6 @@ is not interrupted.
   uniqueness is not durable.
 - Email logo delivery depends on `EMAIL_ASSETS_BASE_URL` or `NEXT_PUBLIC_SITE_URL`
   pointing at a deployed site that serves `/brand/email-logo.png`.
-- Turnstile's current shared component still exposes retry/reset plumbing to
-  each form and always renders helper copy. The smaller three-state UX direction
-  is documented in `docs/resend-integration-spec.md` but is not implemented yet.
 - A successful Resend send followed by a lost browser response can still be
   retried as a second submission. Client-side locking prevents concurrent
   repeats, not this uncertain-response case; durable submission idempotency is a

@@ -3,25 +3,33 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
-## Turnstile UX simplification review and wireframe (2026-07-12)
+## Turnstile UX simplification implementation (2026-07-12)
 
 Reviewed all seven public form surfaces plus the shared Turnstile client/server
 path before changing production code. The existing submit lock, server
 verification, honeypot, rate limiting, and automatic token refresh remain the
-baseline. The next UX pass should make normal verification invisible, let the
-Cloudflare widget own any required challenge, and show one compact recovery
-message only when verification genuinely fails.
+baseline. Implemented the smaller three-state UX: normal verification is
+invisible, Cloudflare owns any required challenge, and one compact recovery
+message appears only when verification genuinely fails.
 
-Documented the planned direction in `docs/resend-integration-spec.md`: remove
-always-visible helper copy, avoid a custom challenge wrapper, make retry perform
-one reset, and reduce per-form Turnstile props toward a single shared security
-field call. Kept durable submission idempotency separate from this small UX
-cleanup so the form layer is not broadly rewritten without production evidence.
+Removed the always-visible Cloudflare helper paragraph and the redundant
+`turnstileTokenName` / `onTurnstileRetry` props from all seven form surfaces.
+The shared widget now handles script load, challenge, timeout, and unsupported
+browser failures with one message, one direct reset, and the existing email
+fallback. Cloudflare's automatic retry/expiry refresh remains enabled.
 
-Also recorded two current limitations in the production cutover doc: retry/reset
-plumbing is still spread across form components, and a successful Resend send
-followed by a lost browser response can still be retried as a second delivery.
-No application code changed in this review.
+Added an 8-second Siteverify timeout. Network, timeout, and upstream failures now
+return the verification-unavailable `503` response instead of telling the user
+to complete verification again; missing/invalid tokens still return `400`.
+Kept durable submission idempotency separate from this small UX cleanup so the
+form layer is not broadly rewritten without production evidence.
+
+The production cutover doc still records the separate delivery limitation: a
+successful Resend send followed by a lost browser response can be retried as a
+second delivery.
+
+Verification: `pnpm format`, `pnpm lint`, `pnpm typecheck`, and `pnpm build` all
+pass; `git diff --check` is clean.
 
 ## Sanity CMS — Phase 2 slice 2B: partners (2026-07-12)
 

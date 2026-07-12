@@ -15,6 +15,8 @@ type TurnstileResponse = {
   success: boolean;
 };
 
+const TURNSTILE_VERIFY_TIMEOUT_MS = 8_000;
+
 function isDevelopmentBypassAllowed() {
   return process.env.NODE_ENV === "development";
 }
@@ -41,6 +43,12 @@ export async function verifyTurnstileToken({
     return { success: false, reason: "missing_token" };
   }
 
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort(),
+    TURNSTILE_VERIFY_TIMEOUT_MS,
+  );
+
   try {
     const response = await fetch(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -54,6 +62,7 @@ export async function verifyTurnstileToken({
           response: token,
           ...(ip ? { remoteip: ip } : {}),
         }),
+        signal: controller.signal,
       },
     );
 
@@ -67,5 +76,7 @@ export async function verifyTurnstileToken({
       : { success: false, reason: "invalid" };
   } catch {
     return { success: false, reason: "verification_failed" };
+  } finally {
+    clearTimeout(timeout);
   }
 }
