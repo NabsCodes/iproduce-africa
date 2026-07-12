@@ -1,5 +1,5 @@
-import { BecomePartnerNotificationTemplate } from "@/lib/email/templates/become-partner-notification";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+import { BecomePartnerNotificationTemplate } from "@/lib/email/templates/become-partner-notification";
 
 const fixture = {
   organisationName: "Harvest Impact Foundation",

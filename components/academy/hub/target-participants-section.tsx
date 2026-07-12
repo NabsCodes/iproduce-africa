@@ -2,13 +2,13 @@ import {
   Building2,
   HeartHandshake,
   Landmark,
+  type LucideIcon,
   Package,
   Rocket,
   Ship,
   Sparkles,
   Sprout,
   Truck,
-  type LucideIcon,
 } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";

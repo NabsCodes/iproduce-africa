@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { Partner } from "@/content/partners";

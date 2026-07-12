@@ -1,4 +1,5 @@
 import type { Image } from "sanity";
+
 import { courseToRelatedItem } from "@/content/courses";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";

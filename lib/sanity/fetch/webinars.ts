@@ -1,4 +1,5 @@
 import type { Image } from "sanity";
+
 import { webinarToRelatedItem } from "@/content/webinars";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";
@@ -7,8 +8,8 @@ import {
   hubScheduledWebinarsQuery,
   relatedWebinarsQuery,
   webinarBySlugQuery,
-  webinarSlugsQuery,
   webinarsListingQuery,
+  webinarSlugsQuery,
 } from "@/lib/sanity/queries";
 import type {
   AcademyRegistrationConfig,

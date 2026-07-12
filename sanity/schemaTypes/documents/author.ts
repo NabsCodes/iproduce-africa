@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+
 import { createSlugIsUnique } from "@/sanity/schemaTypes/shared/slug-validator";
 
 export const author = defineType({

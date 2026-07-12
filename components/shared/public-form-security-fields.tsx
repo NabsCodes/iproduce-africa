@@ -4,9 +4,9 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController } from "react-hook-form";
 
 import {
-  TurnstileWidget,
   getTurnstileSiteKey,
   isTurnstileRequiredInProduction,
+  TurnstileWidget,
 } from "@/components/shared/turnstile-widget";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";

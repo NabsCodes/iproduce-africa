@@ -1,10 +1,11 @@
 import type { Image } from "sanity";
+
 import { articleToRelatedItem, toHubArticleCategory } from "@/content/blog";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";
 import {
-  portableTextToBlogArticleBlocks,
   type PortableTextBlock,
+  portableTextToBlogArticleBlocks,
 } from "@/lib/sanity/portable-text";
 import {
   articleBySlugQuery,

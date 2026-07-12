@@ -3,11 +3,11 @@
 // About journey timeline. Mobile = text only. Desktop = story image left, anchor right.
 // Active year: IntersectionObserver (READING_ZONE_MARGIN). Dot easing: MilestoneRow duration-*.
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";

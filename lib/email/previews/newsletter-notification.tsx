@@ -1,5 +1,5 @@
-import { NewsletterNotificationTemplate } from "@/lib/email/templates/newsletter-confirm";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+import { NewsletterNotificationTemplate } from "@/lib/email/templates/newsletter-confirm";
 
 const submittedAt = new Date("2026-06-24T10:00:00.000Z");
 

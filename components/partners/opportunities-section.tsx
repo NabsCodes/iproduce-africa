@@ -2,10 +2,10 @@ import {
   Coins,
   GraduationCap,
   Handshake,
+  type LucideIcon,
   Network,
   Search,
   Users,
-  type LucideIcon,
 } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";

@@ -1,18 +1,18 @@
 import { Text } from "@react-email/components";
 
 import { partnersPageContent } from "@/content/partners";
-import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { EmailActionButton } from "@/lib/email/components/email-action-button";
 import { EmailDetailSection } from "@/lib/email/components/email-detail-section";
 import { EmailQuoteBlock } from "@/lib/email/components/email-quote-block";
-import { EmailSignOff } from "@/lib/email/components/email-sign-off";
 import { EmailBody, EmailShell } from "@/lib/email/components/email-shell";
+import { EmailSignOff } from "@/lib/email/components/email-sign-off";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
 import { renderEmailTemplate } from "@/lib/email/render";
 import {
   resolveCountryLabel,
   resolveOptionLabel,
 } from "@/lib/email/resolve-label";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import {
   emailInternalClasses,
   emailInternalType,

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Calendar, GraduationCap } from "lucide-react";
+
 import { CatalogueEmptyState } from "@/components/shared/catalogue-empty-state";
 import { ContentCard } from "@/components/shared/content-card";
 import { MotionFade } from "@/components/shared/motion/motion-fade";

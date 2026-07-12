@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+
 import { NewsletterForm } from "@/components/layout/newsletter-form";
 import { SiteLogo } from "@/components/layout/site-logo";
 import { SocialIcon } from "@/components/layout/social-icon";

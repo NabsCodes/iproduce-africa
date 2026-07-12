@@ -1,14 +1,14 @@
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { AcademyDetailMetadata } from "@/components/academy/listings/academy-detail-metadata";
-import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
-import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
-import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
-import { ArticleBody } from "@/components/academy/blog/article-body";
 import { ArticleAuthor } from "@/components/academy/blog/article-author";
+import { ArticleBody } from "@/components/academy/blog/article-body";
 import { ArticleMetaBadges } from "@/components/academy/blog/article-meta-badges";
 import { BlogArticleSidebar } from "@/components/academy/blog/blog-article-sidebar";
+import { AcademyDetailMetadata } from "@/components/academy/listings/academy-detail-metadata";
+import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
+import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
+import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
 import { CtaSection } from "@/components/shared/cta-section";
 import { blogContent, getBlogHeroImage } from "@/content/blog";
 import { createArticleMetadata, createPageMetadata } from "@/lib/metadata";

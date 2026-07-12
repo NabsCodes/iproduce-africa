@@ -1,7 +1,7 @@
 "use client";
 
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 import { motion, type Variants } from "motion/react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 

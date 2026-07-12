@@ -2,22 +2,22 @@
 
 import {
   Building2,
+  type LucideIcon,
   Mail,
   MapPin,
   Phone,
   Quote,
   Tag,
   User,
-  type LucideIcon,
 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 
-import type { MembershipApplicationDialogReviewField } from "@/types/community";
-import type { MembershipApplicationDialogValues } from "@/schemas/community";
 import {
   getCountryLabel,
   resolveSelectOptionLabel,
 } from "@/lib/form-option-labels";
+import type { MembershipApplicationDialogValues } from "@/schemas/community";
+import type { MembershipApplicationDialogReviewField } from "@/types/community";
 import type { PartnerInquiryOption } from "@/types/partners";
 
 const fieldIcons: Record<

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Handshake } from "lucide-react";
+import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import type { PartnersHeroBadge, PartnersHeroMap } from "@/types/partners";

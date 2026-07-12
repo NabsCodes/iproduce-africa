@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
 
 import { ContactForm } from "@/components/contact/contact-form";
 import { ContactSocialIcon } from "@/components/contact/contact-social-icon";

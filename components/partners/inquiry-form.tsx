@@ -1,11 +1,9 @@
 "use client";
 
+import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { CheckCircle2 } from "lucide-react";
 
-import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
-import { FormSubmitButton } from "@/components/shared/form-submit-button";
 import {
   ComboboxFormField,
   PhoneFormField,
@@ -13,15 +11,17 @@ import {
   TextareaFormField,
   TextFormField,
 } from "@/components/shared/form-fields";
+import { FormSubmitButton } from "@/components/shared/form-submit-button";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
-import { asFormResolver } from "@/lib/forms/as-form-resolver";
-import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   countryComboboxCopy,
   countryComboboxGroups,
 } from "@/content/countries";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   partnerInquiryClientSchema,
   partnerInquiryDefaultValues,

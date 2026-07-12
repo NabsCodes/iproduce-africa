@@ -3,12 +3,12 @@ import {
   Factory,
   Globe,
   Lightbulb,
+  type LucideIcon,
   Sprout,
   Store,
   TreePine,
   Truck,
   UserRound,
-  type LucideIcon,
 } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";

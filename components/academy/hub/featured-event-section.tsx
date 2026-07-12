@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { CalendarDays, MapPin, Users } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 
 import { AcademyRegistrationAction } from "@/components/academy/registration/academy-registration-action";
 import { CatalogueImage } from "@/components/shared/catalogue-image";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Badge } from "@/components/ui/badge";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import type { AcademyFeaturedEvent, AcademyWebinar } from "@/types/academy";
 

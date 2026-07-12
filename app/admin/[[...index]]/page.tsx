@@ -1,6 +1,7 @@
 "use client";
 
 import { NextStudio } from "next-sanity/studio";
+
 import config from "@/sanity.config";
 
 // `sanity.config`'s schema (validation rules, structure resolvers, i18n

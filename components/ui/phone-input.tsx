@@ -1,11 +1,12 @@
 "use client";
 
+import "react-phone-number-input/style.css";
+
 import * as React from "react";
 import PhoneInputBase, {
   type Country,
   type Value,
 } from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 
 import { cn } from "@/lib/utils";
 

@@ -1,15 +1,15 @@
 "use client";
 
+import { Link as LinkIcon, Share2 } from "lucide-react";
 import type { ComponentType } from "react";
 import { useSyncExternalStore } from "react";
-import { Link as LinkIcon, Share2 } from "lucide-react";
 import { FaLinkedinIn, FaWhatsapp, FaXTwitter } from "react-icons/fa6";
 import { toast } from "sonner";
 
+import { NewsletterSignupForm } from "@/components/shared/newsletter-signup-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { NewsletterSignupForm } from "@/components/shared/newsletter-signup-form";
 import type {
   BlogNewsletterContent,
   BlogShareControlsContent,

@@ -1,16 +1,16 @@
 import {
   Lightbulb,
+  type LucideIcon,
   Megaphone,
   MessageSquare,
-  type LucideIcon,
 } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
-import type { CommunityPreviewFeature } from "@/types/community";
 import { cn } from "@/lib/utils";
+import type { CommunityPreviewFeature } from "@/types/community";
 
 const featureIconMap: Record<CommunityPreviewFeature["icon"], LucideIcon> = {
   "message-square": MessageSquare,

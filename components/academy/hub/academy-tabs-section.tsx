@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LayoutGroup, motion } from "motion/react";
+import { useEffect, useState } from "react";
 
 import { academyContent } from "@/content/academy";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";

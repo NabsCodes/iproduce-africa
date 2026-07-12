@@ -1,13 +1,14 @@
-import type { CSSProperties } from "react";
 import Image from "next/image";
+import type { CSSProperties } from "react";
+
+import { DecorativeRing } from "@/components/ui/decorative-ring";
+import { OrbitItem, OrbitRing } from "@/components/ui/orbiting-circles";
+import { communityOrbitIcons } from "@/lib/community-orbit-icons";
+import { cn } from "@/lib/utils";
 import type {
   CommunityOrbitChip,
   CommunityOrbitContent,
 } from "@/types/content";
-import { communityOrbitIcons } from "@/lib/community-orbit-icons";
-import { DecorativeRing } from "@/components/ui/decorative-ring";
-import { OrbitItem, OrbitRing } from "@/components/ui/orbiting-circles";
-import { cn } from "@/lib/utils";
 
 type MembershipOrbitProps = {
   orbit: CommunityOrbitContent;

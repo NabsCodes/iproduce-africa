@@ -1,13 +1,13 @@
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { AcademyDetailMetadata } from "@/components/academy/listings/academy-detail-metadata";
-import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
-import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
 import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
+import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
+import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
 import { WebinarRegistrationPanel } from "@/components/academy/webinars/webinar-registration-panel";
-import { Badge } from "@/components/ui/badge";
 import { CtaSection } from "@/components/shared/cta-section";
+import { Badge } from "@/components/ui/badge";
 import { webinarsContent, webinarToCardItem } from "@/content/webinars";
 import { createPageMetadata } from "@/lib/metadata";
 import {

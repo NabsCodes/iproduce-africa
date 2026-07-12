@@ -1,5 +1,5 @@
-import { PartnerLogo } from "@/components/shared/partner-logo";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { PartnerLogo } from "@/components/shared/partner-logo";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Marquee } from "@/components/ui/marquee";
 import { partnersList } from "@/content/partners";

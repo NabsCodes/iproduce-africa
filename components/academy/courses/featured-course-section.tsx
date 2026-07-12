@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 
-import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { CatalogueImage } from "@/components/shared/catalogue-image";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";

@@ -2,9 +2,9 @@ import Link from "next/link";
 
 import { CatalogueImage } from "@/components/shared/catalogue-image";
 import { Badge } from "@/components/ui/badge";
-import type { ContentCardTone } from "@/types/content";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import type { ContentCardTone } from "@/types/content";
 
 export type { ContentCardTone } from "@/types/content";
 

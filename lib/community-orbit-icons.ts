@@ -1,12 +1,12 @@
 import {
   Factory,
   Lightbulb,
+  type LucideIcon,
   Package,
   Sprout,
   TrendingUp,
   Truck,
   UserRound,
-  type LucideIcon,
 } from "lucide-react";
 
 export const communityOrbitIconKeys = [

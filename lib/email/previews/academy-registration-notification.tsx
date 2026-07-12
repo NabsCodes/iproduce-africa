@@ -1,5 +1,5 @@
-import { AcademyRegistrationNotificationTemplate } from "@/lib/email/templates/academy-registration-notification";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+import { AcademyRegistrationNotificationTemplate } from "@/lib/email/templates/academy-registration-notification";
 
 const fixture = {
   fullName: "Kofi Mensah",

@@ -2,10 +2,10 @@ import {
   Globe,
   GraduationCap,
   Handshake,
+  type LucideIcon,
   Sprout,
   UserRound,
   Users,
-  type LucideIcon,
 } from "lucide-react";
 
 export const pillarIconKeys = [

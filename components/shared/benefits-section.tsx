@@ -5,13 +5,13 @@ import {
   GraduationCap,
   Handshake,
   Lightbulb,
+  type LucideIcon,
   Mail,
   Network,
   Send,
   Sprout,
   TrendingUp,
   Users,
-  type LucideIcon,
 } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";

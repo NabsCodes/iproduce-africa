@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 import { AfricaMap } from "@/components/partners/africa-map";
 import { BecomePartnerDialog } from "@/components/partners/become-partner-dialog";

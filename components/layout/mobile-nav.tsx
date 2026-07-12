@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import { ArrowRight, X } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
+import { CommunityJoinButton } from "@/components/layout/community-join-button";
+import { SiteLogo } from "@/components/layout/site-logo";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CommunityJoinButton } from "@/components/layout/community-join-button";
 import {
   Sheet,
   SheetClose,
@@ -17,7 +19,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { SiteLogo } from "@/components/layout/site-logo";
 import { mainNavigation } from "@/content/navigation";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";

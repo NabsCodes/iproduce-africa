@@ -1,6 +1,6 @@
-import type { ComponentType, MouseEvent } from "react";
-import Link from "next/link";
 import { Globe, Mail, Phone } from "lucide-react";
+import Link from "next/link";
+import type { ComponentType, MouseEvent } from "react";
 import {
   FaFacebookF,
   FaInstagram,

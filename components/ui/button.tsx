@@ -1,7 +1,7 @@
-import * as React from "react";
-import Link from "next/link";
 import { cva, type VariantProps } from "class-variance-authority";
+import Link from "next/link";
 import { Slot } from "radix-ui";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 

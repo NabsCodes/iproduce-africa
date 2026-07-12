@@ -1,6 +1,6 @@
-import { EyebrowPill } from "@/components/ui/eyebrow-pill";
-import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EcosystemOrbit } from "@/components/about/ecosystem-orbit";
+import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { aboutPageContent } from "@/content/about";
 
 export function AboutHeroSection() {

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
-import Link from "next/link";
 import { TriangleAlertIcon } from "lucide-react";
+import Link from "next/link";
+import { useEffect } from "react";
 
 import { Button, ButtonLink } from "@/components/ui/button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";

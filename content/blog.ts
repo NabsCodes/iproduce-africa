@@ -1,6 +1,6 @@
+import { blogArticles } from "@/content/blog-articles";
 import type { AcademyArticle, AcademyRelatedItem } from "@/types/academy";
 import type { BlogArticle, BlogCategory, BlogPageContent } from "@/types/blog";
-import { blogArticles } from "@/content/blog-articles";
 
 export const BLOG_CATEGORIES = [
   "Innovation",

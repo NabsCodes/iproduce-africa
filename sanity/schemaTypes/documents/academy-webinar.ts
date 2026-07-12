@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+
 import { createSlugIsUnique } from "@/sanity/schemaTypes/shared/slug-validator";
 
 export const academyWebinar = defineType({

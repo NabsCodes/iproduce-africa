@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 import { PersonPhoto } from "@/components/about/person-photo";
 import { PersonProfileDialog } from "@/components/about/person-profile-dialog";

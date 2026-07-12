@@ -1,12 +1,13 @@
-import Link from "next/link";
 import {
   ArrowRight,
   GraduationCap,
   Lightbulb,
+  type LucideIcon,
   Newspaper,
   Users,
-  type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
+
 import { cn } from "@/lib/utils";
 import type { JumpSectionIconKey } from "@/types/content";
 

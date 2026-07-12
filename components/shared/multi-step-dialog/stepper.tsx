@@ -1,8 +1,8 @@
 "use client";
 
-import { Fragment } from "react";
 import { Check } from "lucide-react";
 import { LayoutGroup, motion } from "motion/react";
+import { Fragment } from "react";
 
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";

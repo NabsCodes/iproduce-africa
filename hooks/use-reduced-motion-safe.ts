@@ -1,7 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { useReducedMotion } from "motion/react";
+import { useSyncExternalStore } from "react";
 
 /**
  * SSR-safe wrapper around motion/react's `useReducedMotion`.

@@ -5,10 +5,10 @@ import { useForm, useWatch } from "react-hook-form";
 
 import type { AcademyRegistrationTarget } from "@/components/academy/registration/academy-registration-provider";
 import { PhoneFormField, TextFormField } from "@/components/shared/form-fields";
-import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { MultiStepDialogFooter } from "@/components/shared/multi-step-dialog/footer";
 import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/heading";
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { Form } from "@/components/ui/form";
 import { academyRegistrationContent } from "@/content/academy";
 import { useDialogFormLifecycle } from "@/hooks/use-dialog-form-lifecycle";

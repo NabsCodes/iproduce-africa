@@ -1,6 +1,4 @@
-import { isUpcomingSession } from "@/lib/academy-registration";
-import { placeholderImages } from "@/lib/placeholder-images";
-import { getBlogHubPreviewItems, blogContent } from "@/content/blog";
+import { blogContent,getBlogHubPreviewItems } from "@/content/blog";
 import { academyHubCourses, coursesContent } from "@/content/courses";
 import {
   academyFeaturedEvent,
@@ -8,6 +6,8 @@ import {
   webinarsContent,
   webinarsToHubScheduledItems,
 } from "@/content/webinars";
+import { isUpcomingSession } from "@/lib/academy-registration";
+import { placeholderImages } from "@/lib/placeholder-images";
 import type {
   AcademyArticleCategory,
   AcademyContent,

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Play } from "lucide-react";
+import Image from "next/image";
 
 import { JumpSectionCard } from "@/components/shared/jump-section-card";
 import { MotionFade } from "@/components/shared/motion/motion-fade";

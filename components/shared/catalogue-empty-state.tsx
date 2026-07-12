@@ -1,9 +1,10 @@
 import {
   Calendar,
   GraduationCap,
-  Newspaper,
   type LucideIcon,
+  Newspaper,
 } from "lucide-react";
+
 import { Button, ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { CatalogueEmptyIconKey } from "@/types/content";

@@ -1,5 +1,5 @@
-import { ContactReceiptTemplate } from "@/lib/email/templates/contact-notification";
 import { contactPageContent } from "@/content/contact";
+import { ContactReceiptTemplate } from "@/lib/email/templates/contact-notification";
 
 const fixture = {
   firstName: "Ada",

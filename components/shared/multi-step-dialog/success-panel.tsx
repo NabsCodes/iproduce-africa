@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { Check } from "lucide-react";
 import { motion } from "motion/react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";

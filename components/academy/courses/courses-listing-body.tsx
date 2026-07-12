@@ -6,7 +6,7 @@ import {
   ListingFilterBar,
 } from "@/components/academy/listings/listing-filter-bar";
 import type { CourseFilterLevel } from "@/content/courses";
-import { courseToCardItem, coursesListing } from "@/content/courses";
+import { coursesListing,courseToCardItem } from "@/content/courses";
 import { useListingFilter } from "@/hooks/use-listing-filter";
 import type { AcademyCourseDetail } from "@/types/academy";
 

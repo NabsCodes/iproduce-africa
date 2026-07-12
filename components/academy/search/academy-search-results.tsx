@@ -7,9 +7,9 @@ import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import {
-  searchAcademy,
   type AcademySearchResult,
   type AcademySearchResultKind,
+  searchAcademy,
 } from "@/lib/academy-search";
 import { fetchArticlesListing } from "@/lib/sanity/fetch/articles";
 import { fetchCoursesListing } from "@/lib/sanity/fetch/courses";

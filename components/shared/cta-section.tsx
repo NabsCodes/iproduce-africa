@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { Handshake, Users } from "lucide-react";
+import Image from "next/image";
+
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";

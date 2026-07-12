@@ -1,14 +1,15 @@
 import type { CSSProperties } from "react";
-import type { AboutOrbitContent } from "@/types/about";
-import type { PillarIconKey } from "@/lib/pillar-icons";
-import { pillarIcons } from "@/lib/pillar-icons";
+
 import { BrowserMockup } from "@/components/shared/browser-mockup";
 import {
   OrbitDot,
   OrbitItem,
   OrbitRing,
 } from "@/components/ui/orbiting-circles";
+import type { PillarIconKey } from "@/lib/pillar-icons";
+import { pillarIcons } from "@/lib/pillar-icons";
 import { cn } from "@/lib/utils";
+import type { AboutOrbitContent } from "@/types/about";
 
 type EcosystemOrbitProps = {
   orbit: AboutOrbitContent;

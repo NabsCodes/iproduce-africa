@@ -2,8 +2,8 @@ import {
   Globe,
   GraduationCap,
   Handshake,
-  Users,
   type LucideIcon,
+  Users,
 } from "lucide-react";
 
 import { WhyJoinServiceCard } from "@/components/home/why-join-service-card";

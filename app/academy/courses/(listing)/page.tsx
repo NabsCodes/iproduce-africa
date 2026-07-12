@@ -1,14 +1,14 @@
-import { AcademyListingHeroSection } from "@/components/academy/listings/listing-hero-section";
-import { FeaturedCourseSection } from "@/components/academy/courses/featured-course-section";
 import { CoursesListingBody } from "@/components/academy/courses/courses-listing-body";
+import { FeaturedCourseSection } from "@/components/academy/courses/featured-course-section";
+import { AcademyListingHeroSection } from "@/components/academy/listings/listing-hero-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { coursesContent, coursesListing } from "@/content/courses";
 import { pageSeo } from "@/content/seo";
+import { createPageMetadata } from "@/lib/metadata";
 import {
   fetchCoursesListing,
   fetchFeaturedCourse,
 } from "@/lib/sanity/fetch/courses";
-import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata(pageSeo.courses);
 export const revalidate = 3600;

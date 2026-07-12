@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
 import { cva } from "class-variance-authority";
+import type { ReactNode } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 

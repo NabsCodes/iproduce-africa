@@ -1,14 +1,15 @@
 "use client";
 
 import {
+  type KeyboardEvent,
+  type ReactNode,
   useEffect,
   useRef,
   useState,
-  type KeyboardEvent,
-  type ReactNode,
 } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 
+import { BecomePartnerReviewStep } from "@/components/partners/become-partner-review-step";
 import {
   CheckboxGroupFormField,
   ComboboxFormField,
@@ -17,21 +18,20 @@ import {
   TextareaFormField,
   TextFormField,
 } from "@/components/shared/form-fields";
-import { BecomePartnerReviewStep } from "@/components/partners/become-partner-review-step";
-import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { MultiStepDialogFooter } from "@/components/shared/multi-step-dialog/footer";
 import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/heading";
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import type { MultiStepDialogStep } from "@/components/shared/multi-step-dialog/stepper";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { Form } from "@/components/ui/form";
-import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
-import { asFormResolver } from "@/lib/forms/as-form-resolver";
-import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   countryComboboxCopy,
   countryComboboxGroups,
 } from "@/content/countries";
 import { partnersPageContent } from "@/content/partners";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   becomePartnerClientSchema,
   becomePartnerDefaultValues,

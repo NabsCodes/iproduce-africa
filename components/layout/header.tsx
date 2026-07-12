@@ -1,21 +1,22 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+
+import { CommunityJoinButton } from "@/components/layout/community-join-button";
+import { MobileNav } from "@/components/layout/mobile-nav";
+import { SiteLogo } from "@/components/layout/site-logo";
+import { ReadingProgress } from "@/components/shared/reading-progress";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MobileNav } from "@/components/layout/mobile-nav";
-import { CommunityJoinButton } from "@/components/layout/community-join-button";
-import { SiteLogo } from "@/components/layout/site-logo";
 import { mainNavigation } from "@/content/navigation";
 import { useRouteHash } from "@/hooks/use-route-hash";
 import { useScrolled } from "@/hooks/use-scrolled";
-import { ReadingProgress } from "@/components/shared/reading-progress";
 import { cn } from "@/lib/utils";
 
 const blogArticlePath = /^\/academy\/blog\/[^/]+$/;

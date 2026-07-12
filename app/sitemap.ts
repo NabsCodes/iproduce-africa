@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+
 import { sitemapRoutes } from "@/content/seo";
 import { getSiteUrl } from "@/lib/metadata";
 import { fetchArticleSitemapEntries } from "@/lib/sanity/fetch/articles";

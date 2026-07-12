@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
 import { CheckCircle2 } from "lucide-react";
+import { motion, useInView } from "motion/react";
+import { useRef } from "react";
 
 import { MotionCountUp } from "@/components/shared/motion/motion-count-up";
 import { MotionFade } from "@/components/shared/motion/motion-fade";

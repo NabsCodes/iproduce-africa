@@ -1,8 +1,8 @@
 "use client";
 
+import { Check, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Check, ChevronDown } from "lucide-react";
 
 import {
   DropdownMenu,

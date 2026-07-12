@@ -1,4 +1,5 @@
-import { CheckCircle2, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight,CheckCircle2 } from "lucide-react";
+
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";

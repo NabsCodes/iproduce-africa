@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";

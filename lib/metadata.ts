@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+
 import { siteConfig } from "@/content/site";
 
 const FALLBACK_SITE_URL = siteConfig.siteUrl;

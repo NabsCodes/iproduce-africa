@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";

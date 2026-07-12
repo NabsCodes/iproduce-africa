@@ -1,13 +1,13 @@
 import { Text } from "@react-email/components";
 
-import { getEmailSiteUrl } from "@/lib/email/site-url";
 import { EmailActionButton } from "@/lib/email/components/email-action-button";
 import { EmailDetailSection } from "@/lib/email/components/email-detail-section";
 import { EmailHighlightCard } from "@/lib/email/components/email-highlight-card";
-import { EmailSignOff } from "@/lib/email/components/email-sign-off";
 import { EmailBody, EmailShell } from "@/lib/email/components/email-shell";
+import { EmailSignOff } from "@/lib/email/components/email-sign-off";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
 import { renderEmailTemplate } from "@/lib/email/render";
+import { getEmailSiteUrl } from "@/lib/email/site-url";
 import {
   emailInternalClasses,
   emailInternalType,

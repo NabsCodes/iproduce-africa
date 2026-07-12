@@ -1,5 +1,5 @@
-import { PartnerInquiryNotificationTemplate } from "@/lib/email/templates/partner-inquiry-notification";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+import { PartnerInquiryNotificationTemplate } from "@/lib/email/templates/partner-inquiry-notification";
 
 const fixture = {
   fullName: "Jane Doe",

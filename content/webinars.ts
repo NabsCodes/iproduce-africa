@@ -7,7 +7,7 @@ import type {
   AcademyScheduledType,
   AcademyWebinar,
 } from "@/types/academy";
-import type { CtaSectionContent, ContentCardTone } from "@/types/content";
+import type { ContentCardTone,CtaSectionContent } from "@/types/content";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",

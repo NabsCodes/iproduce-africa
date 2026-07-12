@@ -1,7 +1,7 @@
 "use client";
 
-import type { FormHTMLAttributes, ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import type { FormHTMLAttributes, ReactNode } from "react";
 
 import {
   Dialog,
@@ -13,10 +13,10 @@ import {
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
 
-import { MultiStepDialogStepper, type MultiStepDialogStep } from "./stepper";
+import { type MultiStepDialogStep,MultiStepDialogStepper } from "./stepper";
 import {
-  MultiStepDialogSuccessPanel,
   type MultiStepDialogSuccess,
+  MultiStepDialogSuccessPanel,
 } from "./success-panel";
 
 type MultiStepDialogShellProps = {

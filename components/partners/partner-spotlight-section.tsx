@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 import { PartnerStoryDialog } from "@/components/partners/partner-story-dialog";
 import { CatalogueImage } from "@/components/shared/catalogue-image";

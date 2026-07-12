@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import {
   animate,
   motion,
@@ -8,6 +7,7 @@ import {
   useReducedMotion,
   useTransform,
 } from "motion/react";
+import { useEffect } from "react";
 
 /**
  * Number that counts up from 0 to `value` once `inView` flips true.

@@ -1,6 +1,6 @@
-import { ContactNotificationTemplate } from "@/lib/email/templates/contact-notification";
-import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
 import { contactPageContent } from "@/content/contact";
+import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+import { ContactNotificationTemplate } from "@/lib/email/templates/contact-notification";
 
 const fixture = {
   firstName: "Ada",

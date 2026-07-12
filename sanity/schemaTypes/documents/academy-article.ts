@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+
 import { createSlugIsUnique } from "@/sanity/schemaTypes/shared/slug-validator";
 
 // Matches content/blog.ts BLOG_CATEGORIES (8 canonical values).

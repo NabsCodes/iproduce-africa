@@ -5,6 +5,11 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  ComboboxSelect,
+  type ComboboxSelectGroup,
+  type ComboboxSelectOption,
+} from "@/components/ui/combobox-select";
+import {
   FormControl,
   FormField,
   FormItem,
@@ -21,11 +26,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  ComboboxSelect,
-  type ComboboxSelectGroup,
-  type ComboboxSelectOption,
-} from "@/components/ui/combobox-select";
 
 export type SelectOption = {
   value: string;

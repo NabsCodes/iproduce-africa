@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { GraduationCap, Play, UsersRound } from "lucide-react";
+import Image from "next/image";
 
-import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";

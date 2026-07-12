@@ -1,15 +1,15 @@
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { AcademyDetailMetadata } from "@/components/academy/listings/academy-detail-metadata";
-import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
-import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
-import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
 import { CourseRegistrationPanel } from "@/components/academy/courses/course-registration-panel";
-import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { Badge } from "@/components/ui/badge";
+import { AcademyDetailMetadata } from "@/components/academy/listings/academy-detail-metadata";
+import { AcademyDetailShell } from "@/components/academy/listings/academy-detail-shell";
+import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
+import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
 import { CtaSection } from "@/components/shared/cta-section";
-import { courseToCardItem, coursesContent } from "@/content/courses";
+import { Badge } from "@/components/ui/badge";
+import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { coursesContent,courseToCardItem } from "@/content/courses";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   fetchCourseBySlug,

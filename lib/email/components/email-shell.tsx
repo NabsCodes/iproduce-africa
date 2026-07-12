@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import {
   Body,
   Container,
@@ -7,16 +6,17 @@ import {
   Preview,
   Section,
 } from "@react-email/components";
+import type { ReactNode } from "react";
 
 import { EmailInternalFooter } from "@/lib/email/components/email-internal-footer";
 import { EmailInternalMasthead } from "@/lib/email/components/email-internal-masthead";
 import { EmailSubscriberFooter } from "@/lib/email/components/email-subscriber-footer";
 import { EmailSubscriberMasthead } from "@/lib/email/components/email-subscriber-masthead";
 import {
-  PREVIEW_PADDING,
   emailInternalMobileStyles,
   emailLayout,
   emailSubscriberMobileStyles,
+  PREVIEW_PADDING,
 } from "@/lib/email/styles";
 
 type EmailShellProps = {

@@ -1,24 +1,24 @@
 "use client";
 
 import {
-  Building2,
   Briefcase,
+  Building2,
   Globe2,
+  type LucideIcon,
   Mail,
   MapPin,
   Phone,
   Quote,
   User,
-  type LucideIcon,
 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 
-import type { BecomePartnerReviewField } from "@/types/partners";
-import type { BecomePartnerValues } from "@/schemas/partners";
 import {
   getCountryLabel,
   resolveSelectOptionLabel,
 } from "@/lib/form-option-labels";
+import type { BecomePartnerValues } from "@/schemas/partners";
+import type { BecomePartnerReviewField } from "@/types/partners";
 import type { PartnerInquiryOption } from "@/types/partners";
 
 const fieldIcons: Record<BecomePartnerReviewField["key"], LucideIcon> = {

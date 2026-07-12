@@ -1,4 +1,5 @@
 import type { SlugValidationContext } from "sanity";
+
 import { apiVersion } from "@/sanity/env";
 
 /** Slug uniqueness scoped to a single document `_type` (standard Sanity docs pattern). */

@@ -1,6 +1,6 @@
-import { OTHER_OPTION_VALUE } from "@/schemas/constants";
 import { partnersPageContent } from "@/content/partners";
 import { placeholderImages } from "@/lib/placeholder-images";
+import { OTHER_OPTION_VALUE } from "@/schemas/constants";
 import type { CommunityPageContent } from "@/types/community";
 
 const inquiryOptions = partnersPageContent.inquiry.form.options;

@@ -5,7 +5,7 @@ import type {
   AcademyListingHeroContent,
   AcademyRelatedItem,
 } from "@/types/academy";
-import type { CtaSectionContent, ContentCardTone } from "@/types/content";
+import type { ContentCardTone,CtaSectionContent } from "@/types/content";
 
 const toneByLevel: Record<AcademyCourseDetail["level"], ContentCardTone> = {
   BEGINNER: "tangerine",

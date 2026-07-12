@@ -1,7 +1,7 @@
 "use client";
 
-import { ListingCardGrid } from "@/components/academy/listings/listing-card-grid";
 import type { ListingEmptyState } from "@/components/academy/listings/listing-card-grid";
+import { ListingCardGrid } from "@/components/academy/listings/listing-card-grid";
 import type { BlogArticle } from "@/types/blog";
 
 type ArticleGridProps = {

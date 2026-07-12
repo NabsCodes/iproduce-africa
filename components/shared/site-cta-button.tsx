@@ -1,7 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
 import type { VariantProps } from "class-variance-authority";
+import type { ReactNode } from "react";
 
 import { useMembershipApplication } from "@/components/community/membership-application-provider";
 import {

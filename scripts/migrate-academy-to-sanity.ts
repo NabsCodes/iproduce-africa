@@ -1,15 +1,17 @@
 import { createHash } from "node:crypto";
+
 import { createClient, type SanityClient } from "next-sanity";
-import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
-import { placeholderImages } from "@/lib/placeholder-images";
+
 import { authors, blogArticles } from "@/content/blog-articles";
-import { webinarsContent } from "@/content/webinars";
 import { coursesContent } from "@/content/courses";
-import type { BlogArticleBlock, BlogAuthor } from "@/types/blog";
+import { webinarsContent } from "@/content/webinars";
+import { placeholderImages } from "@/lib/placeholder-images";
+import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
 import {
   blocksToPortableText,
   type PortableTextEntry,
 } from "@/scripts/lib/blocks-to-portable-text";
+import type { BlogArticleBlock, BlogAuthor } from "@/types/blog";
 
 /**
  * Seeds development-dataset placeholders from static content/* so editors

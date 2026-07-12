@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { type KeyboardEvent,useEffect, useRef, useState } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 
 import { MembershipApplicationReviewStep } from "@/components/community/membership-application-review-step";
-import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import {
   ComboboxFormField,
   PhoneFormField,
@@ -16,15 +15,16 @@ import { MultiStepDialogFooter } from "@/components/shared/multi-step-dialog/foo
 import { MultiStepDialogHeading } from "@/components/shared/multi-step-dialog/heading";
 import { MultiStepDialogShell } from "@/components/shared/multi-step-dialog/shell";
 import type { MultiStepDialogStep } from "@/components/shared/multi-step-dialog/stepper";
+import { PublicFormSecurityFields } from "@/components/shared/public-form-security-fields";
 import { Form } from "@/components/ui/form";
-import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
-import { asFormResolver } from "@/lib/forms/as-form-resolver";
-import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
+import { communityPageContent } from "@/content/community";
 import {
   countryComboboxCopy,
   countryComboboxGroups,
 } from "@/content/countries";
-import { communityPageContent } from "@/content/community";
+import { usePublicFormSubmit } from "@/hooks/use-public-form-submit";
+import { asFormResolver } from "@/lib/forms/as-form-resolver";
+import { withPublicFormSecurity } from "@/lib/forms/public-form-defaults";
 import {
   communityDialogApplicationClientSchema,
   membershipApplicationDialogDefaultValues,

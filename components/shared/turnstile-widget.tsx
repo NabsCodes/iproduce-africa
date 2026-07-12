@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { useEffect, useRef, useState } from "react";
 
 type TurnstileWidgetProps = {
   siteKey: string;

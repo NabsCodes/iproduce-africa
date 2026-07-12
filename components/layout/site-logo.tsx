@@ -1,6 +1,7 @@
-import type { ComponentProps } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { ComponentProps } from "react";
+
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
 

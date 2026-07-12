@@ -1,6 +1,8 @@
-import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+import { Analytics } from "@vercel/analytics/next";
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+
 import { Footer } from "@/components/layout/footer";
 import { HashScrollHandler } from "@/components/layout/hash-scroll-handler";
 import { Header } from "@/components/layout/header";

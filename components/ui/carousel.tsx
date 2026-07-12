@@ -1,9 +1,10 @@
 "use client";
 
-import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
+import * as React from "react";
+
 import { CarouselDots as CarouselDotsBase } from "@/components/ui/carousel-dots";
 import { cn } from "@/lib/utils";
 

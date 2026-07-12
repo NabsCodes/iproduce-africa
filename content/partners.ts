@@ -1,6 +1,6 @@
-import type { PartnersPageContent } from "@/types/partners";
 import { countryOptions } from "@/content/countries";
 import { OTHER_OPTION_VALUE } from "@/schemas/constants";
+import type { PartnersPageContent } from "@/types/partners";
 
 export type Partner = {
   id: string;

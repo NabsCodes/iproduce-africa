@@ -7,9 +7,9 @@ import {
   type ContentCardTone,
 } from "@/components/shared/content-card";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { cn } from "@/lib/utils";
-import { ButtonLink } from "@/components/ui/button";
 import type { CatalogueEmptyStateContent } from "@/types/content";
 
 export type LearningListingItem = {

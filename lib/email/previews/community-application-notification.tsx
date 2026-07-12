@@ -1,5 +1,5 @@
-import { CommunityApplicationNotificationTemplate } from "@/lib/email/templates/community-application-notification";
 import { formatSubmittedAt } from "@/lib/email/format-submitted-at";
+import { CommunityApplicationNotificationTemplate } from "@/lib/email/templates/community-application-notification";
 
 const fixture = {
   fullName: "Amina Yusuf",
