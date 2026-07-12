@@ -4,8 +4,8 @@ import { dataset, projectId } from "./sanity/env";
 import { schemaTypes } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 import {
+  customTemplates,
   DEFAULT_TEMPLATE_IDS_TO_HIDE,
-  phase2Templates,
 } from "./sanity/templates";
 
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
     // excess properties here), and every initial-value template item then
     // fails to resolve at runtime with "template id (`templateId`) is
     // required for initial value template item nodes".
-    templates: (prev: Template[]) => [...prev, ...phase2Templates],
+    templates: (prev: Template[]) => [...prev, ...customTemplates],
   },
   document: {
     // Hide the two auto-generated generic templates so the global "+"

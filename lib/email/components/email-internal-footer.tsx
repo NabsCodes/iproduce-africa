@@ -10,17 +10,32 @@ export function EmailInternalFooter({ disclaimer }: { disclaimer?: string }) {
   const siteHost = siteUrl.replace(/^https?:\/\//, "");
 
   return (
-    <Section style={styles.footer} align="center">
-      <Text style={styles.line}>
+    <Section
+      className="email-internal-footer"
+      style={styles.footer}
+      align="center"
+    >
+      <Text className="email-internal-footer-line" style={styles.line}>
         {siteConfig.name} ·{" "}
-        <Link href={siteUrl} style={styles.link}>
+        <Link
+          href={siteUrl}
+          className="email-internal-footer-link"
+          style={styles.link}
+        >
           {siteHost}
         </Link>
       </Text>
-      <Text style={styles.copyright}>
+      <Text className="email-internal-footer-copy" style={styles.copyright}>
         © {year} {siteConfig.name}. Internal use only.
       </Text>
-      {disclaimer ? <Text style={styles.disclaimer}>{disclaimer}</Text> : null}
+      {disclaimer ? (
+        <Text
+          className="email-internal-footer-disclaimer"
+          style={styles.disclaimer}
+        >
+          {disclaimer}
+        </Text>
+      ) : null}
     </Section>
   );
 }

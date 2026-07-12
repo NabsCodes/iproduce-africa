@@ -15,23 +15,31 @@ export function EmailSubscriberFooter() {
   ] as const;
 
   return (
-    <Section style={styles.footer} align="center">
-      <Text style={styles.links}>
+    <Section className="email-footer" style={styles.footer} align="center">
+      <Text className="email-footer-links" style={styles.links}>
         {exploreLinks.map((item, index) => (
           <span key={item.href}>
             {index > 0 ? " · " : null}
-            <Link href={item.href} style={styles.link}>
+            <Link
+              href={item.href}
+              className="email-footer-link"
+              style={styles.link}
+            >
               {item.label}
             </Link>
           </span>
         ))}
       </Text>
       <Text style={styles.siteLine}>
-        <Link href={siteUrl} style={styles.siteLink}>
+        <Link
+          href={siteUrl}
+          className="email-footer-site"
+          style={styles.siteLink}
+        >
           {siteHost}
         </Link>
       </Text>
-      <Text style={styles.copyright}>
+      <Text className="email-footer-copy" style={styles.copyright}>
         © {year} {siteConfig.name}. All rights reserved.
       </Text>
     </Section>
@@ -47,14 +55,14 @@ const styles = {
   },
   links: {
     margin: "0 auto 12px",
-    color: emailColors.mastheadText,
+    color: emailColors.footerText,
     fontSize: "14px",
     fontFamily: emailSansFamily,
     lineHeight: "1.6",
     textAlign: "center" as const,
   },
   link: {
-    color: emailColors.mastheadText,
+    color: emailColors.footerText,
     textDecoration: "underline",
     fontWeight: "500",
   },
@@ -63,14 +71,14 @@ const styles = {
     textAlign: "center" as const,
   },
   siteLink: {
-    color: "rgba(255,255,255,0.85)",
+    color: emailColors.footerSite,
     fontSize: "13px",
     fontFamily: emailSansFamily,
     textDecoration: "none",
   },
   copyright: {
     margin: "0 auto",
-    color: "rgba(255,255,255,0.55)",
+    color: emailColors.footerCopy,
     fontSize: "11px",
     fontFamily: emailSansFamily,
     lineHeight: "1.5",

@@ -11,6 +11,7 @@ import { partnersPageContent } from "@/content/partners";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
 import { fetchFaqs } from "@/lib/sanity/fetch/faqs";
+import { fetchPartners } from "@/lib/sanity/fetch/partners";
 import { fetchTestimonials } from "@/lib/sanity/fetch/testimonials";
 
 export const metadata = createPageMetadata(pageSeo.partners);
@@ -18,9 +19,10 @@ export const revalidate = 3600;
 
 export default async function PartnersPage() {
   // const impact = partnersPageContent.impact;
-  const [voices, faqs] = await Promise.all([
+  const [voices, faqs, { voices: partners }] = await Promise.all([
     fetchTestimonials("partners-voices"),
     fetchFaqs("partners"),
+    fetchPartners(),
   ]);
 
   return (
@@ -36,7 +38,9 @@ export default async function PartnersPage() {
         items={impact.items}
       /> */}
       <OpportunitiesSection />
-      {voices.length > 0 ? <VoicesSection voices={voices} /> : null}
+      {voices.length > 0 ? (
+        <VoicesSection voices={voices} partners={partners} />
+      ) : null}
       <InquirySection />
       {faqs.length > 0 ? (
         <FaqSection content={{ ...partnersPageContent.faqs, items: faqs }} />

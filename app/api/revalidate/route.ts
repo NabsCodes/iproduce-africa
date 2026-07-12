@@ -5,21 +5,22 @@ import { parseBody } from "next-sanity/webhook";
 /**
  * Sanity webhook → `revalidatePath`. `academyArticle` (blog track),
  * `academyWebinar` (webinars track), `academyCourse` (courses track),
- * `testimonial`, and `faq` (Phase 2 slice 2A) are all wired now — see
- * docs/cms-migration-spec.md's Phase 2 revalidation table.
+ * `testimonial`, `faq`, and `partner` are all wired now — see
+ * docs/cms-migration-spec.md's revalidation table.
  *
  * Studio-side webhook setup (manual, sanity.io dashboard): **one combined
  * webhook per dataset** (one for `development`, one for `production` once
  * that dataset exists) — not one webhook per `_type`. Trigger on
  * create/update/delete, filter on every revalidatable type at once:
- * `_type in ["academyArticle", "academyWebinar", "academyCourse", "testimonial", "faq"]`,
+ * `_type in ["academyArticle", "academyWebinar", "academyCourse", "testimonial", "faq", "partner"]`,
  * and set the payload projection to
  * `{"_type": _type, "slug": slug.current, "previousSlug": before().slug.current}`
  * — `before()` holds the pre-mutation document, so this also carries the old
- * slug through a slug change. `slug` is simply absent on types without a
- * slug field (`testimonial`/`faq`); GROQ resolves that to `null` rather than
- * erroring, and this route only revalidates slug-based paths when
- * `DETAIL_PATH_PREFIX_BY_TYPE` has an entry for the incoming `_type`.
+ * slug through a slug change. `slug` is absent on types without a slug
+ * field (`testimonial`/`faq`); GROQ resolves that to `null` rather than
+ * erroring. `partner` does have a `slug`, but only as a stable internal id
+ * — there's no public `/partners/<slug>` route, so it still has no
+ * `DETAIL_PATH_PREFIX_BY_TYPE` entry below.
  */
 
 type SanityWebhookPayload = {
@@ -34,6 +35,7 @@ const STATIC_PATHS_BY_TYPE: Record<string, readonly string[]> = {
   academyCourse: ["/academy/courses", "/academy", "/", "/academy/search"],
   testimonial: ["/", "/academy", "/partners"],
   faq: ["/", "/academy", "/community", "/partners", "/contact"],
+  partner: ["/", "/partners"],
 };
 
 /** Detail route prefix per `_type`, for old/new slug revalidation on change. */

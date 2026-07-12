@@ -11,14 +11,18 @@ import {
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
+import { cn } from "@/lib/utils";
 import type { TestimonialItem } from "@/types/content";
+import type { Partner } from "@/types/partners";
 
 type VoicesSectionProps = {
   voices: readonly TestimonialItem[];
+  partners: readonly Partner[];
 };
 
-export function VoicesSection({ voices }: VoicesSectionProps) {
+export function VoicesSection({ voices, partners }: VoicesSectionProps) {
   const section = partnersPageContent.voices;
+  const hasLogos = partners.length > 0;
 
   return (
     <section className="bg-subtle relative overflow-clip py-14 sm:py-16 lg:py-20">
@@ -27,8 +31,15 @@ export function VoicesSection({ voices }: VoicesSectionProps) {
         className="text-tangerine-300 top-0 right-0 hidden size-[320px] translate-x-[60%] -translate-y-1/2 md:block xl:size-[380px]"
       />
       <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-start lg:gap-14">
-          <div className="min-w-0">
+        <div
+          className={cn(
+            "grid gap-10 lg:items-start lg:gap-14",
+            hasLogos ? "lg:grid-cols-[1.05fr_1fr]" : "lg:grid-cols-1",
+          )}
+        >
+          <div
+            className={cn("min-w-0", !hasLogos && "mx-auto w-full max-w-2xl")}
+          >
             <MotionFade>
               <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
               <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
@@ -70,7 +81,7 @@ export function VoicesSection({ voices }: VoicesSectionProps) {
             </MotionFade>
           </div>
 
-          <VoicesLogoGrid />
+          {hasLogos ? <VoicesLogoGrid partners={partners} /> : null}
         </div>
       </div>
     </section>

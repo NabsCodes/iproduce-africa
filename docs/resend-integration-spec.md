@@ -34,6 +34,32 @@ CMS setup.
 - Missing env config fails safely (503 + friendly copy), not silent success.
 - Client can own the Resend project and domain at handoff.
 
+## Turnstile UX Simplification Direction (planned)
+
+This is the approved direction for the next public-form cleanup. It is documented
+before implementation so future agents do not add more Turnstile wiring to each
+form or mistake the proposed behavior for already-shipped code.
+
+- Normal state: render no Turnstile helper copy. Keep the existing
+  `appearance: "interaction-only"` behavior so Cloudflare only becomes visible
+  when a visitor must act.
+- Challenge state: let the Cloudflare widget provide the interaction. Do not add
+  a second custom verification panel around it.
+- Failure state: show one short recovery message with one retry action and the
+  existing email fallback. Do not expose token, expiry, reset, or vendor error
+  details to the visitor.
+- Retry behavior: one user action must cause one widget reset. Prefer the
+  library's automatic retry/refresh behavior for ordinary transient failures.
+- Form API: reduce per-form Turnstile props toward
+  `<PublicFormSecurityFields control={form.control} />`; keep token/reset
+  mechanics inside the shared form layer wherever practical.
+- Preserve the existing synchronous submit lock, server-side verification,
+  honeypot, rate limiting, and production fail-closed behavior.
+
+Not part of this UX pass: a subscriber database, CRM, broad form architecture
+rewrite, or advanced security controls without production evidence. Durable
+submission idempotency remains a separate delivery-reliability decision.
+
 ## Out Of Scope For This Integration
 
 - Sanity CMS migration

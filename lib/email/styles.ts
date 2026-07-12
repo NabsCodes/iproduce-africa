@@ -20,6 +20,11 @@ export const emailColors = {
   link: "#43612a",
   footerBg: "#eef2ec",
   stepNumber: "#548330",
+  // Subscriber footer sits on the dark masthead green. These are solid (not
+  // translucent) so dark-mode clients can't turn them into invisible grays.
+  footerText: "#ffffff",
+  footerSite: "#c8e39a",
+  footerCopy: "#9fb389",
 } as const;
 
 export const emailFontFamily =
@@ -184,6 +189,53 @@ export const emailSubscriberMobileStyles = `
     }
     .email-logo { width: 152px !important; height: auto !important; }
   }
+`;
+
+// Locks the subscriber footer to its brand colors so dark-mode clients don't
+// auto-invert the dark-green band into a light one with unreadable text.
+// `prefers-color-scheme` covers Apple Mail / iOS; `[data-ogsc]` / `[data-ogsb]`
+// cover Outlook's dark-mode class hooks.
+export const emailColorSchemeStyles = `
+  @media (prefers-color-scheme: dark) {
+    .email-masthead-hero { background-color: ${emailColors.masthead} !important; }
+    .email-masthead-eyebrow { color: ${emailColors.mastheadMuted} !important; }
+    .email-cta {
+      background-color: ${emailColors.accent} !important;
+      color: ${emailColors.accentContrast} !important;
+    }
+    .email-footer { background-color: ${emailColors.masthead} !important; }
+    .email-footer-links,
+    .email-footer-link { color: ${emailColors.footerText} !important; }
+    .email-footer-site { color: ${emailColors.footerSite} !important; }
+    .email-footer-copy { color: ${emailColors.footerCopy} !important; }
+  }
+  [data-ogsc] .email-masthead-hero,
+  [data-ogsb] .email-masthead-hero { background-color: ${emailColors.masthead} !important; }
+  [data-ogsc] .email-masthead-eyebrow { color: ${emailColors.mastheadMuted} !important; }
+  [data-ogsc] .email-cta {
+    background-color: ${emailColors.accent} !important;
+    color: ${emailColors.accentContrast} !important;
+  }
+  [data-ogsc] .email-footer,
+  [data-ogsb] .email-footer { background-color: ${emailColors.masthead} !important; }
+  [data-ogsc] .email-footer-links,
+  [data-ogsc] .email-footer-link { color: ${emailColors.footerText} !important; }
+  [data-ogsc] .email-footer-site { color: ${emailColors.footerSite} !important; }
+  [data-ogsc] .email-footer-copy { color: ${emailColors.footerCopy} !important; }
+
+  @media (prefers-color-scheme: dark) {
+    .email-internal-footer { background-color: ${emailColors.fieldBg} !important; }
+    .email-internal-footer-line,
+    .email-internal-footer-disclaimer { color: ${emailColors.muted} !important; }
+    .email-internal-footer-copy { color: ${emailColors.subtle} !important; }
+    .email-internal-footer-link { color: ${emailColors.link} !important; }
+  }
+  [data-ogsc] .email-internal-footer,
+  [data-ogsb] .email-internal-footer { background-color: ${emailColors.fieldBg} !important; }
+  [data-ogsc] .email-internal-footer-line,
+  [data-ogsc] .email-internal-footer-disclaimer { color: ${emailColors.muted} !important; }
+  [data-ogsc] .email-internal-footer-copy { color: ${emailColors.subtle} !important; }
+  [data-ogsc] .email-internal-footer-link { color: ${emailColors.link} !important; }
 `;
 
 // Use a simple non-breaking space character to pad the preview text.

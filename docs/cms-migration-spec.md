@@ -248,11 +248,16 @@ Same phase, smaller PRs. Each slice: schemas + fetch + migrate seed to
   actually empty a section). `faq.category` uses a controlled `options.list`
   instead of free text.
 
-**2B — Partners**
+**2B — Partners — done (2026-07-12, see implementation log)**
 
 - `partner` schema + fetch + `buildVoicesLogoGrid()` helper (code-owned layout)
-- Wire: Home marquee, Partners marquee + voices logo grid + voice quotes already
+- Wire: Home marquee, Partners voices logo grid + voice quotes already
   in 2A for quotes — order 2A before 2B or ship quotes with 2A and logos in 2B
+- **Corrected during implementation:** not every partner appears on both
+  surfaces — `showInMarquee`/`showInVoices` are independent per-partner
+  booleans, not one shared list (see implementation log). No logo marquee
+  was added to `/partners` itself — that route deliberately has only the
+  voices logo grid, matching its current design.
 
 **2C — People**
 
@@ -270,9 +275,9 @@ Shared across slices:
 cmsItems : staticItems` runtime fallback would make "delete everything"
    impossible to actually action. This makes migration-before-deploy a hard
    requirement per slice, not just a nice-to-have: run
-   `scripts/migrate-phase2-to-sanity.ts --execute` against `development` and
+   `scripts/migrate-trust-content-to-sanity.ts --execute` against `development` and
    verify in Studio _before_ that slice's route changes ship.
-3. `scripts/migrate-phase2-to-sanity.ts` — can run per slice or once at end of
+3. `scripts/migrate-trust-content-to-sanity.ts` — can run per slice or once at end of
    Phase 2; always targets **`development` first**
 
 **Production dataset:** migrate placeholders only after client/staging review —
@@ -810,7 +815,7 @@ approval.
 2. **Phase 1:** all Academy catalogues + authors → `development`, then production
    when approved.
 3. **Phase 2:** testimonials, FAQs, partners, team/advisors, member stories —
-   `scripts/migrate-phase2-to-sanity.ts`; same dataset policy.
+   `scripts/migrate-trust-content-to-sanity.ts`; same dataset policy.
 4. **Default target:** `development` dataset; require
    `--dataset production --confirm` for production writes.
 5. **Idempotent:** deterministic document `_id` per record (see below); use

@@ -3,6 +3,89 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Turnstile UX simplification review and wireframe (2026-07-12)
+
+Reviewed all seven public form surfaces plus the shared Turnstile client/server
+path before changing production code. The existing submit lock, server
+verification, honeypot, rate limiting, and automatic token refresh remain the
+baseline. The next UX pass should make normal verification invisible, let the
+Cloudflare widget own any required challenge, and show one compact recovery
+message only when verification genuinely fails.
+
+Documented the planned direction in `docs/resend-integration-spec.md`: remove
+always-visible helper copy, avoid a custom challenge wrapper, make retry perform
+one reset, and reduce per-form Turnstile props toward a single shared security
+field call. Kept durable submission idempotency separate from this small UX
+cleanup so the form layer is not broadly rewritten without production evidence.
+
+Also recorded two current limitations in the production cutover doc: retry/reset
+plumbing is still spread across form components, and a successful Resend send
+followed by a lost browser response can still be retried as a second delivery.
+No application code changed in this review.
+
+## Sanity CMS — Phase 2 slice 2B: partners (2026-07-12)
+
+Second Phase 2 slice. Added `partner` (`sanity/schemaTypes/documents/partner.ts`):
+`slug` (stable public id — never Sanity's internal `_id`), `name`, `logo`
+(required image, required `alt`), `website`, and two independent booleans,
+`showInMarquee`/`showInVoices` (both default `true`). Registered in
+`sanity/schemaTypes/index.ts` and the Studio desk's Trust & Content group as
+a plain list — no filtered sub-lists needed, since (unlike 2A's
+testimonials/FAQs) there's only one creation path, not several
+placement/page destinations.
+
+**Corrected during planning, before implementation:** the first plan draft
+assumed every partner shows on both the Home marquee and the Partners-page
+voices logo grid — wrong. `showInMarquee`/`showInVoices` are independent per
+partner, so an editor can pull a logo from one surface without touching the
+other or deleting the partner record. `fetchPartners()`
+(`lib/sanity/fetch/partners.ts`) runs one GROQ query and splits the result
+into `{ marquee, voices }` pools rather than two separate requests. The
+`Partner` type moved from `content/partners.ts` to `types/partners.ts`
+(repo convention: `types/` owns contracts, `content/` owns data) and gained
+`logoAlt?: string`; `PartnerLogo` now renders `alt={partner.logoAlt ?? partner.name}`.
+
+**Real blocker caught during planning, before `--execute`:** every existing
+partner logo is a local `/images/partners/*.{webp,png}` path — unlike every
+image migrated so far (`lib/placeholder-images.ts` is 100% remote Unsplash
+URLs). `scripts/migrate-trust-content-to-sanity.ts`'s asset resolver only
+ever did `fetch(url)` and hardcoded the uploaded filename extension to
+`.jpg` regardless of source. Fixed: local paths (`/...`) now read via
+`node:fs/promises`' `readFile` from `public/<path>`, remote paths still use
+`fetch`; `filenameForUrl` extracts the real extension; a local-file
+existence check runs unconditionally (including in `--offline`/dry-run, not
+just `--execute`) and throws — caught by the calling `migratePartners`'s
+per-item try/catch, same isolation as every other migrate function.
+
+Wired: `/` (Home marquee, hidden if `marquee` is empty),
+`/partners` (`VoicesSection` — Partners-page voices logo grid, hidden if
+`voices` is empty). No marquee added to `/partners` itself (that route
+deliberately has none, confirmed during planning). `VoicesSection`'s
+previously-fixed two-column layout now degrades to a centered
+single-column layout when the logo pool is empty, instead of leaving a
+blank grid column next to the quote carousel.
+
+`app/api/revalidate/route.ts` gained a `partner` entry in
+`STATIC_PATHS_BY_TYPE` (`["/", "/partners"]`) — no detail-path entry, since
+`partner`'s `slug` is an internal stable id, not a public route.
+
+**Verification:** ran the migration script dry-run → `--offline` (correctly
+found and reported all 6 local logo files, extensions preserved) →
+`--execute` against `development` (6/6 created, 0 errors) before wiring the
+routes. Confirmed directly against Sanity (with a read token — see the
+`lib/sanity/client.ts` note about the `development` dataset being private
+and silently returning empty results for unauthenticated queries, which
+produced a false-negative on the first verification attempt here) that all
+6 assets uploaded with correct `.webp`/`.png` extensions and real
+dimensions. `pnpm format`/`lint`/`typecheck`/`build` all pass. Manual QA by
+toggling `showInMarquee`/`showInVoices` directly via the Sanity client
+(faster and more reliable than clicking through Studio for this many
+combinations) confirmed all three cases independently: marquee-only,
+voices-only, hidden-from-both; also confirmed the empty-voices-pool
+single-column layout renders correctly (quotes still show, no blank grid
+column) by temporarily setting every partner's `showInVoices` to `false`,
+then restored all values to their seeded defaults afterward.
+
 ## Sanity CMS — Phase 2 slice 2A: testimonials + FAQs (2026-07-11)
 
 First Phase 2 slice ("trust & people" content). Added `testimonial` and
@@ -28,7 +111,7 @@ pattern. If a fetch returns `[]`, the section hides
 old static array. A `cmsItems.length ? cmsItems : staticItems` fallback
 would mean a deliberate delete-everything in Studio could never actually
 empty a section — wrong permanently, not just during rollout. This makes
-migration-before-deploy a hard requirement: `scripts/migrate-phase2-to-sanity.ts
+migration-before-deploy a hard requirement: `scripts/migrate-trust-content-to-sanity.ts
 --execute` against `development` must run and be verified before these route
 changes ship, or a route briefly renders a hidden section against an empty
 collection. (This run already happened this session — see verification
@@ -43,7 +126,7 @@ All five routes are `async` with `revalidate = 3600`. `app/api/revalidate/route.
 gained `testimonial` and `faq` entries in `STATIC_PATHS_BY_TYPE` (neither has
 a public detail route, so no slug-prefix entry needed).
 
-New script: `scripts/migrate-phase2-to-sanity.ts` (`pnpm migrate:phase2`),
+New script: `scripts/migrate-trust-content-to-sanity.ts` (`pnpm migrate:trust-content`),
 mirroring `scripts/migrate-academy-to-sanity.ts`'s dry-run/`--offline`/`--execute`/
 dev-dataset-only guard shape. Seeds 34 docs total: 6 home testimonials, 3
 academy testimonials, 3 partner voice quotes, 5 home FAQs, 6 academy FAQs, 5
@@ -92,7 +175,7 @@ sign-off.
   projection for old-slug revalidation.
 
 Re-verified after these fixes: `pnpm format`/`lint`/`typecheck`/`build` all
-pass; `git diff --check` clean; re-ran `pnpm migrate:phase2` (no `--execute`
+pass; `git diff --check` clean; re-ran `pnpm migrate:trust-content` (no `--execute`
 flags) and confirmed all 34 previously-seeded docs report `SKIP` (idempotent,
 0 errors) rather than re-creating; confirmed every already-seeded FAQ's
 category matches its page under the new per-page map (no data drift to fix).

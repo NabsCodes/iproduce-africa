@@ -6,7 +6,7 @@ import {
   ListingFilterBar,
 } from "@/components/academy/listings/listing-filter-bar";
 import type { WebinarFilterType } from "@/content/webinars";
-import { webinarsListing,webinarToCardItem } from "@/content/webinars";
+import { webinarsListing, webinarToCardItem } from "@/content/webinars";
 import { useListingFilter } from "@/hooks/use-listing-filter";
 import type { AcademyWebinar } from "@/types/academy";
 

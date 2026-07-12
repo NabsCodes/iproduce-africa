@@ -2,9 +2,13 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { Marquee } from "@/components/ui/marquee";
-import { partnersList } from "@/content/partners";
+import type { Partner } from "@/types/partners";
 
-export function PartnersSection() {
+type PartnersSectionProps = {
+  partners: readonly Partner[];
+};
+
+export function PartnersSection({ partners }: PartnersSectionProps) {
   return (
     <section className="bg-forest-subtle py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -26,7 +30,7 @@ export function PartnersSection() {
               repeat={4}
               className="[--duration:20s] [--gap:1rem]"
             >
-              {partnersList.map((partner) => (
+              {partners.map((partner) => (
                 <div
                   key={partner.id}
                   className="border-border/60 bg-panel flex h-16 w-[180px] items-center justify-center rounded-xl border px-6 sm:h-20 sm:w-[240px] sm:px-8"

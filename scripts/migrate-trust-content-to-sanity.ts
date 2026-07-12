@@ -1,30 +1,33 @@
 import { createHash } from "node:crypto";
+import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 import { createClient, type SanityClient } from "next-sanity";
 
 import { academyContent } from "@/content/academy";
 import { communityPageContent } from "@/content/community";
 import { homeContent } from "@/content/home";
-import { partnersPageContent } from "@/content/partners";
+import { partnersList, partnersPageContent } from "@/content/partners";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { FaqPage } from "@/lib/sanity/faq-categories";
 import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
 import type { FaqItem, TestimonialItem } from "@/types/content";
+import type { Partner } from "@/types/partners";
 
 /**
- * Seeds development-dataset placeholders for Phase 2 slice 2A
- * (testimonials + FAQs) from static content/* — mirrors
+ * Seeds development-dataset placeholders for testimonials, FAQs, and
+ * partners from static content/* — mirrors
  * scripts/migrate-academy-to-sanity.ts's exact flag/dataset-guard shape.
  * Modes:
  *   (no flags)          read-only dry-run — reports CREATE/SKIP against Sanity
  *   --offline           zero network calls — pure local content validation
  *   --execute           performs real writes
- *   --dataset <name>    always "development" this slice — any other value throws
+ *   --dataset <name>    always "development" — any other value throws
  *
- * Run order matters for this slice: routes wired in this cutover have no
- * runtime static fallback, so this script must be run with --execute against
- * "development" and verified in Studio *before* the route changes deploy —
- * see the plan doc for why.
+ * Run order matters: the routes reading these types have no runtime static
+ * fallback, so this script must be run with --execute against "development"
+ * and verified in Studio *before* the route changes deploy.
  */
 
 type Flags = { offline: boolean; execute: boolean; dataset: string };
@@ -75,7 +78,38 @@ function logWouldUpload(url: string, filename: string) {
   console.log(`WOULD_UPLOAD ${url} as ${filename}`);
 }
 
-// ─── Image asset flattening + resolution (testimonial photos only, all optional) ───
+// ─── Image asset flattening + resolution ───────────────────────────────────
+//
+// Two source kinds: remote URLs (testimonial avatars, all Unsplash so far)
+// and local `/public`-relative paths (every partner logo). `fetch()` only
+// works for the former — local paths are read straight off disk instead.
+
+function isLocalPublicPath(url: string): boolean {
+  return url.startsWith("/");
+}
+
+function resolveLocalPath(url: string): string {
+  return path.join(process.cwd(), "public", url);
+}
+
+async function readSourceBytes(url: string): Promise<Buffer> {
+  if (isLocalPublicPath(url)) {
+    return readFile(resolveLocalPath(url));
+  }
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to download ${url}: HTTP ${response.status}`);
+  }
+  return Buffer.from(await response.arrayBuffer());
+}
+
+/** Real extension from the source path/URL — every uploaded filename was
+ * silently hardcoded to `.jpg` before this, which would have mislabeled
+ * every `.webp`/`.png` partner logo. */
+function extensionForUrl(url: string): string {
+  const match = /\.([a-zA-Z0-9]+)(?:\?.*)?$/.exec(url);
+  return match ? match[1].toLowerCase() : "jpg";
+}
 
 function flattenImagePaths(
   value: unknown,
@@ -112,7 +146,7 @@ function filenameForUrl(url: string): string {
   const base = dottedPath
     ? slugify(dottedPath.replace(/\./g, "-"))
     : createHash("sha1").update(url).digest("hex").slice(0, 12);
-  return `${base}.jpg`;
+  return `${base}.${extensionForUrl(url)}`;
 }
 
 type AssetRef = { _type: "reference"; _ref: string };
@@ -127,6 +161,15 @@ function createAssetResolver(client: SanityClient | null, flags: Flags) {
   return async function resolveImageAsset(url: string): Promise<AssetRef> {
     const cached = cache.get(url);
     if (cached) return cached;
+
+    // Checked unconditionally, before the offline/execute branches below,
+    // so a missing local file is caught during dry-run/--offline too, not
+    // just discovered when --execute tries to read it.
+    if (isLocalPublicPath(url) && !existsSync(resolveLocalPath(url))) {
+      throw new Error(
+        `Local asset not found: ${resolveLocalPath(url)} (referenced by ${url})`,
+      );
+    }
 
     const filename = filenameForUrl(url);
 
@@ -162,11 +205,7 @@ function createAssetResolver(client: SanityClient | null, flags: Flags) {
       return ref;
     }
 
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to download ${url}: HTTP ${response.status}`);
-    }
-    const buffer = Buffer.from(await response.arrayBuffer());
+    const buffer = await readSourceBytes(url);
     const asset = await client!.assets.upload("image", buffer, { filename });
     const ref: AssetRef = { _type: "reference", _ref: asset._id };
     cache.set(url, ref);
@@ -287,6 +326,50 @@ async function migrateFaqs(
   }
 }
 
+async function migratePartners(
+  client: SanityClient | null,
+  flags: Flags,
+  resolveImageAsset: ImageResolver,
+  items: readonly Partner[],
+) {
+  for (const partner of items) {
+    const id = `partner.${partner.id}`;
+    const plan = await planUpsert(client, flags, id);
+
+    if (plan === "unknown") continue;
+    if (plan === "skip") {
+      logSkip(id);
+      continue;
+    }
+
+    try {
+      const logoAsset = await resolveImageAsset(partner.logo);
+
+      if (!flags.execute) {
+        logCreate(
+          `${plan === "offline" ? "[offline-plan]" : "[would-create]"} ${id}`,
+        );
+        continue;
+      }
+
+      await client!.createIfNotExists({
+        _id: id,
+        _type: "partner",
+        slug: { _type: "slug", current: partner.id },
+        name: partner.name,
+        logo: { _type: "image", asset: logoAsset, alt: partner.name },
+        ...(partner.href && { website: partner.href }),
+        showInMarquee: true,
+        showInVoices: true,
+        ...(partner.order !== undefined && { order: partner.order }),
+      });
+      logCreate(id);
+    } catch (err) {
+      logError(`failed to create ${id}: ${(err as Error).message}`);
+    }
+  }
+}
+
 // ─── Entry point ────────────────────────────────────────────────────────────
 
 async function main() {
@@ -317,7 +400,7 @@ async function main() {
   }
 
   console.log(
-    `Migrating Phase 2 slice 2A (testimonials + FAQs) — dataset="${flags.dataset}" offline=${flags.offline} execute=${flags.execute}\n`,
+    `Migrating testimonials + FAQs + partners — dataset="${flags.dataset}" offline=${flags.offline} execute=${flags.execute}\n`,
   );
 
   const resolveImageAsset = createAssetResolver(client, flags);
@@ -353,6 +436,8 @@ async function main() {
     "community",
   );
   await migrateFaqs(client, flags, partnersPageContent.faqs.items, "partners");
+
+  await migratePartners(client, flags, resolveImageAsset, partnersList);
 
   console.log("\n─── Summary ───────────────────────────────");
   console.log(`Created: ${manifest.create.length}`);

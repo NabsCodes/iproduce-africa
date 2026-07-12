@@ -17,8 +17,14 @@ export function EmailSubscriberMasthead({ eyebrow }: { eyebrow: string }) {
           style={{ display: "block", margin: "0 auto" }}
         />
       </Section>
-      <Section style={styles.heroBand} align="center">
-        <Text style={styles.eyebrow}>{eyebrow}</Text>
+      <Section
+        className="email-masthead-hero"
+        style={styles.heroBand}
+        align="center"
+      >
+        <Text className="email-masthead-eyebrow" style={styles.eyebrow}>
+          {eyebrow}
+        </Text>
       </Section>
     </>
   );

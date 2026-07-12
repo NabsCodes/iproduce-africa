@@ -36,7 +36,7 @@ a redeploy because the browser bundle reads it.
 | --------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Resend    | `RESEND_API_KEY`, `EMAIL_FROM`                                                                                                  | Dedicated iProduce project key; `EMAIL_FROM` only switches to `info@...` after DNS verify  |
 | Inboxes   | `CONTACT_TO_EMAIL`, `PARTNERS_TO_EMAIL`, `COMMUNITY_TO_EMAIL`, `ACADEMY_TO_EMAIL`, `NEWSLETTER_TO_EMAIL`                        | Confirm with client; all can point to `info@iproduceafrica.com` until routing is separated |
-| Turnstile | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`                                                                        | Same Cloudflare Turnstile widget, public site key in browser, secret key on server         |
+| Turnstile | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`                                                                        | Environment-specific widget pair; public site key in browser, secret key on server         |
 | Upstash   | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`                                                                            | Required when `VERCEL_ENV=production`; forms fail closed without them                      |
 | Vercel    | `NEXT_PUBLIC_SITE_URL`, `EMAIL_ASSETS_BASE_URL`; Vercel injects `VERCEL_ENV`, `VERCEL_URL`, and `VERCEL_PROJECT_PRODUCTION_URL` | Match the active origin; switch both URL vars to `https://iproduceafrica.com` after DNS    |
 
@@ -58,10 +58,12 @@ only, never for real secret values.
 
 2. Turnstile
 
-- Create one Cloudflare Turnstile widget for the public site.
-- Include every domain that can host live forms:
-  `localhost` for local testing, the Vercel preview/production domains, and
-  `iproduceafrica.com` once cut over.
+- Use separate Turnstile widgets for local/preview testing and production so
+  the production widget only trusts production hostnames.
+- Allow `localhost` and Vercel preview domains on the non-production widget.
+- Allow only the active Vercel production domain and `iproduceafrica.com` on
+  the production widget during cutover; remove the temporary Vercel hostname
+  when it no longer serves public forms.
 - Put the site key in `NEXT_PUBLIC_TURNSTILE_SITE_KEY`.
 - Put the secret key in `TURNSTILE_SECRET_KEY`.
 - Redeploy after changing the public site key.
@@ -128,3 +130,10 @@ is not interrupted.
   uniqueness is not durable.
 - Email logo delivery depends on `EMAIL_ASSETS_BASE_URL` or `NEXT_PUBLIC_SITE_URL`
   pointing at a deployed site that serves `/brand/email-logo.png`.
+- Turnstile's current shared component still exposes retry/reset plumbing to
+  each form and always renders helper copy. The smaller three-state UX direction
+  is documented in `docs/resend-integration-spec.md` but is not implemented yet.
+- A successful Resend send followed by a lost browser response can still be
+  retried as a second submission. Client-side locking prevents concurrent
+  repeats, not this uncertain-response case; durable submission idempotency is a
+  separate production-hardening decision.

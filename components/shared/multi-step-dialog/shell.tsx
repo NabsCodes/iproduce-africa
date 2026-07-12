@@ -13,7 +13,7 @@ import {
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
 
-import { type MultiStepDialogStep,MultiStepDialogStepper } from "./stepper";
+import { type MultiStepDialogStep, MultiStepDialogStepper } from "./stepper";
 import {
   type MultiStepDialogSuccess,
   MultiStepDialogSuccessPanel,

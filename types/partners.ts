@@ -9,6 +9,16 @@ import type {
   ImpactStatItem,
 } from "@/types/content";
 
+/** Shared by the Home marquee and the Partners-page voices logo grid. */
+export type Partner = {
+  id: string;
+  name: string;
+  logo: string;
+  logoAlt?: string;
+  href?: string;
+  order?: number;
+};
+
 export type PartnersHeroTitle = {
   lead: string;
   accentOne: string;

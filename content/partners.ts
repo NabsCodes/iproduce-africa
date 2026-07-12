@@ -1,15 +1,6 @@
 import { countryOptions } from "@/content/countries";
 import { OTHER_OPTION_VALUE } from "@/schemas/constants";
-import type { PartnersPageContent } from "@/types/partners";
-
-export type Partner = {
-  id: string;
-  name: string;
-  logo: string;
-  href?: string;
-  /** Lower numbers surface first in marquee + voices grid (CMS `order`). */
-  order?: number;
-};
+import type { Partner, PartnersPageContent } from "@/types/partners";
 
 export const partnersList: Partner[] = [
   {

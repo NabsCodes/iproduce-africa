@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import type { Partner } from "@/content/partners";
 import { cn } from "@/lib/utils";
+import type { Partner } from "@/types/partners";
 
 type PartnerLogoProps = {
   partner: Partner;
@@ -27,7 +27,7 @@ export function PartnerLogo({ partner, className }: PartnerLogoProps) {
   ) : (
     <Image
       src={partner.logo}
-      alt={partner.name}
+      alt={partner.logoAlt ?? partner.name}
       width={200}
       height={64}
       style={{ width: "auto" }}

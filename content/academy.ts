@@ -1,4 +1,4 @@
-import { blogContent,getBlogHubPreviewItems } from "@/content/blog";
+import { blogContent, getBlogHubPreviewItems } from "@/content/blog";
 import { academyHubCourses, coursesContent } from "@/content/courses";
 import {
   academyFeaturedEvent,

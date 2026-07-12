@@ -9,7 +9,7 @@ import type { Template } from "sanity";
  * `placement`/`page` simply wouldn't show up in the list they created it
  * from.
  */
-export const phase2Templates: Template[] = [
+export const customTemplates: Template[] = [
   {
     id: "testimonial-home",
     title: "Testimonial (Home)",
@@ -57,7 +57,7 @@ export const phase2Templates: Template[] = [
 /**
  * Sanity auto-generates one default template per document type, id equal
  * to the schema type name (`testimonial`, `faq`) — it doesn't set
- * `placement`/`page`. With `phase2Templates` above covering every real
+ * `placement`/`page`. With `customTemplates` above covering every real
  * destination, these two defaults are pure ambiguity: the global "+" Create
  * menu would otherwise offer a generic "Testimonial"/"FAQ" alongside the 7
  * named ones, and creating from there leaves the document unclassified

@@ -47,11 +47,10 @@ function faqsByPage(
     );
 }
 
-// Phase 1: three Academy catalogues + Authors. Phase 2 slice 2A adds a
-// Trust & Content group with filtered Testimonials/FAQs sub-lists — same
-// underlying `testimonial`/`faq` documents, organized for editors by
-// `placement`/`page` rather than exposed as one flat, unfiltered list. No
-// Vision plugin.
+// Academy catalogues + Authors, plus a Trust & Content group with filtered
+// Testimonials/FAQs sub-lists — same underlying `testimonial`/`faq`
+// documents, organized for editors by `placement`/`page` rather than
+// exposed as one flat, unfiltered list. No Vision plugin.
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
@@ -128,6 +127,11 @@ export const structure: StructureResolver = (S) =>
                         ),
                     ]),
                 ),
+              // One flat list, unlike Testimonials/FAQs — each partner
+              // controls its own visibility via `showInMarquee`/
+              // `showInVoices`, so there's no separate destination per
+              // surface to filter into.
+              S.documentTypeListItem("partner").title("Partners"),
             ]),
         ),
     ]);

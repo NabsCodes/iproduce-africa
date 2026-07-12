@@ -9,7 +9,7 @@ import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-her
 import { CtaSection } from "@/components/shared/cta-section";
 import { Badge } from "@/components/ui/badge";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { coursesContent,courseToCardItem } from "@/content/courses";
+import { coursesContent, courseToCardItem } from "@/content/courses";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   fetchCourseBySlug,

@@ -27,7 +27,7 @@ export function EmailActionButton({
       <Button
         href={href}
         className={
-          variant === "subscriber" ? emailSubscriberClasses.cta : undefined
+          variant === "internal" ? undefined : emailSubscriberClasses.cta
         }
         style={buttonStyle}
       >

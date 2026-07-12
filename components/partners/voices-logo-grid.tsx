@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { PartnerLogo } from "@/components/shared/partner-logo";
-import type { Partner } from "@/content/partners";
-import { partnersList } from "@/content/partners";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import {
   buildVoicesLogoGrid,
@@ -13,11 +11,12 @@ import {
   VOICES_LOGO_GRID_TARGET,
 } from "@/lib/partners/voices-logo-grid";
 import { cn } from "@/lib/utils";
+import type { Partner } from "@/types/partners";
 
 const ROTATE_INTERVAL_MS = 10_000;
 
 type VoicesLogoGridProps = {
-  partners?: readonly Partner[];
+  partners: readonly Partner[];
   className?: string;
 };
 
@@ -43,10 +42,7 @@ function LogoCell({
   );
 }
 
-export function VoicesLogoGrid({
-  partners = partnersList,
-  className,
-}: VoicesLogoGridProps) {
+export function VoicesLogoGrid({ partners, className }: VoicesLogoGridProps) {
   const reducedMotion = useReducedMotionSafe();
   const windowCount = getVoicesLogoWindowCount(partners.length);
   const shouldRotate = windowCount > 1 && !reducedMotion;

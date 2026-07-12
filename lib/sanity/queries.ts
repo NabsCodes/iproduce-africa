@@ -126,6 +126,24 @@ export const faqsByPageQuery = `*[
   _type == "faq" && page == $page && ${DRAFT_FILTER}
 ] | order(coalesce(order, 9999) asc, _createdAt asc){question, answer, category}`;
 
+// ─── Partners ────────────────────────────────────────────────────────────
+//
+// One query returns every partner regardless of `showInMarquee`/
+// `showInVoices` — the fetch layer splits the result into two pools rather
+// than issuing two separate requests for the same underlying catalogue.
+
+export const partnersQuery = `*[
+  _type == "partner" && ${DRAFT_FILTER}
+] | order(coalesce(order, 9999) asc, _createdAt asc){
+  "slug": slug.current,
+  name,
+  logo,
+  website,
+  showInMarquee,
+  showInVoices,
+  order
+}`;
+
 // ─── Cross-cutting ───────────────────────────────────────────────────────
 //
 // Session title + registration status for the registration email resolver

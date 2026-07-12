@@ -1,6 +1,6 @@
 "use client";
 
-import { type KeyboardEvent,useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 
 import { MembershipApplicationReviewStep } from "@/components/community/membership-application-review-step";
@@ -246,7 +246,7 @@ export function MembershipApplicationDialog({
                 control={form.control}
                 turnstileTokenName="turnstileToken"
                 resetNonce={turnstileResetNonce}
-                turnstileSize="compact"
+                turnstileSize="normal"
                 onTurnstileRetry={bumpTurnstileReset}
               />
               {submitError || form.formState.errors.root ? (

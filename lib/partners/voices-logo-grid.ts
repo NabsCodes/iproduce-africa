@@ -1,4 +1,4 @@
-import type { Partner } from "@/content/partners";
+import type { Partner } from "@/types/partners";
 
 export const VOICES_LOGO_GRID_TARGET = 12;
 
