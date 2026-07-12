@@ -47,9 +47,32 @@ function faqsByPage(
     );
 }
 
+/** Same idea as `testimonialsByPlacement`, scoped to `teamMember`'s `group`
+ * field — a person is Team or Advisor, never both. */
+function teamMembersByGroup(
+  S: StructureBuilder,
+  title: string,
+  group: string,
+  templateId: string,
+) {
+  return S.listItem()
+    .title(title)
+    .child(
+      S.documentList()
+        .title(title)
+        .schemaType("teamMember")
+        .apiVersion(apiVersion)
+        .filter('_type == "teamMember" && group == $group')
+        .params({ group })
+        .initialValueTemplates([S.initialValueTemplateItem(templateId)]),
+    );
+}
+
 // Keep the first screen in the client's language: each content family is
-// visible at the root. Testimonials/FAQs retain one useful level of filtered
-// destinations because those documents appear on different pages.
+// visible at the root. Testimonials/FAQs/Team Members retain one useful
+// level of filtered destinations because those documents appear on
+// different pages/sections; Partners and Member Stories are flat single
+// lists since each has only one destination.
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
@@ -115,4 +138,31 @@ export const structure: StructureResolver = (S) =>
                 ),
             ]),
         ),
+      S.listItem()
+        .title("Team Members")
+        .child(
+          S.list()
+            .title("Team Members")
+            .items([
+              teamMembersByGroup(S, "Team", "team", "team-member-team"),
+              teamMembersByGroup(
+                S,
+                "Advisors",
+                "advisor",
+                "team-member-advisor",
+              ),
+              S.divider(),
+              S.listItem()
+                .title("All team members")
+                .child(
+                  S.documentList()
+                    .title("All team members")
+                    .schemaType("teamMember")
+                    .apiVersion(apiVersion)
+                    .filter('_type == "teamMember"')
+                    .initialValueTemplates([]),
+                ),
+            ]),
+        ),
+      S.documentTypeListItem("memberStory").title("Member Stories"),
     ]);

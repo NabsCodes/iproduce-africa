@@ -13,12 +13,16 @@ import { communityPageContent } from "@/content/community";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
 import { fetchFaqs } from "@/lib/sanity/fetch/faqs";
+import { fetchMemberStories } from "@/lib/sanity/fetch/member-stories";
 
 export const metadata = createPageMetadata(pageSeo.community);
 export const revalidate = 3600;
 
 export default async function CommunityPage() {
-  const faqs = await fetchFaqs("community");
+  const [faqs, memberStories] = await Promise.all([
+    fetchFaqs("community"),
+    fetchMemberStories(),
+  ]);
 
   return (
     <>
@@ -32,7 +36,9 @@ export default async function CommunityPage() {
         content={communityPageContent.applyBannerSecondary}
       />
       <CommunityPreviewSection />
-      <MemberStoriesSection />
+      {memberStories.length > 0 ? (
+        <MemberStoriesSection items={memberStories} />
+      ) : null}
       <MembershipApplicationSection />
       {faqs.length > 0 ? (
         <FaqSection content={{ ...communityPageContent.faqs, items: faqs }} />

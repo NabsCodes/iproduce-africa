@@ -23,10 +23,11 @@ export default defineConfig({
     templates: (prev: Template[]) => [...prev, ...customTemplates],
   },
   document: {
-    // Hide the two auto-generated generic templates so the global "+"
-    // Create menu only ever offers the 7 destination-specific ones — see
-    // `sanity/templates.ts` for why. Every other document type's default
-    // template is untouched.
+    // Hide the auto-generated generic templates listed in
+    // DEFAULT_TEMPLATE_IDS_TO_HIDE so the global "+" Create menu only ever
+    // offers the named, destination-specific templates in `customTemplates`
+    // — see `sanity/templates.ts` for why. Every other document type's
+    // default template is untouched.
     newDocumentOptions: (prev: TemplateItem[]) =>
       prev.filter(
         (item) => !DEFAULT_TEMPLATE_IDS_TO_HIDE.includes(item.templateId),

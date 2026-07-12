@@ -66,7 +66,11 @@ function AdvisorCard({
   );
 }
 
-export function AdvisorsSection() {
+type AdvisorsSectionProps = {
+  members: readonly AboutPerson[];
+};
+
+export function AdvisorsSection({ members }: AdvisorsSectionProps) {
   const advisors = aboutPageContent.advisors;
   const [selectedPerson, setSelectedPerson] = useState<AboutPerson | null>(
     null,
@@ -98,7 +102,7 @@ export function AdvisorsSection() {
         </MotionFade>
 
         <MotionStagger className="mt-10 grid gap-4 sm:gap-5 lg:grid-cols-2">
-          {advisors.members.map((advisor) => (
+          {members.map((advisor) => (
             <AdvisorCard
               key={advisor.id}
               advisor={advisor}

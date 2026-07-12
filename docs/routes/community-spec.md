@@ -200,6 +200,12 @@ White section.
 - Four PLACEHOLDER stories: Tunde (Young Agripreneur, Nigeria) / Ngozi  
   (Processor, Nigeria) / Kofi (Trader, Ghana) / Fatima (Woman Entrepreneur,  
   Senegal). Mark each entry with `// PLACEHOLDER` in content.
+- **CMS-fed (Phase 2 slice 2C):** `MemberStoriesSection` now takes an
+  `items` prop from `fetchMemberStories()` (`lib/sanity/fetch/member-stories.ts`,
+  Sanity `memberStory` document type); the section hides entirely if there
+  are no stories. `content/community.ts`'s `memberStories.items` is the
+  migration-script source and rollback reference, not the live path —
+  `eyebrow`/`title` stay static/code-owned.
 
 ## 10. Membership Application
 
@@ -355,6 +361,7 @@ Then browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - [x] `MemberBenefitsSection` implemented (consume shared BenefitsSection)
 - [x] `CommunityPreviewSection` implemented (chat mockup + channels)
 - [x] `MemberStoriesSection` implemented (4 placeholder stories marked)
+- [x] `MemberStoriesSection` cut over to Sanity `memberStory` (Phase 2 2C)
 - [x] `MembershipApplicationSection` + `MembershipApplicationForm` implemented
 - [x] `FaqSection` consumed with community content
 - [x] `CtaSection` consumed with community content

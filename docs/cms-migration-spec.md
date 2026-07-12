@@ -600,22 +600,28 @@ Do not persist grid cells in Sanity.
 ### `teamMember`
 
 Maps to `types/about.ts` → `AboutPerson`. One document type serves both
-About team carousel and advisors grid; query twice on `/about` with
-`group == 'team'` and `group == 'advisor'`. Static v1 mirror:
-`content/about-people.ts`.
+About team carousel and advisors grid. **Corrected:** one query returns
+every `teamMember`, split by `group` in JS
+(`lib/sanity/fetch/team-members.ts`'s `fetchTeamMembers()`) rather than
+querying twice — same request-consolidation approach as `fetchPartners()`'s
+marquee/voices split. Static v1 mirror: `content/about-people.ts`.
 
-| Sanity field       | Type                                   | Projects to                  | Required                                                                                                                                       |
-| ------------------ | -------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `slug` / stable id | slug                                   | `id`                         | yes — React keys, dialog state                                                                                                                 |
-| `name`             | string                                 | `name`                       | yes                                                                                                                                            |
-| `role`             | string                                 | `role`                       | yes                                                                                                                                            |
-| `bioSummary`       | text                                   | `bioSummary`                 | yes — card teaser (`line-clamp-3`)                                                                                                             |
-| `bioParagraphs`    | array of text / portable text blocks   | `bioParagraphs[]`            | yes — profile dialog body                                                                                                                      |
-| `credentials`      | string                                 | `credentials`                | optional — modal header under role                                                                                                             |
-| `photo`            | image + alt                            | `photo` URL string           | yes                                                                                                                                            |
-| `group`            | list                                   | `team` \| `advisor`          | yes                                                                                                                                            |
-| `socials`          | array of `{ platform, value, label? }` | `socials[]` on `AboutPerson` | optional — `platform`: `linkedin` \| `facebook` \| `x` \| `instagram` \| `telegram` \| `website` \| `email` \| `phone`; email/phone modal-only |
-| `order`            | number                                 | carousel/grid sort           | optional                                                                                                                                       |
+| Sanity field    | Type                                   | Projects to                  | Required                                                                                                                                                                             |
+| --------------- | -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`          | string                                 | `name`                       | yes                                                                                                                                                                                  |
+| `role`          | string                                 | `role`                       | yes                                                                                                                                                                                  |
+| `bioSummary`    | text                                   | `bioSummary`                 | yes — card teaser (`line-clamp-3`)                                                                                                                                                   |
+| `bioParagraphs` | array of text                          | `bioParagraphs[]`            | yes — profile dialog body, plain paragraphs (no rich formatting needed)                                                                                                              |
+| `credentials`   | string                                 | `credentials`                | optional — modal header under role                                                                                                                                                   |
+| `photo`         | image (no required alt subfield)       | `photo` URL string           | yes — alt derives from `name` at render (a name label is always shown next to the photo, unlike Partner's logo)                                                                      |
+| `group`         | list                                   | `team` \| `advisor`          | yes                                                                                                                                                                                  |
+| `socials`       | array of `{ platform, value, label? }` | `socials[]` on `AboutPerson` | optional — `platform`: `linkedin` \| `facebook` \| `x` \| `instagram` \| `telegram` \| `website` \| `email` \| `phone`; fetch layer drops unknown platforms/blank values defensively |
+| `order`         | number                                 | sort (`AboutPerson.order`)   | optional — `order(coalesce(order, 9999) asc, name asc)`; fetch layer normalizes to `order ?? 9999` since `AboutPerson.order` stays a required `number` on the type                   |
+
+**No `slug`/stable-id field** — `AboutPerson.id` is used only as a React
+list key (never for routing or lookup), so it's normalized from Sanity's
+own `_id` at the fetch layer, same as `testimonial`/`faq` (unlike
+`partner.slug`, a real public contract).
 
 Section chrome (`eyebrow`, `title`, `description`, `viewProfileLabel`,
 `readMoreLabel` on `AboutTeam` / `AboutAdvisors`) stays **code-owned** in
@@ -625,19 +631,23 @@ Section chrome (`eyebrow`, `title`, `description`, `viewProfileLabel`,
 
 Maps to `types/community.ts` → `MemberStoryItem`. Community page only.
 
-| Field          | Type   | Notes                       |
-| -------------- | ------ | --------------------------- |
-| `result`       | text   | required — outcome headline |
-| `challenge`    | text   | required                    |
-| `withIProduce` | text   | required                    |
-| `name`         | string | required                    |
-| `role`         | string | required                    |
-| `country`      | string | required                    |
-| `initials`     | string | required                    |
-| `age`          | number | optional                    |
-| `order`        | number | carousel/grid sort          |
+| Field          | Type   | Notes                                                                              |
+| -------------- | ------ | ---------------------------------------------------------------------------------- |
+| `result`       | text   | required — outcome headline                                                        |
+| `challenge`    | text   | required                                                                           |
+| `withIProduce` | text   | required                                                                           |
+| `name`         | string | required                                                                           |
+| `role`         | string | required                                                                           |
+| `country`      | string | required                                                                           |
+| `initials`     | string | optional — derived from `name` if left blank, same fallback logic as `testimonial` |
+| `age`          | number | optional                                                                           |
+| `order`        | number | optional — `order(coalesce(order, 9999) asc, name asc)`                            |
 
-Studio seeds all four current placeholder stories from `content/community.ts`.
+No public slug field. `MemberStoryItem.id` is an internal React key: static
+seed entries carry a short stable id, the migration uses it for `_id` (for
+example, `memberStory.tunde`), and the fetch layer projects Sanity's `_id`
+back to `id`. Reordering the static array therefore does not change which
+document represents whom, while the public site gains no story detail route.
 
 _No `isPublished` on Phase 2 types — Sanity publish + drafts filter only._
 

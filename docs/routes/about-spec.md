@@ -2,8 +2,13 @@
 
 ## Status
 
-Full page UI built against placeholder copy and imagery. Ready for client
-review of layout and motion before real data lands.
+Full page UI built against placeholder copy and imagery, layout/motion
+approved. **Team + Advisors are now Sanity-backed** (`teamMember` document
+type, Phase 2 slice 2C) — `/about` fetches once via
+`fetchTeamMembers()` (`lib/sanity/fetch/team-members.ts`) and hides each
+section independently if its group is empty. `content/about-people.ts`
+remains as the migration-script source and rollback reference, not the
+live data path.
 
 ## Purpose
 
@@ -80,8 +85,10 @@ first); email/phone and any remaining links appear in the modal only.
 Hover/focus uses a subtle border shift (`border-leaf-300` /
 `ring-leaf-400`) — no shadow elevation.
 
-**Data:** roster lives in `content/about-people.ts` (`group: 'team'`);
-`content/about.ts` projects members via `getAboutPeopleByGroup('team')`.
+**Data:** CMS-fed — `fetchTeamMembers()` returns `{ team, advisors }` split
+from one Sanity query by the `teamMember.group` field; `TeamSection`
+receives the `team` half as a `members` prop. `content/about-people.ts`
+(`group: 'team'`) is the migration-script source, not the live path.
 Current core team: Aisha Waziri Umar, Wilson Agaba, Mustapha Yakubu, Umma
 Umar, Usman Dagona, and Tobi Seun Ajayi.
 
@@ -97,8 +104,10 @@ pieces, achieved with `flex-col sm:flex-row`.
 **Interaction:** **Read more** opens the same `PersonProfileDialog`.
 Optional `email` / `phone` render in the modal footer only (not on cards).
 
-**Data:** `content/about-people.ts` (`group: 'advisor'`), projected in
-`content/about.ts` via `getAboutPeopleByGroup('advisor')`.
+**Data:** CMS-fed — `AdvisorsSection` receives the `advisors` half of
+`fetchTeamMembers()`'s result as a `members` prop.
+`content/about-people.ts` (`group: 'advisor'`) is the migration-script
+source, not the live path.
 
 ### 8. CTA — reuses `<CtaSection />`
 
@@ -126,7 +135,8 @@ component changes.
 Type aliases (`AboutStory`, `AboutMissionVisionObjective`,
 `AboutImpactStats`, `AboutJourney`, `AboutJourneyMilestone`, `AboutPerson`,
 `AboutPersonGroup`, `AboutTeam`, `AboutAdvisors`) are exported alongside
-the data so the upcoming Sanity migration can bind directly.
+the data; `AboutPerson` is now also the Sanity `teamMember` fetch layer's
+return shape (`lib/sanity/fetch/team-members.ts`).
 
 CMS-readiness highlights: every `image` field is a plain URL,
 `journey.milestones[]` carry `image` + `imageAlt` for the left story stack;

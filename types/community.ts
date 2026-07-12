@@ -80,6 +80,9 @@ export type CommunityPreviewContent = {
 };
 
 export type MemberStoryItem = {
+  /** Stable React key — Sanity's `_id` once CMS-fed. Names aren't
+   * guaranteed unique, so `name` alone isn't safe as a key. */
+  id: string;
   result: string;
   challenge: string;
   withIProduce: string;

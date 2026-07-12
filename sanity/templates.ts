@@ -52,16 +52,33 @@ export const customTemplates: Template[] = [
     schemaType: "faq",
     value: { page: "partners" },
   },
+  {
+    id: "team-member-team",
+    title: "Team Member (Team)",
+    schemaType: "teamMember",
+    value: { group: "team" },
+  },
+  {
+    id: "team-member-advisor",
+    title: "Team Member (Advisor)",
+    schemaType: "teamMember",
+    value: { group: "advisor" },
+  },
 ];
 
 /**
  * Sanity auto-generates one default template per document type, id equal
- * to the schema type name (`testimonial`, `faq`) — it doesn't set
- * `placement`/`page`. With `customTemplates` above covering every real
- * destination, these two defaults are pure ambiguity: the global "+" Create
- * menu would otherwise offer a generic "Testimonial"/"FAQ" alongside the 7
- * named ones, and creating from there leaves the document unclassified
- * until an editor manually sets `placement`/`page`. Filtered out in
- * `sanity.config.ts` via `document.newDocumentOptions`.
+ * to the schema type name (`testimonial`, `faq`, `teamMember`) — it
+ * doesn't set `placement`/`page`/`group`. With `customTemplates` above
+ * covering every real destination, these defaults are pure ambiguity: the
+ * global "+" Create menu would otherwise offer a generic
+ * "Testimonial"/"FAQ"/"Team Member" alongside the named ones, and creating
+ * from there leaves the document unclassified until an editor manually
+ * sets `placement`/`page`/`group`. Filtered out in `sanity.config.ts` via
+ * `document.newDocumentOptions`.
  */
-export const DEFAULT_TEMPLATE_IDS_TO_HIDE = ["testimonial", "faq"];
+export const DEFAULT_TEMPLATE_IDS_TO_HIDE = [
+  "testimonial",
+  "faq",
+  "teamMember",
+];

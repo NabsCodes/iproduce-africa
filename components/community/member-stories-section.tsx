@@ -4,8 +4,13 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
+import type { MemberStoryItem } from "@/types/community";
 
-export function MemberStoriesSection() {
+type MemberStoriesSectionProps = {
+  items: readonly MemberStoryItem[];
+};
+
+export function MemberStoriesSection({ items }: MemberStoriesSectionProps) {
   const section = communityPageContent.memberStories;
 
   return (
@@ -24,9 +29,9 @@ export function MemberStoriesSection() {
           cap={4}
           className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:mt-14 lg:grid-cols-4 lg:gap-5"
         >
-          {section.items.map((story) => (
+          {items.map((story) => (
             <article
-              key={story.name}
+              key={story.id}
               className="group border-default hover:border-leaf-300 flex h-full flex-col rounded-xl border bg-white transition-colors duration-300"
             >
               <div className="flex flex-1 flex-col p-5 sm:p-6">

@@ -5,6 +5,7 @@ import path from "node:path";
 
 import { createClient, type SanityClient } from "next-sanity";
 
+import { aboutPeople } from "@/content/about-people";
 import { academyContent } from "@/content/academy";
 import { communityPageContent } from "@/content/community";
 import { homeContent } from "@/content/home";
@@ -12,12 +13,14 @@ import { partnersList, partnersPageContent } from "@/content/partners";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { FaqPage } from "@/lib/sanity/faq-categories";
 import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
+import type { AboutPerson } from "@/types/about";
+import type { MemberStoryItem } from "@/types/community";
 import type { FaqItem, TestimonialItem } from "@/types/content";
 import type { Partner } from "@/types/partners";
 
 /**
- * Seeds development-dataset placeholders for testimonials, FAQs, and
- * partners from static content/* — mirrors
+ * Seeds development-dataset placeholders for testimonials, FAQs, partners,
+ * team members, and member stories from static content/* — mirrors
  * scripts/migrate-academy-to-sanity.ts's exact flag/dataset-guard shape.
  * Modes:
  *   (no flags)          read-only dry-run — reports CREATE/SKIP against Sanity
@@ -239,6 +242,23 @@ async function planUpsert(
 
 type TestimonialPlacement = "home" | "academy" | "partners-voices";
 
+/**
+ * Permanently retired — each was deleted and recreated under this same id
+ * during manual QA (2026-07-12), which leaves a "delete" transaction in
+ * that specific id's history. Sanity's document history is immutable (no
+ * public API un-deletes a past transaction), and Studio's own timeline UI
+ * chokes on the resulting synthetic "deleted-<ISO timestamp>" revision
+ * label (the colons in the timestamp fail Studio's own ID-pattern
+ * validation) — see docs/implementation-log.md for the full story. The
+ * real replacement documents already exist under fresh, Sanity-assigned
+ * ids with clean history; these three ids must never be recreated.
+ */
+const RETIRED_TESTIMONIAL_IDS = new Set([
+  "testimonial.partners-voices.0",
+  "testimonial.partners-voices.1",
+  "testimonial.partners-voices.2",
+]);
+
 async function migrateTestimonials(
   client: SanityClient | null,
   flags: Flags,
@@ -248,6 +268,12 @@ async function migrateTestimonials(
 ) {
   for (const [index, item] of items.entries()) {
     const id = `testimonial.${placement}.${index}`;
+
+    if (RETIRED_TESTIMONIAL_IDS.has(id)) {
+      logSkip(`${id} (retired — see RETIRED_TESTIMONIAL_IDS)`);
+      continue;
+    }
+
     const plan = await planUpsert(client, flags, id);
 
     if (plan === "unknown") continue;
@@ -370,6 +396,109 @@ async function migratePartners(
   }
 }
 
+async function migrateTeamMembers(
+  client: SanityClient | null,
+  flags: Flags,
+  resolveImageAsset: ImageResolver,
+  items: readonly AboutPerson[],
+) {
+  for (const person of items) {
+    const id = `teamMember.${person.id}`;
+    const plan = await planUpsert(client, flags, id);
+
+    if (plan === "unknown") continue;
+    if (plan === "skip") {
+      logSkip(id);
+      continue;
+    }
+
+    try {
+      const photoAsset = await resolveImageAsset(person.photo);
+
+      if (!flags.execute) {
+        logCreate(
+          `${plan === "offline" ? "[offline-plan]" : "[would-create]"} ${id}`,
+        );
+        continue;
+      }
+
+      await client!.createIfNotExists({
+        _id: id,
+        _type: "teamMember",
+        name: person.name,
+        role: person.role,
+        group: person.group,
+        photo: { _type: "image", asset: photoAsset },
+        ...(person.credentials && { credentials: person.credentials }),
+        bioSummary: person.bioSummary,
+        bioParagraphs: [...person.bioParagraphs],
+        ...(person.socials &&
+          person.socials.length > 0 && {
+            // Sanity array-of-object entries require a `_key` unique within
+            // the array — omitting it doesn't error on write, but Studio
+            // can't reliably edit/reorder the resulting entries.
+            socials: person.socials.map((social, socialIndex) => ({
+              _key: `${social.platform}-${socialIndex}`,
+              _type: "socialLink",
+              platform: social.platform,
+              value: social.value,
+              ...(social.label && { label: social.label }),
+            })),
+          }),
+        order: person.order,
+      });
+      logCreate(id);
+    } catch (err) {
+      logError(`failed to create ${id}: ${(err as Error).message}`);
+    }
+  }
+}
+
+async function migrateMemberStories(
+  client: SanityClient | null,
+  flags: Flags,
+  items: readonly MemberStoryItem[],
+) {
+  for (const [index, item] of items.entries()) {
+    const id = `memberStory.${item.id}`;
+    const plan = await planUpsert(client, flags, id);
+
+    if (plan === "unknown") continue;
+    if (plan === "skip") {
+      logSkip(id);
+      continue;
+    }
+
+    if (!flags.execute) {
+      logCreate(
+        `${plan === "offline" ? "[offline-plan]" : "[would-create]"} ${id}`,
+      );
+      continue;
+    }
+
+    try {
+      await client!.createIfNotExists({
+        _id: id,
+        _type: "memberStory",
+        result: item.result,
+        challenge: item.challenge,
+        withIProduce: item.withIProduce,
+        name: item.name,
+        ...(item.age !== undefined && { age: item.age }),
+        ...(item.initials && { initials: item.initials }),
+        role: item.role,
+        country: item.country,
+        // Schema requires a positive integer (Rule.integer().min(1)) — the
+        // array is 0-indexed, so offset by one.
+        order: index + 1,
+      });
+      logCreate(id);
+    } catch (err) {
+      logError(`failed to create ${id}: ${(err as Error).message}`);
+    }
+  }
+}
+
 // ─── Entry point ────────────────────────────────────────────────────────────
 
 async function main() {
@@ -400,7 +529,7 @@ async function main() {
   }
 
   console.log(
-    `Migrating testimonials + FAQs + partners — dataset="${flags.dataset}" offline=${flags.offline} execute=${flags.execute}\n`,
+    `Migrating testimonials + FAQs + partners + team members + member stories — dataset="${flags.dataset}" offline=${flags.offline} execute=${flags.execute}\n`,
   );
 
   const resolveImageAsset = createAssetResolver(client, flags);
@@ -438,6 +567,14 @@ async function main() {
   await migrateFaqs(client, flags, partnersPageContent.faqs.items, "partners");
 
   await migratePartners(client, flags, resolveImageAsset, partnersList);
+
+  await migrateTeamMembers(client, flags, resolveImageAsset, aboutPeople);
+
+  await migrateMemberStories(
+    client,
+    flags,
+    communityPageContent.memberStories.items,
+  );
 
   console.log("\n─── Summary ───────────────────────────────");
   console.log(`Created: ${manifest.create.length}`);

@@ -380,6 +380,7 @@ export const communityPageContent = {
     items: [
       // PLACEHOLDER — replace with real member story
       {
+        id: "tunde",
         result: "Launched his farm and now supplies three local retailers.",
         challenge: "Had a poultry idea but no industry contacts or guidance.",
         withIProduce:
@@ -391,6 +392,7 @@ export const communityPageContent = {
       },
       // PLACEHOLDER — replace with real member story
       {
+        id: "ngozi",
         result: "Secured a steady cross-border supply partnership in Ghana.",
         challenge:
           "Unreliable raw-material supply was stalling her shea butter line.",
@@ -403,6 +405,7 @@ export const communityPageContent = {
       },
       // PLACEHOLDER — replace with real member story
       {
+        id: "kofi",
         result: "Now moves produce across three West African countries.",
         challenge:
           "Wanted to trade beyond his region but lacked trusted contacts.",
@@ -415,6 +418,7 @@ export const communityPageContent = {
       },
       // PLACEHOLDER — replace with real member story
       {
+        id: "fatima",
         result: "Won her first export client and grew her team to twelve.",
         challenge:
           "Ran a strong essential-oils business that nobody outside her city knew.",

@@ -3,6 +3,178 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS — Phase 2 slice 2C: people (team, advisors, member stories) (2026-07-12)
+
+Last Phase 2 slice. Added `teamMember` (`sanity/schemaTypes/documents/team-member.ts`)
+and `memberStory` (`.../member-story.ts`). Registered in
+`sanity/schemaTypes/index.ts`, added to the Studio desk (`sanity/structure.ts`):
+Team Members gets filtered Team/Advisors/All sub-lists (mirrors
+Testimonials/FAQs — a person's `group` genuinely changes which page
+section they land in), Member Stories is a flat top-level item (mirrors
+Partners — one list, one destination). Two new initial-value templates
+(`team-member-team`, `team-member-advisor`) prefill `group`; the
+auto-generated generic `teamMember` template is hidden from the global
+Create menu via `DEFAULT_TEMPLATE_IDS_TO_HIDE` (the two named ones stay
+visible — this is the opposite of what an earlier plan draft said, caught
+in review before implementation).
+
+**Corrected during planning, before implementation** (this slice's plan
+went through one review round, same discipline as 2A/2B):
+
+- `AboutPerson.id` is only ever a React list key, never routed or looked
+  up — no `slug` field on `teamMember`, unlike `partner.slug`. `memberStory`
+  likewise has no public slug; its later-added `MemberStoryItem.id` is an
+  internal React key projected from Sanity's `_id`.
+- `photo` has no required `alt` subfield — every person photo always
+  renders with a visible name label right next to it (card and dialog
+  both show the name), unlike Partner's logo being the only visual.
+- `/about` fetches team + advisors with **one** query
+  (`teamMembersQuery`), split by `group` in JS
+  (`lib/sanity/fetch/team-members.ts`'s `fetchTeamMembers()` returns
+  `{team, advisors}`) — not two separate requests. Same
+  request-consolidation lesson as 2B's partner marquee/voices split.
+- `AboutPerson.order` stays a required `number` on the type; the Sanity
+  field is optional, normalized via `order: raw.order ?? 9999` at fetch
+  time (matches the GROQ sort's own `coalesce(order, 9999)` fallback so
+  the two never disagree). `photo: resolveImageUrl(raw.photo) ?? ""` is a
+  defensive fallback too — Studio's `Rule.required()` can be bypassed by a
+  direct API write.
+- `socials` isn't passed through unchecked: `lib/sanity/social-platforms.ts`
+  (new, shared between the schema's `options.list`/`Rule.custom` and the
+  fetch layer) defines the known 8 platforms and validates `value`'s
+  format per platform (see the review-fix section below); `fetchTeamMembers()`
+  drops any entry with an unrecognized `platform`, a blank `value`, or a
+  malformed value — same reasoning as `faq.category` filtering in 2A.
+- Member-story ids are name-derived (`memberStory.tunde`/`.ngozi`/`.kofi`/`.fatima`),
+  not positional index — stable if the static array is ever reordered. No
+  public slug field needed; `MemberStoryItem` gained a plain `id` field
+  (see the review-fix section below) that both the migration script and
+  the fetch layer reuse directly.
+- `initialsFromName` (added in 2A for testimonials) is now shared —
+  extracted to `lib/sanity/initials.ts`, used by both
+  `lib/sanity/fetch/testimonials.ts` and the new
+  `lib/sanity/fetch/member-stories.ts`.
+
+Wired: `/about` (`app/about/page.tsx`, now `async` + `revalidate = 3600`,
+both of which it was missing) — `TeamSection`/`AdvisorsSection` each hide
+independently if their group is empty, no shared fallback between them.
+`/community` (`app/community/page.tsx`, already `async` from 2A) —
+`fetchMemberStories()` added to the existing `Promise.all`,
+`MemberStoriesSection` hides if empty. `app/api/revalidate/route.ts`
+gained `teamMember: ["/about"]` and `memberStory: ["/community"]` in
+`STATIC_PATHS_BY_TYPE`, plus the webhook setup comment's documented
+`_type in [...]` filter and type list updated to match.
+
+**Repo-state note:** this slice was built on top of an already-uncommitted
+repair (corrupted testimonial revision history, logged above) — that
+diff was preserved untouched; `scripts/migrate-trust-content-to-sanity.ts`
+was _extended_ with `migrateTeamMembers()`/`migrateMemberStories()`, not
+rewritten.
+
+### Review fixes applied after the initial 2C cutover
+
+An authenticated live-dataset query surfaced two real migration defects
+and two code-review findings after the first `--execute`:
+
+- **[P1] Migrated `socials` array objects had no `_key`.** Sanity array
+  objects need a `_key` unique within the array; the migration wasn't
+  setting one. Fixed the migration to derive each key from the platform and
+  array index (for example, `linkedin-0`), then **repaired the three
+  already-created documents** (Aisha Waziri Umar, Sidi-Aliyu, and Usman
+  Dagona) via a one-off patch script. `createIfNotExists` skips existing
+  documents and therefore could not repair them on a future migration run.
+  An authenticated query confirmed that all four social entries across those
+  three documents now carry a non-null `_key`.
+- **[P1] `memberStory.order` was seeded 0-based, violating the schema's
+  own `Rule.integer().min(1)`.** `memberStory.tunde` had `order: 0` live.
+  Fixed the migration to `order: index + 1`, then patched the 4 existing
+  `memberStory` docs from `0–3` to `1–4`.
+- **[P2] `MemberStoriesSection` keyed cards by `story.name`.** Names
+  aren't unique. Added a required `id` field to `MemberStoryItem`
+  (`types/community.ts`), backfilled matching ids on the 4 static
+  placeholder entries in `content/community.ts` (`"tunde"`, `"ngozi"`,
+  `"kofi"`, `"fatima"` — the same values the migration already derived),
+  projected `"id": _id` in `memberStoriesQuery`, and switched the
+  component to `key={story.id}`. The migration script now reuses
+  `item.id` directly instead of re-deriving a slug from `item.name`.
+- **[P2] Social `value` was authored-but-unvalidated.** The schema's help
+  text asked for a full `https://` URL but only checked the field was
+  non-empty — `linkedin.com/person` (no scheme) would pass Studio
+  validation and then render through `next/link`'s `<Link>` as a
+  same-origin path instead of an external link. Added
+  `isValidSocialValue()` (`lib/sanity/social-platforms.ts`, shared): full
+  `http(s)://` URL for link platforms, a plausible email format for
+  `email`, a plausible phone format for `phone`. Wired into both the
+  schema's `Rule.custom` (authoring-time) and `fetchTeamMembers()`'s
+  `normalizeSocials` (defensive, in case a doc is written outside Studio).
+
+Re-verified after all four fixes: reran the migration script (dry-run →
+`--offline` → non-offline dry-run, all 53 docs correctly `SKIP`, 0 new
+creates, confirming create-only idempotency);
+`pnpm format`/`lint`/`typecheck`/`build` and `git diff --check` all pass;
+`/about` and `/community` still render the same real content (including
+the repaired LinkedIn/email/phone links) via `curl`+grep against the dev
+server.
+
+**Final review follow-up:** the create-only dry-run checks document existence,
+not field equality. A separate authenticated comparison found that Mustapha
+Yakubu and Wilson Agaba's live `order` values had been swapped during QA even
+though the static migration source remained Mustapha `3`, Wilson `2`. Patched
+the development documents back to those source values and verified the live
+team ordering. External social validation now parses link values as real URLs
+and requires an HTTP(S) protocol plus a non-empty hostname; a scheme-only value
+such as `https://` no longer passes.
+
+**Verification (initial cutover):** migration script dry-run → `--offline`
+→ `--execute` against `development` (9 team members + 4 member stories
+created, 0 errors; all other docs correctly `SKIP`ped, untouched).
+Confirmed directly against Sanity (with a read/write token — the
+`development` dataset is private, unauthenticated reads silently return
+`[]`) that every team photo uploaded with the correct `.webp` extension
+and real dimensions, `group`/`order`/`socials`/`credentials` all match the
+static source. `pnpm format`/`lint`/`typecheck`/`build` all pass; `/about`
+and `/community` render real Sanity-sourced content (verified via
+`curl`+grep against the dev server, including bio paragraphs, credentials,
+and social links reaching the client). Toggled `teamMember.mustapha-yakubu`'s
+`group` from `team` to `advisor` and back via a direct field patch (not
+delete-and-recreate — see the retired-id lesson below) — team/advisor
+counts moved from 6/3 to 5/4 and back correctly.
+`docs/cms-migration-spec.md`'s `teamMember`/`memberStory` model tables
+corrected (were stale: claimed a required slug, required photo alt,
+required `memberStory.initials`, and a two-query `/about` fetch — all four
+wrong per the corrections above). `docs/routes/about-spec.md` and
+`docs/routes/community-spec.md` updated to note the CMS cutover.
+
+## Fix: corrupted Studio revision history on 3 testimonial docs (2026-07-12)
+
+Studio console error: `Invalid revision id: invalid ID "deleted-2026-07-12T01:30:40Z": contains invalid characters`. Root cause: earlier QA
+for the Voices-section independence fix deleted and recreated
+`testimonial.partners-voices.{0,1,2}` **under the same ids** (to simulate an
+empty testimonial pool), which leaves a "delete" transaction in that
+specific id's history. Sanity's document history is immutable — no public
+API can remove a past transaction — and Studio's own timeline UI fails its
+own ID-pattern validation when it builds a synthetic
+`deleted-<ISO timestamp>` label to represent that delete event (the
+timestamp's colons aren't valid ID characters).
+
+Fix: recreated all 3 testimonials' exact content (quote/name/role/order)
+under fresh, Sanity-assigned ids via `client.create()` (no explicit `_id`,
+so history starts clean), then permanently deleted the 3 poisoned ids.
+Content, order, and rendering on `/partners` confirmed unchanged before and
+after. Added `RETIRED_TESTIMONIAL_IDS` to
+`scripts/migrate-trust-content-to-sanity.ts` so a future re-run of
+`pnpm migrate:trust-content` explicitly skips those 3 retired ids instead of
+recreating them (which would otherwise reintroduce the exact same corrupted
+history the moment `createIfNotExists` found the id missing).
+
+**Lesson for future QA**: never delete-and-recreate a document under a
+reused id to simulate an empty state — move it to `drafts.<id>` and back
+(or just patch a boolean/filter field, as used for the Partner visibility
+toggles) so the published id's history never contains a delete event at
+all. Re-verified `pnpm format`/`lint`/`typecheck`/`build`, `git diff
+--check`, and a full dry-run of the migration script (all 3 retired ids
+report `SKIP ... (retired)`, zero attempts to recreate them).
+
 ## Partners CMS — editor UX and Spotlight removal (2026-07-12)
 
 Simplified the Studio root so editors see Partners, Testimonials, and FAQs

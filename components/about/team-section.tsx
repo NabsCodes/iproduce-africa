@@ -78,7 +78,11 @@ function TeamCard({
   );
 }
 
-export function TeamSection() {
+type TeamSectionProps = {
+  members: readonly AboutPerson[];
+};
+
+export function TeamSection({ members }: TeamSectionProps) {
   const team = aboutPageContent.team;
   const [selectedPerson, setSelectedPerson] = useState<AboutPerson | null>(
     null,
@@ -109,7 +113,7 @@ export function TeamSection() {
 
         <Carousel className="mt-10" options={{ align: "start" }}>
           <CarouselContent className="-ml-4 items-stretch sm:-ml-6">
-            {team.members.map((member, index) => (
+            {members.map((member, index) => (
               <CarouselItem
                 key={member.id}
                 className="basis-full pl-4 sm:basis-1/2 sm:pl-6 lg:basis-1/3"

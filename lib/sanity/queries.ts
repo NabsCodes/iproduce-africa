@@ -144,6 +144,35 @@ export const partnersQuery = `*[
   order
 }`;
 
+// ─── People ──────────────────────────────────────────────────────────────
+//
+// One query returns every team member regardless of `group` — `/about`
+// needs both the Team and Advisors collections at once, so the fetch layer
+// splits the result in JS rather than issuing two separate requests (same
+// reasoning as `partnersQuery` above).
+
+export const teamMembersQuery = `*[
+  _type == "teamMember" && ${DRAFT_FILTER}
+] | order(coalesce(order, 9999) asc, name asc){
+  "id": _id,
+  name,
+  role,
+  group,
+  photo,
+  credentials,
+  bioSummary,
+  bioParagraphs,
+  socials,
+  order
+}`;
+
+export const memberStoriesQuery = `*[
+  _type == "memberStory" && ${DRAFT_FILTER}
+] | order(coalesce(order, 9999) asc, name asc){
+  "id": _id,
+  result, challenge, withIProduce, name, age, initials, role, country
+}`;
+
 // ─── Cross-cutting ───────────────────────────────────────────────────────
 //
 // Session title + registration status for the registration email resolver
