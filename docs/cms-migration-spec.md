@@ -237,11 +237,16 @@ Page heroes and section intros stay static in Phase 2 unless noted in Phase 3.
 Same phase, smaller PRs. Each slice: schemas + fetch + migrate seed to
 `development` + wire routes + guards + webhook paths for its types.
 
-**2A — Testimonials & FAQs**
+**2A — Testimonials & FAQs — done (2026-07-11, see implementation log)**
 
 - `testimonial`, `faq` schemas + fetch
 - Wire: Home/Academy testimonials, Partners voice quotes, all five FAQ sections
 - FAQ projection pattern (see `faq` model below)
+- Shipped without a runtime static fallback (deviates from the "hybrid
+  cutover" wording below — see implementation log for why: a runtime
+  fallback would mean a deliberate delete-everything in Studio could never
+  actually empty a section). `faq.category` uses a controlled `options.list`
+  instead of free text.
 
 **2B — Partners**
 
@@ -257,8 +262,16 @@ Same phase, smaller PRs. Each slice: schemas + fetch + migrate seed to
 Shared across slices:
 
 1. Empty-state guards (Rules 1–3)
-2. Hybrid cutover: static fallback until CMS returns ≥1 doc per section, then
-   CMS-only; hide if empty after cutover
+2. **Corrected during 2A's review:** no runtime static fallback. The
+   lifecycle is static content → migration script seeds Sanity (verified in
+   Studio) → route deploys CMS-only. If a fetch returns empty (including a
+   deliberate delete-everything in Studio after cutover), the section hides
+   — it does not resurrect the old static array. A `cmsItems.length ?
+cmsItems : staticItems` runtime fallback would make "delete everything"
+   impossible to actually action. This makes migration-before-deploy a hard
+   requirement per slice, not just a nice-to-have: run
+   `scripts/migrate-phase2-to-sanity.ts --execute` against `development` and
+   verify in Studio _before_ that slice's route changes ship.
 3. `scripts/migrate-phase2-to-sanity.ts` — can run per slice or once at end of
    Phase 2; always targets **`development` first**
 

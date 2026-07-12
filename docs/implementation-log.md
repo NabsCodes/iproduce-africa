@@ -3,6 +3,185 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS — Phase 2 slice 2A: testimonials + FAQs (2026-07-11)
+
+First Phase 2 slice ("trust & people" content). Added `testimonial` and
+`faq` document types (`sanity/schemaTypes/documents/`), registered in
+`sanity/schemaTypes/index.ts`. `testimonial` is tagged by `placement`
+(`home` | `academy` | `partners-voices`) since the static copy across those
+three surfaces is similar wording, not identical documents. `faq.category`
+uses a controlled `options.list` (8 known values spanning every page's
+tabs), not free text — a typo'd category would silently drop an item from
+its tab filter. Both types sort via `order(coalesce(order, 9999) asc,
+_createdAt asc)` so a doc without an explicit `order` doesn't land
+ambiguously.
+
+New fetch functions: `fetchTestimonials(placement)`
+(`lib/sanity/fetch/testimonials.ts`) and `fetchFaqs(page)`
+(`lib/sanity/fetch/faqs.ts` — the latter also defensively filters any doc
+whose `category` isn't in the known set, in case something bypasses Studio's
+list validation).
+
+**No runtime static fallback** — this is a deliberate change from Phase 1's
+pattern. If a fetch returns `[]`, the section hides
+(`items.length > 0 ? <Section /> : null`) rather than falling back to the
+old static array. A `cmsItems.length ? cmsItems : staticItems` fallback
+would mean a deliberate delete-everything in Studio could never actually
+empty a section — wrong permanently, not just during rollout. This makes
+migration-before-deploy a hard requirement: `scripts/migrate-phase2-to-sanity.ts
+--execute` against `development` must run and be verified before these route
+changes ship, or a route briefly renders a hidden section against an empty
+collection. (This run already happened this session — see verification
+below.)
+
+Wired: `/` (testimonials + FAQs), `/academy` hub (testimonials + FAQs),
+`/community` (FAQs), `/partners` (FAQs + `VoicesSection`, which gained a
+required `voices` prop instead of reading `partnersPageContent` internally),
+`/contact` (FAQs — reuses the `"home"` placement's fetch, mirroring how
+`content/contact.ts` already reused `homeContent.faqs` before this cutover).
+All five routes are `async` with `revalidate = 3600`. `app/api/revalidate/route.ts`
+gained `testimonial` and `faq` entries in `STATIC_PATHS_BY_TYPE` (neither has
+a public detail route, so no slug-prefix entry needed).
+
+New script: `scripts/migrate-phase2-to-sanity.ts` (`pnpm migrate:phase2`),
+mirroring `scripts/migrate-academy-to-sanity.ts`'s dry-run/`--offline`/`--execute`/
+dev-dataset-only guard shape. Seeds 34 docs total: 6 home testimonials, 3
+academy testimonials, 3 partner voice quotes, 5 home FAQs, 6 academy FAQs, 5
+community FAQs, 6 partners FAQs.
+
+**Verification:** ran the migration script dry-run → `--offline` →
+`--execute` against `development` (34/34 created, 0 errors) before wiring
+the routes, per the plan's required run order. `pnpm format`/`lint`/`typecheck`/`build`
+all pass. Manual dev-server QA confirmed real Sanity-seeded copy renders on
+all five routes (including the deliberately-reworded Academy testimonial
+text, which differs slightly from Home's, proving it's not a stale-static
+false positive). Confirmed the hide-if-empty path directly at the query
+layer: `testimonialsByPlacementQuery`/`faqsByPageQuery` against a
+nonexistent placement/page both return `[]`.
+
+**Out of scope this slice** (separate plan → implement → review cycles):
+2B (partner schema + Home marquee + Partners marquee/voices-logo-grid), 2C
+(teamMember + memberStory + About/Community wiring). Static array archival,
+production dataset migration, and production webhook/env setup remain
+deferred until all of Phase 2 ships and passes combined staging QA + client
+sign-off.
+
+### Review fixes applied after the initial 2A cutover
+
+- **[P1] Studio desk was missing both new types** — `sanity/structure.ts`'s
+  custom desk resolver only listed the Phase 1 Academy types, so
+  `testimonial`/`faq` (schemas registered, docs seeded) weren't reachable
+  from `/admin` navigation. Added a "Trust & Content" group listing both.
+- **[P2] FAQ category validation wasn't page-specific** — the global
+  `options.list` blocked unknown strings but still allowed a category valid
+  on the _wrong_ page (e.g. `Partnership` tagged `page: "academy"`), which
+  would only ever surface under the "All" tab. Added
+  `lib/sanity/faq-categories.ts` as the single source of truth for
+  per-page allowed categories; the schema's `category` field now has a
+  `Rule.custom` validator checking the sibling `page` value, and
+  `fetchFaqs` filters against the same per-page map instead of the flat
+  global list.
+- **[P2] Testimonials with neither `image` nor `initials` would render an
+  empty avatar** — `normalizeTestimonial` now derives initials from `name`
+  (first + last word) when Studio's `initials` field is blank, while still
+  preferring an editor-supplied value.
+- **Doc correction** — `app/api/revalidate/route.ts`'s setup comment
+  described one Sanity webhook per `_type`; corrected to one combined
+  webhook per dataset (`development`, later `production`), filtered on
+  `_type in [...]` across every revalidatable type, with a `before()`-based
+  projection for old-slug revalidation.
+
+Re-verified after these fixes: `pnpm format`/`lint`/`typecheck`/`build` all
+pass; `git diff --check` clean; re-ran `pnpm migrate:phase2` (no `--execute`
+flags) and confirmed all 34 previously-seeded docs report `SKIP` (idempotent,
+0 errors) rather than re-creating; confirmed every already-seeded FAQ's
+category matches its page under the new per-page map (no data drift to fix).
+
+### Studio desk organization — filtered lists + initial-value templates
+
+Second follow-up round, purely Studio editorial UX — no schema, fetch,
+route, or migration-data changes. The flat "Testimonials"/"FAQs" desk
+entries from the P1 fix above worked but put an unfiltered, un-prefilled
+list in front of editors; this replaces them with filtered sub-lists so
+creating from the right place tags the document correctly by construction.
+
+- **`sanity/templates.ts`** (new) — 7 initial-value `Template`s (3
+  testimonial placements + 4 FAQ pages), each just prefilling `placement`
+  or `page`. Registered via `templates: (prev) => [...prev, ...phase2Templates]`
+  in `sanity.config.ts`.
+- **`sanity/structure.ts`** — Trust & Content now nests Testimonials (Home /
+  Academy / Partner Voices / All testimonials) and FAQs (Home & Contact /
+  Academy / Community / Partners / All FAQs). Each named sub-list is a
+  `documentList` filtered with a parameterized GROQ filter
+  (`placement == $placement` / `page == $page` via `.params()`, not string
+  interpolation) and scoped to its one matching `initialValueTemplates`
+  entry. The two "All" lists pass `.initialValueTemplates([])` — an empty
+  array removes the pane's create button entirely (verified against the
+  Sanity Structure Builder source), so editors are steered to create from
+  the correctly-labelled destination instead of an untagged document.
+- **Schema previews** — `testimonial`'s preview subtitle is now
+  `"<placement label> · <role>"`, `faq`'s is `"<page label> · <category>"`,
+  both via `prepare()` (a plain `select` can't combine two fields into one
+  subtitle string). `faq`'s `page: "home"` option is relabeled "Home &
+  Contact" in the Studio UI only (`value` unchanged) since Contact reuses
+  Home's FAQ collection. `testimonial`'s `placement` options renamed to
+  match the desk list titles exactly (`Academy hub` → `Academy`,
+  `Partners voices` → `Partner Voices`). `page`/`placement` remain editable
+  fields — an editor can still deliberately move a document between
+  surfaces; the destination list only affects what's prefilled on
+  _creation_.
+
+**Verification:** `pnpm format`/`lint`/`typecheck`/`build` all pass (the
+`Template[]` type needed an explicit annotation on `sanity.config.ts`'s
+`templates` resolver — otherwise `prev` typechecked as implicit `any`).
+Since Studio is a client-rendered SPA, confirmed the new desk structure and
+templates actually reached the served bundle by grepping the dev build
+output on disk for `"Partner Voices"`, `"testimonial-home"`, and
+`"Home & Contact"` — all three present in the compiled `/admin` chunk.
+
+#### Fix: templates never actually registered + missing `apiVersion`
+
+Live testing in Studio surfaced two console errors typecheck/build didn't
+catch (Structure Builder resolves panes lazily, at browser runtime, once an
+editor actually opens one):
+
+- `Pane resolution error ... template id ('templateId') is required for
+initial value template item nodes` — `templates: (prev) => [...]` had
+  been placed at the **top level** of `defineConfig({...})`. Traced the
+  actual failure through Sanity's own source
+  (`InitialValueTemplateItemBuilder.serialize()` in
+  `packages/sanity/src/structure/structureBuilder/InitialValueTemplateItem.ts`,
+  and `propertyName: 'schema.templates'` in
+  `packages/sanity/src/core/config/prepareConfig.tsx`): Studio only ever
+  resolves custom templates from **`schema.templates`**. The top-level key
+  wasn't rejected by the config type (no build/typecheck error) — it was
+  silently ignored, so `context.templates` never contained our 7 custom
+  entries and every `S.initialValueTemplateItem(id)` lookup failed. Fixed by
+  moving `templates` inside `schema: {...}` in `sanity.config.ts`.
+- `No apiVersion specified for document type list with custom filter` —
+  added `.apiVersion(apiVersion)` (from `sanity/env.ts`, already the single
+  source of truth for API version elsewhere in the app) to every
+  `documentList` in `sanity/structure.ts` that has a custom `.filter()`.
+
+Re-verified: `pnpm format`/`lint`/`typecheck`/`build` all pass; confirmed via
+the Sanity monorepo source (fetched directly, not assumed) that
+`schema.templates` is the correct, actually-read property path before
+applying the fix, rather than guessing a second time.
+
+#### Polish: hide the two generic default templates from global Create
+
+`schema.templates` only ever _adds_ the 7 named templates — Sanity's
+auto-generated default template per document type (id equal to the schema
+type name) was still present, so the global "+" Create menu offered a
+generic "Testimonial"/"FAQ" alongside the 7 destination-specific ones. That
+generic option doesn't set `placement`/`page`, undermining the guided
+workflow (not a blocker — required validation still stops it from
+publishing unclassified — but ambiguous). Added
+`DEFAULT_TEMPLATE_IDS_TO_HIDE = ["testimonial", "faq"]` to
+`sanity/templates.ts` and filtered them out via `document.newDocumentOptions`
+in `sanity.config.ts`. Every other document type's default template (and all
+7 named Phase 2 templates) is untouched.
+
 ## Sanity CMS — Academy surfaces slice: hub + home + search + sitemap (2026-07-11)
 
 Combined the four remaining Phase 1 Academy surfaces into one slice (per

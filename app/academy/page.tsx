@@ -8,9 +8,8 @@ import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
 import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { academyContent } from "@/content/academy";
-import { webinarsContent } from "@/content/webinars";
-import type { ContentCardTone } from "@/types/content";
 import { pageSeo } from "@/content/seo";
+import { webinarsContent } from "@/content/webinars";
 import { isUpcomingSession } from "@/lib/academy-registration";
 import { createPageMetadata } from "@/lib/metadata";
 import {
@@ -18,6 +17,8 @@ import {
   fetchArticlesListing,
 } from "@/lib/sanity/fetch/articles";
 import { fetchCoursesListing } from "@/lib/sanity/fetch/courses";
+import { fetchFaqs } from "@/lib/sanity/fetch/faqs";
+import { fetchTestimonials } from "@/lib/sanity/fetch/testimonials";
 import {
   fetchFeaturedWebinar,
   fetchWebinarsListing,
@@ -27,6 +28,7 @@ import type {
   AcademyCourseLevel,
   AcademyScheduledType,
 } from "@/types/academy";
+import type { ContentCardTone } from "@/types/content";
 
 export const metadata = createPageMetadata(pageSeo.academy);
 export const revalidate = 3600;
@@ -68,18 +70,26 @@ export default async function AcademyPage() {
   const scheduled = academyContent.scheduled;
   const courses = academyContent.courses;
   const blog = academyContent.blog;
-  const testimonials = academyContent.testimonials;
-  const faqs = academyContent.faqs;
+  const testimonialsShell = academyContent.testimonials;
+  const faqsShell = academyContent.faqs;
 
   // Single listing fetch per catalogue — hub bands + total-count labels both
   // derive from the same result instead of a second, overlapping request.
-  const [allWebinars, allCourses, allArticles, featuredWebinar] =
-    await Promise.all([
-      fetchWebinarsListing(),
-      fetchCoursesListing(),
-      fetchArticlesListing(),
-      fetchFeaturedWebinar(webinarsContent.featuredSlug),
-    ]);
+  const [
+    allWebinars,
+    allCourses,
+    allArticles,
+    featuredWebinar,
+    testimonials,
+    faqs,
+  ] = await Promise.all([
+    fetchWebinarsListing(),
+    fetchCoursesListing(),
+    fetchArticlesListing(),
+    fetchFeaturedWebinar(webinarsContent.featuredSlug),
+    fetchTestimonials("academy"),
+    fetchFaqs("academy"),
+  ]);
 
   const hubWebinars = allWebinars
     .filter((webinar) => isUpcomingSession(webinar.date))
@@ -191,14 +201,18 @@ export default async function AcademyPage() {
         emptyState={blog.emptyState}
       />
 
-      <TestimonialsSection
-        eyebrow={testimonials.eyebrow}
-        title={testimonials.title}
-        description={testimonials.description}
-        items={testimonials.items}
-      />
+      {testimonials.length > 0 ? (
+        <TestimonialsSection
+          eyebrow={testimonialsShell.eyebrow}
+          title={testimonialsShell.title}
+          description={testimonialsShell.description}
+          items={testimonials}
+        />
+      ) : null}
 
-      <FaqSection content={faqs} />
+      {faqs.length > 0 ? (
+        <FaqSection content={{ ...faqsShell, items: faqs }} />
+      ) : null}
 
       <CtaSection overlapNext={false} />
     </>

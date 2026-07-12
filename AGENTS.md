@@ -107,3 +107,13 @@ before any CMS or backend integration work begins.
   while iterating.
 - Before handoff on code changes, run `pnpm format`, `pnpm lint`,
   `pnpm typecheck`, and `pnpm build`.
+
+## Toolchain
+
+- The enforced toolchain is **ESLint + Prettier only**. There is no Biome config
+  or dependency in this repo. Ignore "Sort these imports." / other warnings that
+  come from a locally installed Biome editor extension, and do not add Biome.
+- Import ordering is owned by ESLint via `eslint-plugin-simple-import-sort`
+  (`simple-import-sort/imports` and `/exports`). It is auto-fixable: run
+  `pnpm lint:fix` (or `pnpm exec eslint --fix <files>`) instead of hand-sorting.
+  Prettier does not touch import order.

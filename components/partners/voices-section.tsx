@@ -11,8 +11,13 @@ import {
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { partnersPageContent } from "@/content/partners";
+import type { TestimonialItem } from "@/types/content";
 
-export function VoicesSection() {
+type VoicesSectionProps = {
+  voices: readonly TestimonialItem[];
+};
+
+export function VoicesSection({ voices }: VoicesSectionProps) {
   const section = partnersPageContent.voices;
 
   return (
@@ -34,7 +39,7 @@ export function VoicesSection() {
             <MotionFade delay={0.08}>
               <Carousel className="mt-8" aria-label="Partner testimonials">
                 <CarouselContent>
-                  {section.items.map((item) => (
+                  {voices.map((item) => (
                     <CarouselItem key={item.name} className="basis-full">
                       <article className="elevation-1 relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-md bg-white p-5 sm:p-9">
                         <Quote

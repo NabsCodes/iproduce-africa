@@ -112,6 +112,20 @@ export const relatedCoursesQuery = `*[
   _type == "academyCourse" && slug.current != $slug && ${DRAFT_FILTER}
 ] | order(_createdAt asc)[0...$limit]${COURSE_PROJECTION}`;
 
+// ─── Testimonials & FAQs ────────────────────────────
+//
+// `coalesce(order, 9999)` so a doc without an explicit `order` sorts after
+// every ordered doc instead of landing ambiguously; `_createdAt asc` is the
+// tiebreak for two docs that both lack `order` (or share the same value).
+
+export const testimonialsByPlacementQuery = `*[
+  _type == "testimonial" && placement == $placement && ${DRAFT_FILTER}
+] | order(coalesce(order, 9999) asc, _createdAt asc)`;
+
+export const faqsByPageQuery = `*[
+  _type == "faq" && page == $page && ${DRAFT_FILTER}
+] | order(coalesce(order, 9999) asc, _createdAt asc){question, answer, category}`;
+
 // ─── Cross-cutting ───────────────────────────────────────────────────────
 //
 // Session title + registration status for the registration email resolver
