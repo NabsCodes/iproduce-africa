@@ -97,16 +97,15 @@ lib/sanity/
   image.ts
   queries.ts                       # shared groq fragments
   portable-text.ts                 # PT → BlogArticleBlock[]
-  guards.ts                        # featured fallback, empty arrays
 
 app/admin/
   layout.tsx                       # noindex + full-viewport shell (no site chrome)
   [[...index]]/page.tsx            # Embedded Studio
 app/api/revalidate/route.ts
 
-# Site chrome: root layout uses SiteChrome (slot-based client gate; skip when
-# pathname === "/admin" || pathname.startsWith("/admin/"))
-# See docs/cms-migration-spec.md — Studio layout vs site chrome
+# Site chrome: public routes live under app/(site)/ and receive Header/Footer
+# from that route-group layout; /admin remains outside the public data/chrome
+# boundary. See docs/cms-migration-spec.md.
 
 scripts/
   migrate-academy-to-sanity.ts
@@ -316,17 +315,16 @@ coalesce is null → hide featured band.
 
 ### Articles
 
-| Query key                 | Purpose                                  | Replaces                          |
-| ------------------------- | ---------------------------------------- | --------------------------------- |
-| `articleSlugsQuery`       | `generateStaticParams`                   | `blogContent.articles.map`        |
-| `articleBySlugQuery`      | detail page                              | `getArticle(slug)`                |
-| `articlesListingQuery`    | listing + sort by `publishedAt desc`     | `blogContent.articles`            |
-| `featuredArticleQuery`    | coalesce featured + newest (single GROQ) | `blogContent.featuredArticleSlug` |
-| `relatedArticlesQuery`    | same category first, then others         | `getRelatedArticles`              |
-| `articleSearchProjection` | title, excerpt, category, slug           | search index                      |
+| Query key              | Purpose                                  | Replaces                          |
+| ---------------------- | ---------------------------------------- | --------------------------------- |
+| `articleSlugsQuery`    | `generateStaticParams`                   | `blogContent.articles.map`        |
+| `articleBySlugQuery`   | detail page                              | `getArticle(slug)`                |
+| `articlesListingQuery` | listing + sort by `publishedAt desc`     | `blogContent.articles`            |
+| `featuredArticleQuery` | coalesce featured + newest (single GROQ) | `blogContent.featuredArticleSlug` |
+| `relatedArticlesQuery` | same category first, then others         | `getRelatedArticles`              |
 
 **Featured fallback:** use coalesce GROQ above — do not chain two fetches in
-`guards.ts`.
+the fetch helper.
 
 ### Webinars
 

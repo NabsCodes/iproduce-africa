@@ -28,6 +28,30 @@ because its structured case-study model is distinct from both people records
 and testimonials. Existing filtered create templates and document data are
 unchanged.
 
+Post-commit cleanup removed the redundant `SiteChrome`, `SiteHeader`, and
+`SiteFooter` layers. The `(site)` layout now fetches Site Settings once and
+renders Header/Footer directly; `/admin` remains isolated by the route group.
+The Studio desk also gained explicit stable IDs for every custom group and
+filtered list so future label changes do not invalidate pane routes. The
+reported `Pane returned no child` error is consistent with a browser URL
+retaining a pre-reorganisation auto-generated pane ID (`Trust & Content` or
+`Team Members`); returning once to `/admin` clears that already-stale route.
+The same audit removed four provably orphaned files: the old shared Apply
+Banner duplicate (the active component is Community-owned), the pre-redesign
+Academy date-block card, the unused About roster empty state, and an unused
+Sanity guard scaffold. Intentionally dormant impact-stat code remains because
+the approved route specs reserve it for future verified metrics.
+An independent import-graph pass then removed the unused Tooltip primitive and
+two definition-only Academy search exports. It found no orphaned Phase 3
+schema, fetch, or query module. Contributor guidance in `AGENTS.md`,
+`CLAUDE.md`, `README.md`, and `docs/mvp-phases.md` was brought forward from its
+pre-CMS milestone language so future agents follow the committed route-group
+and Sanity boundaries.
+The Studio group containing Home and About was relabelled from `Pages` to
+`Page Content`, clarifying that editors change approved fields inside existing
+pages rather than create routes or control page layouts. Its stable `pages` ID
+is unchanged.
+
 ## Sanity CMS — Phase 3 one-shot scope proposal (2026-07-12)
 
 Added `docs/sanity-phase3-spec.md` as the approval gate for the final CMS code

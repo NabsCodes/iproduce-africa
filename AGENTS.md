@@ -1,8 +1,8 @@
 # iProduce Africa Agent Guide
 
-This repository is the static-first iProduce Africa marketing site. The current
-milestone is to lock the design system, layout rhythm, and Home page fidelity
-before any CMS or backend integration work begins.
+This repository is the iProduce Africa public marketing site. The interface,
+public forms, and Sanity CMS phases are implemented; the current milestone is
+Academy promotion-rule review followed by production QA and cutover.
 
 ## Start Here
 
@@ -19,9 +19,10 @@ before any CMS or backend integration work begins.
 ## Current Product Boundaries
 
 - Treat this repo as a premium public-facing marketing site, not an app shell.
-- Keep the current MVP static-first.
-- Sanity CMS, form submissions, automation, authentication, payments,
-  e-commerce, dashboards, donations, and deal-room workflows are later phases.
+- Preserve the existing Sanity-backed editorial boundaries and server-rendered
+  public routes; do not move presentation chrome or application logic into CMS.
+- Public form delivery is implemented. Authentication, payments, e-commerce,
+  dashboards, donations, and deal-room workflows remain out of scope.
 - Use `Join our community` and `Partner with us` as the primary CTA language.
 - Do not invent final partner logos, statistics, community channels, or
   integrations that have not been confirmed.
@@ -29,8 +30,8 @@ before any CMS or backend integration work begins.
 ## File Ownership
 
 - `app/` owns public routes and metadata.
-- Keep the top-level `app/` structure flat for now. Introduce route groups only
-  when route behavior or shells genuinely diverge.
+- Public routes live in `app/(site)/`; `/admin` and APIs stay outside that
+  route group because their shells and data requirements differ.
 - `components/home/` owns Home-only sections. Name files after the section eyebrow or role (for example `what-we-do-section.tsx`, `core-focus-section.tsx`).
 - `components/layout/` owns shared site chrome and shared page-intro patterns.
 - `components/ui/` owns reusable primitives.
@@ -43,8 +44,9 @@ before any CMS or backend integration work begins.
   implementation in their own folder and are composed at the narrowest stable
   shell: site-wide in `providers/`, or route-scoped in a matching route
   `layout.tsx` when the provider only belongs to that area.
-- Keep site identity, contact details, hours, and social links in
-  `content/site.ts`.
+- Keep code-owned site identity and fallback content in `content/site.ts`;
+  public contact channels and social links are editor-managed through the
+  `siteSettings` singleton.
 - Keep shared navigation data in `content/navigation.ts`.
 - Keep route SEO copy and sitemap route data in `content/seo.ts`.
 - Keep page content in per-page `content/*.ts` files as the site grows.
@@ -90,7 +92,8 @@ before any CMS or backend integration work begins.
 - Reuse existing primitives before creating new abstractions.
 - Promote a new primitive only when the pattern is stable and repeated enough
   to earn reuse.
-- Keep copy and lists in `content/` whenever they need to stay editable.
+- Keep code-owned presentation copy and rollback snapshots in `content/`;
+  editor-owned fields use the approved Sanity schemas and fetch layer.
 - Preserve the `/about`, `/academy`, `/community`, `/partners`, and `/contact`
   scaffolds while the Home page milestone is in progress.
 

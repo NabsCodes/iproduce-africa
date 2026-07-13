@@ -9,8 +9,8 @@ iProduce Africa is a public-facing agribusiness website being built in a
 static-first way. The immediate goal is strong UI fidelity, clean layout
 systems, and durable docs before Sanity or backend integrations begin.
 
-This is not yet a complex application surface. Do not import app-like patterns
-just because they worked in heavier repos.
+This is still a focused marketing surface. Sanity and public forms are live in
+the architecture, but app-like patterns should not spread beyond real needs.
 
 ## Docs First
 
@@ -96,7 +96,7 @@ Pick the right `size` prop or add a new one.
 Before building a new component from scratch, check what is already in
 `components/ui/`. The repo already has shadcn primitives for: `accordion`,
 `avatar`, `button`, `card`, `dropdown-menu`, `field`, `input`, `label`,
-`popover`, `separator`, `sheet`, `sonner`, `tabs`, `tooltip`, plus our own
+`popover`, `separator`, `sheet`, `sonner`, `tabs`, plus our own
 `carousel`, `carousel-dots`, `decorative-ring`, `eyebrow-badge`,
 `eyebrow-pill`.
 
@@ -111,20 +111,17 @@ compose at the consumer rather than forking the file.
 
 ## Layout Direction
 
-Prefer the simpler marketing-site pattern that fits the current scope:
-
-- root layout owns the shared chrome for now
-- pages focus on page composition
-- shared page-intro primitives stay light
-
-Do not add a route group yet just for aesthetics. Introduce one later only when
-the app genuinely needs different route shells or behaviors.
+The root layout owns global providers and metadata. `app/(site)/layout.tsx`
+owns public Header/Footer and fetches Site Settings once; `/admin` stays
+outside that group. Pages continue to focus on composition and shared
+page-intro primitives stay light.
 
 ## Product Boundaries
 
-- Keep the current milestone static-first.
-- Do not add Sanity, auth, payments, donations, dashboards, e-commerce, or
-  fake integrations yet.
+- Preserve the approved Sanity scope; do not expand CMS into layout, form UX,
+  navigation, or other engineering-owned behavior without approval.
+- Do not add auth, payments, donations, dashboards, e-commerce, or fake
+  integrations.
 - Use `Join our community` and `Partner with us` as the primary CTA language.
 - Keep placeholder imagery centralized until final assets are provided.
 - Treat custom `loading.tsx`, `error.tsx`, `not-found.tsx`, and a broader

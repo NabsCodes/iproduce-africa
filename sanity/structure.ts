@@ -25,10 +25,12 @@ function singletonItem(
 function testimonialsByPlacement(
   S: StructureBuilder,
   title: string,
+  itemId: string,
   placement: string,
   templateId: string,
 ) {
   return S.listItem()
+    .id(itemId)
     .title(title)
     .child(
       S.documentList()
@@ -45,10 +47,12 @@ function testimonialsByPlacement(
 function faqsByPage(
   S: StructureBuilder,
   title: string,
+  itemId: string,
   page: string,
   templateId: string,
 ) {
   return S.listItem()
+    .id(itemId)
     .title(title)
     .child(
       S.documentList()
@@ -66,10 +70,12 @@ function faqsByPage(
 function teamMembersByGroup(
   S: StructureBuilder,
   title: string,
+  itemId: string,
   group: string,
   templateId: string,
 ) {
   return S.listItem()
+    .id(itemId)
     .title(title)
     .child(
       S.documentList()
@@ -86,12 +92,13 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
-      singletonItem(S, "siteSettings", "Site Settings", "siteSettings"),
       S.listItem()
-        .title("Pages")
+        .id("pages")
+        .title("Page Content")
         .child(
           S.list()
-            .title("Pages")
+            .id("pages")
+            .title("Page Content")
             .items([
               singletonItem(S, "homePage", "Home", "homePage"),
               singletonItem(S, "aboutPage", "About", "aboutPage"),
@@ -99,9 +106,11 @@ export const structure: StructureResolver = (S) =>
         ),
       S.divider(),
       S.listItem()
+        .id("academy")
         .title("Academy")
         .child(
           S.list()
+            .id("academy")
             .title("Academy")
             .items([
               S.documentTypeListItem("academyArticle").title("Articles"),
@@ -114,26 +123,37 @@ export const structure: StructureResolver = (S) =>
         ),
       S.documentTypeListItem("partner").title("Partners"),
       S.listItem()
+        .id("testimonials")
         .title("Testimonials")
         .child(
           S.list()
+            .id("testimonials")
             .title("Testimonials")
             .items([
-              testimonialsByPlacement(S, "Home", "home", "testimonial-home"),
+              testimonialsByPlacement(
+                S,
+                "Home",
+                "home",
+                "home",
+                "testimonial-home",
+              ),
               testimonialsByPlacement(
                 S,
                 "Academy",
+                "academy",
                 "academy",
                 "testimonial-academy",
               ),
               testimonialsByPlacement(
                 S,
                 "Partner Voices",
+                "partner-voices",
                 "partners-voices",
                 "testimonial-partners-voices",
               ),
               S.divider(),
               S.listItem()
+                .id("all-testimonials")
                 .title("All testimonials")
                 .child(
                   S.documentList()
@@ -146,17 +166,32 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.listItem()
+        .id("faqs")
         .title("FAQs")
         .child(
           S.list()
+            .id("faqs")
             .title("FAQs")
             .items([
-              faqsByPage(S, "Home & Contact", "home", "faq-home"),
-              faqsByPage(S, "Academy", "academy", "faq-academy"),
-              faqsByPage(S, "Community", "community", "faq-community"),
-              faqsByPage(S, "Partners", "partners", "faq-partners"),
+              faqsByPage(
+                S,
+                "Home & Contact",
+                "home-contact",
+                "home",
+                "faq-home",
+              ),
+              faqsByPage(S, "Academy", "academy", "academy", "faq-academy"),
+              faqsByPage(
+                S,
+                "Community",
+                "community",
+                "community",
+                "faq-community",
+              ),
+              faqsByPage(S, "Partners", "partners", "partners", "faq-partners"),
               S.divider(),
               S.listItem()
+                .id("all-faqs")
                 .title("All FAQs")
                 .child(
                   S.documentList()
@@ -169,20 +204,24 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.listItem()
+        .id("team-advisors")
         .title("Team & Advisors")
         .child(
           S.list()
+            .id("team-advisors")
             .title("Team & Advisors")
             .items([
-              teamMembersByGroup(S, "Team", "team", "team-member-team"),
+              teamMembersByGroup(S, "Team", "team", "team", "team-member-team"),
               teamMembersByGroup(
                 S,
                 "Advisors",
+                "advisors",
                 "advisor",
                 "team-member-advisor",
               ),
               S.divider(),
               S.listItem()
+                .id("all-team-advisors")
                 .title("All Team & Advisors")
                 .child(
                   S.documentList()
@@ -197,9 +236,11 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("memberStory").title("Member Stories"),
       S.divider(),
       S.listItem()
+        .id("legal-pages")
         .title("Legal Pages")
         .child(
           S.list()
+            .id("legal-pages")
             .title("Legal Pages")
             .items([
               singletonItem(S, "legalPage", "Privacy", "legalPage.privacy"),
@@ -213,4 +254,5 @@ export const structure: StructureResolver = (S) =>
               ),
             ]),
         ),
+      singletonItem(S, "siteSettings", "Site Settings", "siteSettings"),
     ]);

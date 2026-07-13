@@ -19,16 +19,6 @@ export type AcademySearchResult = {
   meta?: string;
 };
 
-const kindLabel: Record<AcademySearchResultKind, string> = {
-  webinar: "Webinar or event",
-  course: "Course",
-  article: "Article",
-};
-
-export function academySearchKindLabel(kind: AcademySearchResultKind) {
-  return kindLabel[kind];
-}
-
 function matches(haystack: string, query: string) {
   return haystack.toLowerCase().includes(query.toLowerCase());
 }

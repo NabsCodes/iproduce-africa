@@ -37,12 +37,12 @@ member portal.
 1. `CommunityHeroSection` — already shipped (Membership eyebrow, "Join our
    Agribusiness community.", member avatars + qualitative member label, orbit).
 2. `WhyJoinSection` — 6-card benefits grid.
-3. `ApplyBanner` (instance #1) — "It only takes two minutes" leaf-100 band.
+3. `CommunityApplyBanner` (instance #1) — "It only takes two minutes" leaf-100 band.
 4. `ThreeStepsSection` — dark forest rounded-xl panel with Join → Connect →
    Collaborate.
 5. `WhoShouldJoinSection` — 9-card role grid.
 6. `MemberBenefitsSection` — 6-card benefits grid (alternating chip tones).
-7. `ApplyBanner` (instance #2) — "Ready to unlock every benefit?".
+7. `CommunityApplyBanner` (instance #2) — "Ready to unlock every benefit?".
 8. `CommunityPreviewSection` — split: chat mockup + bullets + channel chips.
 9. `MemberStoriesSection` — 4 structured "result / challenge / with iProduce"
    cards.
@@ -59,7 +59,7 @@ No marquee on this page. The orbit lives in the hero only.
 | ---------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Hero                   | Already built                 | `CommunityHeroSection` + `MembershipOrbit`. Verify orbit chips match screenshot (Farmers, Logistics, Exporters, Investors, Youth Agripreneurs, Women in Agric, Processors).                 |
 | Why Join               | **New shared**                | Promote `components/partners/benefits-section.tsx` to `components/shared/benefits-section.tsx`. Takes content prop with `items[].tone`. Partners becomes a thin consumer.                   |
-| Apply banner           | **New shared**                | `components/shared/apply-banner.tsx`. Used twice on this page. Props: `title`, `subtitle`, `ctas` (reuse `CtaSectionCta` shape from `types/content.ts`).                                    |
+| Apply banner           | **Community-owned**           | `components/community/community-apply-banner.tsx`. Used twice on this page and supports the membership-dialog action through `SiteCtaButton`.                                               |
 | Three steps            | **New**                       | `components/community/three-steps-section.tsx`. Bespoke dark-forest panel; not yet reused elsewhere. Promote later if a second consumer appears.                                            |
 | Who should join        | **New**                       | `components/community/who-should-join-section.tsx`. Visually different from the benefits grid (white cards, smaller, all leaf chips, denser).                                               |
 | Member benefits        | **Reused shared**             | Same shared `BenefitsSection` as Why Join, with different content + alternating tones (potential new `chipShape` prop for the round vs square icon chip).                                   |
@@ -104,7 +104,8 @@ Full-width `bg-leaf-100` band.
 - Single row on desktop: left = title + subtitle; right = `Join our Community`
   (green filled) + `Explore Member Benefits` (outline).
 - Stacks on mobile (text top, buttons bottom).
-- `ApplyBanner` shared component takes `{ title, subtitle, ctas: CtaSectionCta[] }`.
+- `CommunityApplyBanner` takes the page-owned `ApplyBannerContent` object and
+  routes action CTAs through `SiteCtaButton`.
 
 ## 4. Three Steps Section
 
@@ -355,7 +356,7 @@ Then browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - [x] Mobile composition confirmed per section (currently inferred)
 - [x] Hero implemented
 - [x] Promote `BenefitsSection` to `components/shared/`
-- [x] `ApplyBanner` shared component implemented
+- [x] `CommunityApplyBanner` implemented and reused for both page bands
 - [x] `WhyJoinSection` implemented (consume shared BenefitsSection)
 - [x] `ThreeStepsSection` implemented
 - [x] `WhoShouldJoinSection` implemented

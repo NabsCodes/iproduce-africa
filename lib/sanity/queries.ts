@@ -43,8 +43,6 @@ export const relatedArticlesQuery = `*[
   _type == "academyArticle" && slug.current != $slug && ${DRAFT_FILTER}
 ] | order(publishedAt desc)${ARTICLE_PROJECTION}`;
 
-export const articleSearchProjection = `{title, excerpt, category, "slug": slug.current}`;
-
 /** Narrow projection for `app/sitemap.ts` — slug + `publishedAt` only, no
  * image/body/author, so sitemap generation doesn't pay for the full
  * article normalization (Portable Text adapter, image resolution, etc.). */

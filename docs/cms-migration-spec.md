@@ -91,34 +91,24 @@ Sanity MCP / docs also recommend:
 
 ### Studio layout vs site chrome (locked)
 
-Root `app/layout.tsx` currently wraps **all** routes in `<Header>` / `<Footer>`.
-Nested `app/admin/layout.tsx` does **not** remove that chrome — Studio would
-render inside the marketing shell (double scroll, nav over Studio toolbar).
+The original Phase 1 implementation used a client-side `SiteChrome` pathname
+gate. Phase 3 introduced public Site Settings, which made the public and Studio
+data requirements genuinely different, so the route-group boundary became
+justified.
 
-**Decision: pathname-gated chrome skip (option a).** Do **not** adopt the
-`(site)` route-group split for Phase 1 — it touches every route file for a
-single exception. Do **not** ship Studio wrapped in site chrome (option c).
+**Current decision: public `(site)` route group.**
 
-Implementation:
-
-1. Extract marketing chrome to `components/layout/site-chrome.tsx` (`"use client"`).
-2. **Path gate (precise):** `pathname === "/admin" || pathname.startsWith("/admin/")`
-   — not bare `startsWith("/admin")` (would false-positive paths like
-   `/administration`).
-3. **`SiteChrome` receives slots from the server layout** — root `app/layout.tsx`
-   passes `header` and `footer` React nodes as props; the client gate renders
-   `{children}` only under `/admin`, else `header` + `<main>` + `footer`. Do
-   **not** import `Header` / `Footer` inside the client component (keeps server
-   components out of the client bundle).
-4. Root layout keeps fonts, `AppProviders`, `Analytics`; wraps page body in
-   `<SiteChrome header={…} footer={…}>{children}</SiteChrome>`.
-5. Add `app/admin/layout.tsx` for Studio-only concerns: `robots: noindex`,
-   full-viewport height shell (`min-h-dvh`), no extra padding — same pattern as
-   q-das `app/admin/layout.tsx`.
-
-q-das uses the `(main)` route-group pattern because its root layout is already
-chrome-free. iProduce’s root layout owns chrome today; a one-file gate is the
-lower-churn equivalent.
+1. Root `app/layout.tsx` owns HTML, fonts, providers, analytics, and global
+   utilities only.
+2. `app/(site)/layout.tsx` fetches Site Settings once and renders `Header`,
+   `<main>`, and `Footer` directly.
+3. `/admin` sits outside `(site)`, so Studio never evaluates the public
+   settings fetch or renders marketing chrome.
+4. The former `SiteChrome`, `SiteHeader`, and `SiteFooter` wrapper components
+   were removed after the route-group cutover; they no longer represented a
+   useful boundary.
+5. Public URLs are unchanged because route-group folder names are not URL
+   segments.
 
 ---
 
@@ -746,7 +736,7 @@ Document thresholds in the spec checklist when implementing each page.
 **Implementation (shipped 2026-07-04, ahead of the fetch-layer cutover):**
 `components/shared/catalogue-empty-state.tsx` is the shared quiet on-brand
 panel (leaf-tinted circle badge, serif heading, muted description, `green`
-button CTA — same visual language as `PeopleRosterEmpty`). Content shape is
+button CTA). Content shape is
 `CatalogueEmptyStateContent` (`types/content.ts`): `icon` (`"calendar"` |
 `"graduation-cap"` | `"newspaper"`), `title`, `description`, `ctaLabel`,
 `ctaHref`. Wired via `AcademyListing<TItem>.emptyState?` (hub bands,

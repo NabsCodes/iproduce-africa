@@ -240,8 +240,7 @@ is the route-level summary:
 
 `CatalogueEmptyState` (`components/shared/catalogue-empty-state.tsx`) is the
 shared panel: leaf-tinted circle badge + lucide icon, serif heading, muted
-description, `green`-variant `ButtonLink` CTA — same visual family as
-`PeopleRosterEmpty` on About. Content shape is `CatalogueEmptyStateContent`
+description, `green`-variant `ButtonLink` CTA. Content shape is `CatalogueEmptyStateContent`
 (`types/content.ts`) and lives per-band/per-tab in `content/academy.ts`
 (`academyContent.{scheduled,courses,blog}.emptyState`,
 `academyHomePreview.spotlightEmptyState.{upcoming,training}`) —

@@ -136,22 +136,26 @@ presentation.
 
 ## Project Status
 
-The public frontend, Academy content surfaces, and form delivery layer are
-implemented in code. Production mail still requires client Resend domain
-verification and Vercel environment variables (see `docs/resend-integration-spec.md`).
+The public frontend, form delivery layer, and approved Sanity CMS phases are
+implemented. Production mail and CMS cutover still require client-owned
+environment configuration and final QA.
 
 **Shipped in repo**
 
 - Seven public form surfaces → six API routes with internal notification + best-effort submitter receipt (receipt failures are logged, not surfaced to the user)
 - Cloudflare Turnstile + honeypot on every submission path
 - React Email templates previewable via `pnpm email:dev`
+- Sanity-managed Academy catalogues, trust/people content, selected Home/About
+  copy, public contact settings, and legal documents
+- Embedded editor at `/admin` with organised two-level navigation
 
-**Next major phase**
+**Next steps**
 
-- Sanity CMS and editorial workflows
+- Academy automatic promotion-rule review
+- Staging/editor QA, production dataset migration, and Sanity webhook cutover
 - Client Resend account + DNS verification on production
-- Real partner, social, programme, and organisational content
-- Analytics, content search, and launch hardening
+- Client content sign-off and post-cutover static snapshot archival
+- Optional analytics, preview, TypeGen, and search-at-scale polish
 
 ## Documentation
 

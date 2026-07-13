@@ -3,9 +3,9 @@
 This project should be built like a scalable product, but delivered in clean
 phases so the first release stays focused and reviewable.
 
-## Phase 0: Foundation
+## Phase 0: Foundation — complete
 
-Current work:
+Shipped:
 
 - Lock repo structure, docs, layout rules, and visual-system rules
 - Keep top-level public routing flat while all pages share the same public
@@ -20,7 +20,7 @@ Outcome:
 - Any new agent can understand the repo quickly
 - Home page work can proceed without re-deciding layout rules every session
 
-## Phase 1: Static Interface Approval
+## Phase 1: Static Interface Approval — complete
 
 Primary milestone:
 
@@ -30,14 +30,14 @@ Primary milestone:
 - Keep secondary pages scaffolded but not overbuilt yet
 - Prioritize visible UI quality over boilerplate route states
 
-Constraints:
+Original constraints:
 
 - No live CMS
 - No real form submission
 - No fake social/community integrations
 - No made-up business statistics or partner brands
 
-## Phase 2: Guided Interactions
+## Phase 2: Guided Interactions — complete in code
 
 After the static UI is approved:
 
@@ -59,14 +59,23 @@ Examples that can land here if they become useful:
 - custom `not-found.tsx`
 - broader `motion/react` conventions
 
-## Phase 3: Content And Platform Integrations
+## Phase 3: Content And Platform Integrations — CMS complete in code
 
-Only after the interface is approved:
+Shipped:
 
-- Sanity CMS integration
-- Analytics and tracking
-- Translation or multilingual rollout
-- Search, content publishing workflows, and operational handoffs
+- Sanity CMS for Academy catalogues, testimonials, FAQs, partners, people,
+  member stories, selected Home/About copy, public settings, and legal pages
+- Embedded Studio editorial organization and webhook revalidation endpoint
+
+Remaining operational work:
+
+- Academy automatic promotion-rule review
+- Staging/editor QA, production dataset migration, Vercel environment setup,
+  webhook verification, and client sign-off
+- Static snapshot archival after a stable production cutover
+
+Optional later work includes analytics, preview/TypeGen, translation, and
+search-at-scale improvements.
 
 Form submission workflows (Resend + Turnstile) landed in Phase 2 — production
 DNS/env handoff remains client ops.
