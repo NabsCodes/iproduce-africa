@@ -3,12 +3,11 @@
 ## Status
 
 Full page UI built against placeholder copy and imagery, layout/motion
-approved. **Team + Advisors are now Sanity-backed** (`teamMember` document
-type, Phase 2 slice 2C) — `/about` fetches once via
-`fetchTeamMembers()` (`lib/sanity/fetch/team-members.ts`) and hides each
-section independently if its group is empty. `content/about-people.ts`
-remains as the migration-script source and rollback reference, not the
-live data path.
+approved. **Team + Advisors are Sanity-backed** (`teamMember` document
+type, Phase 2). **Story and Mission/Vision/Objective are Sanity-backed**
+(`aboutPage` singleton, Phase 3) via `fetchAboutPage()`. The complete hero,
+eyebrows, CTA destinations, journey timeline, and orbit chrome stay in
+`content/about.ts`.
 
 ## Purpose
 
@@ -156,6 +155,11 @@ stand-ins featuring **African people and contexts** (agriculture, cohort
 learning, partnerships, digital platform, continental scale) until client
 exports real milestone photography to `public/images/about/journey/`.
 
+**Story media boundary:** Phase 3 makes the Story poster image/alt editable but
+does not add video fields. The current play mark remains a non-interactive
+coming-soon treatment until a real video, hosting source, captions/transcript,
+and player behaviour are approved as a separate feature.
+
 ## Placeholder Copy / Metrics
 
 Public traction metrics are intentionally removed from the hero, story, and
@@ -172,7 +176,7 @@ remains placeholder pending client data.
 - [x] Copy structure approved for hero
 - [x] Hero route implemented
 - [x] Placeholder imagery needs listed for sections
-- [x] Story / MVO / Impact / Journey / Team / Advisors built
+- [x] Story / MVO editorial copy + poster image CMS-fed (`aboutPage`, Phase 3)
 - [x] Team + advisor profile dialogs + `about-people.ts` registry
 - [x] CTA + Partners shared sections wired
 - [x] Motion adoption scope documented

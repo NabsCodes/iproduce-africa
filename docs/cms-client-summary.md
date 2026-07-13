@@ -18,13 +18,16 @@ Placeholder content from today's site is **pre-loaded into a staging Studio**
 
 ## What moves to the CMS
 
-| Phase          | You can edit        | Where it appears                                                                                                                                  |
-| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **1 — Launch** | Academy             | Blog articles, webinars & events, courses, authors                                                                                                |
-| **2 — Next**   | Trust & people      | Testimonials (Home, Academy, Partners), FAQs (all main pages), partner logos, partner quotes, team & advisors (About), member stories (Community) |
-| **3 — Later**  | Page marketing copy | Home/About section text, site contact details                                                                                                     |
+| Phase        | You can edit    | Where it appears                                                                 |
+| ------------ | --------------- | -------------------------------------------------------------------------------- |
+| **1 — Done** | Academy         | Blog articles, webinars & events, courses, authors                               |
+| **2 — Done** | Trust & people  | Testimonials, FAQs, partner logos/quotes, team/advisors, member stories          |
+| **3 — Done** | Durable content | Home services/value chains, About story/MVO, legal pages, public contact details |
 
-Phases 1 and 2 are both **in scope** for the CMS rollout — not optional add-ons.
+All three implementation phases are complete in code. Phase 3 intentionally
+keeps Academy, Community, and Partners marketing/UI copy in the website code;
+their real catalogue, FAQ, testimonial, partner, and people records remain
+editable in Sanity. Legal content is required, not an optional follow-up.
 
 ### Phase 2 detail (what editors get after Academy)
 
@@ -44,7 +47,11 @@ Phases 1 and 2 are both **in scope** for the CMS rollout — not optional add-on
 - Error pages (404, etc.)
 - Country lists and form validation
 - FAQ section headings and category tabs (the questions/answers move to CMS)
-- Long marketing heroes and motion-heavy sections (e.g. About journey timeline) until Phase 3
+- About journey timeline/motion, route anchors, and other layout-coupled configuration
+- Academy, Community, and Partners marketing hero/card copy
+- Home hero image and About hero copy
+- Office hours
+- Academy featured-event selection and hero-link behaviour until the post-migration Academy review
 
 ---
 
@@ -52,7 +59,8 @@ Phases 1 and 2 are both **in scope** for the CMS rollout — not optional add-on
 
 1. We create a Sanity project (`development` + `production` datasets).
 2. **Migration scripts** copy today's placeholder content into the **staging**
-   Studio (`development`) — Phase 1 (Academy) then Phase 2 (trust & people).
+   Studio (`development`) — Academy, trust/people, then the durable Phase 3
+   settings/page/legal content.
 3. You review on staging, replace placeholders with real content where ready.
 4. After your approval, we migrate approved content to **production** CMS.
 5. You own the Sanity account (same pattern as Resend for email).
@@ -61,7 +69,7 @@ Phases 1 and 2 are both **in scope** for the CMS rollout — not optional add-on
 
 ## What we need from you
 
-- [ ] **Approve** Phase 1 (Academy) + Phase 2 (testimonials, FAQs, partners, team, member stories)
+- [ ] **Approve** the full Phase 1–3 CMS scope and staging content
 - [ ] Confirm who gets Studio access (names/emails)
 - [ ] Confirm who creates the Sanity project and invites the other party
 - [ ] Review staging placeholders before we point the live site at production CMS

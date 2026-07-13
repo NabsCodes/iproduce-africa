@@ -20,12 +20,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { mainNavigation } from "@/content/navigation";
-import { siteConfig } from "@/content/site";
+import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
   activePath?: string;
   currentRoute?: string;
+  contact: PublicSiteSettings;
 };
 
 const rowEntryClass =
@@ -36,6 +37,7 @@ const rowDelay = (i: number) => ({ animationDelay: `${80 + i * 35}ms` });
 export function MobileNav({
   activePath = "/",
   currentRoute = activePath,
+  contact,
 }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | undefined>(undefined);
@@ -267,18 +269,18 @@ export function MobileNav({
             )}
           >
             <a
-              href={`mailto:${siteConfig.email}`}
-              aria-label={`Email ${siteConfig.email}`}
+              href={`mailto:${contact.email}`}
+              aria-label={`Email ${contact.email}`}
               className="text-grey-700 hover:text-forest-700 focus-visible:ring-leaf-400 truncate text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
-              {siteConfig.email}
+              {contact.email}
             </a>
             <a
-              href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-              aria-label={`Call ${siteConfig.phone}`}
+              href={`tel:${contact.phone.replace(/\s/g, "")}`}
+              aria-label={`Call ${contact.phone}`}
               className="text-grey-700 hover:text-forest-700 focus-visible:ring-leaf-400 shrink-0 text-sm tabular-nums transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
-              {siteConfig.phone}
+              {contact.phone}
             </a>
           </div>
         </div>

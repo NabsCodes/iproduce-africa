@@ -2,6 +2,7 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
+import type { AboutPageContent } from "@/lib/sanity/fetch/about-page";
 import { cn } from "@/lib/utils";
 
 type MvoCardProps = {
@@ -40,9 +41,14 @@ function MvoCard({
   );
 }
 
-export function MvoSection() {
+export function MvoSection({
+  missionVisionObjective,
+}: {
+  missionVisionObjective: AboutPageContent["missionVisionObjective"];
+}) {
   const { mission, vision, objective } =
     aboutPageContent.missionVisionObjective;
+  const bodies = missionVisionObjective;
 
   return (
     <section className="bg-white pb-14 sm:pb-16 lg:pb-20">
@@ -51,7 +57,7 @@ export function MvoSection() {
           <MotionFade className="lg:col-start-1 lg:row-start-1">
             <MvoCard
               eyebrow={mission.eyebrow}
-              body={mission.body}
+              body={bodies.mission.body}
               className="bg-leaf-subtle h-full"
             />
           </MotionFade>
@@ -61,7 +67,7 @@ export function MvoSection() {
           >
             <MvoCard
               eyebrow={vision.eyebrow}
-              body={vision.body}
+              body={bodies.vision.body}
               bodyClassName="lg:max-w-[36ch]"
               className="bg-tangerine-subtle h-full min-h-[260px]"
             >
@@ -74,7 +80,7 @@ export function MvoSection() {
           <MotionFade className="lg:col-start-1 lg:row-start-2" delay={0.28}>
             <MvoCard
               eyebrow={objective.eyebrow}
-              body={objective.body}
+              body={bodies.objective.body}
               className="bg-muted h-full"
             />
           </MotionFade>

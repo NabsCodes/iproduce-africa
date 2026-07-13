@@ -9,6 +9,10 @@ generic "v1" page composition.
 Current route still exists at `/partners`, but the approved target requires a
 bespoke Partners page, similar in ambition to the About and Academy pages.
 
+Phase 2 partner records, Partner Voices testimonials, and FAQs are
+Sanity-backed. Hero, benefits, opportunities, forms, and other marketing UI
+copy remain code-owned.
+
 ## Purpose
 
 Explain why organisations should partner with iProduce Africa, show the kinds
@@ -478,4 +482,4 @@ structure.
 - [x] Partners forms moved to root `schemas/` and shared multi-step dialog primitives
 - [x] Full route browser QA at desktop, tablet, and 390px
 - [x] Dialog/form browser QA for validation states and close/reset behaviour
-- [x] Motion polish on chosen sections (separate plan after static UI approved)
+- [x] Phase 3 scope review kept Partners marketing copy code-owned

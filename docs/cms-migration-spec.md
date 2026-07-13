@@ -2,9 +2,9 @@
 
 ## Status
 
-**Approved with edits** — 2026-06-27. Reviewed with Codex + Claude; blocking gaps
-patched below. No Sanity packages, schemas, or fetch code until checklist at
-bottom is signed off.
+**Phase 1, Phase 2, and Phase 3 implemented** — see
+`docs/sanity-phase3-spec.md` for the fixed-slot page-copy/legal/settings
+contract. Production cutover and static-copy archival remain pending.
 
 Purpose: agree on **what moves to Sanity**, **what stays in code**, **folder
 layout**, **edge-case rules**, and **phased rollout** before any implementation.
@@ -140,7 +140,7 @@ lower-churn equivalent.
 | **Academy articles**         | `content/blog-articles.ts` + `content/blog.ts`                 | **CMS** Phase 1                | Editorial, frequent updates, slug catalogue             |
 | **Academy webinars/events**  | `content/webinars.ts`                                          | **CMS** Phase 1                | Dated sessions, registration metadata                   |
 | **Academy courses**          | `content/courses.ts`                                           | **CMS** Phase 1                | Modules, levels, enrolment copy                         |
-| **Academy hub shell**        | `content/academy.ts` (hero, tabs, opportunities, participants) | **CMS-lite** Phase 2 singleton | Marketing copy; changes occasionally                    |
+| **Academy hub shell**        | `content/academy.ts` (hero, tabs, opportunities, participants) | **Code**                       | Marketing UI and promotion behaviour are design-owned   |
 | **Academy hub FAQs**         | `content/academy.ts` `faqs`                                    | **CMS** Phase 2                | Same pattern as q-das `faq` docs                        |
 | **Academy hub testimonials** | `content/academy.ts` `testimonials`                            | **CMS** Phase 2                | Reuse shared `testimonial` type                         |
 | **Home testimonials**        | `content/home.ts`                                              | **CMS** Phase 2                | Shared collection, filter or reference by placement     |
@@ -157,18 +157,18 @@ lower-churn equivalent.
 | **About story / mission**    | `content/about.ts`                                             | **CMS-lite** Phase 3           | Long prose; fewer edits than catalogue                  |
 | **About journey timeline**   | `content/about.ts`                                             | **Code** for v1                | Motion + sticky UX tightly coupled; CMS later if needed |
 | **Home hero / sections**     | `content/home.ts`                                              | **CMS-lite** Phase 3           | Page singletons when client edit cadence justifies      |
-| **Community page copy**      | `content/community.ts`                                         | **CMS-lite** Phase 3           | Heavy page; migrate section-by-section                  |
-| **Partners page copy**       | `content/partners.ts`                                          | **CMS-lite** Phase 3           | Except logos/FAQs (earlier)                             |
+| **Community page copy**      | `content/community.ts`                                         | **Code**                       | Marketing UI; stories and FAQs are already CMS          |
+| **Partners page copy**       | `content/partners.ts`                                          | **Code**                       | Marketing UI; partners/voices/FAQs are already CMS      |
 | **Contact page copy**        | `content/contact.ts`                                           | **Code**                       | Mostly static + form; map embed is code                 |
 | **Navigation**               | `content/navigation.ts`                                        | **Code**                       | Tied to routes; wrong href breaks site                  |
-| **Site identity**            | `content/site.ts`                                              | **Singleton** Phase 3          | Phone, email, social — or stay code until handoff       |
+| **Public contact settings**  | `content/site.ts`                                              | **Singleton** Phase 3          | Phone, email, address, and social URLs                  |
 | **SEO defaults**             | `content/seo.ts`                                               | **Code** → **Singleton** later | Per-route metadata can stay in route files              |
 | **Countries list**           | `content/countries.ts`                                         | **Code**                       | Reference data for forms                                |
 | **System pages**             | `content/system-pages.ts`                                      | **Code**                       | 404/error copy; rare edits                              |
 | **Form labels / steps**      | `content/community.ts`, schemas                                | **Code**                       | Zod + RHF; CMS adds drift risk with API                 |
 | **Registration dialog copy** | `content/academy.ts`                                           | **Code**                       | Product UX; not editorial                               |
 | **Email templates**          | `lib/email/`                                                   | **Code**                       | Resend delivery; separate from CMS                      |
-| **CTA section (repeated)**   | per-page `cta` blocks                                          | **CMS-lite** Phase 3           | Optional shared `ctaBand` singleton                     |
+| **CTA section (repeated)**   | per-page `cta` blocks                                          | **Code**                       | Interaction and presentation language                   |
 
 ### Client-facing summary (for handoff conversations)
 
@@ -259,7 +259,7 @@ Same phase, smaller PRs. Each slice: schemas + fetch + migrate seed to
   was added to `/partners` itself — that route deliberately has only the
   voices logo grid, matching its current design.
 
-**2C — People**
+**2C — People — done (2026-07-12, see implementation log)**
 
 - `teamMember`, `memberStory` schemas + fetch
 - Wire: About team/advisors, Community member stories
@@ -297,10 +297,42 @@ bands; all Phase 2 placeholders visible in Studio on handoff.
 | `teamMember`  | `/about`                                               |
 | `memberStory` | `/community`                                           |
 
-### Phase 3 — Page singletons & marketing copy
+### Phase 3 — Durable page content, legal & site settings
 
-- `siteSettings`, `homePage`, `aboutPage` (partial), etc.
-- Only where Phase 2 proved stable and client needs self-serve edits
+**Status: implemented (2026-07-12).**
+
+- Schemas: `siteSettings`, `homePage`, `aboutPage`, `legalPage` (four fixed
+  legal IDs).
+- Shared objects: `imageWithAlt`, `fixedImageTextSlot`, `legalSection`,
+  `legalTable`, `legalTableRow`.
+- Code-owned Home slot layout: `lib/sanity/page-slot-layout.ts` (icons, tones,
+  image position, and order).
+- Fetch helpers: `lib/sanity/fetch/{site-settings,home-page,about-page,legal-pages}.ts`.
+- Public routes moved under `app/(site)/` so `/admin` skips marketing chrome
+  and site-settings fetches.
+- Migration: `pnpm migrate:phase3` → `scripts/migrate-phase3-to-sanity.ts`
+  (`--offline`, dry-run, `--execute`; `development` only). Integrity modes:
+  `CREATE` (missing doc), `MATCH` (byte-stable seed), `DIFF` (doc exists but
+  payload differs and must be reviewed rather than overwritten).
+- Required singletons fail loudly at fetch time; no runtime static fallback.
+- Academy, Community, and Partners marketing/UI copy remains code-owned. Their
+  Phase 1/2 catalogue, FAQ, testimonial, partner, and people records remain
+  CMS-backed.
+- Home hero art direction and About hero copy remain code-owned. Office hours
+  also remains in `content/site.ts`.
+
+#### Phase 3 revalidation paths (webhook map)
+
+| `_type`        | `revalidatePath`                                                |
+| -------------- | --------------------------------------------------------------- |
+| `siteSettings` | public root layout (all public routes)                          |
+| `legalPage`    | route from payload `key`, or all four legal paths if key absent |
+| `homePage`     | `/`                                                             |
+| `aboutPage`    | `/about`                                                        |
+
+- Archive migrated static snapshots only after production cutover, by content
+  block rather than moving whole active domain files.
+- Academy featured-event/hero-link selection behaviour remains deferred.
 
 ### Phase 4 — Polish (optional)
 
@@ -887,11 +919,15 @@ exists. Idempotency preview is **plan only** in this mode (no verified SKIP).
 ## Studio desk structure (current)
 
 ```
-Articles
-Webinars & Events
-Courses
-Authors
-─────────────────────────────────
+Site Settings
+Pages
+  Home
+  About
+Academy
+  Articles
+  Webinars & Events
+  Courses
+  Authors
 Partners
 Testimonials
   Home
@@ -904,14 +940,28 @@ FAQs
   Community
   Partners
   All FAQs                          — browse only
+Team & Advisors
+  Team
+  Advisors
+  All Team & Advisors               — browse only
+Member Stories
+─────────────────────────────────
+Legal Pages
+  Privacy
+  Terms
+  Cookies
+  Accessibility
 ```
 
-The first Studio screen uses client-facing content names rather than an
-internal "Trust & Content" umbrella. Only Testimonials and FAQs add a second
-level because their page-specific lists prefill placement/page correctly.
-Partners remain one flat catalogue; their two visibility toggles control the
-Home marquee and Partners logo grid independently. **No Vision plugin** in the
-client-facing desk (add only for internal dev if needed).
+The desk is capped at two levels. Academy groups its four related editorial
+types. Team & Advisors exposes both filtered rosters plus the combined roster
+without another submenu. Member Stories remains a separate root collection
+because it is structured case-study content rather than a testimonial or team
+record. Testimonials and FAQs retain their page-specific lists so creation
+prefills placement/page correctly. Partners remains one flat catalogue; its
+visibility toggles control the Home marquee and Partners logo grid
+independently. **No Vision plugin** in the client-facing desk (add only for
+internal dev if needed).
 
 ---
 

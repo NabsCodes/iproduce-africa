@@ -2,6 +2,20 @@ import type { StructureBuilder, StructureResolver } from "sanity/structure";
 
 import { apiVersion } from "@/sanity/env";
 
+function singletonItem(
+  S: StructureBuilder,
+  schemaType: string,
+  title: string,
+  documentId: string,
+) {
+  return S.listItem()
+    .title(title)
+    .id(documentId)
+    .child(
+      S.document().schemaType(schemaType).documentId(documentId).title(title),
+    );
+}
+
 /**
  * Filtered testimonial list scoped to one `placement` — editors "create
  * new" from here get exactly that placement prefilled (see
@@ -68,20 +82,36 @@ function teamMembersByGroup(
     );
 }
 
-// Keep the first screen in the client's language: each content family is
-// visible at the root. Testimonials/FAQs/Team Members retain one useful
-// level of filtered destinations because those documents appear on
-// different pages/sections; Partners and Member Stories are flat single
-// lists since each has only one destination.
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
-      S.documentTypeListItem("academyArticle").title("Articles"),
-      S.documentTypeListItem("academyWebinar").title("Webinars & Events"),
-      S.documentTypeListItem("academyCourse").title("Courses"),
-      S.documentTypeListItem("author").title("Authors"),
+      singletonItem(S, "siteSettings", "Site Settings", "siteSettings"),
+      S.listItem()
+        .title("Pages")
+        .child(
+          S.list()
+            .title("Pages")
+            .items([
+              singletonItem(S, "homePage", "Home", "homePage"),
+              singletonItem(S, "aboutPage", "About", "aboutPage"),
+            ]),
+        ),
       S.divider(),
+      S.listItem()
+        .title("Academy")
+        .child(
+          S.list()
+            .title("Academy")
+            .items([
+              S.documentTypeListItem("academyArticle").title("Articles"),
+              S.documentTypeListItem("academyWebinar").title(
+                "Webinars & Events",
+              ),
+              S.documentTypeListItem("academyCourse").title("Courses"),
+              S.documentTypeListItem("author").title("Authors"),
+            ]),
+        ),
       S.documentTypeListItem("partner").title("Partners"),
       S.listItem()
         .title("Testimonials")
@@ -139,10 +169,10 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.listItem()
-        .title("Team Members")
+        .title("Team & Advisors")
         .child(
           S.list()
-            .title("Team Members")
+            .title("Team & Advisors")
             .items([
               teamMembersByGroup(S, "Team", "team", "team-member-team"),
               teamMembersByGroup(
@@ -153,10 +183,10 @@ export const structure: StructureResolver = (S) =>
               ),
               S.divider(),
               S.listItem()
-                .title("All team members")
+                .title("All Team & Advisors")
                 .child(
                   S.documentList()
-                    .title("All team members")
+                    .title("All Team & Advisors")
                     .schemaType("teamMember")
                     .apiVersion(apiVersion)
                     .filter('_type == "teamMember"')
@@ -165,4 +195,22 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.documentTypeListItem("memberStory").title("Member Stories"),
+      S.divider(),
+      S.listItem()
+        .title("Legal Pages")
+        .child(
+          S.list()
+            .title("Legal Pages")
+            .items([
+              singletonItem(S, "legalPage", "Privacy", "legalPage.privacy"),
+              singletonItem(S, "legalPage", "Terms", "legalPage.terms"),
+              singletonItem(S, "legalPage", "Cookies", "legalPage.cookies"),
+              singletonItem(
+                S,
+                "legalPage",
+                "Accessibility",
+                "legalPage.accessibility",
+              ),
+            ]),
+        ),
     ]);

@@ -6,6 +6,7 @@ import { SiteLogo } from "@/components/layout/site-logo";
 import { SocialIcon } from "@/components/layout/social-icon";
 import { siteConfig } from "@/content/site";
 import { isInternalRoute } from "@/lib/routes";
+import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 
 function FooterLink({
   label,
@@ -41,7 +42,7 @@ function FooterLink({
   );
 }
 
-export function Footer() {
+export function Footer({ settings }: { settings: PublicSiteSettings }) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -58,7 +59,7 @@ export function Footer() {
             </p>
 
             <ul className="mt-7 flex flex-wrap gap-2">
-              {siteConfig.socialLinks.map((social) =>
+              {settings.socialLinks.map((social) =>
                 social.href ? (
                   <li key={social.label}>
                     <a
@@ -120,28 +121,28 @@ export function Footer() {
             <ul className="mt-5 space-y-3.5">
               <li>
                 <a
-                  href={`mailto:${siteConfig.email}`}
-                  aria-label={`Email ${siteConfig.email}`}
+                  href={`mailto:${settings.email}`}
+                  aria-label={`Email ${settings.email}`}
                   className="flex items-start gap-2.5 text-[15px] text-white/75 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
                 >
                   <Mail
                     className="text-leaf-300 mt-0.5 size-[18px] shrink-0"
                     aria-hidden
                   />
-                  <span className="min-w-0 break-all">{siteConfig.email}</span>
+                  <span className="min-w-0 break-all">{settings.email}</span>
                 </a>
               </li>
               <li>
                 <a
-                  href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-                  aria-label={`Call ${siteConfig.phone}`}
+                  href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                  aria-label={`Call ${settings.phone}`}
                   className="flex items-start gap-2.5 text-[15px] text-white/75 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
                 >
                   <Phone
                     className="text-leaf-300 mt-0.5 size-[18px] shrink-0"
                     aria-hidden
                   />
-                  <span>{siteConfig.phone}</span>
+                  <span>{settings.phone}</span>
                 </a>
               </li>
               <li className="flex items-start gap-2.5 text-[15px] leading-normal text-white/75">
@@ -149,7 +150,7 @@ export function Footer() {
                   className="text-leaf-300 mt-0.5 size-[18px] shrink-0"
                   aria-hidden
                 />
-                <span>{siteConfig.address}</span>
+                <span>{settings.address}</span>
               </li>
             </ul>
           </div>

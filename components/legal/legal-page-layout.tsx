@@ -2,7 +2,6 @@ import { LegalDocNav } from "@/components/legal/legal-doc-nav";
 import { LegalDocSwitcher } from "@/components/legal/legal-doc-switcher";
 import { LegalSectionContent } from "@/components/legal/legal-section-content";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { legalContent } from "@/content/legal";
 import type { LegalPageContent } from "@/types/legal";
 
 function formatLastUpdated(isoDate: string): string {
@@ -13,7 +12,13 @@ function formatLastUpdated(isoDate: string): string {
   });
 }
 
-export function LegalPageLayout({ content }: { content: LegalPageContent }) {
+export function LegalPageLayout({
+  content,
+  lastUpdated,
+}: {
+  content: LegalPageContent;
+  lastUpdated: string;
+}) {
   return (
     <>
       {/* Mobile/tablet: these are separate pages, not tabs — a "jump to document"
@@ -39,7 +44,7 @@ export function LegalPageLayout({ content }: { content: LegalPageContent }) {
             </p>
 
             <span className="border-border text-fg-muted mt-5 inline-flex w-fit items-center rounded-xl border px-3 py-1.5 text-xs font-medium">
-              Last updated {formatLastUpdated(legalContent.lastUpdated)}
+              Last updated {formatLastUpdated(lastUpdated)}
             </span>
 
             {content.baselineNotice.position === "top" ? (

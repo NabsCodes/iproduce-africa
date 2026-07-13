@@ -7,6 +7,7 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { contactPageContent } from "@/content/contact";
 import { siteConfig } from "@/content/site";
+import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 import { cn } from "@/lib/utils";
 import type { ContactSocialLink } from "@/types/contact";
 
@@ -77,7 +78,11 @@ function HeroCopy({ className }: { className?: string }) {
   );
 }
 
-export function ContactIntroSection() {
+export function ContactIntroSection({
+  settings,
+}: {
+  settings: PublicSiteSettings;
+}) {
   const { hero, reachOut, form } = contactPageContent;
 
   return (
@@ -165,10 +170,10 @@ export function ContactIntroSection() {
                       {reachOut.secondaryPhone}
                     </a>
                     <a
-                      href={`tel:${formatTel(siteConfig.phone)}`}
+                      href={`tel:${formatTel(settings.phone)}`}
                       className="hover:text-foreground transition-colors"
                     >
-                      {siteConfig.phone}
+                      {settings.phone}
                     </a>
                   </div>
                 </div>
@@ -183,10 +188,10 @@ export function ContactIntroSection() {
                     Email
                   </span>
                   <a
-                    href={`mailto:${siteConfig.email}`}
+                    href={`mailto:${settings.email}`}
                     className="text-fg-muted hover:text-foreground text-sm leading-6 transition-colors sm:text-base"
                   >
-                    {siteConfig.email}
+                    {settings.email}
                   </a>
                 </div>
               </li>
@@ -200,7 +205,7 @@ export function ContactIntroSection() {
                     Location
                   </span>
                   <p className="text-fg-muted text-sm leading-6 sm:text-base">
-                    {siteConfig.address}
+                    {settings.address}
                   </p>
                 </div>
               </li>

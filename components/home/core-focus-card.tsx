@@ -4,19 +4,21 @@ type CoreFocusCardProps = {
   title: string;
   description: string;
   image: string;
+  imageAlt: string;
 };
 
 export function CoreFocusCard({
   title,
   description,
   image,
+  imageAlt,
 }: CoreFocusCardProps) {
   return (
     <article className="group border-border h-full rounded-xl border bg-white p-4">
       <div className="relative h-[228px] overflow-hidden rounded-xl sm:h-[280px]">
         <Image
           src={image}
-          alt={title}
+          alt={imageAlt}
           fill
           draggable={false}
           className="pointer-events-none object-cover transition-transform duration-500 select-none group-hover:scale-[1.03]"

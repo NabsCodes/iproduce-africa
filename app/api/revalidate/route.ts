@@ -3,28 +3,15 @@ import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
 /**
- * Sanity webhook → `revalidatePath`. `academyArticle` (blog track),
- * `academyWebinar` (webinars track), `academyCourse` (courses track),
- * `testimonial`, `faq`, `partner`, `teamMember`, and `memberStory` are all
- * wired now — see docs/cms-migration-spec.md's revalidation table.
- *
- * Studio-side webhook setup (manual, sanity.io dashboard): **one combined
- * webhook per dataset** (one for `development`, one for `production` once
- * that dataset exists) — not one webhook per `_type`. Trigger on
- * create/update/delete, filter on every revalidatable type at once:
- * `_type in ["academyArticle", "academyWebinar", "academyCourse", "testimonial", "faq", "partner", "teamMember", "memberStory"]`,
- * and set the payload projection to
- * `{"_type": _type, "slug": slug.current, "previousSlug": before().slug.current}`
- * — `before()` holds the pre-mutation document, so this also carries the old
- * slug through a slug change. `slug` is absent on types without a slug
- * field (`testimonial`/`faq`/`teamMember`/`memberStory`); GROQ resolves
- * that to `null` rather than erroring. `partner` does have a `slug`, but
- * only as a stable internal id — there's no public `/partners/<slug>`
- * route, so it still has no `DETAIL_PATH_PREFIX_BY_TYPE` entry below.
+ * Sanity webhook → `revalidatePath`. Phase 1/2 catalogue types plus the
+ * durable Phase 3 singletons (`siteSettings`, `legalPage`, `homePage`, and
+ * `aboutPage`) — see
+ * docs/cms-migration-spec.md's revalidation table.
  */
 
 type SanityWebhookPayload = {
   _type?: string;
+  key?: string;
   slug?: string;
   previousSlug?: string;
 };
@@ -38,6 +25,17 @@ const STATIC_PATHS_BY_TYPE: Record<string, readonly string[]> = {
   partner: ["/", "/partners"],
   teamMember: ["/about"],
   memberStory: ["/community"],
+  siteSettings: ["/"],
+  legalPage: ["/privacy", "/terms", "/cookies", "/accessibility"],
+  homePage: ["/"],
+  aboutPage: ["/about"],
+};
+
+const LEGAL_PATH_BY_KEY: Record<string, string> = {
+  privacy: "/privacy",
+  terms: "/terms",
+  cookies: "/cookies",
+  accessibility: "/accessibility",
 };
 
 /** Detail route prefix per `_type`, for old/new slug revalidation on change. */
@@ -72,8 +70,28 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  for (const path of staticPaths) {
-    revalidatePath(path);
+  const paths = new Set(staticPaths);
+
+  if (type === "legalPage") {
+    paths.clear();
+    const key = body.key;
+    if (key && LEGAL_PATH_BY_KEY[key]) {
+      paths.add(LEGAL_PATH_BY_KEY[key]);
+    } else {
+      for (const path of Object.values(LEGAL_PATH_BY_KEY)) {
+        paths.add(path);
+      }
+    }
+  }
+
+  if (type === "siteSettings") {
+    // Contact details live in the public layout, so invalidate every route
+    // beneath it rather than maintaining an incomplete list of page paths.
+    revalidatePath("/", "layout");
+  } else {
+    for (const path of paths) {
+      revalidatePath(path);
+    }
   }
 
   const detailPrefix = DETAIL_PATH_PREFIX_BY_TYPE[type];

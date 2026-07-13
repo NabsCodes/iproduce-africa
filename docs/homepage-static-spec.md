@@ -9,7 +9,7 @@ implementation with strong desktop and mobile fidelity.
 
 ## Files In Scope
 
-- `app/page.tsx`
+- `app/(site)/page.tsx`
 - `components/home/*` — section files are named after their eyebrow or section role:
   - `hero-section.tsx` — top hero
   - shared `partners-section.tsx` — eyebrow: "Our partners", placed directly below hero on Home
@@ -40,7 +40,9 @@ implementation with strong desktop and mobile fidelity.
 
 ## Do Not Add In This Milestone
 
-- Sanity integration
+- Sanity integration (Phase 3: `homePage` singleton — hero message,
+  What We Do poster, services, value chains; the hero image and shell copy stay in
+  `content/home.ts`)
 - Backend data fetching
 - Authentication
 - Payments, donations, or e-commerce
@@ -117,6 +119,13 @@ The mobile version must be treated as its own composition. Reorder, restack,
 and resize intentionally instead of shrinking the desktop layout.
 
 ## Interaction QA
+
+### What We Do media boundary (Phase 3)
+
+The current image + play mark is a non-interactive video placeholder. Phase 3
+makes the poster image/alt editable in the Home singleton but keeps video
+behaviour in code and deferred until a real video, hosting source, captions, and
+player requirements are approved. Do not add an unused CMS video field.
 
 Before the Home page milestone is considered done, verify:
 

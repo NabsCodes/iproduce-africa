@@ -98,9 +98,11 @@ All four are static server pages. No forms, no client state required for v1.
 | `content/site.ts`                            | Wire `footer.legalLinks[].href`                                                                  |
 | `content/seo.ts` → `sitemapRoutes`           | Add four hrefs (low priority)                                                                    |
 
-Do **not** put legal copy in `schemas/` (Zod only). Do **not** add legal
-documents to Sanity in v1 — static `content/legal.ts` is correct for this
-milestone.
+Do **not** put legal copy in `schemas/` (Zod only). **Phase 3:** legal body
+copy is CMS-backed via four fixed `legalPage` documents
+(`legalPage.privacy`, `.terms`, `.cookies`, `.accessibility`); route keys,
+layout chrome, and document switcher stay in code. `content/legal.ts` remains
+the migration seed source until production archival.
 
 ### Layout rules
 
@@ -350,7 +352,7 @@ Optional follow-up: add Privacy link near form consent text (not required for v1
 - [x] `docs/implementation-log.md` — session row
 - [x] `docs/routes/README.md` — add legal-pages-spec to mapping
 - [ ] Notion iProduce Dev Notes — tick Legal pages; note baseline for counsel
-- [x] `pnpm format && pnpm lint && pnpm typecheck && pnpm build`
+- [x] Phase 3 CMS cutover — `fetchLegalPage(key)` + `legalPage` singletons
 - [x] Manual: open all four routes via dev server (200s), footer links resolve,
       sitemap.xml lists all four — verified via curl (no headless-browser
       tooling available in this environment for a visual 390px screenshot)

@@ -39,8 +39,14 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [ ] Resend domain verified + production env on Vercel (client ops)
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
-- [x] Sanity project + Phase 1 implementation (blog, webinars, courses, registration, hub, home, search, sitemap, revalidate webhook)
+- [x] Sanity Phase 1 implementation (Academy catalogues, hub/home/search/sitemap/registration surfaces)
+- [x] Sanity Phase 2 implementation (testimonials, FAQs, partners, team/advisors, member stories)
+- [x] Approve Phase 3 field inventory (`docs/sanity-phase3-spec.md`)
+- [x] Review Phase 3 implementation plan before code changes
+- [x] Implement Phase 3 as one delivery (durable Home/About content + mandatory legal + site settings)
+- [x] Narrow Phase 3 after implementation review: remove Academy/Community/Partners page singletons, About hero copy, Home hero image, and CMS office hours
+- [ ] Post-migration Academy featured-content/hero-link product review
 - [ ] Staging QA pass (edit in Studio → confirm hub/home/search/detail routes reflect it)
-- [ ] Client sign-off on CMS scope — Phase 1 + Phase 2 (`docs/cms-client-summary.md`)
-- [ ] Archive static catalogue arrays to `content/_archived/` (after staging QA)
+- [ ] Client sign-off on the full Phase 1–3 CMS scope (`docs/cms-client-summary.md`)
+- [ ] Archive migrated static content blocks to `content/_archived/` after production cutover and usage audit
 - [ ] Production dataset migration + Vercel prod env cutover

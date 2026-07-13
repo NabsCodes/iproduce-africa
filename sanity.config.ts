@@ -8,6 +8,13 @@ import {
   DEFAULT_TEMPLATE_IDS_TO_HIDE,
 } from "./sanity/templates";
 
+const SINGLETON_TYPES = new Set([
+  "siteSettings",
+  "homePage",
+  "aboutPage",
+  "legalPage",
+]);
+
 export default defineConfig({
   basePath: "/admin",
   projectId: projectId ?? "",
@@ -32,6 +39,15 @@ export default defineConfig({
       prev.filter(
         (item) => !DEFAULT_TEMPLATE_IDS_TO_HIDE.includes(item.templateId),
       ),
+    actions: (prev, context) => {
+      if (!SINGLETON_TYPES.has(context.schemaType)) {
+        return prev;
+      }
+
+      return prev.filter(
+        ({ action }) => action && !["duplicate", "delete"].includes(action),
+      );
+    },
   },
   plugins: [structureTool({ structure })],
 });

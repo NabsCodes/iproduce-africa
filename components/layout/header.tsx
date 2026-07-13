@@ -17,6 +17,7 @@ import {
 import { mainNavigation } from "@/content/navigation";
 import { useRouteHash } from "@/hooks/use-route-hash";
 import { useScrolled } from "@/hooks/use-scrolled";
+import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 import { cn } from "@/lib/utils";
 
 const blogArticlePath = /^\/academy\/blog\/[^/]+$/;
@@ -35,7 +36,7 @@ function NavIndicator({ active }: { active: boolean }) {
   );
 }
 
-export function Header() {
+export function Header({ contact }: { contact: PublicSiteSettings }) {
   const pathname = usePathname();
   const currentRoute = useRouteHash();
   const activePath = currentRoute.split("#")[0] || "/";
@@ -162,7 +163,11 @@ export function Header() {
             <CommunityJoinButton className="h-11 min-w-11 px-4 text-sm font-semibold xl:hidden">
               Join our community
             </CommunityJoinButton>
-            <MobileNav activePath={activePath} currentRoute={currentRoute} />
+            <MobileNav
+              activePath={activePath}
+              currentRoute={currentRoute}
+              contact={contact}
+            />
           </div>
         </div>
 

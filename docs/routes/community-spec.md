@@ -5,7 +5,8 @@
 Full static page shipped 2026-06-19 (sections 1–12). Membership application
 dialog shipped same day. See
 `[community-membership-dialog-spec.md](community-membership-dialog-spec.md)`
-for the wizard contract.
+for the wizard contract. Phase 2 member stories and FAQs are Sanity-backed;
+the marketing page shell and cards remain code-owned.
 
 ## Purpose
 
@@ -366,4 +367,4 @@ Then browser walk at desktop (1440px), tablet (~900px), mobile (390px):
 - [x] `FaqSection` consumed with community content
 - [x] `CtaSection` consumed with community content
 - [x] `#membership-application` anchor + any `#join` repoints
-- [x] `pnpm format / lint / typecheck / build` green
+- [x] Phase 3 scope review kept Community marketing copy code-owned

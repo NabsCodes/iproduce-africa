@@ -8,8 +8,10 @@ Hub page (`/academy`) built against the supplied Figma frame (2026-06-17).
 a `ContentCard` grid (`ListingCardGrid`). Each listing adds a **featured**
 band and **filter pills** below the hero (blog: article + categories;
 webinars: event + type; courses: course + level). Slug detail pages ship
-static-first on `AcademyDetailShell` for all three catalogues. **Sanity
-wiring is explicitly deferred** until UI sign-off and a separate Sanity spec.
+static-first on `AcademyDetailShell` for all three catalogues. **Phase 1
+catalogues are Sanity-backed.** The Academy marketing hub shell (hero,
+opportunities, participants, search labels, tabs, and sticky behaviour) stays
+in code. Featured-event selection remains a separate post-migration review.
 
 ## Purpose
 
@@ -441,6 +443,6 @@ blog detail's related section consumes `getRelatedArticles()` from
 - [x] Listing featured + filter bands (webinars + courses; blog already had)
 - [x] Browser QA + Lighthouse on hub + three catalogues (+ blog long/short article UX)
 - [x] Empty-state handling for hub bands + Home Spotlight tabs (`CatalogueEmptyState`, 2026-07-04) — see "Empty-state behaviour" section above
-- [x] Sanity wiring — all Phase 1 surfaces (blog/webinars/courses listing+detail, hub, search, Home preview, sitemap, registration resolver, 2026-07-11); see `docs/sanity-academy-spec.md` status
+- [x] Phase 3 scope review kept Academy hub marketing copy code-owned
 - [ ] Real photography for hero, courses, blog articles, participant cards
 - [ ] Search wired to Algolia (beyond `/academy/search`'s current Sanity-backed client filter)

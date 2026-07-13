@@ -16,7 +16,9 @@ import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
 import { fetchHomeAcademyPreview } from "@/lib/sanity/fetch/academy-preview";
 import { fetchFaqs } from "@/lib/sanity/fetch/faqs";
+import { fetchHomePage } from "@/lib/sanity/fetch/home-page";
 import { fetchPartners } from "@/lib/sanity/fetch/partners";
+import { fetchSiteSettings } from "@/lib/sanity/fetch/site-settings";
 import { fetchTestimonials } from "@/lib/sanity/fetch/testimonials";
 import type { FaqSectionContent } from "@/types/content";
 
@@ -37,21 +39,29 @@ const homeFaqsShell: Pick<
 };
 
 export default async function HomePage() {
-  const [{ spotlight, blog }, testimonials, faqs, { marquee: partners }] =
-    await Promise.all([
-      fetchHomeAcademyPreview(),
-      fetchTestimonials("home"),
-      fetchFaqs("home"),
-      fetchPartners(),
-    ]);
+  const [
+    homePage,
+    siteSettings,
+    { spotlight, blog },
+    testimonials,
+    faqs,
+    { marquee: partners },
+  ] = await Promise.all([
+    fetchHomePage(),
+    fetchSiteSettings(),
+    fetchHomeAcademyPreview(),
+    fetchTestimonials("home"),
+    fetchFaqs("home"),
+    fetchPartners(),
+  ]);
 
   return (
     <>
-      <HeroSection />
+      <HeroSection hero={homePage.hero} />
       {partners.length > 0 ? <PartnersSection partners={partners} /> : null}
-      <WhatWeDoSection />
-      <CoreFocusSection />
-      <WhyJoinUsSection />
+      <WhatWeDoSection poster={homePage.whatWeDoPoster} />
+      <CoreFocusSection valueChains={homePage.valueChains} />
+      <WhyJoinUsSection services={homePage.services} />
       <TwoJourneysSection />
       <AcademySpotlightSection
         spotlight={spotlight}
@@ -60,7 +70,7 @@ export default async function HomePage() {
       {testimonials.length > 0 ? (
         <TestimonialsSection items={testimonials} />
       ) : null}
-      <StayConnectedSection />
+      <StayConnectedSection socialLinks={siteSettings.socialLinks} />
       {faqs.length > 0 ? (
         <FaqSection content={{ ...homeFaqsShell, items: faqs }} />
       ) : null}

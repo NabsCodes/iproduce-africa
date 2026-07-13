@@ -81,4 +81,8 @@ export const DEFAULT_TEMPLATE_IDS_TO_HIDE = [
   "testimonial",
   "faq",
   "teamMember",
+  "siteSettings",
+  "homePage",
+  "aboutPage",
+  "legalPage",
 ];

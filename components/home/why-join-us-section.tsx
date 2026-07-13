@@ -11,6 +11,8 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
+import type { HomePageContent } from "@/lib/sanity/fetch/home-page";
+import type { BenefitTone } from "@/types/content";
 
 const serviceIcons: Record<
   (typeof homeContent.whyJoinUs.items)[number]["icon"],
@@ -22,7 +24,11 @@ const serviceIcons: Record<
   handshake: Handshake,
 };
 
-export function WhyJoinUsSection() {
+export function WhyJoinUsSection({
+  services,
+}: {
+  services: HomePageContent["services"];
+}) {
   const { whyJoinUs } = homeContent;
 
   return (
@@ -43,7 +49,7 @@ export function WhyJoinUsSection() {
         </MotionFade>
 
         <MotionStagger className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:mt-12 lg:gap-6">
-          {whyJoinUs.items.map((item) => {
+          {services.map((item) => {
             const Icon = serviceIcons[item.icon];
 
             return (
@@ -55,7 +61,7 @@ export function WhyJoinUsSection() {
                 imageAlt={item.imageAlt}
                 imagePosition={item.imagePosition}
                 icon={Icon}
-                tone={item.tone}
+                tone={item.tone as BenefitTone}
               />
             );
           })}

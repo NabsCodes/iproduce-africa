@@ -1,9 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { contactPageContent } from "@/content/contact";
-import { siteConfig } from "@/content/site";
+import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 
-export function ContactMapSection() {
+export function ContactMapSection({
+  settings,
+}: {
+  settings: PublicSiteSettings;
+}) {
   const { map } = contactPageContent;
 
   return (
@@ -25,7 +29,7 @@ export function ContactMapSection() {
                   {map.hubTitle}
                 </p>
                 <p className="text-fg-muted mt-1 text-xs leading-5 sm:text-sm">
-                  {siteConfig.address}
+                  {settings.address}
                 </p>
               </div>
               <a

@@ -7,8 +7,13 @@ import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { academyHomePreview } from "@/content/academy";
 import { homeContent } from "@/content/home";
+import type { HomePageContent } from "@/lib/sanity/fetch/home-page";
 
-export function WhatWeDoSection() {
+export function WhatWeDoSection({
+  poster,
+}: {
+  poster: HomePageContent["whatWeDoPoster"];
+}) {
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -20,8 +25,8 @@ export function WhatWeDoSection() {
             </h2>
             <div className="relative mt-7 aspect-529/309 overflow-hidden rounded-xl sm:mt-9">
               <Image
-                src={homeContent.about.image}
-                alt={homeContent.about.imageAlt}
+                src={poster.image}
+                alt={poster.imageAlt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"

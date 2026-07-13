@@ -5,6 +5,7 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
 import { EyebrowPill } from "@/components/ui/eyebrow-pill";
 import { homeContent } from "@/content/home";
+import type { HomePageContent } from "@/lib/sanity/fetch/home-page";
 
 const TITLE_ACCENT = "Local and Global";
 
@@ -20,8 +21,8 @@ function splitTitleByAccent(title: string) {
   };
 }
 
-export function HeroSection() {
-  const { hero } = homeContent;
+export function HeroSection({ hero }: { hero: HomePageContent["hero"] }) {
+  const heroShell = homeContent.hero;
   const { lead, accent, trail } = splitTitleByAccent(hero.title);
 
   return (
@@ -30,8 +31,8 @@ export function HeroSection() {
       <div className="bg-subtle px-4 pt-10 pb-12 sm:px-6 md:hidden">
         <div className="mx-auto flex flex-col gap-6">
           <MotionFade className="flex flex-col gap-6">
-            <EyebrowPill tone={hero.eyebrowTone} size="sm">
-              {hero.eyebrow}
+            <EyebrowPill tone={heroShell.eyebrowTone} size="sm">
+              {heroShell.eyebrow}
             </EyebrowPill>
 
             <h1 className="text-foreground font-serif text-[34px] leading-[1.1] font-semibold tracking-[-0.02em] sm:text-4xl">
@@ -47,12 +48,12 @@ export function HeroSection() {
 
           <div className="flex flex-col gap-3">
             <SiteCtaButton
-              href={hero.primaryCta.href}
-              action={hero.primaryCta.action}
+              href={heroShell.primaryCta.href}
+              action={heroShell.primaryCta.action}
               size="lg"
               fullWidth
             >
-              {hero.primaryCta.label}
+              {heroShell.primaryCta.label}
               <ArrowUpRight className="size-5" />
             </SiteCtaButton>
           </div>
@@ -63,8 +64,8 @@ export function HeroSection() {
             className="relative aspect-5/4 overflow-hidden rounded-xl"
           >
             <Image
-              src={hero.image}
-              alt={hero.imageAlt}
+              src={heroShell.image}
+              alt={heroShell.imageAlt}
               fill
               priority
               className="object-cover"
@@ -73,7 +74,7 @@ export function HeroSection() {
           </MotionFade>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            {hero.proofPoints.map((point) => (
+            {heroShell.proofPoints.map((point) => (
               <div
                 key={point.label}
                 className="border-border rounded-lg border bg-white px-4 py-4"
@@ -94,8 +95,8 @@ export function HeroSection() {
       {/* Desktop: full-bleed overlay layout */}
       <div className="relative hidden min-h-[720px] overflow-hidden md:block">
         <Image
-          src={hero.image}
-          alt={hero.imageAlt}
+          src={heroShell.image}
+          alt={heroShell.imageAlt}
           fill
           priority
           className="object-cover"
@@ -113,8 +114,8 @@ export function HeroSection() {
           <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <MotionFade>
-                <EyebrowPill tone={hero.eyebrowTone} size="sm">
-                  {hero.eyebrow}
+                <EyebrowPill tone={heroShell.eyebrowTone} size="sm">
+                  {heroShell.eyebrow}
                 </EyebrowPill>
 
                 <h1 className="mt-6 font-serif text-4xl leading-[1.06] font-semibold tracking-[-0.02em] text-white sm:text-5xl lg:text-[72px] lg:leading-[76px]">
@@ -129,17 +130,17 @@ export function HeroSection() {
               {/* CTA stays outside the MotionFade per spec — it does not animate. */}
               <div className="mt-8 flex flex-wrap gap-4">
                 <SiteCtaButton
-                  href={hero.primaryCta.href}
-                  action={hero.primaryCta.action}
+                  href={heroShell.primaryCta.href}
+                  action={heroShell.primaryCta.action}
                   size="lg"
                 >
-                  {hero.primaryCta.label}
+                  {heroShell.primaryCta.label}
                   <ArrowUpRight className="size-5" />
                 </SiteCtaButton>
               </div>
 
               <div className="mt-6 flex max-w-2xl flex-wrap gap-x-6 gap-y-3 lg:hidden">
-                {hero.proofPoints.map((point) => (
+                {heroShell.proofPoints.map((point) => (
                   <div
                     key={point.label}
                     className="flex min-w-0 items-center gap-2.5"
@@ -178,7 +179,7 @@ export function HeroSection() {
               </p>
 
               <div className="mt-5 flex flex-col gap-3">
-                {hero.proofPoints.map((point) => (
+                {heroShell.proofPoints.map((point) => (
                   <div key={point.label} className="flex items-center gap-2.5">
                     <CheckCircle2
                       className="text-leaf-emphasized size-4 shrink-0"

@@ -20,7 +20,7 @@ and more task-oriented.
 9. `email-structure.md` when touching transactional email
 10. `production-form-delivery-cutover.md` when preparing Resend / Turnstile /
     Upstash / Vercel production handoff
-11. `cms-migration-spec.md` + `sanity-academy-spec.md` when CMS work is in scope
+11. `cms-migration-spec.md` + the matching `sanity-*-spec.md` when CMS work is in scope
 12. `implementation-log.md`
 
 ## Documents
@@ -43,6 +43,7 @@ and more task-oriented.
 | `production-form-delivery-cutover.md` | Production checklist for Resend, Turnstile, Upstash, and Vercel form delivery.    |
 | `cms-migration-spec.md`               | Sanity master plan: phases, CMS vs code, edge cases, folder layout.               |
 | `sanity-academy-spec.md`              | Phase 1 Academy catalogues: schemas, GROQ, migration, acceptance criteria.        |
+| `sanity-phase3-spec.md`               | Final Phase 3 boundary: durable Home/About content, legal, settings, archival.    |
 | `cms-client-summary.md`               | One-page client sign-off: what moves to CMS and when.                             |
 
 ## Source Of Truth Order

@@ -7,9 +7,13 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { homeContent } from "@/content/home";
+import type { HomePageContent } from "@/lib/sanity/fetch/home-page";
 
-export function CoreFocusSection() {
+export function CoreFocusSection({
+  valueChains,
+}: {
+  valueChains: HomePageContent["valueChains"];
+}) {
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -30,7 +34,7 @@ export function CoreFocusSection() {
 
         <Carousel className="mt-8 sm:mt-10" aria-label="Core focus areas">
           <CarouselContent className="-ml-4 sm:-ml-6">
-            {homeContent.valueChains.map((chain, index) => (
+            {valueChains.map((chain, index) => (
               <CarouselItem
                 key={chain.title}
                 className="basis-[252px] pl-4 sm:basis-[282px] sm:pl-6"

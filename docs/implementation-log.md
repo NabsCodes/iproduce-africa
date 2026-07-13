@@ -3,6 +3,63 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Sanity CMS — Phase 3 implementation (2026-07-12)
+
+Implemented the one-shot Phase 3 delivery: narrowed CMS boundary (organisational
+content only), singleton safeguards, `app/(site)/` route-group isolation,
+public/legal/settings wiring, and the Phase 3 migration.
+
+Follow-up review on 2026-07-13 narrowed the final boundary further: removed
+Academy, Community, and Partners marketing page singletons; restored About hero
+copy, Home hero art direction, and office hours to code; retained Home service
+and value-chain content, About Story/MVO, Site Settings contact channels, and
+four legal documents. Removed the incomplete, unused `CmsImage` wrapper rather
+than adding a second image abstraction; CMS images continue through the
+existing `next/image` configuration. The development dataset may still contain
+the three retired page documents until an explicitly approved cleanup; Studio
+and runtime no longer expose or read them. Static archival still waits for
+production cutover. Verification after the correction: Phase 3 offline plan
+creates seven documents; authenticated development dry-run reports seven
+`MATCH`, zero `DIFF`; lint, typecheck, build, and `git diff --check` pass.
+Studio navigation was then capped at two levels: Academy groups Articles,
+Webinars & Events, Courses, and Authors; Team & Advisors groups Team, Advisors,
+and the combined roster. Member Stories remains a separate root collection
+because its structured case-study model is distinct from both people records
+and testimonials. Existing filtered create templates and document data are
+unchanged.
+
+## Sanity CMS — Phase 3 one-shot scope proposal (2026-07-12)
+
+Added `docs/sanity-phase3-spec.md` as the approval gate for the final CMS code
+phase. Phase 3 will ship as one implementation/review delivery, not 3A/3B/3C.
+Legal content is mandatory; shared public contact settings and five page
+singletons are included, but the exact page-copy fields remain pending Nabeel's
+approval. The proposal deliberately keeps route targets, forms, layout counts,
+motion, and Academy featured-event/hero-link selection behaviour in code.
+
+Locked archival direction: after development QA, client approval, production
+migration, and production cutover, split migrated copy from still-active
+structural data and move only the dead snapshots to `content/_archived/`.
+Do not move whole files such as `content/about.ts` while journey/motion or other
+runtime-owned exports remain active. Updated the CMS master plan, client
+summary, status board, and docs index to match. Documentation-only; no runtime
+verification required beyond formatting and `git diff --check`.
+
+### Phase 3 scope approval follow-up
+
+Nabeel approved the fixed-slot editorial model: editors may change card titles,
+descriptions, and images where the existing component already has an image
+slot; engineering keeps card count/order, icons, tones, destinations, and layout
+locked. Updated the Phase 3 approval table accordingly.
+
+Home What We Do and About Story currently show static poster images with a
+non-interactive play symbol. Phase 3 will make the posters editable but will not
+invent an unused video field or player contract. Real video behaviour remains a
+separate feature after an approved video, hosting source, captions/transcript,
+and loading/consent behaviour exist. Other approved image slots are seeded into
+development for client replacement; layout-bound placeholders such as About
+journey imagery remain code-owned.
+
 ## Sanity CMS — Phase 2 slice 2C: people (team, advisors, member stories) (2026-07-12)
 
 Last Phase 2 slice. Added `teamMember` (`sanity/schemaTypes/documents/team-member.ts`)

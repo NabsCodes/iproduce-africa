@@ -173,6 +173,39 @@ export const memberStoriesQuery = `*[
   result, challenge, withIProduce, name, age, initials, role, country
 }`;
 
+// ─── Phase 3 singletons ──────────────────────────────────────────────────
+
+export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSettings" && ${DRAFT_FILTER}][0]{
+  email,
+  phone,
+  address,
+  instagramUrl,
+  linkedinUrl,
+  facebookUrl,
+  youtubeUrl
+}`;
+
+export const homePageQuery = `*[_type == "homePage" && _id == "homePage" && ${DRAFT_FILTER}][0]{
+  heroMessage,
+  whatWeDoPoster,
+  services,
+  valueChains
+}`;
+
+export const aboutPageQuery = `*[_type == "aboutPage" && _id == "aboutPage" && ${DRAFT_FILTER}][0]{
+  story,
+  missionVisionObjective
+}`;
+
+export const legalPageByKeyQuery = `*[_type == "legalPage" && key == $key && ${DRAFT_FILTER}][0]{
+  key,
+  lastUpdated,
+  title,
+  subtitle,
+  baselineNotice,
+  sections
+}`;
+
 // ─── Cross-cutting ───────────────────────────────────────────────────────
 //
 // Session title + registration status for the registration email resolver

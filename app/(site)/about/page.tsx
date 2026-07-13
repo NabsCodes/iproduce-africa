@@ -8,19 +8,23 @@ import { TeamSection } from "@/components/about/team-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
+import { fetchAboutPage } from "@/lib/sanity/fetch/about-page";
 import { fetchTeamMembers } from "@/lib/sanity/fetch/team-members";
 
 export const metadata = createPageMetadata(pageSeo.about);
 export const revalidate = 3600;
 
 export default async function AboutPage() {
-  const { team, advisors } = await fetchTeamMembers();
+  const [aboutPage, { team, advisors }] = await Promise.all([
+    fetchAboutPage(),
+    fetchTeamMembers(),
+  ]);
 
   return (
     <>
       <AboutHeroSection />
-      <StorySection />
-      <MvoSection />
+      <StorySection story={aboutPage.story} />
+      <MvoSection missionVisionObjective={aboutPage.missionVisionObjective} />
       {/* Client said take the impact stats section out for now. I will add it back in later.*/}
       {/* <ImpactStatsSection /> */}
       <JourneySection />

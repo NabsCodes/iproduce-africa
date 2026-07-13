@@ -9,17 +9,16 @@ import {
 } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
-import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
 import type { SiteSocialLink } from "@/types/site";
 
-const siteSocialLinks: readonly SiteSocialLink[] = siteConfig.socialLinks;
-
-const socialCards = homeContent.stayConnected.platforms
-  .map((platform) =>
-    siteSocialLinks.find((social) => social.platform === platform),
-  )
-  .filter((social): social is SiteSocialLink => social !== undefined);
+function buildSocialCards(socialLinks: readonly SiteSocialLink[]) {
+  return homeContent.stayConnected.platforms
+    .map((platform) =>
+      socialLinks.find((social) => social.platform === platform),
+    )
+    .filter((social): social is SiteSocialLink => social !== undefined);
+}
 
 function SocialCard({ social }: { social: SiteSocialLink }) {
   const cardClass =
@@ -65,7 +64,12 @@ function SocialCard({ social }: { social: SiteSocialLink }) {
   );
 }
 
-export function StayConnectedSection() {
+export function StayConnectedSection({
+  socialLinks,
+}: {
+  socialLinks: readonly SiteSocialLink[];
+}) {
+  const socialCards = buildSocialCards(socialLinks);
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
