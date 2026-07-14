@@ -47,8 +47,9 @@ After the static UI is approved:
 - Add richer Academy, Community, and Partners content models
 
 **Shipped (2026-06-26):** All seven public forms POST to API routes with Resend
-dual-email delivery, Turnstile, and honeypot. Production requires client env +
-domain verification — see `docs/resend-integration-spec.md`.
+dual-email delivery, Turnstile, and honeypot. **Complete (2026-07-14):** domain
+verified on `iproduceafrica.com`, client owns Resend, production Vercel form
+delivery live. Optional later: website apex/`www` DNS → Vercel.
 
 This phase may still stay backend-light beyond form delivery if needed.
 
@@ -69,7 +70,7 @@ Shipped:
 
 Remaining operational work:
 
-- Academy automatic promotion-rule review
+- Academy automatic promotion rule implemented; production behavior remains part of staging QA
 - Staging/editor QA, production dataset migration, Vercel environment setup,
   webhook verification, and client sign-off
 - Static snapshot archival after a stable production cutover

@@ -1,12 +1,12 @@
 import { blogContent, getBlogHubPreviewItems } from "@/content/blog";
 import { academyHubCourses, coursesContent } from "@/content/courses";
 import {
-  academyFeaturedEvent,
   academyHubScheduledWebinars,
   webinarsContent,
   webinarsToHubScheduledItems,
 } from "@/content/webinars";
-import { isUpcomingSession } from "@/lib/academy-registration";
+import { formatAcademyCardMetaDate } from "@/lib/academy-dates";
+import { isAcademyWebinarPromotable } from "@/lib/academy-webinars";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type {
   AcademyArticleCategory,
@@ -21,12 +21,6 @@ const HUB_WEBINAR_HIGHLIGHT_COUNT = academyHubScheduledWebinars.length;
 const HUB_COURSE_HIGHLIGHT_COUNT = academyHubCourses.length;
 const HUB_BLOG_HIGHLIGHT_COUNT = 3;
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "2-digit",
-  timeZone: "UTC",
-});
-
 const articleToneByCategory: Record<
   AcademyArticleCategory,
   AcademyPreviewTone
@@ -35,10 +29,6 @@ const articleToneByCategory: Record<
   TRADE: "tangerine",
   "SMART AGRICULTURE": "leaf",
 };
-
-function formatShortDate(iso: string) {
-  return dateFormatter.format(new Date(iso)).toUpperCase();
-}
 
 export const academyContent = {
   hero: {
@@ -74,10 +64,10 @@ export const academyContent = {
     ],
     image: "/images/academy/academy-hero.webp",
     imageAlt: "Agripreneur tending crops on a farm",
-    nextLive: {
-      label: "AfriAgri Leadership Forum · Aug 2026",
-      date: "2026-08-12T09:00:00Z",
-      href: "/academy/webinars/afriagri-leadership-forum-2026",
+    announcement: {
+      eyebrow: "Upcoming Live Sessions",
+      message: "New sessions will be announced soon.",
+      href: "/academy/webinars",
     },
   },
   tabs: [
@@ -87,7 +77,12 @@ export const academyContent = {
     { label: "Evergreen courses", targetId: "courses" },
     { label: "Blog", targetId: "blog" },
   ],
-  featuredEvent: academyFeaturedEvent,
+  featuredEvent: {
+    eyebrow: "Featured Event",
+    sectionTitle: "Don't miss what's next",
+    category: "Agribusiness Development",
+    registerLabel: "Register Now",
+  },
   opportunities: {
     eyebrow: "Learning Opportunities",
     title: "Learning Designed for Real-World Impact",
@@ -346,7 +341,7 @@ export const academyHomePreview = {
   })),
   spotlight: {
     upcoming: [...academyContent.scheduled.items]
-      .filter((event) => isUpcomingSession(event.date))
+      .filter((event) => isAcademyWebinarPromotable(event))
       .sort((a, b) => a.date.localeCompare(b.date))
       .slice(0, HOME_SPOTLIGHT_LIMIT)
       .map((event) => ({
@@ -354,7 +349,7 @@ export const academyHomePreview = {
         href: `/academy/webinars/${event.slug}`,
         image: event.image,
         category: event.type,
-        meta: formatShortDate(event.date),
+        meta: formatAcademyCardMetaDate(event.date),
         title: event.title,
         description: event.description,
       })),

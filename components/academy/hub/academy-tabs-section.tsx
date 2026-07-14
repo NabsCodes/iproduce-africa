@@ -3,12 +3,15 @@
 import { LayoutGroup, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-import { academyContent } from "@/content/academy";
 import { useReducedMotionSafe } from "@/hooks/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
+import type { AcademyTab } from "@/types/academy";
 
-export function AcademyTabsSection() {
-  const tabs = academyContent.tabs;
+type AcademyTabsSectionProps = {
+  tabs: readonly AcademyTab[];
+};
+
+export function AcademyTabsSection({ tabs }: AcademyTabsSectionProps) {
   const reduce = useReducedMotionSafe();
   const [activeId, setActiveId] = useState<string>(
     tabs[0]?.targetId ?? "overview",

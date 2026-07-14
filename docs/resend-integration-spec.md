@@ -2,9 +2,12 @@
 
 ## Status
 
-**Implemented** (2026-06-26) — code shipped; production blocked on client Resend domain
-verification + Vercel env. File/folder map: `docs/email-structure.md`.
-Production handoff checklist: `docs/production-form-delivery-cutover.md`.
+**Complete** (2026-07-14) — Resend project (client is Owner), domain
+`iproduceafrica.com` verified (DKIM + Enable Sending; Receiving off / Zoho
+intact), production Vercel env, and form delivery all live. Unrelated leftover:
+apex/`www` website DNS → Vercel when the client schedules public cutover.
+File/folder map: `docs/email-structure.md`. Handoff checklist:
+`docs/production-form-delivery-cutover.md`.
 
 Original planning reference: mirror patterns from `wardwise-demo` (`src/lib/email/`,
 `pnpm email:dev`, API route shape, Turnstile verification, honeypot handling).
@@ -137,10 +140,12 @@ before launch.
 
 ### Client inputs needed (checklist)
 
-- [ ] Confirm primary inbox: `info@iproduceafrica.com` (or alternatives per form)
-- [ ] DNS access for Resend domain records and Cloudflare Turnstile setup
-- [ ] Who receives: contact, partners, community, academy registrations, newsletter alerts
-- [ ] Confirm Turnstile site domain(s): local dev, Vercel preview, production
+- [x] Confirm primary inbox: `info@iproduceafrica.com` (or alternatives per form)
+- [x] DNS access for Resend domain records (cPanel Zone Editor) + Cloudflare Turnstile setup
+- [x] Who receives: contact, partners, community, academy registrations, newsletter alerts (shared `info@` / ops until split)
+- [x] Confirm Turnstile site domain(s): local dev, Vercel preview, production
+- [x] Client is Resend Owner (no further ownership invite needed)
+- [ ] Website apex/`www` → Vercel (optional public URL switch; forms already live)
 
 ---
 
@@ -561,8 +566,8 @@ Deliver to client:
 
 ## Checklist
 
-- [ ] Account strategy agreed (separate iProduce Resend project)
-- [ ] Client DNS / inbox checklist sent
+- [x] Account strategy agreed (separate iProduce Resend project; `dev@iproduceafrica.com`)
+- [x] Client DNS / inbox checklist executed (cPanel Zone Editor + Zoho preserved)
 - [x] Turnstile site configured for local / preview / production domains
 - [x] Dependencies + `email:dev` added
 - [x] `lib/email/send.ts` + shared components
@@ -572,6 +577,8 @@ Deliver to client:
 - [x] All form components wired with fetch + Turnstile + honeypot
 - [x] All live success copy updated
 - [x] `.env.example`
-- [ ] Production Vercel env configured and smoke-tested
-- [ ] Domain verified on production
+- [x] Production Vercel env configured and smoke-tested
+- [x] Domain verified on production (`iproduceafrica.com`; Enable Receiving left **off**; Sending + DKIM on)
+- [x] Client owns Resend project (Owner) — no further ownership transfer required
 - [x] Route specs + `implementation-log.md` updated
+- [ ] Custom domain website cutover to Vercel (optional public DNS switch; mail/forms already complete)

@@ -45,16 +45,17 @@ only, never for real secret values.
 
 ## Account And DNS Checklist
 
-1. Resend
+1. Resend — **complete (2026-07-14)**
 
-- Client-owned or client-invited Resend project: `iProduce Africa`.
-- Add and verify the sending domain, expected to be `iproduceafrica.com`.
-- Add required DNS records in the domain/DNS provider.
-- Keep `EMAIL_FROM="iProduce Africa <onboarding@resend.dev>"` until domain
-  verification is complete.
-- After verification, switch production `EMAIL_FROM` to
-  `iProduce Africa <info@iproduceafrica.com>`.
-- Rotate the production API key if an agency-owned key was used during setup.
+- Dedicated iProduce Resend project; **client is Owner**.
+- Login/ops mailbox used during setup: `dev@iproduceafrica.com`.
+- Domain `iproduceafrica.com` verified: DKIM + Enable Sending (`send` host
+  records). Enable Receiving left off (Zoho MX intact).
+- Production sender: `iProduce Africa <info@iproduceafrica.com>`.
+- Production Vercel env + form delivery: live.
+
+**Not part of Resend:** pointing apex/`www` website DNS at Vercel (schedule with
+client when they want the public URL to leave the old cPanel site).
 
 2. Turnstile
 

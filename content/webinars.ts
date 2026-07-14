@@ -1,6 +1,6 @@
+import { formatAcademyShortDate } from "@/lib/academy-dates";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type {
-  AcademyFeaturedEvent,
   AcademyListingHeroContent,
   AcademyRelatedItem,
   AcademyScheduledItem,
@@ -8,12 +8,6 @@ import type {
   AcademyWebinar,
 } from "@/types/academy";
 import type { ContentCardTone, CtaSectionContent } from "@/types/content";
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
 
 export const WEBINAR_TYPES = [
   "Webinar",
@@ -38,10 +32,11 @@ const toneByType: Record<AcademyScheduledType, ContentCardTone> = {
   EVENT: "forest",
 };
 
-const featuredWebinar: AcademyWebinar = {
+const afriAgriLeadershipForum: AcademyWebinar = {
   slug: "afriagri-leadership-forum-2026",
   type: "EVENT",
   date: "2026-08-12T09:00:00Z",
+  endDate: "2026-08-14T15:00:00Z",
   title: "AfriAgri Leadership Forum 2026",
   description:
     "A high-level gathering of African agribusiness leaders, policymakers, investors and development partners shaping the continent's agricultural transformation agenda.",
@@ -173,8 +168,11 @@ export const webinarsContent = {
     description:
       "Join expert-led webinars, trainings, and live Q&A sessions designed to help agripreneurs build practical skills and stronger networks.",
   } satisfies AcademyListingHeroContent,
-  featuredSlug: featuredWebinar.slug,
-  webinars: [featuredWebinar, ...hubScheduledWebinars, ...extraWebinars],
+  webinars: [
+    afriAgriLeadershipForum,
+    ...hubScheduledWebinars,
+    ...extraWebinars,
+  ],
   cta: {
     eyebrow: "Be part of the future",
     title: "Let's Build the Future of Agriculture Together",
@@ -199,30 +197,13 @@ export const webinarsContent = {
   },
 };
 
-/** Hub featured-event band — presentation copy layered on the canonical webinar. */
-export const academyFeaturedEvent = {
-  slug: featuredWebinar.slug,
-  eyebrow: "Featured Event",
-  sectionTitle: "Don't miss what's next",
-  category: "Agribusiness Development",
-  format: featuredWebinar.format ?? "Event",
-  title: featuredWebinar.title,
-  description: featuredWebinar.description,
-  image: featuredWebinar.image,
-  imageAlt: featuredWebinar.imageAlt ?? featuredWebinar.title,
-  date: featuredWebinar.date,
-  dateLabel: featuredWebinar.dateLabel ?? "",
-  location: featuredWebinar.location ?? "",
-  speakers: featuredWebinar.speakers ?? "",
-  registerLabel: "Register Now",
-} satisfies AcademyFeaturedEvent;
-
 export function webinarsToHubScheduledItems(
   webinars: readonly AcademyWebinar[],
 ): AcademyScheduledItem[] {
   return webinars.map((webinar) => ({
     type: webinar.type,
-    date: webinar.date.slice(0, 10),
+    date: webinar.date,
+    endDate: webinar.endDate,
     title: webinar.title,
     description: webinar.description,
     image: webinar.image,
@@ -253,23 +234,6 @@ export function webinarToRelatedItem(
   };
 }
 
-function webinarDateKey(webinar: AcademyWebinar) {
-  return webinar.date.slice(0, 10);
-}
-
-export function getRelatedWebinars(excludeSlug: string, limit = 3) {
-  const today = new Date().toISOString().slice(0, 10);
-
-  return webinarsContent.webinars
-    .filter(
-      (webinar) =>
-        webinar.slug !== excludeSlug && webinarDateKey(webinar) >= today,
-    )
-    .sort((a, b) => webinarDateKey(a).localeCompare(webinarDateKey(b)))
-    .slice(0, limit)
-    .map(webinarToRelatedItem);
-}
-
 export function webinarToCardItem(webinar: AcademyWebinar) {
   return {
     key: webinar.slug,
@@ -278,7 +242,7 @@ export function webinarToCardItem(webinar: AcademyWebinar) {
     imageAlt: webinar.imageAlt,
     category: typeLabelByScheduled[webinar.type],
     categoryTone: toneByType[webinar.type],
-    meta: dateFormatter.format(new Date(webinar.date)),
+    meta: formatAcademyShortDate(webinar.date),
     title: webinar.title,
     description: webinar.description,
     filterType: typeLabelByScheduled[webinar.type],
@@ -287,7 +251,6 @@ export function webinarToCardItem(webinar: AcademyWebinar) {
 
 export const webinarsListing = {
   hero: webinarsContent.hero,
-  featuredSlug: webinarsContent.featuredSlug,
   filterTypes: WEBINAR_TYPES,
   items: webinarsContent.webinars.map(webinarToCardItem),
   filterEmptyState: {

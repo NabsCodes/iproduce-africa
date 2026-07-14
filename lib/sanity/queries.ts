@@ -8,7 +8,7 @@
 /** Every public query must exclude drafts. */
 export const DRAFT_FILTER = `!(_id in path("drafts.**"))`;
 
-/** Single coalesce query per catalogue — featured pointer, else newest. Never chain two fetches. */
+/** Evergreen catalogue coalesce — featured pointer, else newest. Webinars use date-derived promotion. */
 export function featuredQuery(type: string, orderField: string) {
   return `coalesce(
     *[_type == "${type}" && slug.current == $featuredSlug && ${DRAFT_FILTER}][0],
@@ -56,28 +56,26 @@ const WEBINAR_PROJECTION = `{
   "slug": slug.current
 }`;
 
+// Select the end date if it exists and is after the start date, otherwise select the start date
+const WEBINAR_EFFECTIVE_END = `select(
+  defined(endDate) && endDate > date => endDate,
+  date
+)`;
+
 export const webinarSlugsQuery = `*[_type == "academyWebinar" && ${DRAFT_FILTER}].slug.current`;
 
 export const webinarBySlugQuery = `*[_type == "academyWebinar" && slug.current == $slug && ${DRAFT_FILTER}][0]${WEBINAR_PROJECTION}`;
 
-export const webinarsListingQuery = `*[_type == "academyWebinar" && ${DRAFT_FILTER}] | order(date asc)${WEBINAR_PROJECTION}`;
+export const webinarsListingQuery = `*[_type == "academyWebinar" && ${DRAFT_FILTER}] | order(date asc, slug.current asc)${WEBINAR_PROJECTION}`;
 
-export const featuredWebinarQuery = `(${featuredQuery("academyWebinar", "date")})${WEBINAR_PROJECTION}`;
-
-/**
- * `$today` is a date-only string (`YYYY-MM-DD`), not `now()` — matches
- * `content/webinars.ts`'s `sessionDateKey`/`isUpcomingSession` exactly.
- * Some seeded `date` values are date-only strings themselves; comparing
- * against `now()`'s full timestamp would lexicographically exclude a
- * same-day webinar the moment any time has passed today.
- */
+/** `$now` is supplied once per request so GROQ and the JS selector agree. */
 export const hubScheduledWebinarsQuery = `*[
-  _type == "academyWebinar" && date >= $today && ${DRAFT_FILTER}
-] | order(date asc)[0...$limit]${WEBINAR_PROJECTION}`;
+  _type == "academyWebinar" && ${WEBINAR_EFFECTIVE_END} >= $now && ${DRAFT_FILTER}
+] | order(date asc, slug.current asc)[0...$limit]${WEBINAR_PROJECTION}`;
 
 export const relatedWebinarsQuery = `*[
-  _type == "academyWebinar" && slug.current != $slug && date >= $today && ${DRAFT_FILTER}
-] | order(date asc)[0...$limit]${WEBINAR_PROJECTION}`;
+  _type == "academyWebinar" && slug.current != $slug && ${WEBINAR_EFFECTIVE_END} >= $now && ${DRAFT_FILTER}
+] | order(date asc, slug.current asc)[0...$limit]${WEBINAR_PROJECTION}`;
 
 // ─── Courses ─────────────────────────────────────────────────────────────
 

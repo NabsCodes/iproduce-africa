@@ -43,9 +43,14 @@ export type AcademyFeaturedEvent = {
   registerLabel: string;
 };
 
-export type AcademyHeroNextLive = {
-  label: string;
-  date: string;
+export type AcademyFeaturedEventShell = Pick<
+  AcademyFeaturedEvent,
+  "eyebrow" | "sectionTitle" | "category" | "registerLabel"
+>;
+
+export type AcademyHeroAnnouncement = {
+  eyebrow: string;
+  message: string;
   href: string;
 };
 
@@ -66,7 +71,7 @@ export type AcademyHeroContent = {
   members: readonly CommunityHeroMember[];
   image: string;
   imageAlt: string;
-  nextLive: AcademyHeroNextLive;
+  announcement: AcademyHeroAnnouncement;
 };
 
 export type AcademyRegistrationDialogCopy = {
@@ -112,6 +117,7 @@ export type AcademyScheduledType =
 export type AcademyScheduledItem = {
   type: AcademyScheduledType;
   date: string;
+  endDate?: string;
   title: string;
   description: string;
   image: string;
@@ -189,6 +195,7 @@ export type AcademyWebinar = {
   slug: string;
   type: AcademyScheduledType;
   date: string;
+  endDate?: string;
   title: string;
   description: string;
   image: string;
@@ -282,7 +289,7 @@ export type AcademyRelatedItem = {
 export type AcademyContent = {
   hero: AcademyHeroContent;
   tabs: readonly AcademyTab[];
-  featuredEvent: AcademyFeaturedEvent;
+  featuredEvent: AcademyFeaturedEventShell;
   opportunities: AcademyOpportunitySection;
   participants: AcademyParticipantsSection;
   scheduled: AcademyListing<AcademyScheduledItem>;

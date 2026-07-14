@@ -36,7 +36,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Email folder structure + dual UI documented (`docs/email-structure.md`)
 - [x] Client mail host confirmed — **Zoho Mail** (`dev@`, `content@` created; temp passwords, rotate at handover)
 - [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
-- [ ] Resend domain verified + production env on Vercel (client ops)
+- [x] Resend domain verified (`iproduceafrica.com`, DKIM + `send` sending; Zoho MX intact) + production Vercel env + smoke path — **complete** (client is Resend Owner)
+- [ ] Website DNS cutover — point `iproduceafrica.com` / `www` at Vercel when client wants the public URL switch (forms/mail already live on Vercel)
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
 - [x] Sanity Phase 1 implementation (Academy catalogues, hub/home/search/sitemap/registration surfaces)
@@ -45,7 +46,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Review Phase 3 implementation plan before code changes
 - [x] Implement Phase 3 as one delivery (durable Home/About content + mandatory legal + site settings)
 - [x] Narrow Phase 3 after implementation review: remove Academy/Community/Partners page singletons, About hero copy, Home hero image, and CMS office hours
-- [ ] Post-migration Academy featured-content/hero-link product review
+- [x] Post-migration Academy promotion review + automatic nearest-upcoming webinar behavior
+- [ ] Replace six Academy date-only placeholders with confirmed real start times before production cutover
 - [ ] Staging QA pass (edit in Studio → confirm hub/home/search/detail routes reflect it)
 - [ ] Client sign-off on the full Phase 1–3 CMS scope (`docs/cms-client-summary.md`)
 - [ ] Archive migrated static content blocks to `content/_archived/` after production cutover and usage audit

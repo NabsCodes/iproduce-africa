@@ -9,6 +9,7 @@ import { WebinarRegistrationPanel } from "@/components/academy/webinars/webinar-
 import { CtaSection } from "@/components/shared/cta-section";
 import { Badge } from "@/components/ui/badge";
 import { webinarsContent, webinarToCardItem } from "@/content/webinars";
+import { formatAcademyFeaturedDate } from "@/lib/academy-dates";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   fetchRelatedWebinars,
@@ -16,14 +17,8 @@ import {
   fetchWebinarSlugs,
 } from "@/lib/sanity/fetch/webinars";
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-});
-
-export const revalidate = 3600;
+// Automatic registration close and related sessions are time-driven.
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const slugs = await fetchWebinarSlugs();
@@ -82,7 +77,7 @@ export default async function WebinarDetailPage({
             <>
               <Badge variant="leaf">{card.category}</Badge>
               <Badge variant="meta">
-                {dateFormatter.format(new Date(webinar.date))}
+                {formatAcademyFeaturedDate(webinar.date)}
               </Badge>
             </>
           }

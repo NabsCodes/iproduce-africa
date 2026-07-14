@@ -128,8 +128,43 @@ scroll-spy behaviour.
 
 ### 3. Featured Event — `components/academy/hub/featured-event-section.tsx`
 
+The featured event is automatic, not editorially pinned. From the published
+Sanity webinar catalogue, retain occurrences whose effective end has not
+passed, order by start date ascending with slug as the tiebreak, and promote
+the first. Effective end is a valid optional `endDate`, otherwise the required
+start `date`. A happening event therefore holds the slot until its real end,
+even if another occurrence starts during that window. The same retained set
+feeds the hero, featured band, Home Upcoming list, hub grid, and related query.
+
+Default open registration still closes at the start timestamp; external mode
+is the explicit escape hatch for a live/join link. The four time-sensitive
+routes use five-minute ISR because time passing does not emit a Sanity webhook.
+At effective end the client refreshes immediately, retries after the cache
+window, then performs one final collection refresh after ISR regeneration.
+
+One webinar document represents one occurrence. Do not add a featured toggle,
+manual override, recurrence rule, nested sessions, separate session documents,
+or registration identity changes without a confirmed new product requirement.
+The optional end timestamp is duration metadata for the existing occurrence,
+not sessions or recurrence machinery.
+
+When nothing is upcoming:
+
+- hero card becomes the code-owned “New sessions will be announced soon” link;
+- the Featured Event band is hidden;
+- its sticky `Featured Event` tab is removed so there is no dead anchor;
+- the webinar listing hides its featured band;
+- Home keeps its existing Upcoming-tab empty state.
+
 Standalone section between Tabs and Opportunities. `"use client"` for the
 countdown timer.
+
+The countdown hydrates with `--` placeholders, never zeroes. At the start, a
+valid start/end window changes locally to `Happening now`; the occurrence stays
+promoted and default registration closes. At effective end, the UI may
+truthfully say the session ended while the refresh sequence rotates to the next
+occurrence. Without a valid end, start is the effective end: transitional copy
+says `This session has started`, never `ended`.
 
 - **Layout**: two-column `rounded-xl` card; left image
   (`aspect-4/3 min-h-[280px]` on mobile, fills column on `lg:`), right
@@ -138,8 +173,9 @@ countdown timer.
   date, `MapPin` location, `Users` speakers).
 - **Countdown**: four `CountdownCard` blocks (Days / Hours / Minutes /
   Seconds) in `bg-forest-900` with serif `tabular-nums`, ticking every
-  second against the event's ISO date. The hook hydrates from a stable zero
-  state, ticks on mount, and then runs on a one-second interval.
+  second against the ISO start while upcoming. It hydrates from stable `--`
+  placeholders, then schedules the end transition without running a one-second
+  timer throughout a multi-day live event.
 - **CTA**: tangerine `AcademyRegistrationAction` opens the webinar
   registration dialog for the featured session.
 
@@ -290,6 +326,9 @@ empty catalogue.
 - **No React Query.** Server Components fetch from Sanity directly;
   Next caching (`fetch({ next: { revalidate } })` or `unstable_cache`)
   handles invalidation.
+- Academy session date display is owned by `lib/academy-dates.ts` (UTC).
+  Prefer `resolveAcademyDateLabel` / the named format helpers over local
+  `Intl.DateTimeFormat` copies. Blog publish dates stay in the blog route.
 
 ## Route + slug architecture
 

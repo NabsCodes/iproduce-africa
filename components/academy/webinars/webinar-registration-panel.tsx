@@ -4,14 +4,8 @@ import { CalendarDays, MapPin, Users } from "lucide-react";
 
 import { AcademyRegistrationAction } from "@/components/academy/registration/academy-registration-action";
 import { academyRegistrationContent } from "@/content/academy";
+import { resolveAcademyDateLabel } from "@/lib/academy-dates";
 import type { AcademyWebinar } from "@/types/academy";
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-});
 
 type WebinarRegistrationPanelProps = {
   webinar: AcademyWebinar;
@@ -29,7 +23,7 @@ export function WebinarRegistrationPanel({
         <li className="flex items-start gap-2">
           <CalendarDays className="text-fg-subtle mt-0.5 size-4 shrink-0" />
           <span>
-            {webinar.dateLabel ?? dateFormatter.format(new Date(webinar.date))}
+            {resolveAcademyDateLabel(webinar.date, webinar.dateLabel)}
           </span>
         </li>
         {webinar.location ? (

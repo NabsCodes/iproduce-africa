@@ -51,7 +51,7 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 - Academy, Community, and Partners marketing hero/card copy
 - Home hero image and About hero copy
 - Office hours
-- Academy featured-event selection and hero-link behaviour until the post-migration Academy review
+- Academy promotion controls — the site automatically prioritises a happening event, then the nearest upcoming published webinar
 
 ---
 
@@ -73,6 +73,7 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 - [ ] Confirm who gets Studio access (names/emails)
 - [ ] Confirm who creates the Sanity project and invites the other party
 - [ ] Review staging placeholders before we point the live site at production CMS
+- [ ] Replace the six Academy date-only placeholders with their real start times before production cutover
 
 Questions on anything not in this table — defer to the dev team; the full spec
 covers implementation detail.

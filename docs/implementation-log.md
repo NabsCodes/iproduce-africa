@@ -3,6 +3,84 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Academy date display helpers (2026-07-14)
+
+Consolidated Academy session date formatting into `lib/academy-dates.ts` so
+UTC-safe display stays consistent across hub, hero, featured bands,
+registration panel, detail pages, listing cards, and Home preview.
+
+Owned helpers:
+
+- `formatAcademyFeaturedDate` — long weekday date (featured / detail)
+- `formatAcademyShortDate` — short date with year (hero + listing cards)
+- `formatAcademyCardMetaDate` — uppercased short meta (`JUL 14`)
+- `resolveAcademyDateLabel` — editor `dateLabel` override or featured format
+
+Blog publish dates and email timestamps stay out of this module. Docs:
+`docs/sanity-academy-spec.md` (promotion ownership section).
+
+---
+
+## Resend domain verification complete (2026-07-14)
+
+Verified `iproduceafrica.com` in the dedicated iProduce Resend project.
+Client is already Resend **Owner**. cPanel Zone Editor: DKIM TXT
+`resend._domainkey` + Sending records on host `send` (MX/TXT). Enable
+Receiving left **off** so Zoho MX keep working. Production Vercel env + form
+smoke path complete. Website apex / `www` → Vercel remains a separate optional
+public DNS cutover (mail/forms are not blocked on it).
+
+Docs: `docs/status-board.md`, `docs/resend-integration-spec.md`,
+`docs/production-form-delivery-cutover.md`.
+
+---
+
+## Academy automatic promotion (2026-07-13)
+
+Replaced the webinar-only static featured slug with one automatic retained-set
+rule shared by Home, Academy hub/hero/grid, webinar featured band, and related
+sessions. `lib/academy-webinars.ts` retains published occurrences while
+`effectiveEnd >= now`, where effective end is a valid optional `endDate` or the
+required start `date`; results sort by start ascending then slug. A happening
+event therefore keeps the slot until its actual end, including the existing
+three-day AfriAgri forum. Registration remains start-driven and closes at the
+start for default open mode; external mode remains the explicit live-link
+escape hatch.
+
+Studio now labels the required start clearly and offers `End date & time
+(optional)` with end-after-start validation. GROQ, fetch normalization, and JS
+all treat an invalid direct-write end as absent. AfriAgri's known August 14,
+4:00 PM WAT end was added to static seed content and safely backfilled in the
+development dataset. The exact Building Export QA timestamp was conditionally
+restored to its prior July 14 seed value. Six date-only/midnight placeholders
+remain explicitly warned by the migration and must receive confirmed real
+start times before production cutover; no times were invented.
+
+The featured countdown hydrates with `--`, not zero. It ticks only while
+upcoming, switches locally to `Happening now` during a valid start/end window,
+and schedules the end transition without a per-second multi-day timer. At
+effective end it refreshes immediately, retries after the five-minute ISR
+window, then performs one post-regeneration collection refresh. Copy says
+`ended` only after a known end; without one it says the session started. The
+shared registration action also re-evaluates at start on already-open detail
+pages. Missing optional feature metadata falls back/gates cleanly, and webinar
+query windows retain the slug tiebreak. No featured toggle, recurrence,
+sessions array, cron, or polling loop was introduced.
+
+Verification: overlap/invalid-end fixture passed; migration passed offline,
+execute, and idempotent authenticated dry-run (30 skips, 6 intentional
+placeholder warnings, 0 errors); format, lint, typecheck, build, and
+`git diff --check` pass.
+
+Final re-review fixed the rollover recovery effect so an identical RSC refresh
+cannot cancel its own delayed retry chain: the effect now depends on primitive
+webinar identity/timestamp fields, and the refresh boundary includes the slug.
+A genuine promoted-webinar change remounts the section, while a stale refresh
+of the same webinar preserves the 301-second retry and final collection
+refresh. The server-computed display state now also seeds the client section,
+so a multi-day event renders `Happening now` in the initial HTML instead of
+briefly showing an upcoming placeholder until hydration.
+
 ## Sanity CMS — Phase 3 implementation (2026-07-12)
 
 Implemented the one-shot Phase 3 delivery: narrowed CMS boundary (organisational

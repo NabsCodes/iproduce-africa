@@ -23,7 +23,8 @@ import { fetchTestimonials } from "@/lib/sanity/fetch/testimonials";
 import type { FaqSectionContent } from "@/types/content";
 
 export const metadata = createPageMetadata(pageSeo.home);
-export const revalidate = 3600;
+// Promotion is time-driven, so this route must refresh without a CMS webhook.
+export const revalidate = 300;
 
 // Home's own FAQ shell copy — mirrors the same eyebrow/description already
 // duplicated in content/contact.ts's faqs (both intentionally reuse this

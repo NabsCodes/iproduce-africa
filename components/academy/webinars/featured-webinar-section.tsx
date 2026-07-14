@@ -5,6 +5,8 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
+import { resolveAcademyDateLabel } from "@/lib/academy-dates";
+import { academyWebinarDisplayState } from "@/lib/academy-webinars";
 import type { AcademyWebinar } from "@/types/academy";
 
 type FeaturedWebinarSectionProps = {
@@ -14,6 +16,8 @@ type FeaturedWebinarSectionProps = {
 export function FeaturedWebinarSection({
   webinar,
 }: FeaturedWebinarSectionProps) {
+  const isHappening = academyWebinarDisplayState(webinar) === "happening";
+
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -35,6 +39,9 @@ export function FeaturedWebinarSection({
             </h2>
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
+              {isHappening ? (
+                <Badge variant="tangerine">Happening now</Badge>
+              ) : null}
               <Badge variant="leaf">{webinar.type}</Badge>
               {webinar.format ? (
                 <Badge variant="forest">{webinar.format}</Badge>
@@ -45,28 +52,26 @@ export function FeaturedWebinarSection({
               {webinar.excerpt}
             </p>
 
-            {(webinar.dateLabel || webinar.location || webinar.speakers) && (
-              <ul className="text-fg-muted mt-5 flex flex-col gap-2 text-sm leading-6">
-                {webinar.dateLabel ? (
-                  <li className="flex items-start gap-2">
-                    <CalendarDays className="text-fg-subtle mt-0.5 size-4 shrink-0" />
-                    <span>{webinar.dateLabel}</span>
-                  </li>
-                ) : null}
-                {webinar.location ? (
-                  <li className="flex items-start gap-2">
-                    <MapPin className="text-fg-subtle mt-0.5 size-4 shrink-0" />
-                    <span>{webinar.location}</span>
-                  </li>
-                ) : null}
-                {webinar.speakers ? (
-                  <li className="flex items-start gap-2">
-                    <Users className="text-fg-subtle mt-0.5 size-4 shrink-0" />
-                    <span>{webinar.speakers}</span>
-                  </li>
-                ) : null}
-              </ul>
-            )}
+            <ul className="text-fg-muted mt-5 flex flex-col gap-2 text-sm leading-6">
+              <li className="flex items-start gap-2">
+                <CalendarDays className="text-fg-subtle mt-0.5 size-4 shrink-0" />
+                <span>
+                  {resolveAcademyDateLabel(webinar.date, webinar.dateLabel)}
+                </span>
+              </li>
+              {webinar.location ? (
+                <li className="flex items-start gap-2">
+                  <MapPin className="text-fg-subtle mt-0.5 size-4 shrink-0" />
+                  <span>{webinar.location}</span>
+                </li>
+              ) : null}
+              {webinar.speakers ? (
+                <li className="flex items-start gap-2">
+                  <Users className="text-fg-subtle mt-0.5 size-4 shrink-0" />
+                  <span>{webinar.speakers}</span>
+                </li>
+              ) : null}
+            </ul>
 
             <div className="mt-7">
               <ButtonLink

@@ -43,9 +43,29 @@ export const academyWebinar = defineType({
     }),
     defineField({
       name: "date",
-      title: "Date",
+      title: "Start date & time",
       type: "datetime",
+      description:
+        "Controls the countdown and when automatic registration closes.",
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "endDate",
+      title: "End date & time (optional)",
+      type: "datetime",
+      description:
+        "Add this when the event should display as Happening now after it starts. Without an end time, the next scheduled webinar is promoted when this event starts.",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!value) return true;
+
+          const parent = context.parent as { date?: string } | undefined;
+          if (!parent?.date) return true;
+
+          return Date.parse(value) > Date.parse(parent.date)
+            ? true
+            : "End date & time must be after the start date & time.";
+        }),
     }),
     defineField({
       name: "description",

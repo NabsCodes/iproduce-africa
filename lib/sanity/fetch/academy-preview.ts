@@ -1,3 +1,5 @@
+import { formatAcademyCardMetaDate } from "@/lib/academy-dates";
+import { academyWebinarDisplayState } from "@/lib/academy-webinars";
 import { fetchHubArticles } from "@/lib/sanity/fetch/articles";
 import { fetchHubCourses } from "@/lib/sanity/fetch/courses";
 import { fetchHubScheduledWebinars } from "@/lib/sanity/fetch/webinars";
@@ -13,16 +15,6 @@ import type {
 
 const HOME_SPOTLIGHT_LIMIT = 4;
 const HOME_BLOG_LIMIT = 3;
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "2-digit",
-  timeZone: "UTC",
-});
-
-function formatShortDate(iso: string) {
-  return dateFormatter.format(new Date(iso)).toUpperCase();
-}
 
 const articleToneByCategory: Record<
   AcademyArticleCategory,
@@ -40,7 +32,10 @@ function webinarToHomeCard(webinar: AcademyWebinar): AcademyHomeCard {
     image: webinar.image,
     imageAlt: webinar.imageAlt,
     category: webinar.type,
-    meta: formatShortDate(webinar.date),
+    meta:
+      academyWebinarDisplayState(webinar) === "happening"
+        ? "HAPPENING NOW"
+        : formatAcademyCardMetaDate(webinar.date),
     title: webinar.title,
     description: webinar.description,
   };

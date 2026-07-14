@@ -11,6 +11,7 @@ import {
   blocksToPortableText,
   type PortableTextEntry,
 } from "@/scripts/lib/blocks-to-portable-text";
+import type { AcademyWebinar } from "@/types/academy";
 import type { BlogArticleBlock, BlogAuthor } from "@/types/blog";
 
 /**
@@ -247,6 +248,47 @@ async function maybeRecoverImage(
   logWarn(`patched missing "${imageField}" on ${existing._id}`);
 }
 
+const BUILDING_EXPORT_QA_DATE = "2026-07-13T10:05:00.000Z";
+
+/**
+ * Narrow development-data repairs for this migration revision. Never replace
+ * an editor-supplied end time, and only restore the exact timestamp left by
+ * rollover QA rather than treating every date difference as stale seed data.
+ */
+async function maybeRepairWebinarTiming(
+  client: SanityClient | null,
+  flags: Flags,
+  existing: ExistingDoc,
+  webinar: AcademyWebinar,
+) {
+  const patch: Record<string, string> = {};
+
+  if (webinar.endDate && !existing.endDate) {
+    patch.endDate = new Date(webinar.endDate).toISOString();
+  }
+
+  if (
+    webinar.slug === "building-export-ready-business" &&
+    existing.date === BUILDING_EXPORT_QA_DATE
+  ) {
+    patch.date = new Date(webinar.date).toISOString();
+  }
+
+  if (Object.keys(patch).length === 0) return;
+
+  if (!flags.execute) {
+    logWarn(
+      `would patch webinar timing on ${existing._id}: ${Object.keys(patch).join(", ")}`,
+    );
+    return;
+  }
+
+  await client!.patch(existing._id).set(patch).commit();
+  logWarn(
+    `patched webinar timing on ${existing._id}: ${Object.keys(patch).join(", ")}`,
+  );
+}
+
 // ─── Migrations per catalogue ───────────────────────────────────────────────
 
 function authorKey(author: BlogAuthor): string {
@@ -379,6 +421,13 @@ async function migrateWebinars(
 ) {
   for (const webinar of webinarsContent.webinars) {
     const id = `academyWebinar.${webinar.slug}`;
+
+    if (!webinar.date.includes("T")) {
+      logWarn(
+        `${id} still uses a date-only placeholder; set its real start time in Studio before production cutover`,
+      );
+    }
+
     const plan = await planUpsert(client, flags, id);
 
     if (plan === "unknown") continue;
@@ -389,6 +438,7 @@ async function migrateWebinars(
         asset: await resolveImageAsset(webinar.image),
         alt: webinar.imageAlt ?? webinar.title,
       }));
+      await maybeRepairWebinarTiming(client, flags, plan.skip, webinar);
       logSkip(id);
       continue;
     }
@@ -410,6 +460,9 @@ async function migrateWebinars(
         slug: { _type: "slug", current: webinar.slug },
         type: webinar.type,
         date: new Date(webinar.date).toISOString(),
+        ...(webinar.endDate && {
+          endDate: new Date(webinar.endDate).toISOString(),
+        }),
         description: webinar.description,
         excerpt: webinar.excerpt,
         image: {

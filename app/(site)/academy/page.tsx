@@ -9,8 +9,15 @@ import { FaqSection } from "@/components/shared/faq-section";
 import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { academyContent } from "@/content/academy";
 import { pageSeo } from "@/content/seo";
-import { webinarsContent } from "@/content/webinars";
-import { isUpcomingSession } from "@/lib/academy-registration";
+import {
+  formatAcademyCardMetaDate,
+  resolveAcademyDateLabel,
+} from "@/lib/academy-dates";
+import {
+  academyNowIso,
+  academyWebinarDisplayState,
+  selectPromotableWebinars,
+} from "@/lib/academy-webinars";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   articleToHubShape,
@@ -19,10 +26,7 @@ import {
 import { fetchCoursesListing } from "@/lib/sanity/fetch/courses";
 import { fetchFaqs } from "@/lib/sanity/fetch/faqs";
 import { fetchTestimonials } from "@/lib/sanity/fetch/testimonials";
-import {
-  fetchFeaturedWebinar,
-  fetchWebinarsListing,
-} from "@/lib/sanity/fetch/webinars";
+import { fetchWebinarsListing } from "@/lib/sanity/fetch/webinars";
 import type {
   AcademyArticleCategory,
   AcademyCourseLevel,
@@ -31,7 +35,8 @@ import type {
 import type { ContentCardTone } from "@/types/content";
 
 export const metadata = createPageMetadata(pageSeo.academy);
-export const revalidate = 3600;
+// Promotion is time-driven, so this route must refresh without a CMS webhook.
+export const revalidate = 300;
 
 const HUB_WEBINARS_LIMIT = 4;
 const HUB_BLOG_LIMIT = 3;
@@ -56,16 +61,6 @@ const articleCategoryToneMap: Record<AcademyArticleCategory, ContentCardTone> =
     "SMART AGRICULTURE": "leaf",
   };
 
-const scheduledDateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "2-digit",
-  timeZone: "UTC",
-});
-
-function formatScheduledDate(iso: string) {
-  return scheduledDateFormatter.format(new Date(iso)).toUpperCase();
-}
-
 export default async function AcademyPage() {
   const scheduled = academyContent.scheduled;
   const courses = academyContent.courses;
@@ -75,25 +70,22 @@ export default async function AcademyPage() {
 
   // Single listing fetch per catalogue — hub bands + total-count labels both
   // derive from the same result instead of a second, overlapping request.
-  const [
-    allWebinars,
-    allCourses,
-    allArticles,
-    featuredWebinar,
-    testimonials,
-    faqs,
-  ] = await Promise.all([
-    fetchWebinarsListing(),
-    fetchCoursesListing(),
-    fetchArticlesListing(),
-    fetchFeaturedWebinar(webinarsContent.featuredSlug),
-    fetchTestimonials("academy"),
-    fetchFaqs("academy"),
-  ]);
+  const [allWebinars, allCourses, allArticles, testimonials, faqs] =
+    await Promise.all([
+      fetchWebinarsListing(),
+      fetchCoursesListing(),
+      fetchArticlesListing(),
+      fetchTestimonials("academy"),
+      fetchFaqs("academy"),
+    ]);
 
-  const hubWebinars = allWebinars
-    .filter((webinar) => isUpcomingSession(webinar.date))
-    .slice(0, HUB_WEBINARS_LIMIT);
+  const now = academyNowIso();
+  const promotableWebinars = selectPromotableWebinars(allWebinars, { now });
+  const promotedWebinar = promotableWebinars[0] ?? null;
+  const promotedState = promotedWebinar
+    ? academyWebinarDisplayState(promotedWebinar, now)
+    : null;
+  const hubWebinars = promotableWebinars.slice(0, HUB_WEBINARS_LIMIT);
   // No cap — the hub has always shown every course (matches the prior
   // static `academyHubCourses`, which mapped the full catalogue unsliced).
   const hubCourses = allCourses;
@@ -103,34 +95,46 @@ export default async function AcademyPage() {
 
   const { eyebrow, sectionTitle, category, registerLabel } =
     academyContent.featuredEvent;
-  const featuredEvent = featuredWebinar
+  const featuredEvent = promotedWebinar
     ? {
-        slug: featuredWebinar.slug,
+        slug: promotedWebinar.slug,
         eyebrow,
         sectionTitle,
         category,
         registerLabel,
-        format: featuredWebinar.format ?? "Event",
-        title: featuredWebinar.title,
-        description: featuredWebinar.description,
-        image: featuredWebinar.image,
-        imageAlt: featuredWebinar.imageAlt ?? featuredWebinar.title,
-        date: featuredWebinar.date,
-        dateLabel: featuredWebinar.dateLabel ?? "",
-        location: featuredWebinar.location ?? "",
-        speakers: featuredWebinar.speakers ?? "",
+        format: promotedWebinar.format ?? "Event",
+        title: promotedWebinar.title,
+        description: promotedWebinar.description,
+        image: promotedWebinar.image,
+        imageAlt: promotedWebinar.imageAlt ?? promotedWebinar.title,
+        date: promotedWebinar.date,
+        dateLabel: resolveAcademyDateLabel(
+          promotedWebinar.date,
+          promotedWebinar.dateLabel,
+        ),
+        location: promotedWebinar.location ?? "",
+        speakers: promotedWebinar.speakers ?? "",
       }
     : null;
 
   return (
     <>
-      <AcademyHeroSection />
-      <AcademyTabsSection />
+      <AcademyHeroSection
+        nextLive={promotedWebinar}
+        isHappening={promotedState === "happening"}
+      />
+      <AcademyTabsSection
+        tabs={academyContent.tabs.filter(
+          (tab) => promotedWebinar || tab.targetId !== "featured-event",
+        )}
+      />
 
-      {featuredEvent && featuredWebinar ? (
+      {featuredEvent && promotedWebinar ? (
         <FeaturedEventSection
+          key={promotedWebinar.slug}
           featured={featuredEvent}
-          webinar={featuredWebinar}
+          webinar={promotedWebinar}
+          initialDisplayState={promotedState ?? "upcoming"}
         />
       ) : null}
 
@@ -149,7 +153,10 @@ export default async function AcademyPage() {
           imageAlt: item.imageAlt,
           category: item.type,
           categoryTone: scheduledTypeToneMap[item.type],
-          meta: formatScheduledDate(item.date),
+          meta:
+            academyWebinarDisplayState(item, now) === "happening"
+              ? "HAPPENING NOW"
+              : formatAcademyCardMetaDate(item.date),
           title: item.title,
           description: item.description,
         }))}

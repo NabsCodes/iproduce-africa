@@ -4,25 +4,22 @@ import { WebinarsListingBody } from "@/components/academy/webinars/webinars-list
 import { CtaSection } from "@/components/shared/cta-section";
 import { pageSeo } from "@/content/seo";
 import { webinarsContent, webinarsListing } from "@/content/webinars";
+import { selectPromotableWebinars } from "@/lib/academy-webinars";
 import { createPageMetadata } from "@/lib/metadata";
-import {
-  fetchFeaturedWebinar,
-  fetchWebinarsListing,
-} from "@/lib/sanity/fetch/webinars";
+import { fetchWebinarsListing } from "@/lib/sanity/fetch/webinars";
 
 export const metadata = createPageMetadata(pageSeo.webinars);
-export const revalidate = 3600;
+// Promotion is time-driven, so this route must refresh without a CMS webhook.
+export const revalidate = 300;
 
 export default async function WebinarsIndexPage() {
-  const [webinars, featured] = await Promise.all([
-    fetchWebinarsListing(),
-    fetchFeaturedWebinar(webinarsListing.featuredSlug),
-  ]);
+  const webinars = await fetchWebinarsListing();
+  const promoted = selectPromotableWebinars(webinars, { limit: 1 })[0] ?? null;
 
   return (
     <>
       <AcademyListingHeroSection content={webinarsListing.hero} />
-      {featured ? <FeaturedWebinarSection webinar={featured} /> : null}
+      {promoted ? <FeaturedWebinarSection webinar={promoted} /> : null}
       <WebinarsListingBody
         webinars={webinars}
         filterTypes={webinarsListing.filterTypes}

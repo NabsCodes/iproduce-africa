@@ -1,30 +1,31 @@
+import {
+  academyNowIso,
+  isUpcomingAcademyDateTime,
+} from "@/lib/academy-webinars";
 import type {
   AcademyRegistrationConfig,
   AcademyWebinar,
 } from "@/types/academy";
 
-function sessionDateKey(date: string) {
-  return date.slice(0, 10);
-}
-
 export function isUpcomingSession(
   date: string,
-  today = new Date().toISOString().slice(0, 10),
+  now = academyNowIso(),
 ): boolean {
-  return sessionDateKey(date) >= today;
+  return isUpcomingAcademyDateTime(date, now);
 }
 
 export function resolveWebinarRegistration(
   webinar: AcademyWebinar,
 ): AcademyRegistrationConfig {
   const configured = webinar.registration ?? { mode: "open" as const };
-  const today = new Date().toISOString().slice(0, 10);
-  const isPast = sessionDateKey(webinar.date) < today;
+  const now = academyNowIso();
+  const isPast = !isUpcomingAcademyDateTime(webinar.date, now);
 
   if (configured.mode === "open" && isPast) {
     return {
       mode: "closed",
-      closedLabel: configured.closedLabel ?? "This session has ended.",
+      closedLabel:
+        configured.closedLabel ?? "Registration has closed for this session.",
     };
   }
 

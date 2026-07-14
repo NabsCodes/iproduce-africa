@@ -1,10 +1,14 @@
 import type { Image } from "sanity";
 
 import { webinarToRelatedItem } from "@/content/webinars";
+import {
+  academyNowIso,
+  resolveValidAcademyEndDate,
+  selectPromotableWebinars,
+} from "@/lib/academy-webinars";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";
 import {
-  featuredWebinarQuery,
   hubScheduledWebinarsQuery,
   relatedWebinarsQuery,
   webinarBySlugQuery,
@@ -25,6 +29,7 @@ type RawWebinarDoc = {
   title: string;
   type: AcademyScheduledType;
   date: string;
+  endDate?: string | null;
   description: string;
   excerpt: string;
   image: SanityImageField | null;
@@ -36,17 +41,17 @@ type RawWebinarDoc = {
   registration?: AcademyRegistrationConfig | null;
 };
 
-/** Date-only, matching `content/webinars.ts`'s `sessionDateKey` — see the
- * comment on `hubScheduledWebinarsQuery`/`relatedWebinarsQuery`. */
-function todayDateKey(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
 function normalizeWebinar(raw: RawWebinarDoc): AcademyWebinar {
+  const endDate = resolveValidAcademyEndDate(
+    raw.date,
+    raw.endDate ?? undefined,
+  );
+
   return {
     slug: raw.slug,
     type: raw.type,
     date: raw.date,
+    endDate,
     title: raw.title,
     description: raw.description,
     image: resolveImageUrl(raw.image) ?? "",
@@ -79,15 +84,6 @@ export async function fetchWebinarsListing(): Promise<AcademyWebinar[]> {
   return raw.map(normalizeWebinar);
 }
 
-export async function fetchFeaturedWebinar(
-  featuredSlug: string | null,
-): Promise<AcademyWebinar | null> {
-  const raw = await sanityFetch<RawWebinarDoc | null>(featuredWebinarQuery, {
-    featuredSlug,
-  });
-  return raw ? normalizeWebinar(raw) : null;
-}
-
 /**
  * Used by the Home spotlight preview (`fetchHomeAcademyPreview`), which has
  * no other reason to fetch the full webinar listing. The `/academy` hub
@@ -98,11 +94,12 @@ export async function fetchFeaturedWebinar(
 export async function fetchHubScheduledWebinars(
   limit: number,
 ): Promise<AcademyWebinar[]> {
+  const now = academyNowIso();
   const raw = await sanityFetch<RawWebinarDoc[]>(hubScheduledWebinarsQuery, {
     limit,
-    today: todayDateKey(),
+    now,
   });
-  return raw.map(normalizeWebinar);
+  return selectPromotableWebinars(raw.map(normalizeWebinar), { now, limit });
 }
 
 export async function fetchRelatedWebinars(
@@ -112,7 +109,7 @@ export async function fetchRelatedWebinars(
   const raw = await sanityFetch<RawWebinarDoc[]>(relatedWebinarsQuery, {
     slug,
     limit,
-    today: todayDateKey(),
+    now: academyNowIso(),
   });
   return raw.map(normalizeWebinar).map(webinarToRelatedItem);
 }

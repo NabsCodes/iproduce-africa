@@ -168,6 +168,7 @@ live Q&A, and events (matches `AcademyScheduledType`).
 | `slug`         | slug                 | `slug`                 |
 | `type`         | string list          | `AcademyScheduledType` | WEBINAR, TRAINING, LIVE Q&A, EVENT                                    |
 | `date`         | datetime             | `date`                 | ISO string                                                            |
+| `endDate`      | datetime             | `endDate?`             | optional; must be after `date`                                        |
 | `description`  | text                 | `description`          | listing card                                                          |
 | `excerpt`      | text                 | `excerpt`              | search + cards                                                        |
 | `image`        | image + alt          | `image`, `imageAlt?`   |
@@ -281,13 +282,54 @@ Home sections import `fetchAcademyHomePreview()` instead of static
 
 ---
 
-## `AcademyFeaturedEvent` field ownership
+## Automatic webinar promotion ownership
 
-| From webinar (Sanity)                                                                         | From code wrapper (`content/academy.ts`)                                                                                               |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `slug`, `title`, `description`, `image`, `imageAlt`, `date`, `location`, `speakers`, `format` | `eyebrow`, `sectionTitle`, `category` (hub marketing label), `registerLabel`, `dateLabel` override only if computed label insufficient |
+One webinar document represents one scheduled occurrence. Editors set its real
+start date/time and, when it should display as ongoing, an optional end
+date/time. There is no `featured`, `promote`, priority, homepage, or
+manual-override field.
 
-Do not duplicate wrapper labels on the webinar document in Phase 1.
+`selectPromotableWebinars()` in `lib/academy-webinars.ts` owns one retention
+rule: `effectiveEnd >= now`, where effective end is a valid `endDate` or the
+start `date`. Results sort by start ascending, then slug. A happening event
+therefore keeps priority over later upcoming events until its end passes. GROQ
+uses the same effective-end expression; invalid `endDate <= date` direct writes
+fall back to the start in GROQ, fetch normalization, and JS.
+
+Academy session date display is owned by `lib/academy-dates.ts` (UTC
+`Intl.DateTimeFormat`). Use `resolveAcademyDateLabel(date, dateLabel?)` when
+rendering featured/detail/panel dates; use the named format helpers for card
+meta and hero short labels. Do not reintroduce local Academy formatters.
+Blog `publishedAt` and email timestamps stay outside this module.
+
+The same retained set drives the Academy hero, hub featured band and grid,
+webinar listing featured band, Home Upcoming cards, and related sessions.
+Registration remains separate: default open registration closes at the start,
+while external mode remains available when editors intentionally configure a
+live destination.
+
+The Home, Academy hub, webinar listing, and webinar detail routes use
+five-minute ISR for this time-driven behavior. Sanity webhooks still make
+published content edits visible promptly, but they cannot trigger when time
+passes. Once the five-minute cache window expires, the next request triggers
+regeneration; that first response may briefly be stale while the fresh route
+is produced.
+
+The hub countdown hydrates with `--` placeholders. At start it derives
+`Happening now` locally when a valid end exists, without requesting a server
+rotation. At effective end it requests an immediate refresh, a cache-window
+retry, and one post-ISR collection refresh. Without a valid end, start is the
+effective end and transitional copy only says the session started. The UI says
+`ended` only after a known end timestamp.
+
+The promoted webinar supplies `slug`, `title`, `description`, `image`,
+`imageAlt`, `date`, `location`, `speakers`, and `format`. Code-owned Academy
+shell copy supplies the eyebrow, section title, category label, registration
+label, and no-upcoming announcement.
+
+The same result drives the Academy hero, hub featured-event band, and webinar
+listing featured band. Home remains a four-card upcoming list; its first card
+matches automatically because its fetch is ordered through the same selector.
 
 ---
 
@@ -301,7 +343,7 @@ All public queries include:
 !(_id in path("drafts.**"))
 ```
 
-### Featured document (single query — no double round-trip)
+### Featured evergreen document (single query — no double round-trip)
 
 ```groq
 coalesce(
@@ -310,8 +352,8 @@ coalesce(
 )
 ```
 
-Use per catalogue (`academyArticle`, `academyWebinar`, `academyCourse`). If
-coalesce is null → hide featured band.
+Use for articles and courses only. Time-based webinars use the automatic
+upcoming selector above; they must never fall back to a past document.
 
 ### Articles
 
@@ -328,19 +370,18 @@ the fetch helper.
 
 ### Webinars
 
-| Query key                   | Purpose                               | Replaces                       |
-| --------------------------- | ------------------------------------- | ------------------------------ |
-| `webinarSlugsQuery`         | static params                         | `webinarsContent.webinars`     |
-| `webinarBySlugQuery`        | detail                                | `getWebinar(slug)`             |
-| `webinarsListingQuery`      | listing                               | `webinarsListing`              |
-| `featuredWebinarQuery`      | featured band                         | `webinarsContent.featuredSlug` |
-| `hubScheduledWebinarsQuery` | hub subset (upcoming, limit N)        | `academyHubScheduledWebinars`  |
-| `relatedWebinarsQuery`      | upcoming, exclude slug, date >= today | `getRelatedWebinars`           |
-| `featuredEventProjection`   | `AcademyFeaturedEvent`                | `academyFeaturedEvent` export  |
+| Query key                   | Purpose                               | Replaces                      |
+| --------------------------- | ------------------------------------- | ----------------------------- |
+| `webinarSlugsQuery`         | static params                         | `webinarsContent.webinars`    |
+| `webinarBySlugQuery`        | detail                                | `getWebinar(slug)`            |
+| `webinarsListingQuery`      | listing                               | `webinarsListing`             |
+| `hubScheduledWebinarsQuery` | hub subset (upcoming, limit N)        | `academyHubScheduledWebinars` |
+| `relatedWebinarsQuery`      | upcoming, exclude slug, date >= today | `getRelatedWebinars`          |
 
-**Featured event:** hub band copy (eyebrow “Featured Event”, `registerLabel`) can
-stay **code-owned** in `content/academy.ts` wrapping canonical webinar fields
-until Phase 2 hub singleton.
+**Promoted event:** the hub already fetches the full webinar listing for its
+band and count, so it derives the first upcoming webinar in JS rather than
+issuing another request. The Home preview keeps the narrow upcoming query and
+normalizes its result through the same selector.
 
 ### Courses
 

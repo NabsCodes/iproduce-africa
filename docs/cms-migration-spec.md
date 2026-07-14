@@ -125,40 +125,40 @@ justified.
 
 ### By domain
 
-| Domain                       | Current source                                                 | Recommendation                 | Rationale                                               |
-| ---------------------------- | -------------------------------------------------------------- | ------------------------------ | ------------------------------------------------------- |
-| **Academy articles**         | `content/blog-articles.ts` + `content/blog.ts`                 | **CMS** Phase 1                | Editorial, frequent updates, slug catalogue             |
-| **Academy webinars/events**  | `content/webinars.ts`                                          | **CMS** Phase 1                | Dated sessions, registration metadata                   |
-| **Academy courses**          | `content/courses.ts`                                           | **CMS** Phase 1                | Modules, levels, enrolment copy                         |
-| **Academy hub shell**        | `content/academy.ts` (hero, tabs, opportunities, participants) | **Code**                       | Marketing UI and promotion behaviour are design-owned   |
-| **Academy hub FAQs**         | `content/academy.ts` `faqs`                                    | **CMS** Phase 2                | Same pattern as q-das `faq` docs                        |
-| **Academy hub testimonials** | `content/academy.ts` `testimonials`                            | **CMS** Phase 2                | Reuse shared `testimonial` type                         |
-| **Home testimonials**        | `content/home.ts`                                              | **CMS** Phase 2                | Shared collection, filter or reference by placement     |
-| **Home FAQs**                | `content/home.ts`                                              | **CMS** Phase 2                | Category + page tag                                     |
-| **Community FAQs**           | `content/community.ts`                                         | **CMS** Phase 2                | Same `faq` model, `section: community`                  |
-| **Partners FAQs**            | `content/partners.ts`                                          | **CMS** Phase 2                | Same model                                              |
-| **Contact FAQs**             | `content/contact.ts`                                           | **CMS** Phase 2                | Same model                                              |
-| **Partner logos**            | `content/partners.ts` `partnersList`                           | **CMS** Phase 2                | Home marquee + partners page                            |
-| **Partner voice quotes**     | `content/partners.ts` `voices.items`                           | **CMS** Phase 2                | `testimonial` placement `partners-voices`               |
-| **Partner voices logo grid** | derived from `partnersList`                                    | **CMS** Phase 2                | `partner.showInVoices` + order                          |
-| **About team**               | `content/about-people.ts` (projected in `about.ts`)            | **CMS** Phase 2                | `teamMember` `group: team`                              |
-| **About advisors**           | `content/about-people.ts` (projected in `about.ts`)            | **CMS** Phase 2                | `teamMember` `group: advisor`                           |
-| **Community member stories** | `content/community.ts` `memberStories`                         | **CMS** Phase 2                | `memberStory` — placeholder case studies today          |
-| **About story / mission**    | `content/about.ts`                                             | **CMS-lite** Phase 3           | Long prose; fewer edits than catalogue                  |
-| **About journey timeline**   | `content/about.ts`                                             | **Code** for v1                | Motion + sticky UX tightly coupled; CMS later if needed |
-| **Home hero / sections**     | `content/home.ts`                                              | **CMS-lite** Phase 3           | Page singletons when client edit cadence justifies      |
-| **Community page copy**      | `content/community.ts`                                         | **Code**                       | Marketing UI; stories and FAQs are already CMS          |
-| **Partners page copy**       | `content/partners.ts`                                          | **Code**                       | Marketing UI; partners/voices/FAQs are already CMS      |
-| **Contact page copy**        | `content/contact.ts`                                           | **Code**                       | Mostly static + form; map embed is code                 |
-| **Navigation**               | `content/navigation.ts`                                        | **Code**                       | Tied to routes; wrong href breaks site                  |
-| **Public contact settings**  | `content/site.ts`                                              | **Singleton** Phase 3          | Phone, email, address, and social URLs                  |
-| **SEO defaults**             | `content/seo.ts`                                               | **Code** → **Singleton** later | Per-route metadata can stay in route files              |
-| **Countries list**           | `content/countries.ts`                                         | **Code**                       | Reference data for forms                                |
-| **System pages**             | `content/system-pages.ts`                                      | **Code**                       | 404/error copy; rare edits                              |
-| **Form labels / steps**      | `content/community.ts`, schemas                                | **Code**                       | Zod + RHF; CMS adds drift risk with API                 |
-| **Registration dialog copy** | `content/academy.ts`                                           | **Code**                       | Product UX; not editorial                               |
-| **Email templates**          | `lib/email/`                                                   | **Code**                       | Resend delivery; separate from CMS                      |
-| **CTA section (repeated)**   | per-page `cta` blocks                                          | **Code**                       | Interaction and presentation language                   |
+| Domain                       | Current source                                                 | Recommendation                 | Rationale                                                                                                    |
+| ---------------------------- | -------------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **Academy articles**         | `content/blog-articles.ts` + `content/blog.ts`                 | **CMS** Phase 1                | Editorial, frequent updates, slug catalogue                                                                  |
+| **Academy webinars/events**  | `content/webinars.ts`                                          | **CMS** Phase 1                | Dated sessions, registration metadata                                                                        |
+| **Academy courses**          | `content/courses.ts`                                           | **CMS** Phase 1                | Modules, levels, enrolment copy                                                                              |
+| **Academy hub shell**        | `content/academy.ts` (hero, tabs, opportunities, participants) | **Code**                       | Marketing UI is design-owned; promotion is automatically derived from the nearest upcoming published webinar |
+| **Academy hub FAQs**         | `content/academy.ts` `faqs`                                    | **CMS** Phase 2                | Same pattern as q-das `faq` docs                                                                             |
+| **Academy hub testimonials** | `content/academy.ts` `testimonials`                            | **CMS** Phase 2                | Reuse shared `testimonial` type                                                                              |
+| **Home testimonials**        | `content/home.ts`                                              | **CMS** Phase 2                | Shared collection, filter or reference by placement                                                          |
+| **Home FAQs**                | `content/home.ts`                                              | **CMS** Phase 2                | Category + page tag                                                                                          |
+| **Community FAQs**           | `content/community.ts`                                         | **CMS** Phase 2                | Same `faq` model, `section: community`                                                                       |
+| **Partners FAQs**            | `content/partners.ts`                                          | **CMS** Phase 2                | Same model                                                                                                   |
+| **Contact FAQs**             | `content/contact.ts`                                           | **CMS** Phase 2                | Same model                                                                                                   |
+| **Partner logos**            | `content/partners.ts` `partnersList`                           | **CMS** Phase 2                | Home marquee + partners page                                                                                 |
+| **Partner voice quotes**     | `content/partners.ts` `voices.items`                           | **CMS** Phase 2                | `testimonial` placement `partners-voices`                                                                    |
+| **Partner voices logo grid** | derived from `partnersList`                                    | **CMS** Phase 2                | `partner.showInVoices` + order                                                                               |
+| **About team**               | `content/about-people.ts` (projected in `about.ts`)            | **CMS** Phase 2                | `teamMember` `group: team`                                                                                   |
+| **About advisors**           | `content/about-people.ts` (projected in `about.ts`)            | **CMS** Phase 2                | `teamMember` `group: advisor`                                                                                |
+| **Community member stories** | `content/community.ts` `memberStories`                         | **CMS** Phase 2                | `memberStory` — placeholder case studies today                                                               |
+| **About story / mission**    | `content/about.ts`                                             | **CMS-lite** Phase 3           | Long prose; fewer edits than catalogue                                                                       |
+| **About journey timeline**   | `content/about.ts`                                             | **Code** for v1                | Motion + sticky UX tightly coupled; CMS later if needed                                                      |
+| **Home hero / sections**     | `content/home.ts`                                              | **CMS-lite** Phase 3           | Page singletons when client edit cadence justifies                                                           |
+| **Community page copy**      | `content/community.ts`                                         | **Code**                       | Marketing UI; stories and FAQs are already CMS                                                               |
+| **Partners page copy**       | `content/partners.ts`                                          | **Code**                       | Marketing UI; partners/voices/FAQs are already CMS                                                           |
+| **Contact page copy**        | `content/contact.ts`                                           | **Code**                       | Mostly static + form; map embed is code                                                                      |
+| **Navigation**               | `content/navigation.ts`                                        | **Code**                       | Tied to routes; wrong href breaks site                                                                       |
+| **Public contact settings**  | `content/site.ts`                                              | **Singleton** Phase 3          | Phone, email, address, and social URLs                                                                       |
+| **SEO defaults**             | `content/seo.ts`                                               | **Code** → **Singleton** later | Per-route metadata can stay in route files                                                                   |
+| **Countries list**           | `content/countries.ts`                                         | **Code**                       | Reference data for forms                                                                                     |
+| **System pages**             | `content/system-pages.ts`                                      | **Code**                       | 404/error copy; rare edits                                                                                   |
+| **Form labels / steps**      | `content/community.ts`, schemas                                | **Code**                       | Zod + RHF; CMS adds drift risk with API                                                                      |
+| **Registration dialog copy** | `content/academy.ts`                                           | **Code**                       | Product UX; not editorial                                                                                    |
+| **Email templates**          | `lib/email/`                                                   | **Code**                       | Resend delivery; separate from CMS                                                                           |
+| **CTA section (repeated)**   | per-page `cta` blocks                                          | **Code**                       | Interaction and presentation language                                                                        |
 
 ### Client-facing summary (for handoff conversations)
 
@@ -188,6 +188,10 @@ journey/timeline motion.
 - Seed from static `content/*` via migration script (default dataset:
   `development`)
 - Hub/page shell copy stays in `content/academy.ts`; only catalogue rows move
+- Webinar promotion is automatic: a valid optional end time keeps a happening
+  occurrence promoted; otherwise its start time is the cutoff. Real start times
+  are required before production cutover — date-only placeholders are not
+  production-ready scheduling data.
 
 **Exit criteria:** all Academy slug routes build; search + home preview use Sanity
 catalogues; related/featured/empty rules pass QA.
