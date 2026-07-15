@@ -40,3 +40,8 @@ export type LegalPagesContent = {
   cookies: LegalPageContent;
   accessibility: LegalPageContent;
 };
+
+/** Chrome-only legal nav for runtime routes; full bodies live in archive/CMS. */
+export type LegalNavContent = {
+  nav: readonly LegalNavItem[];
+};

@@ -76,9 +76,10 @@ function articleToHomeCard(article: AcademyArticle): AcademyHomeCard {
  * articles fetch modules — no new GROQ queries, only the display-shape
  * mapping is new here.
  */
-export async function fetchHomeAcademyPreview(): Promise<
-  Pick<AcademyHomePreview, "spotlight" | "blog">
-> {
+export async function fetchHomeAcademyPreview(): Promise<{
+  spotlight: NonNullable<AcademyHomePreview["spotlight"]>;
+  blog: NonNullable<AcademyHomePreview["blog"]>;
+}> {
   const [upcomingWebinars, courses, articles] = await Promise.all([
     fetchHubScheduledWebinars(HOME_SPOTLIGHT_LIMIT),
     fetchHubCourses(HOME_SPOTLIGHT_LIMIT),

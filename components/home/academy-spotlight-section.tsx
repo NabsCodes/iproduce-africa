@@ -28,7 +28,7 @@ function SpotlightGrid({
   spotlightEmptyState,
 }: {
   tabId: AcademySpotlightTab;
-  spotlight: AcademyHomePreview["spotlight"];
+  spotlight: NonNullable<AcademyHomePreview["spotlight"]>;
   spotlightEmptyState: AcademyHomePreview["spotlightEmptyState"];
 }) {
   const cards = spotlight[tabId];
@@ -68,7 +68,7 @@ function SpotlightGrid({
 }
 
 type AcademySpotlightSectionProps = {
-  spotlight: AcademyHomePreview["spotlight"];
+  spotlight: NonNullable<AcademyHomePreview["spotlight"]>;
   spotlightEmptyState: AcademyHomePreview["spotlightEmptyState"];
 };
 

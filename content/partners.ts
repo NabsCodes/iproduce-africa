@@ -1,59 +1,6 @@
 import { countryOptions } from "@/content/countries";
 import { OTHER_OPTION_VALUE } from "@/schemas/constants";
-import type { Partner, PartnersPageContent } from "@/types/partners";
-
-export const partnersList: Partner[] = [
-  {
-    id: "islamic-development-bank",
-    name: "Islamic Development Bank",
-    logo: "/images/partners/islamic-development-bank.webp",
-    href: "https://www.isdb.org/",
-    order: 1,
-  },
-  {
-    id: "wima",
-    name: "Women in Mechanized Agriculture Association (WIMA)",
-    logo: "/images/partners/wima.webp",
-    href: "https://wimanigeria.com/",
-    order: 2,
-  },
-  {
-    id: "icreate-africa",
-    name: "iCreate Africa",
-    logo: "/images/partners/icreate-africa.webp",
-    href: "https://icreateafrica.com/",
-    order: 3,
-  },
-  {
-    id: "nicert",
-    name: "NICERT",
-    logo: "/images/partners/nicert.webp",
-    href: "https://nicert.net/",
-    order: 4,
-  },
-  // Jaiz Bank is not a partner yet hidden for now
-  // {
-  //   id: "jaiz-bank",
-  //   name: "Jaiz Bank",
-  //   logo: "/images/partners/jaiz-bank.webp",
-  //   href: "https://jaizbankplc.com/",
-  //   order: 5,
-  // },
-  {
-    id: "the-cfg-advisory",
-    name: "The CFG Advisory",
-    logo: "/images/partners/the-cfg-advisory.webp",
-    href: "https://thecfgadvisory.com/",
-    order: 5,
-  },
-  {
-    id: "flowdiary",
-    name: "Flowdiary",
-    logo: "/images/partners/flowdiary.png",
-    href: "https://flowdiary.com.ng/",
-    order: 6,
-  },
-];
+import type { PartnersPageContent } from "@/types/partners";
 
 export const partnersPageContent = {
   hero: {
@@ -162,28 +109,7 @@ export const partnersPageContent = {
   voices: {
     eyebrow: "Trusted by many",
     title: "Hear From Our Valuable Partners",
-    items: [
-      {
-        quote:
-          "iProduce Africa's strong network and commitment to innovation make them an ideal partner for organisations seeking measurable impact in agriculture.",
-        name: "Musa Fajuyi",
-        role: "Partnerships Director, DGT Ltd",
-      },
-      // PLACEHOLDER — replace with a real partner quote
-      {
-        quote:
-          "Working with iProduce gave our programme reach into communities we had never been able to support directly. The trust they've built across the continent is hard to replicate.",
-        name: "Hauwa Bello",
-        role: "Programme Lead, Sahara Foundation",
-      },
-      // PLACEHOLDER — replace with a real partner quote
-      {
-        quote:
-          "A rare partner that brings both depth on the ground and discipline in how they measure outcomes. Our co-designed cohort exceeded every target we set.",
-        name: "Dr. Tunde Adeyemi",
-        role: "Director of Research, AgriFutures Africa",
-      },
-    ],
+    items: [],
   },
   opportunities: {
     eyebrow: "Partnership opportunities",
@@ -396,44 +322,7 @@ export const partnersPageContent = {
     description:
       "Everything about partnering with iProduce Africa — answered plainly.",
     categories: ["All", "Partnership", "Sponsorship", "Process"] as const,
-    items: [
-      {
-        question: "What kinds of partnerships does iProduce Africa offer?",
-        answer:
-          "We collaborate on training and capacity building, sponsored events, joint research, strategic market-access initiatives, and community development programmes. The Partnership Enquiry Form below lets you indicate the area that fits your organisation best.",
-        category: "Partnership",
-      },
-      {
-        question: "Is there a fee to become a partner?",
-        answer:
-          "No. Starting a partnership conversation is free. Specific co-developed programmes may have shared costs depending on scope, which are agreed on a per-engagement basis after the initial conversation.",
-        category: "Partnership",
-      },
-      {
-        question: "Do you partner with individuals as well as organisations?",
-        answer:
-          "Yes. We work with founders, researchers, programme leads, and investment partners as individuals as well as with established institutions. The enquiry form covers both pathways.",
-        category: "Partnership",
-      },
-      {
-        question: "Can my organisation sponsor a specific programme or event?",
-        answer:
-          "Sponsorship is one of our most active partnership formats. Choose 'Sponsorship Opportunities' on the enquiry form, share which programme or event line you'd like to support, and our team will follow up within 5 working days.",
-        category: "Sponsorship",
-      },
-      {
-        question: "How long does the review take after I submit the form?",
-        answer:
-          "We aim to review every enquiry within 5 working days. You should receive an email confirming receipt shortly, and a follow-up from a member of our partnerships team once the initial review is complete.",
-        category: "Process",
-      },
-      {
-        question: "Do you collaborate with partners outside Africa?",
-        answer:
-          "Yes — many of our partners are international organisations, development agencies, and investment funds working with the African agricultural sector. The enquiry form's country selector includes options beyond Africa.",
-        category: "Partnership",
-      },
-    ],
+    items: [],
   },
   cta: {
     eyebrow: "Be part of the future",

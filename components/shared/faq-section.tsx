@@ -30,7 +30,7 @@ const defaultContent: FaqSectionContent = {
   description:
     "Everything about the platform, membership and partnerships — answered plainly.",
   categories: homeContent.faqCategories,
-  items: homeContent.faqs,
+  items: [],
 };
 
 function FaqAccordion({ items }: { items: readonly FaqItem[] }) {

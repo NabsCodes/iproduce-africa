@@ -11,22 +11,21 @@ import {
 } from "@/components/ui/carousel";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
-import { homeContent } from "@/content/home";
 import type { TestimonialItem } from "@/types/content";
 
 type TestimonialsSectionProps = {
   eyebrow?: string;
   title?: string;
   description?: string;
-  items?: readonly TestimonialItem[];
+  items: readonly TestimonialItem[];
 };
 
 export function TestimonialsSection({
   eyebrow = "Our impact",
   title = "What our community says",
   description = "Farmers, traders and innovators on what iProduce changed for them.",
-  items = homeContent.testimonials,
-}: TestimonialsSectionProps = {}) {
+  items,
+}: TestimonialsSectionProps) {
   return (
     <section className="relative overflow-clip bg-white py-14 sm:py-16 lg:py-20">
       <DecorativeRing

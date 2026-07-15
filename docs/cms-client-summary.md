@@ -43,7 +43,9 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 
 - Main navigation and footer links
 - Contact, community, and partner **forms** (they already send email)
-- Academy **registration** flow (sign-up still goes to your inbox via email)
+- Academy **registration** flow (sign-up still goes to your inbox via email).
+  In Studio, each webinar/course has **How people register**: open on this
+  site, collect interest only, send to an external page, or closed.
 - Error pages (404, etc.)
 - Country lists and form validation
 - FAQ section headings and category tabs (the questions/answers move to CMS)
@@ -73,7 +75,7 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 - [ ] Confirm who gets Studio access (names/emails)
 - [ ] Confirm who creates the Sanity project and invites the other party
 - [ ] Review staging placeholders before we point the live site at production CMS
-- [ ] Replace the six Academy date-only placeholders with their real start times before production cutover
+- [ ] Confirm real start times only when those six Academy placeholder events become real launch content
 
 Questions on anything not in this table — defer to the dev team; the full spec
 covers implementation detail.

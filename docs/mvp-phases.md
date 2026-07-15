@@ -73,7 +73,9 @@ Remaining operational work:
 - Academy automatic promotion rule implemented; production behavior remains part of staging QA
 - Staging/editor QA, production dataset migration, Vercel environment setup,
   webhook verification, and client sign-off
-- Static snapshot archival after a stable production cutover
+- Development static-seed archival is done under `content/_archived/`; keep
+  those rollback snapshots through production cutover, then remove only after
+  the live dataset is stable
 
 Optional later work includes analytics, preview/TypeGen, translation, and
 search-at-scale improvements.

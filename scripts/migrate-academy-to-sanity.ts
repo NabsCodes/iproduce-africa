@@ -2,9 +2,9 @@ import { createHash } from "node:crypto";
 
 import { createClient, type SanityClient } from "next-sanity";
 
-import { authors, blogArticles } from "@/content/blog-articles";
-import { coursesContent } from "@/content/courses";
-import { webinarsContent } from "@/content/webinars";
+import { authors, blogArticles } from "@/content/_archived/blog-articles";
+import { coursesContent } from "@/content/_archived/courses-catalogue";
+import { webinarsContent } from "@/content/_archived/webinars-catalogue";
 import { placeholderImages } from "@/lib/placeholder-images";
 import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
 import {
@@ -15,8 +15,8 @@ import type { AcademyWebinar } from "@/types/academy";
 import type { BlogArticleBlock, BlogAuthor } from "@/types/blog";
 
 /**
- * Seeds development-dataset placeholders from static content/* so editors
- * never see an empty Studio. Modes:
+ * Seeds development-dataset placeholders from content/_archived catalogue
+ * snapshots so editors never see an empty Studio. Modes:
  *   (no flags)          read-only dry-run — reports CREATE/SKIP against Sanity
  *   --offline           zero network calls — pure local content validation
  *   --execute           performs real writes

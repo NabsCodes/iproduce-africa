@@ -1,4 +1,3 @@
-import { getAboutPeopleByGroup } from "@/content/about-people";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { AboutPageContent } from "@/types/about";
 
@@ -53,11 +52,6 @@ export const aboutPageContent = {
   story: {
     eyebrow: "Our Story",
     title: "From one webinar to a pan-African hub.",
-    paragraphs: [
-      "We started with a simple observation: agriculture was changing faster than the people in it could keep up. What began with early webinars is growing into a hub for training, evergreen courses and a developing member network.",
-      "The world is moving to smart, technology-led agriculture — and Africa will not be left behind. iProduce is where that future is taught, connected and traded.",
-    ],
-    image: placeholderImages.about.story,
     videoAriaLabel: "Intro video coming soon",
     primaryCta: {
       label: "Join our community",
@@ -69,15 +63,12 @@ export const aboutPageContent = {
   missionVisionObjective: {
     mission: {
       eyebrow: "Our Mission",
-      body: "To build an integrated Digital African Agri-business Ecosystem.",
     },
     vision: {
       eyebrow: "Our Vision",
-      body: "A prosperous, food-secure Africa where every agri-business — from smallholder farmer to global exporter — thrives through seamless digital connectivity, data-driven insights, and inclusive market access.",
     },
     objective: {
       eyebrow: "Our Objective",
-      body: "Seamless digital connectivity. One interoperable platform linking production, logistics, finance, and trade.",
     },
   },
   impactStats: {
@@ -189,7 +180,7 @@ export const aboutPageContent = {
     description:
       "Our team brings together expertise in agribusiness, partnerships, innovation, and ecosystem development to create opportunities that strengthen agriculture across Africa.",
     viewProfileLabel: "View profile",
-    members: getAboutPeopleByGroup("team"),
+    members: [] as const,
   },
   advisors: {
     eyebrow: "Strategic Advisors",
@@ -197,6 +188,6 @@ export const aboutPageContent = {
     description:
       "Our Advisory Board comprises experienced leaders, practitioners, and experts who provide strategic guidance, industry insights, and valuable perspectives to support our long-term vision.",
     readMoreLabel: "Read more",
-    members: getAboutPeopleByGroup("advisor"),
+    members: [] as const,
   },
 } as const satisfies AboutPageContent;

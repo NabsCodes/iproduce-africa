@@ -1,3 +1,7 @@
+/**
+ * Pre-Sanity blog catalogue seed snapshot.
+ * Runtime must not import this file — use content/blog.ts for chrome.
+ */
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { BlogArticle, BlogAuthor } from "@/types/blog";
 

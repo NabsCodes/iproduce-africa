@@ -377,59 +377,7 @@ export const communityPageContent = {
   memberStories: {
     eyebrow: "Member stories",
     title: "What members build here",
-    items: [
-      // PLACEHOLDER — replace with real member story
-      {
-        id: "tunde",
-        result: "Launched his farm and now supplies three local retailers.",
-        challenge: "Had a poultry idea but no industry contacts or guidance.",
-        withIProduce:
-          "Joined youth channels, attended two Academy webinars, found a mentor.",
-        name: "Tunde",
-        initials: "TD",
-        role: "Young Agripreneur",
-        country: "Nigeria",
-      },
-      // PLACEHOLDER — replace with real member story
-      {
-        id: "ngozi",
-        result: "Secured a steady cross-border supply partnership in Ghana.",
-        challenge:
-          "Unreliable raw-material supply was stalling her shea butter line.",
-        withIProduce:
-          "Posted her need on the opportunity board and met verified suppliers.",
-        name: "Ngozi",
-        initials: "NO",
-        role: "Processor",
-        country: "Nigeria",
-      },
-      // PLACEHOLDER — replace with real member story
-      {
-        id: "kofi",
-        result: "Now moves produce across three West African countries.",
-        challenge:
-          "Wanted to trade beyond his region but lacked trusted contacts.",
-        withIProduce:
-          "Connected with members in two new markets through community events.",
-        name: "Kofi",
-        initials: "KM",
-        role: "Trader",
-        country: "Ghana",
-      },
-      // PLACEHOLDER — replace with real member story
-      {
-        id: "fatima",
-        result: "Won her first export client and grew her team to twelve.",
-        challenge:
-          "Ran a strong essential-oils business that nobody outside her city knew.",
-        withIProduce:
-          "Showcased her work and joined women-in-agriculture programmes.",
-        name: "Fatima",
-        initials: "FD",
-        role: "Agripreneur · Shea processing",
-        country: "Senegal",
-      },
-    ],
+    items: [],
   },
   application: {
     id: "membership-application",
@@ -551,38 +499,7 @@ export const communityPageContent = {
     description:
       "Everything about joining, approval and the community — answered plainly.",
     categories: ["All", "Platform", "Membership", "Partners"] as const,
-    items: [
-      {
-        question: "Who can join?",
-        answer:
-          "Anyone working in or supporting African agribusiness — farmers, processors, traders, investors, youth agripreneurs, women in agriculture, and ecosystem organisations. If you contribute to the value chain, you belong here.",
-        category: "Membership",
-      },
-      {
-        question: "Is membership free?",
-        answer:
-          "Yes. Applying and joining the community is free. Some Academy programmes or sponsored events may have separate pricing, which is always stated clearly on the programme page.",
-        category: "Membership",
-      },
-      {
-        question: "How long does approval take?",
-        answer:
-          "Applications are reviewed within five working days. Once approved, you'll receive a community invite by email with next steps for joining channels and events.",
-        category: "Membership",
-      },
-      {
-        question: "Can organisations join?",
-        answer:
-          "Yes. Both individuals and organisations can apply. Use the organisation field to tell us about your company, co-op, or association so we can route you to the right sector channels.",
-        category: "Platform",
-      },
-      {
-        question: "How do I access networking opportunities?",
-        answer:
-          "After approval, you'll get access to member channels, the opportunity board, and event invitations. Active members connect through sector discussions, webinars, and community meetups across Africa.",
-        category: "Partners",
-      },
-    ],
+    items: [],
   },
   cta: {
     eyebrow: "Be part of the future",

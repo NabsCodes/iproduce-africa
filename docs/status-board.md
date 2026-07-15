@@ -47,8 +47,9 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Implement Phase 3 as one delivery (durable Home/About content + mandatory legal + site settings)
 - [x] Narrow Phase 3 after implementation review: remove Academy/Community/Partners page singletons, About hero copy, Home hero image, and CMS office hours
 - [x] Post-migration Academy promotion review + automatic nearest-upcoming webinar behavior
-- [ ] Replace six Academy date-only placeholders with confirmed real start times before production cutover
-- [ ] Staging QA pass (edit in Studio → confirm hub/home/search/detail routes reflect it)
+- [ ] Confirm real start times only when those six Academy placeholder events become real launch content
+- [x] Staging QA pass (edit in Studio → confirm hub/home/search/detail routes reflect it)
 - [ ] Client sign-off on the full Phase 1–3 CMS scope (`docs/cms-client-summary.md`)
-- [ ] Archive migrated static content blocks to `content/_archived/` after production cutover and usage audit
+- [x] Archive migrated static content blocks to `content/_archived/` (development seed snapshots; production cutover still pending)
 - [ ] Production dataset migration + Vercel prod env cutover
+- [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

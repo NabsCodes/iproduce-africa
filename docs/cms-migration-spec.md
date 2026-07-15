@@ -189,9 +189,10 @@ journey/timeline motion.
   `development`)
 - Hub/page shell copy stays in `content/academy.ts`; only catalogue rows move
 - Webinar promotion is automatic: a valid optional end time keeps a happening
-  occurrence promoted; otherwise its start time is the cutoff. Real start times
-  are required before production cutover — date-only placeholders are not
-  production-ready scheduling data.
+  occurrence promoted; otherwise its start time is the cutoff. Confirm real
+  start times only when those placeholder events become real launch content —
+  date-only placeholders are staging seed data, not a production cutover
+  blocker for fictional events.
 
 **Exit criteria:** all Academy slug routes build; search + home preview use Sanity
 catalogues; related/featured/empty rules pass QA.
@@ -324,9 +325,12 @@ bands; all Phase 2 placeholders visible in Studio on handoff.
 | `homePage`     | `/`                                                             |
 | `aboutPage`    | `/about`                                                        |
 
-- Archive migrated static snapshots only after production cutover, by content
-  block rather than moving whole active domain files.
-- Academy featured-event/hero-link selection behaviour remains deferred.
+- Development archival of migrated static seed blocks is complete under
+  `content/_archived/` (catalogue, trust/people, Phase 3, legal). Keep those
+  snapshots for one release after production cutover, then delete only after
+  the live dataset is stable.
+- Academy automatic promotion is implemented; any future hero-link/content
+  follow-ups are separate product decisions.
 
 ### Phase 4 — Polish (optional)
 

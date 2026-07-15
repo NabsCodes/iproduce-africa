@@ -181,14 +181,22 @@ live Q&A, and events (matches `AcademyScheduledType`).
 
 **`registrationConfig`** — single object in
 `sanity/schemaTypes/objects/registration-config.ts`, imported by webinar and
-course schemas (field set must not drift).
+course schemas (field set must not drift). Studio titles are plain language;
+stored values stay stable for code.
 
-| Field         | Values                                         |
-| ------------- | ---------------------------------------------- |
-| `mode`        | `open` \| `interest` \| `external` \| `closed` |
-| `url`         | url (external mode)                            |
-| `label`       | string                                         |
-| `closedLabel` | string                                         |
+| Stored `mode` | Studio label             | Behaviour                                                                                                                       |
+| ------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `open`        | Open on this site        | Show the iProduce registration form. Webinars auto-close at session start (`resolveWebinarRegistration`). Default for webinars. |
+| `interest`    | Collect interest only    | Same form as interest / waitlist signup. Default for courses.                                                                   |
+| `external`    | Send to an external page | Button opens `url` (Zoom, Eventbrite, etc.); on-site form/API not used. `url` required in Studio when this mode is selected.    |
+| `closed`      | Registration closed      | No signup; UI shows `closedLabel` (or default closed copy). API rejects POSTs.                                                  |
+
+| Field         | Studio title               | Notes                                              |
+| ------------- | -------------------------- | -------------------------------------------------- |
+| `mode`        | How people register        | Radio list + field description of all four options |
+| `url`         | External registration page | Shown only when mode is external                   |
+| `label`       | Button text (optional)     | Overrides default CTA wording                      |
+| `closedLabel` | Closed message (optional)  | Shown when registration is closed                  |
 
 ### `academyCourse`
 

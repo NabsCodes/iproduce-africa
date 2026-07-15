@@ -163,15 +163,22 @@ video feature is approved.
 
 ## Archival boundary
 
-Archive migrated static snapshots only after development QA, client approval,
-production migration, and production cutover. Use `content/_archived/` and
-archive by content block—not whole files that still own active UI or form
-configuration. Runtime code must not import archived content.
+Development archival is complete under `content/_archived/`. Archives are
+grouped by migration phase:
+
+- `academy-catalogues.ts` (+ `blog-articles.ts`, `webinars-catalogue.ts`,
+  `courses-catalogue.ts`) — Phase 1 catalogue seeds
+- `trust-and-people.ts` (+ `about-people.ts`) — Phase 2 trust/people seeds
+- `phase3-page-content.ts` (+ `legal-pages.ts`) — Phase 3 durable copy + legal
+
+Active `content/*` keeps code-owned chrome, forms, nav, registration, and
+FAQ categories. Runtime must not import archived files; migration scripts may.
+Academy date-only placeholder times were not changed. Production dataset
+migration and post-cutover snapshot cleanup remain separate.
 
 ## Remaining work
 
-- Studio/staging QA;
 - client sign-off;
 - reviewed production dataset migration and Vercel cutover;
-- post-cutover static-copy archival;
-- separate Academy featured-content/hero-link review.
+- keep archived rollback snapshots for one release after production is stable;
+- separate Academy featured-content follow-ups as needed.

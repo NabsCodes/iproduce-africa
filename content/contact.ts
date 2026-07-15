@@ -69,7 +69,7 @@ export const contactPageContent = {
     description:
       "Everything about the platform, membership and partnerships — answered plainly.",
     categories: homeContent.faqCategories,
-    items: homeContent.faqs,
+    items: [],
   },
   cta: {
     eyebrow: "Be part of the future",

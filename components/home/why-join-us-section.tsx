@@ -12,10 +12,11 @@ import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { homeContent } from "@/content/home";
 import type { HomePageContent } from "@/lib/sanity/fetch/home-page";
+import { type HOME_SERVICE_SLOT_LAYOUT } from "@/lib/sanity/page-slot-layout";
 import type { BenefitTone } from "@/types/content";
 
 const serviceIcons: Record<
-  (typeof homeContent.whyJoinUs.items)[number]["icon"],
+  (typeof HOME_SERVICE_SLOT_LAYOUT)[number]["icon"],
   LucideIcon
 > = {
   users: Users,

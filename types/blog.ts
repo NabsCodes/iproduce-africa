@@ -103,6 +103,5 @@ export type BlogPageContent = {
   relatedSection: AcademyRelatedSectionContent;
   /** Editor pointer to the featured article. Falls back to most recent if null or unknown. */
   featuredArticleSlug: string | null;
-  articles: readonly BlogArticle[];
   cta: CtaSectionContent;
 };

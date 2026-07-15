@@ -4,10 +4,17 @@ import path from "node:path";
 
 import { createClient, type SanityClient } from "next-sanity";
 
-import { aboutPageContent } from "@/content/about";
-import { homeContent } from "@/content/home";
-import { legalContent } from "@/content/legal";
-import { siteConfig } from "@/content/site";
+import {
+  archivedAboutMvoBodies,
+  archivedAboutStory,
+  archivedHomeHeroMessage,
+  archivedHomeServiceItems,
+  archivedHomeValueChains,
+  archivedHomeWhatWeDoPoster,
+  archivedLegalLastUpdated,
+  archivedLegalPages,
+  archivedSiteSettingsSeed,
+} from "@/content/_archived/phase3-page-content";
 import {
   HOME_SERVICE_SLOT_LAYOUT,
   HOME_VALUE_CHAIN_SLOT_LAYOUT,
@@ -16,7 +23,8 @@ import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
 import type { LegalDocKey, LegalSection } from "@/types/legal";
 
 /**
- * Seeds development-dataset Phase 3 singletons from static content/*.
+ * Seeds development-dataset Phase 3 singletons from content/_archived
+ * Phase 3 + legal page snapshots.
  * Modes:
  *   (no flags)          read-only dry-run — reports CREATE/MATCH/DIFF
  *   --offline           zero network calls — pure local payload validation
@@ -281,29 +289,25 @@ function mapLegalSections(sections: readonly LegalSection[]) {
 }
 
 async function buildSiteSettingsPayload() {
-  const socialByPlatform = Object.fromEntries(
-    siteConfig.socialLinks.map((link) => [link.platform, link.href]),
-  );
-
   return {
     _id: "siteSettings",
     _type: "siteSettings",
-    email: siteConfig.email,
-    phone: siteConfig.phone,
-    address: siteConfig.address,
-    instagramUrl: socialByPlatform.instagram ?? undefined,
-    linkedinUrl: socialByPlatform.linkedin ?? undefined,
-    facebookUrl: socialByPlatform.facebook ?? undefined,
-    youtubeUrl: socialByPlatform.youtube ?? undefined,
+    email: archivedSiteSettingsSeed.email,
+    phone: archivedSiteSettingsSeed.phone,
+    address: archivedSiteSettingsSeed.address,
+    instagramUrl: archivedSiteSettingsSeed.instagramUrl,
+    linkedinUrl: archivedSiteSettingsSeed.linkedinUrl,
+    facebookUrl: archivedSiteSettingsSeed.facebookUrl,
+    youtubeUrl: archivedSiteSettingsSeed.youtubeUrl,
   };
 }
 
 async function buildHomePagePayload(resolveImageAsset: ImageResolver) {
-  const posterAsset = await resolveImageAsset(homeContent.about.image);
+  const posterAsset = await resolveImageAsset(archivedHomeWhatWeDoPoster.image);
 
   const services: Record<string, unknown> = {};
   for (const [index, layout] of HOME_SERVICE_SLOT_LAYOUT.entries()) {
-    const item = homeContent.whyJoinUs.items[index];
+    const item = archivedHomeServiceItems[index];
     const asset = await resolveImageAsset(item.image);
     services[layout.key] = {
       title: item.title,
@@ -315,7 +319,7 @@ async function buildHomePagePayload(resolveImageAsset: ImageResolver) {
 
   const valueChains: Record<string, unknown> = {};
   for (const [index, layout] of HOME_VALUE_CHAIN_SLOT_LAYOUT.entries()) {
-    const item = homeContent.valueChains[index];
+    const item = archivedHomeValueChains[index];
     const asset = await resolveImageAsset(item.image);
     valueChains[layout.key] = {
       title: item.title,
@@ -329,12 +333,12 @@ async function buildHomePagePayload(resolveImageAsset: ImageResolver) {
     _id: "homePage",
     _type: "homePage",
     heroMessage: {
-      title: homeContent.hero.title,
-      description: homeContent.hero.description,
+      title: archivedHomeHeroMessage.title,
+      description: archivedHomeHeroMessage.description,
     },
     whatWeDoPoster: {
       image: toSanityImage(posterAsset),
-      alt: homeContent.about.imageAlt,
+      alt: archivedHomeWhatWeDoPoster.imageAlt,
     },
     services,
     valueChains,
@@ -342,30 +346,30 @@ async function buildHomePagePayload(resolveImageAsset: ImageResolver) {
 }
 
 async function buildAboutPagePayload(resolveImageAsset: ImageResolver) {
-  const storyAsset = await resolveImageAsset(aboutPageContent.story.image);
+  const storyAsset = await resolveImageAsset(archivedAboutStory.image);
   return {
     _id: "aboutPage",
     _type: "aboutPage",
     story: {
-      paragraphs: [...aboutPageContent.story.paragraphs],
+      paragraphs: [...archivedAboutStory.paragraphs],
       image: toSanityImage(storyAsset),
       imageAlt: "Our story",
     },
     missionVisionObjective: {
-      mission: aboutPageContent.missionVisionObjective.mission.body,
-      vision: aboutPageContent.missionVisionObjective.vision.body,
-      objective: aboutPageContent.missionVisionObjective.objective.body,
+      mission: archivedAboutMvoBodies.mission,
+      vision: archivedAboutMvoBodies.vision,
+      objective: archivedAboutMvoBodies.objective,
     },
   };
 }
 
 function buildLegalPagePayload(key: LegalDocKey) {
-  const doc = legalContent[key];
+  const doc = archivedLegalPages[key];
   return {
     _id: `legalPage.${key}`,
     _type: "legalPage",
     key,
-    lastUpdated: legalContent.lastUpdated,
+    lastUpdated: archivedLegalLastUpdated,
     title: doc.title,
     subtitle: doc.subtitle,
     baselineNotice: {

@@ -1,3 +1,7 @@
+/**
+ * Pre-Sanity team/advisor roster seed snapshot (Phase 2).
+ * Runtime must not import this file.
+ */
 import type { AboutPerson, AboutPersonGroup } from "@/types/about";
 
 const aboutPeople = [

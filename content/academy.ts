@@ -1,34 +1,9 @@
-import { blogContent, getBlogHubPreviewItems } from "@/content/blog";
-import { academyHubCourses, coursesContent } from "@/content/courses";
-import {
-  academyHubScheduledWebinars,
-  webinarsContent,
-  webinarsToHubScheduledItems,
-} from "@/content/webinars";
-import { formatAcademyCardMetaDate } from "@/lib/academy-dates";
-import { isAcademyWebinarPromotable } from "@/lib/academy-webinars";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type {
-  AcademyArticleCategory,
   AcademyContent,
   AcademyHomePreview,
-  AcademyPreviewTone,
   AcademyRegistrationContent,
 } from "@/types/academy";
-
-const HOME_SPOTLIGHT_LIMIT = 4;
-const HUB_WEBINAR_HIGHLIGHT_COUNT = academyHubScheduledWebinars.length;
-const HUB_COURSE_HIGHLIGHT_COUNT = academyHubCourses.length;
-const HUB_BLOG_HIGHLIGHT_COUNT = 3;
-
-const articleToneByCategory: Record<
-  AcademyArticleCategory,
-  AcademyPreviewTone
-> = {
-  INNOVATION: "forest",
-  TRADE: "tangerine",
-  "SMART AGRICULTURE": "leaf",
-};
 
 export const academyContent = {
   hero: {
@@ -172,10 +147,10 @@ export const academyContent = {
   scheduled: {
     eyebrow: "Learning Opportunities",
     title: "Webinars & Events",
-    countLabel: `${HUB_WEBINAR_HIGHLIGHT_COUNT} highlighted · ${webinarsContent.webinars.length} in the full catalogue`,
+    countLabel: "Browse the catalogue",
     viewMoreLabel: "Browse all webinars & events",
-    total: webinarsContent.webinars.length,
-    items: webinarsToHubScheduledItems(academyHubScheduledWebinars),
+    total: 0,
+    items: [],
     emptyState: {
       icon: "calendar",
       title: "Nothing scheduled right now",
@@ -188,10 +163,10 @@ export const academyContent = {
   courses: {
     eyebrow: "Learning Opportunities",
     title: "Courses to Learn at your pace.",
-    countLabel: `${HUB_COURSE_HIGHLIGHT_COUNT} highlighted · ${coursesContent.courses.length} in the full catalogue`,
+    countLabel: "Browse the catalogue",
     viewMoreLabel: "Browse all courses",
-    total: coursesContent.courses.length,
-    items: academyHubCourses,
+    total: 0,
+    items: [],
     emptyState: {
       icon: "graduation-cap",
       title: "No courses open right now",
@@ -204,10 +179,10 @@ export const academyContent = {
   blog: {
     eyebrow: "Blog",
     title: "Latest about AgriBusiness",
-    countLabel: `${HUB_BLOG_HIGHLIGHT_COUNT} highlighted · ${blogContent.articles.length} in the full catalogue`,
+    countLabel: "Browse the catalogue",
     viewMoreLabel: "Browse all articles",
-    total: blogContent.articles.length,
-    items: getBlogHubPreviewItems(HUB_BLOG_HIGHLIGHT_COUNT),
+    total: 0,
+    items: [],
     emptyState: {
       icon: "newspaper",
       title: "No articles published yet",
@@ -222,74 +197,14 @@ export const academyContent = {
     title: "What our community says",
     description:
       "Farmers, traders and innovators on what iProduce changed for them.",
-    items: [
-      {
-        quote:
-          "iProduce connected our co-op to two new buyers in 3 months — the platform pays for itself.",
-        name: "Aïssatou Diallo",
-        role: "Cooperative Lead · Senegal",
-        image: placeholderImages.testimonials.aissatou,
-        initials: "AD",
-      },
-      {
-        quote:
-          "From the academy to the marketplace, everything we need to grow sits in one ecosystem.",
-        name: "Kofi Mensah",
-        role: "Exporter · Ghana",
-        initials: "KM",
-      },
-      {
-        quote:
-          "The bootcamp gave me my first export client. I came for the training and left with a market.",
-        name: "Zainab A.",
-        role: "Shea processor · Kano · Cohort 2",
-        initials: "ZA",
-      },
-    ],
+    items: [],
   },
   faqs: {
     eyebrow: "Frequently asked questions",
     description:
       "Everything about the academy, programmes and learning pathways — answered plainly.",
     categories: ["All", "Courses", "Webinars & Events", "Membership"] as const,
-    items: [
-      {
-        question: "How do I enrol in a course?",
-        answer:
-          "Browse the courses section, pick one that matches your interest, and follow the enrolment button. Free courses unlock immediately; paid programmes route you through a brief intake step before you start.",
-        category: "Courses",
-      },
-      {
-        question: "Are the courses free?",
-        answer:
-          "Most introductory courses and webinars are free for members. Advanced or cohort-based programmes may carry a fee, which is disclosed clearly on the course page before you commit.",
-        category: "Courses",
-      },
-      {
-        question: "Do I get a certificate when I complete a course?",
-        answer:
-          "Yes. Completing all modules and assessments in a course earns you a digital certificate of completion that you can share on LinkedIn and other professional surfaces.",
-        category: "Courses",
-      },
-      {
-        question: "How do I attend a live webinar or event?",
-        answer:
-          "Register on the event page and you'll receive a calendar invite plus a join link by email an hour before the session. Most webinars are also recorded and added to the on-demand library afterwards.",
-        category: "Webinars & Events",
-      },
-      {
-        question: "Can I propose a topic or speak at a future event?",
-        answer:
-          "Absolutely. Use the Contact page to reach the academy team with a short pitch covering the topic, audience, and any supporting materials — we curate community-led sessions across the year.",
-        category: "Webinars & Events",
-      },
-      {
-        question: "Is academy membership free?",
-        answer:
-          "Joining the iProduce community is free and unlocks the academy. Specific paid courses or sponsored cohorts are billed separately and clearly labelled on the course listing.",
-        category: "Membership",
-      },
-    ],
+    items: [],
   },
 } as const satisfies AcademyContent;
 
@@ -339,32 +254,6 @@ export const academyHomePreview = {
     description: item.description,
     href: item.anchor.startsWith("#") ? `/academy${item.anchor}` : item.anchor,
   })),
-  spotlight: {
-    upcoming: [...academyContent.scheduled.items]
-      .filter((event) => isAcademyWebinarPromotable(event))
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, HOME_SPOTLIGHT_LIMIT)
-      .map((event) => ({
-        key: event.slug,
-        href: `/academy/webinars/${event.slug}`,
-        image: event.image,
-        category: event.type,
-        meta: formatAcademyCardMetaDate(event.date),
-        title: event.title,
-        description: event.description,
-      })),
-    training: academyContent.courses.items
-      .slice(0, HOME_SPOTLIGHT_LIMIT)
-      .map((course) => ({
-        key: course.slug,
-        href: `/academy/courses/${course.slug}`,
-        image: course.image,
-        category: course.level,
-        meta: course.duration,
-        title: course.title,
-        description: course.description,
-      })),
-  },
   spotlightEmptyState: {
     upcoming: {
       icon: "calendar",
@@ -383,14 +272,4 @@ export const academyHomePreview = {
       ctaHref: "/academy/courses",
     },
   },
-  blog: academyContent.blog.items.map((article) => ({
-    key: article.slug,
-    href: `/academy/blog/${article.slug}`,
-    image: article.image,
-    category: article.category,
-    categoryTone: articleToneByCategory[article.category],
-    meta: article.readTime.toUpperCase(),
-    title: article.title,
-    description: article.description,
-  })),
 } as const satisfies AcademyHomePreview;

@@ -218,7 +218,7 @@ export type AcademyCourseDetail = AcademyCourse & {
 
 export type AcademyHomePreview = {
   opportunities: readonly AcademyHomeOpportunityCard[];
-  spotlight: {
+  spotlight?: {
     upcoming: readonly AcademyHomeCard[];
     training: readonly AcademyHomeCard[];
   };
@@ -226,7 +226,7 @@ export type AcademyHomePreview = {
     upcoming: CatalogueEmptyStateContent;
     training: CatalogueEmptyStateContent;
   };
-  blog: readonly AcademyHomeCard[];
+  blog?: readonly AcademyHomeCard[];
 };
 
 export type AcademyListing<TItem> = {

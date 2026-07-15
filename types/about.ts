@@ -46,17 +46,17 @@ export type AboutHeroContent = {
 export type AboutStory = {
   eyebrow: string;
   title: string;
-  paragraphs: readonly string[];
-  image: string;
+  paragraphs?: readonly string[];
+  image?: string;
   videoAriaLabel: string;
   primaryCta: SiteCta;
   secondaryCta: { label: string; href: string };
 };
 
 export type AboutMissionVisionObjective = {
-  mission: { eyebrow: string; body: string };
-  vision: { eyebrow: string; body: string };
-  objective: { eyebrow: string; body: string };
+  mission: { eyebrow: string; body?: string };
+  vision: { eyebrow: string; body?: string };
+  objective: { eyebrow: string; body?: string };
 };
 
 export type AboutImpactStat = ImpactStatItem;

@@ -1,5 +1,3 @@
-import { placeholderImages } from "@/lib/placeholder-images";
-
 /**
  * Static MVP content. Keep this file presentation-agnostic so each collection
  * can later map to a Sanity document or object without rewriting the sections.
@@ -39,8 +37,6 @@ export const homeContent = {
   about: {
     eyebrow: "What we do",
     title: "Integrating African Agripreneurs to the World Agro-ecosystem",
-    image: placeholderImages.whatWeDo,
-    imageAlt: "Agripreneurs harvesting crops together",
     videoAriaLabel: "Intro video coming soon",
   },
   journeys: [
@@ -85,167 +81,8 @@ export const homeContent = {
     title: "Exclusive services to grow your agribusiness",
     description:
       "Advisory, training, intelligence, and connections in one membership — including practical support for women in agriculture.",
-    items: [
-      {
-        icon: "users",
-        title: "Agri Business Advisory",
-        description:
-          "Business advisory and coaching tailored to agripreneurs — from early-stage planning to growth and market readiness.",
-        image: placeholderImages.memberServices.advisory,
-        imageAlt: "Three women agripreneurs in a business advisory session",
-        imagePosition: "object-[center_35%]",
-        tone: "leaf",
-      },
-      {
-        icon: "graduation-cap",
-        title: "Training & Capacity Building",
-        description:
-          "Build practical skills through workshops, bootcamps, and academy programmes — from farm fundamentals to export readiness.",
-        image: placeholderImages.memberServices.training,
-        imageAlt:
-          "Facilitator leading a capacity-building session with participants",
-        imagePosition: "object-center",
-        tone: "tangerine",
-      },
-      {
-        icon: "globe",
-        title: "Resources",
-        description:
-          "Events, market data, policy updates, and sector insights — real-time information when your business decisions matter.",
-        image: placeholderImages.memberServices.resources,
-        imageAlt:
-          "Agripreneur checking market updates and resources on phone and laptop",
-        imagePosition: "object-[center_40%]",
-        tone: "leaf",
-      },
-      {
-        icon: "handshake",
-        title: "Business Deal Room",
-        description:
-          "Connect with buyers, partners, and investors aligned with your goals — curated introductions that move conversations forward.",
-        image: placeholderImages.memberServices.dealRoom,
-        imageAlt:
-          "Agripreneurs and partners in a business collaboration meeting",
-        imagePosition: "object-[center_40%]",
-        tone: "tangerine",
-      },
-    ],
   },
-  valueChains: [
-    {
-      title: "Livestock & Poultry",
-      description:
-        "Breeding, feed, animal health and market access for livestock and poultry producers.",
-      image: "/images/home/livestock.webp",
-    },
-    {
-      title: "Cotton & Garment",
-      description:
-        "From field to fabric — integrating cotton growers into regional textile and fashion supply chains.",
-      image: "/images/home/cotton-garment.webp",
-    },
-    {
-      title: "Crops & Grains",
-      description:
-        "Staple and cash crops — better inputs, higher yields and reliable market access.",
-      image: "/images/home/crops-grains.webp",
-    },
-    {
-      title: "Horticulture",
-      description:
-        "Fruits, vegetables and high-value produce, from greenhouse to fresh market.",
-      image: "/images/home/horticulture.webp",
-    },
-    {
-      title: "Aquaculture & Fisheries",
-      description:
-        "Sustainable fish farming and value addition across inland and coastal communities.",
-      image: "/images/home/aquaculture.webp",
-    },
-  ],
-  testimonials: [
-    {
-      quote:
-        "iProduce connected us to two new buyers in three months — the platform pays for itself.",
-      name: "Aïssatou Diallo",
-      role: "Cooperative Lead · Senegal",
-      image: placeholderImages.testimonials.aissatou,
-      initials: "AD",
-    },
-    {
-      quote:
-        "From the academy to the community, everything we need to grow sits in one ecosystem.",
-      name: "Kofi Mensah",
-      role: "Exporter · Ghana",
-
-      initials: "KM",
-    },
-    {
-      quote:
-        "The bootcamp gave me my first export client. I came for the training and left with a market.",
-      name: "Zainab A.",
-      role: "Shea processor · Kano · Cohort 2",
-
-      initials: "ZA",
-    },
-    {
-      quote:
-        "The partner network opened doors we'd been knocking on for years. Real introductions, not cold leads.",
-      name: "Tendai Mukamuri",
-      role: "Agritech Founder · Zimbabwe",
-
-      initials: "TM",
-    },
-    {
-      quote:
-        "Weekly webinars keep our team current on policy and AfCFTA changes — it's become part of our planning cycle.",
-      name: "Fatou Ndiaye",
-      role: "Operations Lead · Senegal",
-
-      initials: "FN",
-    },
-    {
-      quote:
-        "We joined for the market access and stayed for the community. The peer learning is unmatched.",
-      name: "Samuel Okoye",
-      role: "Cassava Processor · Nigeria",
-
-      initials: "SO",
-    },
-  ],
   faqCategories: ["All", "Platform", "Membership", "Partners"],
-  faqs: [
-    {
-      question: "What is iProduce Africa?",
-      answer:
-        "iProduce Africa is an agribusiness ecosystem connecting farmers, processors, traders, investors and innovators across the continent — with learning, networking and market-access tools in one place.",
-      category: "Platform",
-    },
-    {
-      question: "Who is the platform for?",
-      answer:
-        "Farmers, processors, traders, investors, researchers, agripreneurs, and women in agriculture — anyone building across the continent.",
-      category: "Platform",
-    },
-    {
-      question: "Is it free to join?",
-      answer:
-        "Basic community membership is free. Premium programmes and Academy courses may have separate pricing, which will be stated on each programme page.",
-      category: "Membership",
-    },
-    {
-      question: "Which countries do you operate in?",
-      answer:
-        "Our digital programmes and community are built for participants across Africa, with physical activities announced by location.",
-      category: "Platform",
-    },
-    {
-      question: "How do I become a partner?",
-      answer:
-        "Partners collaborate through co-designed programmes, market access initiatives, capacity building, and thought leadership. Visit our Partners page to start a conversation.",
-      category: "Partners",
-    },
-  ],
   stayConnected: {
     eyebrow: "Stay connected",
     title: "Join the Conversation",

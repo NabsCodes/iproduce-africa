@@ -3,6 +3,48 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Docs wording cleanup before archival commit (2026-07-16)
+
+Fixed two half-stale checklist notes from archival review: Academy automatic
+promotion is no longer described as deferred in `docs/cms-migration-spec.md`,
+and the six date-only webinar placeholders are framed as “confirm when those
+events become real launch content” rather than a hard production cutover
+blocker (`docs/status-board.md`, `docs/cms-client-summary.md`).
+
+## Academy registration Studio labels (2026-07-16)
+
+Clarified `registrationConfig` editor copy in
+`sanity/schemaTypes/objects/registration-config.ts` without changing stored
+`mode` values (`open` / `interest` / `external` / `closed`) or runtime
+behaviour.
+
+Studio radio titles: Open on this site; Collect interest only; Send to an
+external page; Registration closed. Field renamed to “How people register”
+with a short description of each option; supporting fields retitled (external
+URL, button text, closed message).
+
+Docs: `docs/sanity-academy-spec.md` registrationConfig table, plus a brief
+note in `docs/cms-client-summary.md`.
+
+## Static content archival to `content/_archived/` (2026-07-15)
+
+Moved Sanity-owned seed snapshots out of active `content/*` without changing
+runtime behaviour or Academy date-only placeholders.
+
+Archive layout:
+
+- Phase 1: `_archived/blog-articles.ts`, `webinars-catalogue.ts`,
+  `courses-catalogue.ts`, `academy-catalogues.ts`
+- Phase 2: `_archived/trust-and-people.ts`, `about-people.ts`
+- Phase 3: `_archived/phase3-page-content.ts`, `legal-pages.ts`
+
+Active content modules retain code-owned chrome (eyebrows, CTAs, forms, nav,
+FAQ categories, registration, office hours, hero shell imagery where CMS
+rejected ownership). Shared FAQ/testimonial defaults no longer resurrect
+archived seed arrays. All three migration scripts now read from
+`content/_archived/`. Offline migrate checks pass. Production dataset
+migration and one-release archive cleanup remain open.
+
 ## Academy date display helpers (2026-07-14)
 
 Consolidated Academy session date formatting into `lib/academy-dates.ts` so

@@ -1,4 +1,3 @@
-import { blogArticles } from "@/content/blog-articles";
 import type { AcademyArticle, AcademyRelatedItem } from "@/types/academy";
 import type { BlogArticle, BlogCategory, BlogPageContent } from "@/types/blog";
 
@@ -35,7 +34,8 @@ export function getBlogHeroImage(article: BlogArticle): {
   };
 }
 
-export const blogContent: BlogPageContent = {
+/** Code-owned blog chrome. Catalogue articles live in Sanity. */
+export const blogContent = {
   hero: {
     eyebrow: "Blog & Insights",
     title: "Ideas Shaping African Agribusiness",
@@ -67,7 +67,6 @@ export const blogContent: BlogPageContent = {
     viewAllHref: "/academy/blog",
   },
   featuredArticleSlug: "unlocking-intra-african-trade",
-  articles: blogArticles,
   cta: {
     eyebrow: "Be part of the future",
     title: "Let's Build the Future of Agriculture Together",
@@ -82,7 +81,7 @@ export const blogContent: BlogPageContent = {
       },
     ],
   },
-};
+} as const satisfies Omit<BlogPageContent, "articles">;
 
 export function articleToRelatedItem(article: BlogArticle): AcademyRelatedItem {
   return {
@@ -98,34 +97,6 @@ export function articleToRelatedItem(article: BlogArticle): AcademyRelatedItem {
   };
 }
 
-export function getBlogHubPreviewItems(limit: number): AcademyArticle[] {
-  return blogContent.articles.slice(0, limit).map((article) => ({
-    category: toHubArticleCategory(article.category),
-    readTime: `${article.readTimeMinutes} min read`,
-    title: article.title,
-    description: article.excerpt,
-    image: article.cardImage,
-    slug: article.slug,
-  }));
-}
-
-export function getRelatedArticles(excludeSlug: string, limit = 3) {
-  const current = blogContent.articles.find(
-    (article) => article.slug === excludeSlug,
-  );
-  const others = blogContent.articles.filter(
-    (article) => article.slug !== excludeSlug,
-  );
-  const sameCategory = current
-    ? others.filter((article) => article.category === current.category)
-    : [];
-  const rest = current
-    ? others.filter((article) => article.category !== current.category)
-    : others;
-
-  return [...sameCategory, ...rest].slice(0, limit).map(articleToRelatedItem);
-}
-
 export const blogListing = {
   filterEmptyState: {
     icon: "newspaper",
@@ -136,7 +107,3 @@ export const blogListing = {
     ctaHref: "/academy/blog",
   },
 } as const;
-
-export function getArticle(slug: string): BlogArticle | undefined {
-  return blogContent.articles.find((article) => article.slug === slug);
-}

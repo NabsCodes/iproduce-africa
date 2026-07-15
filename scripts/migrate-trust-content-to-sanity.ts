@@ -5,11 +5,18 @@ import path from "node:path";
 
 import { createClient, type SanityClient } from "next-sanity";
 
-import { aboutPeople } from "@/content/about-people";
-import { academyContent } from "@/content/academy";
-import { communityPageContent } from "@/content/community";
-import { homeContent } from "@/content/home";
-import { partnersList, partnersPageContent } from "@/content/partners";
+import {
+  archivedAboutPeople,
+  archivedAcademyFaqs,
+  archivedAcademyTestimonials,
+  archivedCommunityFaqs,
+  archivedHomeFaqs,
+  archivedHomeTestimonials,
+  archivedMemberStories,
+  archivedPartnersFaqs,
+  archivedPartnersList,
+  archivedPartnerVoices,
+} from "@/content/_archived/trust-and-people";
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { FaqPage } from "@/lib/sanity/faq-categories";
 import { apiVersion, projectId as configuredProjectId } from "@/sanity/env";
@@ -20,8 +27,8 @@ import type { Partner } from "@/types/partners";
 
 /**
  * Seeds development-dataset placeholders for testimonials, FAQs, partners,
- * team members, and member stories from static content/* — mirrors
- * scripts/migrate-academy-to-sanity.ts's exact flag/dataset-guard shape.
+ * team members, and member stories from content/_archived/trust-and-people —
+ * mirrors scripts/migrate-academy-to-sanity.ts's exact flag/dataset-guard shape.
  * Modes:
  *   (no flags)          read-only dry-run — reports CREATE/SKIP against Sanity
  *   --offline           zero network calls — pure local content validation
@@ -538,43 +545,39 @@ async function main() {
     client,
     flags,
     resolveImageAsset,
-    homeContent.testimonials,
+    archivedHomeTestimonials,
     "home",
   );
   await migrateTestimonials(
     client,
     flags,
     resolveImageAsset,
-    academyContent.testimonials.items,
+    archivedAcademyTestimonials,
     "academy",
   );
   await migrateTestimonials(
     client,
     flags,
     resolveImageAsset,
-    partnersPageContent.voices.items,
+    archivedPartnerVoices,
     "partners-voices",
   );
 
-  await migrateFaqs(client, flags, homeContent.faqs, "home");
-  await migrateFaqs(client, flags, academyContent.faqs.items, "academy");
-  await migrateFaqs(
+  await migrateFaqs(client, flags, archivedHomeFaqs, "home");
+  await migrateFaqs(client, flags, archivedAcademyFaqs, "academy");
+  await migrateFaqs(client, flags, archivedCommunityFaqs, "community");
+  await migrateFaqs(client, flags, archivedPartnersFaqs, "partners");
+
+  await migratePartners(client, flags, resolveImageAsset, archivedPartnersList);
+
+  await migrateTeamMembers(
     client,
     flags,
-    communityPageContent.faqs.items,
-    "community",
+    resolveImageAsset,
+    archivedAboutPeople,
   );
-  await migrateFaqs(client, flags, partnersPageContent.faqs.items, "partners");
 
-  await migratePartners(client, flags, resolveImageAsset, partnersList);
-
-  await migrateTeamMembers(client, flags, resolveImageAsset, aboutPeople);
-
-  await migrateMemberStories(
-    client,
-    flags,
-    communityPageContent.memberStories.items,
-  );
+  await migrateMemberStories(client, flags, archivedMemberStories);
 
   console.log("\n─── Summary ───────────────────────────────");
   console.log(`Created: ${manifest.create.length}`);
