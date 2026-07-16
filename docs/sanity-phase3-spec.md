@@ -149,7 +149,9 @@ unavailable for singleton types.
 4. four `legalPage.*` documents.
 
 The script supports offline validation, read-only dry-run, and `--execute`.
-Production writes remain a separate approved cutover step.
+Production promotion completed on 2026-07-16 by exporting the reviewed
+`development` dataset and importing it, including assets, into `production`.
+The seed script remains development-only by design.
 
 ## Placeholder and video policy
 
@@ -178,7 +180,5 @@ migration and post-cutover snapshot cleanup remain separate.
 
 ## Remaining work
 
-- client sign-off;
-- reviewed production dataset migration and Vercel cutover;
 - keep archived rollback snapshots for one release after production is stable;
 - separate Academy featured-content follow-ups as needed.

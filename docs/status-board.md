@@ -49,7 +49,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Post-migration Academy promotion review + automatic nearest-upcoming webinar behavior
 - [ ] Confirm real start times only when those six Academy placeholder events become real launch content
 - [x] Staging QA pass (edit in Studio → confirm hub/home/search/detail routes reflect it)
-- [ ] Client sign-off on the full Phase 1–3 CMS scope (`docs/cms-client-summary.md`)
-- [x] Archive migrated static content blocks to `content/_archived/` (development seed snapshots; production cutover still pending)
-- [ ] Production dataset migration + Vercel prod env cutover
+- [x] Client sign-off on the full Phase 1–3 CMS scope (`docs/cms-client-summary.md`)
+- [x] Archive migrated static content blocks to `content/_archived/` (retained as rollback snapshots for one stable production release)
+- [x] Production dataset migration + Vercel prod env cutover (reviewed `development` dataset promoted on 2026-07-16; Production targets `production`, Preview targets `development`)
+- [x] Create/verify the Sanity production webhook for `https://iproduce-africa.vercel.app/api/revalidate` using the Vercel production `SANITY_REVALIDATE_SECRET` (signed publish smoke test returned HTTP 200 on 2026-07-16)
 - [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

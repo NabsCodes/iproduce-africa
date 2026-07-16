@@ -3,6 +3,27 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Production Sanity dataset + Vercel cutover (2026-07-16)
+
+Promoted the client-reviewed `development` dataset into the existing empty
+`production` dataset using an asset-inclusive export/import so Studio edits were
+preserved exactly. Backups were taken before the import. Post-import production
+inventory matches development: 153 total records, including 95 content
+documents and 46 image assets, with no drafts.
+
+Vercel Production now explicitly uses `NEXT_PUBLIC_SANITY_DATASET=production`;
+Preview explicitly uses `development`. Added the production
+`SANITY_REVALIDATE_SECRET` and completed a server-side production redeploy at
+commit `b7816e4`. Smoke checks: `/`, `/academy`, and `/admin` return 200; an
+unsigned `/api/revalidate` request returns 401, confirming the secret is active.
+
+Created the production document webhook for the 12 CMS-owned document types,
+using the matching signing secret and an old/new slug projection. A temporary,
+non-rendered marker on `siteSettings` triggered the signed webhook successfully:
+Vercel returned HTTP 200. The marker was removed immediately, and the cleanup
+publish also returned HTTP 200. Production publish-to-public-route revalidation
+is therefore active.
+
 ## Docs wording cleanup before archival commit (2026-07-16)
 
 Fixed two half-stale checklist notes from archival review: Academy automatic

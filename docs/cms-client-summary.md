@@ -71,10 +71,10 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 
 ## What we need from you
 
-- [ ] **Approve** the full Phase 1–3 CMS scope and staging content
-- [ ] Confirm who gets Studio access (names/emails)
-- [ ] Confirm who creates the Sanity project and invites the other party
-- [ ] Review staging placeholders before we point the live site at production CMS
+- [x] **Approve** the full Phase 1–3 CMS scope and staging content
+- [x] Confirm Studio access and assign the client content manager
+- [x] Confirm the Sanity project, datasets, and editor access
+- [x] Review staging content before pointing the live site at production CMS
 - [ ] Confirm real start times only when those six Academy placeholder events become real launch content
 
 Questions on anything not in this table — defer to the dev team; the full spec

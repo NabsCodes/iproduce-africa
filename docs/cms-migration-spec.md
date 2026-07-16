@@ -2,9 +2,11 @@
 
 ## Status
 
-**Phase 1, Phase 2, and Phase 3 implemented** — see
-`docs/sanity-phase3-spec.md` for the fixed-slot page-copy/legal/settings
-contract. Production cutover and static-copy archival remain pending.
+**Phase 1, Phase 2, and Phase 3 implemented.** The reviewed `development`
+dataset was promoted to `production` on 2026-07-16 and Vercel Production now
+targets it; Preview remains on `development`. Static rollback snapshots remain
+under `content/_archived/` for one stable production release. The signed
+production webhook was created and verified end to end on 2026-07-16.
 
 Purpose: agree on **what moves to Sanity**, **what stays in code**, **folder
 layout**, **edge-case rules**, and **phased rollout** before any implementation.
@@ -844,20 +846,22 @@ Align with `docs/routes/academy-spec.md`:
 first — all current static placeholders migrated by script, not typed manually.
 Clients edit or delete from `/admin` while reviewing on staging.
 
-**`production` dataset:** run the same migration scripts **only after**
-client/staging sign-off on placeholder content. Demo team names, partner quotes,
-and member stories must not become live CMS truth by accident. Promote
-`development` → `production` via explicit `--dataset production --confirm` after
-approval.
+**`production` dataset:** production promotion happens only after client/staging
+sign-off. The seed scripts intentionally remain `development`-only; they read
+the archived code snapshots and would not preserve edits made by the client in
+Studio. Promote the reviewed `development` dataset by exporting it with assets
+and importing that archive into `production` with replacement semantics. Take
+a production backup first and verify document/asset counts before changing the
+Vercel dataset target.
 
 1. **Script** (from q-das `scripts/migrate-to-sanity.ts`): read static
    `content/*` collections → create documents + upload images from `public/`.
-2. **Phase 1:** all Academy catalogues + authors → `development`, then production
-   when approved.
+2. **Phase 1:** all Academy catalogues + authors → `development`, then include
+   the reviewed records in the dataset-level production promotion.
 3. **Phase 2:** testimonials, FAQs, partners, team/advisors, member stories —
    `scripts/migrate-trust-content-to-sanity.ts`; same dataset policy.
-4. **Default target:** `development` dataset; require
-   `--dataset production --confirm` for production writes.
+4. **Seed-script target:** `development` only. Production is populated from the
+   reviewed development dataset export, not directly from archived seed files.
 5. **Idempotent:** deterministic document `_id` per record (see below); use
    `createIfNotExists` on write. **Do not** rely on auto `_id` + slug GROQ
    lookup alone.

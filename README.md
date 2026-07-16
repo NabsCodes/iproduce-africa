@@ -137,8 +137,9 @@ presentation.
 ## Project Status
 
 The public frontend, form delivery layer, and approved Sanity CMS phases are
-implemented. Production mail and CMS cutover still require client-owned
-environment configuration and final QA.
+implemented. Production mail is live, and the reviewed CMS dataset now powers
+the production deployment. Signed production webhook revalidation is active;
+final release QA and the optional public-domain switch remain.
 
 **Shipped in repo**
 
@@ -151,10 +152,9 @@ environment configuration and final QA.
 
 **Next steps**
 
-- Academy automatic promotion-rule review
-- Staging/editor QA, production dataset migration, and Sanity webhook cutover
-- Client Resend account + DNS verification on production
-- Client content sign-off and post-cutover static snapshot archival
+- Point the public apex/`www` DNS at Vercel when the client approves the URL switch
+- Keep the archived Sanity seed snapshots for one stable production release,
+  then remove them after sign-off
 - Optional analytics, preview, TypeGen, and search-at-scale polish
 
 ## Documentation

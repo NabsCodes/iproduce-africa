@@ -70,18 +70,20 @@ Shipped:
 
 Remaining operational work:
 
-- Academy automatic promotion rule implemented; production behavior remains part of staging QA
-- Staging/editor QA, production dataset migration, Vercel environment setup,
-  webhook verification, and client sign-off
+- Academy automatic promotion rule implemented; production behavior remains part of release QA
+- Production dataset migration, Vercel dataset cutover, staging/editor QA, and
+  client sign-off are complete
+- Production Sanity webhook is active; signed publish-to-public-route smoke
+  testing returned HTTP 200
 - Development static-seed archival is done under `content/_archived/`; keep
-  those rollback snapshots through production cutover, then remove only after
-  the live dataset is stable
+  those rollback snapshots for one stable production release, then remove only
+  after the live dataset is signed off
 
 Optional later work includes analytics, preview/TypeGen, translation, and
 search-at-scale improvements.
 
-Form submission workflows (Resend + Turnstile) landed in Phase 2 — production
-DNS/env handoff remains client ops.
+Form submission workflows (Resend + Turnstile) landed in Phase 2 and are live.
+The public apex/`www` DNS switch remains a separate client-approved launch step.
 
 ## Explicitly Not In Scope Now
 
