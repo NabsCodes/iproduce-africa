@@ -51,8 +51,26 @@ function SocialButton({ social }: { social: ContactSocialLink }) {
   );
 }
 
-function HeroCopy({ className }: { className?: string }) {
+function HeroCopy({
+  settings,
+  className,
+}: {
+  settings: PublicSiteSettings;
+  className?: string;
+}) {
   const { hero } = contactPageContent;
+  const socialHrefByPlatform: Partial<
+    Record<ContactSocialLink["platform"], string>
+  > = {
+    instagram: settings.socialLinks.find(
+      (social) => social.platform === "instagram",
+    )?.href,
+    linkedin: settings.socialLinks.find(
+      (social) => social.platform === "linkedin",
+    )?.href,
+    telegram: settings.communityChannels.telegram,
+    whatsapp: settings.communityChannels.whatsapp,
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -70,9 +88,12 @@ function HeroCopy({ className }: { className?: string }) {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        {hero.socialLinks.map((social) => (
-          <SocialButton key={social.platform} social={social} />
-        ))}
+        {hero.socialLinks.map((social) => {
+          const href = socialHrefByPlatform[social.platform];
+          return href ? (
+            <SocialButton key={social.platform} social={{ ...social, href }} />
+          ) : null;
+        })}
       </div>
     </div>
   );
@@ -93,7 +114,7 @@ export function ContactIntroSection({
       {/* Mobile: stacked hero */}
       <div className="bg-forest-950 px-4 py-10 sm:px-6 sm:py-12 lg:hidden">
         <MotionFade>
-          <HeroCopy />
+          <HeroCopy settings={settings} />
         </MotionFade>
         <div className="relative mt-8 aspect-4/3 overflow-hidden rounded-xl">
           <Image
@@ -130,7 +151,7 @@ export function ContactIntroSection({
           <div className="grid min-h-[580px] grid-cols-2">
             <div className="flex flex-col justify-center py-16">
               <MotionFade>
-                <HeroCopy />
+                <HeroCopy settings={settings} />
               </MotionFade>
             </div>
             <div aria-hidden />

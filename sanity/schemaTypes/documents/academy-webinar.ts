@@ -86,6 +86,8 @@ export const academyWebinar = defineType({
       title: "Image",
       type: "image",
       options: { hotspot: true },
+      description:
+        "Used on Academy cards, webinar detail pages, and as the fallback social sharing image.",
       validation: (Rule) => Rule.required(),
       fields: [
         defineField({
@@ -134,6 +136,11 @@ export const academyWebinar = defineType({
       name: "registration",
       title: "Registration",
       type: "registrationConfig",
+    }),
+    defineField({
+      name: "seo",
+      title: "Search & sharing",
+      type: "seoMetadata",
     }),
   ],
   preview: {

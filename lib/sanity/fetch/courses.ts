@@ -11,6 +11,7 @@ import {
   hubCoursesQuery,
   relatedCoursesQuery,
 } from "@/lib/sanity/queries";
+import { normalizeSeoMetadata, type RawSeoMetadata } from "@/lib/sanity/seo";
 import type {
   AcademyCourse,
   AcademyCourseDetail,
@@ -32,6 +33,7 @@ type RawCourseDoc = {
   body: string[];
   modules: string[];
   registration?: AcademyRegistrationConfig | null;
+  seo?: RawSeoMetadata | null;
 };
 
 function normalizeCourse(raw: RawCourseDoc): AcademyCourseDetail {
@@ -47,6 +49,7 @@ function normalizeCourse(raw: RawCourseDoc): AcademyCourseDetail {
     body: raw.body,
     modules: raw.modules,
     registration: raw.registration ?? undefined,
+    seo: normalizeSeoMetadata(raw.seo),
   };
 }
 

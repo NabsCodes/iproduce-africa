@@ -78,6 +78,8 @@ export const academyArticle = defineType({
       title: "Card image",
       type: "image",
       options: { hotspot: true },
+      description:
+        "Required for article cards, catalogue listings, featured previews, and as the fallback social sharing image.",
       validation: (Rule) => Rule.required(),
       fields: [
         defineField({
@@ -135,6 +137,11 @@ export const academyArticle = defineType({
         defineArrayMember({ type: "bodyImage" }),
         defineArrayMember({ type: "orderedStep" }),
       ],
+    }),
+    defineField({
+      name: "seo",
+      title: "Search & sharing",
+      type: "seoMetadata",
     }),
   ],
   preview: {

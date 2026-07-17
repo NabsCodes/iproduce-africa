@@ -2,6 +2,9 @@ import { revalidatePath } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
+import { sanityFetch } from "@/lib/sanity/client";
+import { articleSlugsByAuthorIdQuery } from "@/lib/sanity/queries";
+
 /**
  * Sanity webhook → `revalidatePath`. Phase 1/2 catalogue types plus the
  * durable Phase 3 singletons (`siteSettings`, `legalPage`, `homePage`, and
@@ -10,6 +13,7 @@ import { parseBody } from "next-sanity/webhook";
  */
 
 type SanityWebhookPayload = {
+  id?: string;
   _type?: string;
   key?: string;
   slug?: string;
@@ -17,9 +21,28 @@ type SanityWebhookPayload = {
 };
 
 const STATIC_PATHS_BY_TYPE: Record<string, readonly string[]> = {
-  academyArticle: ["/academy/blog", "/academy", "/", "/academy/search"],
-  academyWebinar: ["/academy/webinars", "/academy", "/", "/academy/search"],
-  academyCourse: ["/academy/courses", "/academy", "/", "/academy/search"],
+  academyArticle: [
+    "/academy/blog",
+    "/academy",
+    "/",
+    "/academy/search",
+    "/sitemap.xml",
+  ],
+  academyWebinar: [
+    "/academy/webinars",
+    "/academy",
+    "/",
+    "/academy/search",
+    "/sitemap.xml",
+  ],
+  academyCourse: [
+    "/academy/courses",
+    "/academy",
+    "/",
+    "/academy/search",
+    "/sitemap.xml",
+  ],
+  author: ["/academy/blog", "/academy", "/", "/academy/search"],
   testimonial: ["/", "/academy", "/partners"],
   faq: ["/", "/academy", "/community", "/partners", "/contact"],
   partner: ["/", "/partners"],
@@ -72,6 +95,13 @@ export async function POST(request: NextRequest) {
 
   const paths = new Set(staticPaths);
 
+  if (type === "author" && body.id) {
+    const slugs = await sanityFetch<string[]>(articleSlugsByAuthorIdQuery, {
+      id: body.id,
+    });
+    for (const slug of slugs) paths.add(`/academy/blog/${slug}`);
+  }
+
   if (type === "legalPage") {
     paths.clear();
     const key = body.key;
@@ -92,6 +122,13 @@ export async function POST(request: NextRequest) {
     for (const path of paths) {
       revalidatePath(path);
     }
+  }
+
+  if (type === "author" && !body.id) {
+    // Safe fallback until both dataset webhooks include `"id": _id` in
+    // their projection: invalidate the blog subtree instead of leaving
+    // author copy stale on detail pages.
+    revalidatePath("/academy/blog", "layout");
   }
 
   const detailPrefix = DETAIL_PATH_PREFIX_BY_TYPE[type];

@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { resolveVideoEmbed } from "@/lib/video-embeds";
+
 const SLOT_DESCRIPTION =
   "Order, icon, colour, link and layout are controlled by the website.";
 
@@ -52,6 +54,20 @@ export const homePage = defineType({
       type: "imageWithAlt",
       group: "media",
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "whatWeDoVideoUrl",
+      title: "What We Do video URL (optional)",
+      description:
+        "Paste the public YouTube or Vimeo video URL. When blank or invalid, the website shows only the poster image and no play button.",
+      type: "url",
+      group: "media",
+      validation: (Rule) =>
+        Rule.custom((value) =>
+          !value || (typeof value === "string" && resolveVideoEmbed(value))
+            ? true
+            : "Enter a valid public YouTube or Vimeo video URL.",
+        ),
     }),
     defineField({
       name: "services",

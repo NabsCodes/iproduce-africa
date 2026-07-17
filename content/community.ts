@@ -358,18 +358,11 @@ export const communityPageContent = {
       {
         id: "telegram",
         label: "Telegram",
-        status: "live",
-        // TODO(telegram): wire live channel URL
-        href: undefined,
+        status: "coming-soon",
       },
       {
         id: "whatsapp",
         label: "WhatsApp",
-        status: "coming-soon",
-      },
-      {
-        id: "circle",
-        label: "Circle",
         status: "coming-soon",
       },
     ],

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AcademyHeroSearchForm } from "@/components/academy/hub/academy-hero-search-form";
+import { AcademyRegistrationCompactStatus } from "@/components/academy/registration/academy-registration-compact-status";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import {
   Avatar,
@@ -27,7 +28,11 @@ export function AcademyHeroSection({
   const hero = academyContent.hero;
   const nextLiveCard = nextLive
     ? {
-        eyebrow: isHappening ? "Happening now" : "Next Live Session",
+        eyebrow: isHappening ? (
+          "Happening now"
+        ) : (
+          <AcademyRegistrationCompactStatus webinar={nextLive} />
+        ),
         label: `${nextLive.title} · ${formatAcademyShortDate(nextLive.date)}`,
         href: `/academy/webinars/${nextLive.slug}`,
       }

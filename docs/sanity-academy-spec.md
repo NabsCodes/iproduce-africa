@@ -162,7 +162,7 @@ Do not change this mapping without a deliberate product decision and type update
 Maps to `AcademyWebinar` (`types/academy.ts`). One type for webinars, training,
 live Q&A, and events (matches `AcademyScheduledType`).
 
-| Sanity field   | Type                 | Maps to                |
+| Sanity field   | Type                 | Maps to                | Notes                                                                 |
 | -------------- | -------------------- | ---------------------- | --------------------------------------------------------------------- |
 | `title`        | string               | `title`                |
 | `slug`         | slug                 | `slug`                 |
@@ -171,49 +171,53 @@ live Q&A, and events (matches `AcademyScheduledType`).
 | `endDate`      | datetime             | `endDate?`             | optional; must be after `date`                                        |
 | `description`  | text                 | `description`          | listing card                                                          |
 | `excerpt`      | text                 | `excerpt`              | search + cards                                                        |
-| `image`        | image + alt          | `image`, `imageAlt?`   |
+| `image`        | image + alt          | `image`, `imageAlt?`   |                                                                       |
 | `body`         | array of string      | `body: string[]`       | v1 — max 2000 chars/string, min 1 when published                      |
 | `dateLabel`    | string               | `dateLabel?`           | **computed from `date` in projection**; optional Studio override only |
-| `location`     | string               | `location?`            |
-| `format`       | string               | `format?`              |
-| `speakers`     | string               | `speakers?`            |
-| `registration` | `registrationConfig` | `registration?`        |
+| `location`     | string               | `location?`            |                                                                       |
+| `format`       | string               | `format?`              |                                                                       |
+| `speakers`     | string               | `speakers?`            |                                                                       |
+| `registration` | `registrationConfig` | `registration?`        |                                                                       |
+| `seo`          | `seoMetadata`        | `seo?`                 | optional metadata title, description, and share image                 |
 
 **`registrationConfig`** — single object in
 `sanity/schemaTypes/objects/registration-config.ts`, imported by webinar and
 course schemas (field set must not drift). Studio titles are plain language;
 stored values stay stable for code.
 
-| Stored `mode` | Studio label             | Behaviour                                                                                                                       |
-| ------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| `open`        | Open on this site        | Show the iProduce registration form. Webinars auto-close at session start (`resolveWebinarRegistration`). Default for webinars. |
-| `interest`    | Collect interest only    | Same form as interest / waitlist signup. Default for courses.                                                                   |
-| `external`    | Send to an external page | Button opens `url` (Zoom, Eventbrite, etc.); on-site form/API not used. `url` required in Studio when this mode is selected.    |
-| `closed`      | Registration closed      | No signup; UI shows `closedLabel` (or default closed copy). API rejects POSTs.                                                  |
+| Stored `mode` | Studio label             | Behaviour                                                                                                                                     |
+| ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `open`        | Open on this site        | Show the iProduce form. Without a deadline, webinars close at session start. Default for webinars.                                            |
+| `interest`    | Collect interest only    | Same form as interest / waitlist signup. It stays open after start unless an explicit registration deadline is supplied. Default for courses. |
+| `external`    | Send to an external page | Button opens the required URL in a new tab; on-site form/API is not used. It stays available unless a deadline is supplied.                   |
+| `closed`      | Registration closed      | No signup; UI shows `closedLabel` (or default closed copy). API rejects POSTs.                                                                |
 
-| Field         | Studio title               | Notes                                              |
-| ------------- | -------------------------- | -------------------------------------------------- |
-| `mode`        | How people register        | Radio list + field description of all four options |
-| `url`         | External registration page | Shown only when mode is external                   |
-| `label`       | Button text (optional)     | Overrides default CTA wording                      |
-| `closedLabel` | Closed message (optional)  | Shown when registration is closed                  |
+| Field          | Studio title                     | Notes                                                       |
+| -------------- | -------------------------------- | ----------------------------------------------------------- |
+| `mode`         | How people register              | Radio list + field description of all four options          |
+| `url`          | External registration page       | Shown only when mode is external; always opens in a new tab |
+| `providerName` | Platform name (optional)         | Plain-language label such as Zoom or Eventbrite             |
+| `closesAt`     | Registration deadline (optional) | Webinar-only; must be at or before the session start        |
+| `label`        | Button text (optional)           | Overrides default CTA wording                               |
+| `closedLabel`  | Closed message (optional)        | Shown when registration is closed                           |
 
 ### `academyCourse`
 
 Maps to `AcademyCourseDetail`.
 
-| Sanity field   | Type                 | Maps to              |
-| -------------- | -------------------- | -------------------- | -------------------------------- |
+| Sanity field   | Type                 | Maps to              | Notes                             |
+| -------------- | -------------------- | -------------------- | --------------------------------- |
 | `title`        | string               | `title`              |
 | `slug`         | slug                 | `slug`               |
-| `level`        | list                 | `AcademyCourseLevel` | BEGINNER, INTERMEDIATE, ADVANCED |
-| `duration`     | string               | `duration`           | e.g. `6 WEEKS`                   |
-| `description`  | text                 | `description`        | card                             |
-| `excerpt`      | text                 | `excerpt`            |
-| `image`        | image + alt          | `image`              |
-| `body`         | text array           | `body: string[]`     | v1                               |
-| `modules`      | array of string      | `modules`            | min 1 when published             |
-| `registration` | `registrationConfig` | `registration?`      |
+| `level`        | list                 | `AcademyCourseLevel` | BEGINNER, INTERMEDIATE, ADVANCED  |
+| `duration`     | string               | `duration`           | e.g. `6 WEEKS`                    |
+| `description`  | text                 | `description`        | card                              |
+| `excerpt`      | text                 | `excerpt`            |                                   |
+| `image`        | image + alt          | `image`              |                                   |
+| `body`         | text array           | `body: string[]`     | v1                                |
+| `modules`      | array of string      | `modules`            | min 1 when published              |
+| `registration` | `registrationConfig` | `registration?`      |                                   |
+| `seo`          | `seoMetadata`        | `seo?`               | optional metadata and share image |
 
 **Phase 2 body upgrade:** swap to Portable Text without breaking v1 content —
 adapter can still emit `string[]` for shallow copy.
@@ -312,9 +316,13 @@ Blog `publishedAt` and email timestamps stay outside this module.
 
 The same retained set drives the Academy hero, hub featured band and grid,
 webinar listing featured band, Home Upcoming cards, and related sessions.
-Registration remains separate: default open registration closes at the start,
-while external mode remains available when editors intentionally configure a
-live destination.
+Registration remains separate from session promotion. The pure
+`resolveWebinarRegistrationState()` contract owns every status line, CTA, and
+next time boundary consumed by hub, listing, detail, and API surfaces. A valid
+optional `closesAt` closes any available mode at that instant. Without it,
+`open` closes at start while `interest` and `external` remain available. The
+single client hook schedules the nearest boundary with one clamped timeout; do
+not recreate deadline logic in individual components.
 
 The Home, Academy hub, webinar listing, and webinar detail routes use
 five-minute ISR for this time-driven behavior. Sanity webhooks still make
@@ -439,18 +447,20 @@ Phase 2 singletons — only **catalogue arrays** swap to CMS first.
 
 ## Edge cases (Academy-specific)
 
-| Scenario                              | Required behaviour                                                                                                                                                                                                                |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Zero published articles               | Listing route: hero + empty message; hub blog band: **hidden**                                                                                                                                                                    |
-| Featured slug points to draft/missing | Fallback to newest published; if none, hide featured band                                                                                                                                                                         |
-| Webinar date in past                  | Still on detail URL; related/upcoming queries exclude past                                                                                                                                                                        |
-| `registration.mode: closed`           | UI shows `closedLabel` only (no register button). **API rejects** POST with `{ error: PUBLIC_FORM_VALIDATION_ERROR }` / 400 — same response shape as `session_not_found` in `handlePublicFormPost`, not a new client error string |
-| `registration.mode: external`         | UI links out; API not used                                                                                                                                                                                                        |
-| Course with empty `modules`           | Studio blocks publish; runtime hides modules block if somehow empty                                                                                                                                                               |
-| Related query returns `[]`            | Omit `AcademyRelatedSection`                                                                                                                                                                                                      |
-| Migration missing image               | Log to manifest; use `CmsFallbackImage` at runtime                                                                                                                                                                                |
-| Slug edited after publish             | Studio warning; webhook revalidates old + new paths                                                                                                                                                                               |
-| Slug removed / doc unpublished        | `notFound()` on detail; omitted from listings after revalidate                                                                                                                                                                    |
+| Scenario                                 | Required behaviour                                                                                                                                                                                                                |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Zero published articles                  | Listing route: hero + empty message; hub blog band: **hidden**                                                                                                                                                                    |
+| Featured slug points to draft/missing    | Fallback to newest published; if none, hide featured band                                                                                                                                                                         |
+| Webinar date in past                     | Still on detail URL; related/upcoming queries exclude past                                                                                                                                                                        |
+| `registration.mode: closed`              | UI shows `closedLabel` only (no register button). **API rejects** POST with `{ error: PUBLIC_FORM_VALIDATION_ERROR }` / 400 — same response shape as `session_not_found` in `handlePublicFormPost`, not a new client error string |
+| `registration.mode: external`            | UI links out; API not used                                                                                                                                                                                                        |
+| External provider name omitted           | Use neutral “external platform” copy; never expose an empty provider label                                                                                                                                                        |
+| Invalid deadline or deadline after start | Treat the deadline as absent at runtime; Studio validation prevents the normal editor path                                                                                                                                        |
+| Course with empty `modules`              | Studio blocks publish; runtime hides modules block if somehow empty                                                                                                                                                               |
+| Related query returns `[]`               | Omit `AcademyRelatedSection`                                                                                                                                                                                                      |
+| Migration missing image                  | Log to manifest; use `CmsFallbackImage` at runtime                                                                                                                                                                                |
+| Slug edited after publish                | Studio warning; webhook revalidates old + new paths                                                                                                                                                                               |
+| Slug removed / doc unpublished           | `notFound()` on detail; omitted from listings after revalidate                                                                                                                                                                    |
 
 ---
 

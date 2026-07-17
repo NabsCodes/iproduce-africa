@@ -84,6 +84,7 @@ export type CommunityHeroContent = {
 /* ─── Shared content shapes (consumed across pages) ─────────────────────── */
 
 export type TestimonialItem = {
+  id: string;
   quote: string;
   name: string;
   role: string;

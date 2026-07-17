@@ -3,12 +3,14 @@ import type { Image } from "sanity";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";
 import { aboutPageQuery } from "@/lib/sanity/queries";
+import { resolveVideoEmbed, type VideoEmbed } from "@/lib/video-embeds";
 
 export type AboutPageContent = {
   story: {
     paragraphs: string[];
     image: string;
     imageAlt: string;
+    video?: VideoEmbed;
   };
   missionVisionObjective: {
     mission: { body: string };
@@ -22,6 +24,7 @@ type RawAboutPage = {
     paragraphs?: string[] | null;
     image?: Image | null;
     imageAlt?: string | null;
+    videoUrl?: string | null;
   } | null;
   missionVisionObjective?: {
     mission?: string | null;
@@ -55,6 +58,7 @@ export async function fetchAboutPage(): Promise<AboutPageContent> {
       paragraphs,
       image: storyImage,
       imageAlt: storyAlt,
+      video: resolveVideoEmbed(raw.story?.videoUrl),
     },
     missionVisionObjective: {
       mission: { body: mvo.mission },

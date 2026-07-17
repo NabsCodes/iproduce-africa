@@ -15,6 +15,7 @@ import {
   webinarsListingQuery,
   webinarSlugsQuery,
 } from "@/lib/sanity/queries";
+import { normalizeSeoMetadata, type RawSeoMetadata } from "@/lib/sanity/seo";
 import type {
   AcademyRegistrationConfig,
   AcademyRelatedItem,
@@ -39,6 +40,7 @@ type RawWebinarDoc = {
   format?: string | null;
   speakers?: string | null;
   registration?: AcademyRegistrationConfig | null;
+  seo?: RawSeoMetadata | null;
 };
 
 function normalizeWebinar(raw: RawWebinarDoc): AcademyWebinar {
@@ -63,6 +65,7 @@ function normalizeWebinar(raw: RawWebinarDoc): AcademyWebinar {
     format: raw.format ?? undefined,
     speakers: raw.speakers ?? undefined,
     registration: raw.registration ?? undefined,
+    seo: normalizeSeoMetadata(raw.seo),
   };
 }
 

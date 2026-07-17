@@ -52,7 +52,7 @@ export const aboutPageContent = {
   story: {
     eyebrow: "Our Story",
     title: "From one webinar to a pan-African hub.",
-    videoAriaLabel: "Intro video coming soon",
+    videoAriaLabel: "Play the iProduce Africa story video",
     primaryCta: {
       label: "Join our community",
       href: "/community#membership-application",

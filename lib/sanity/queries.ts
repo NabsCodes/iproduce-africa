@@ -48,6 +48,10 @@ export const relatedArticlesQuery = `*[
  * article normalization (Portable Text adapter, image resolution, etc.). */
 export const articleSitemapEntriesQuery = `*[_type == "academyArticle" && ${DRAFT_FILTER}]{"slug": slug.current, publishedAt}`;
 
+export const articleSlugsByAuthorIdQuery = `*[
+  _type == "academyArticle" && references($id) && ${DRAFT_FILTER}
+].slug.current`;
+
 // ─── Webinars ────────────────────────────────────────────────────────────
 
 /** No author dereference needed — webinars have no reference fields. */
@@ -116,7 +120,14 @@ export const relatedCoursesQuery = `*[
 
 export const testimonialsByPlacementQuery = `*[
   _type == "testimonial" && placement == $placement && ${DRAFT_FILTER}
-] | order(coalesce(order, 9999) asc, _createdAt asc)`;
+] | order(coalesce(order, 9999) asc, _createdAt asc){
+  "id": _id,
+  quote,
+  name,
+  role,
+  image,
+  initials
+}`;
 
 export const faqsByPageQuery = `*[
   _type == "faq" && page == $page && ${DRAFT_FILTER}
@@ -178,12 +189,15 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSetti
   instagramUrl,
   linkedinUrl,
   facebookUrl,
-  youtubeUrl
+  youtubeUrl,
+  telegramUrl,
+  whatsappUrl
 }`;
 
 export const homePageQuery = `*[_type == "homePage" && _id == "homePage" && ${DRAFT_FILTER}][0]{
   heroMessage,
   whatWeDoPoster,
+  whatWeDoVideoUrl,
   services,
   valueChains
 }`;

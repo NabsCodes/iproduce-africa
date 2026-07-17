@@ -3,6 +3,75 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Home What We Do video parity (2026-07-17)
+
+Extended the About Story video pattern to Home so both CMS surfaces stay in
+sync: the `homePage` singleton gained an optional `whatWeDoVideoUrl` field
+(Section media group) validated by the same `resolveVideoEmbed` normaliser,
+projected through `homePageQuery`, and attached to `whatWeDoPoster.video` at
+the fetch boundary. `WhatWeDoSection` now renders the shared `VideoPoster`,
+which also removes Home's old decorative, non-functional play icon — with no
+URL configured the poster renders alone, matching About's honest blank state.
+The code-owned `videoAriaLabel` copy was updated from "Intro video coming
+soon" to a real play label. No dataset records were written; the client enters
+real video URLs per dataset when available.
+
+Review fixes: the normalized Home `video` was being dropped by
+`fetchHomePage`'s final projection (poster-only forever, even with a valid
+URL) — now returned alongside `image`/`imageAlt`. The `VideoPoster` play
+control's inline size/radius/palette overrides moved into proper primitives:
+a `video-overlay` button variant and `icon-lg` size in
+`components/ui/button.tsx`, consumed without `className` overrides. Added a
+focused fetch-layer regression test so a valid Home video cannot be normalized
+and then accidentally omitted from the public poster contract again.
+
+## Partner Voices avatar + About Story video (2026-07-17)
+
+Sequenced a small client-visible media slice before the CMS category migration,
+which still requires a separate dataset-migration review. Partner Voices now
+consumes the photo/initial fallback already supplied by Sanity, uses the shared
+Avatar primitive, and keys both testimonial carousels by stable Sanity IDs.
+
+Added an optional About Story YouTube/Vimeo URL with one defensive normaliser
+shared by Studio validation and the public fetch boundary. The shared
+click-to-play poster mounts no third-party iframe before activation, constructs
+only canonical privacy-oriented embed URLs, and degrades blank or invalid URLs
+to an honest poster-only state. Home video wiring and direct uploads remain out
+of scope. Documented CMS image hotspot/payload handling as a separate
+cross-cutting follow-up rather than changing global image behaviour here.
+
+## Site Settings editor UX (2026-07-17)
+
+Grouped the singleton into Contact details and Social & community links, added
+plain-language field descriptions, and documented exactly where each value is
+used. Optional channel descriptions also explain the blank-state behaviour so a
+non-technical editor can make changes without guessing whether a field affects
+the footer, Home, Contact, Community, or form-delivery settings.
+
+## CMS post-cutover Slice A — registration, SEO, and channels (2026-07-17)
+
+Implemented the safe client-review follow-up without touching category data or
+either Sanity dataset. Webinar registration now has one canonical resolver for
+status copy, CTA behaviour, optional deadline, provider label, and the next
+client-side time boundary. The Academy countdown remains session-start driven;
+registration status is a separate line. External registration always opens in
+a new tab.
+
+Added optional SEO fields to Academy articles, webinars, and courses with
+fallback metadata, share images, BlogPosting/Course/ItemList structured data,
+and author-to-article webhook fan-out. Both existing dataset webhook projections
+still need `"id": _id`; a blog-subtree fallback prevents stale author copy until
+that dashboard-only step is done.
+
+Added optional Telegram and WhatsApp settings for Community and Contact only,
+with blank-link hiding and no invented URLs. Added Vitest for the pure
+registration resolver matrix. Editorial categories remain a separate Slice B
+that requires migration review before any dataset patch.
+
+Post-review cleanup removed a duplicate happening-state details CTA and changed
+the client deadline timer to re-arm itself when a boundary exceeds the browser's
+maximum timeout, without making the render revision an effect dependency.
+
 ## Production Sanity dataset + Vercel cutover (2026-07-16)
 
 Promoted the client-reviewed `development` dataset into the existing empty

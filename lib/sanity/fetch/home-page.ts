@@ -9,6 +9,7 @@ import {
   mergeFixedImageTextSlots,
 } from "@/lib/sanity/page-slot-layout";
 import { homePageQuery } from "@/lib/sanity/queries";
+import { resolveVideoEmbed, type VideoEmbed } from "@/lib/video-embeds";
 import type { ContentCardTone } from "@/types/content";
 
 export type HomePageContent = {
@@ -19,6 +20,7 @@ export type HomePageContent = {
   whatWeDoPoster: {
     image: string;
     imageAlt: string;
+    video?: VideoEmbed;
   };
   services: Array<{
     icon: (typeof HOME_SERVICE_SLOT_LAYOUT)[number]["icon"];
@@ -40,6 +42,7 @@ export type HomePageContent = {
 type RawHomePage = {
   heroMessage?: { title?: string | null; description?: string | null } | null;
   whatWeDoPoster?: { image?: Image | null; alt?: string | null } | null;
+  whatWeDoVideoUrl?: string | null;
   services?: Record<
     string,
     {
@@ -77,11 +80,10 @@ export async function fetchHomePage(): Promise<HomePageContent> {
     throw new Error(`Missing required hero message on ${DOC_ID}.`);
   }
 
-  const whatWeDoPoster = resolveImageWithAlt(
-    raw.whatWeDoPoster,
-    DOC_ID,
-    "whatWeDoPoster",
-  );
+  const whatWeDoPoster = {
+    ...resolveImageWithAlt(raw.whatWeDoPoster, DOC_ID, "whatWeDoPoster"),
+    video: resolveVideoEmbed(raw.whatWeDoVideoUrl),
+  };
 
   const services = mergeFixedImageTextSlots(
     HOME_SERVICE_SLOT_LAYOUT,
@@ -118,6 +120,7 @@ export async function fetchHomePage(): Promise<HomePageContent> {
     whatWeDoPoster: {
       image: whatWeDoPoster.image,
       imageAlt: whatWeDoPoster.alt,
+      video: whatWeDoPoster.video,
     },
     services,
     valueChains,

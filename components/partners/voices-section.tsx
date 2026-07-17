@@ -2,6 +2,7 @@ import { Quote } from "lucide-react";
 
 import { VoicesLogoGrid } from "@/components/partners/voices-logo-grid";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Carousel,
   CarouselContent,
@@ -57,7 +58,7 @@ export function VoicesSection({ voices, partners }: VoicesSectionProps) {
                 <Carousel className="mt-8" aria-label="Partner testimonials">
                   <CarouselContent>
                     {voices.map((item) => (
-                      <CarouselItem key={item.name} className="basis-full">
+                      <CarouselItem key={item.id} className="basis-full">
                         <article className="elevation-1 relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-md bg-white p-5 sm:p-9">
                           <Quote
                             className="text-fg-subtle/5 pointer-events-none absolute top-5 left-5 size-14 -rotate-180 sm:top-6 sm:left-6 sm:size-16"
@@ -70,13 +71,23 @@ export function VoicesSection({ voices, partners }: VoicesSectionProps) {
                           <p className="text-foreground relative flex-1 pt-10 font-serif text-lg leading-[1.65] sm:pt-12 sm:text-xl">
                             {item.quote}
                           </p>
-                          <div className="relative mt-6 sm:mt-8">
-                            <p className="text-foreground font-serif text-base font-semibold">
-                              {item.name}
-                            </p>
-                            <p className="text-fg-muted mt-1 text-sm">
-                              {item.role}
-                            </p>
+                          <div className="relative mt-6 flex items-center gap-3 sm:mt-8">
+                            <Avatar size="lg">
+                              {item.image ? (
+                                <AvatarImage src={item.image} alt={item.name} />
+                              ) : null}
+                              <AvatarFallback className="bg-leaf-muted text-forest-600 text-xs font-semibold tracking-wide">
+                                {item.initials}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <p className="text-foreground font-serif text-base font-semibold">
+                                {item.name}
+                              </p>
+                              <p className="text-fg-muted mt-1 text-sm">
+                                {item.role}
+                              </p>
+                            </div>
                           </div>
                         </article>
                       </CarouselItem>

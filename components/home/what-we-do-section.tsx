@@ -1,9 +1,7 @@
-import { Play } from "lucide-react";
-import Image from "next/image";
-
 import { JumpSectionCard } from "@/components/shared/jump-section-card";
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
+import { VideoPoster } from "@/components/shared/video-poster";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { academyHomePreview } from "@/content/academy";
 import { homeContent } from "@/content/home";
@@ -23,24 +21,14 @@ export function WhatWeDoSection({
             <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
               {homeContent.about.title}
             </h2>
-            <div className="relative mt-7 aspect-529/309 overflow-hidden rounded-xl sm:mt-9">
-              <Image
-                src={poster.image}
-                alt={poster.imageAlt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span
-                  aria-label={homeContent.about.videoAriaLabel}
-                  title={homeContent.about.videoAriaLabel}
-                  className="bg-muted flex size-12 items-center justify-center rounded-xl"
-                >
-                  <Play className="fill-forest-600 text-forest-600 size-5" />
-                </span>
-              </div>
-            </div>
+            <VideoPoster
+              poster={poster.image}
+              posterAlt={poster.imageAlt}
+              video={poster.video}
+              title={homeContent.about.videoAriaLabel}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="mt-7 aspect-529/309 sm:mt-9"
+            />
           </MotionFade>
 
           <MotionStagger className="grid flex-1 gap-4 sm:grid-cols-2 sm:gap-6">

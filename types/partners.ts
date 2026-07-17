@@ -63,6 +63,7 @@ export type PartnersImpactContent = {
 };
 
 export type PartnerVoice = {
+  id: string;
   quote: string;
   name: string;
   role: string;

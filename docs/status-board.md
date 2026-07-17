@@ -53,4 +53,10 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Archive migrated static content blocks to `content/_archived/` (retained as rollback snapshots for one stable production release)
 - [x] Production dataset migration + Vercel prod env cutover (reviewed `development` dataset promoted on 2026-07-16; Production targets `production`, Preview targets `development`)
 - [x] Create/verify the Sanity production webhook for `https://iproduce-africa.vercel.app/api/revalidate` using the Vercel production `SANITY_REVALIDATE_SECRET` (signed publish smoke test returned HTTP 200 on 2026-07-16)
+- [x] Post-cutover Slice A code: registration deadline/status resolver, Academy SEO fields + structured data, Telegram/WhatsApp channel settings
+- [x] Client-visible media slice: Partner Voices avatars + stable testimonial IDs + secure About Story click-to-play video
+- [ ] Confirm the client-supplied About Story YouTube/Vimeo URL in both datasets when available (optional; no migration)
+- [ ] Review image-delivery performance/hotspot handling as its own cross-cutting slice
+- [ ] Add `"id": _id` to both Sanity webhook projections for targeted author-detail revalidation (safe blog-subtree fallback remains active until then)
+- [ ] Next migration slice — CMS-managed Article, Webinar, and Blog categories; migration must be reviewed before either dataset is patched
 - [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

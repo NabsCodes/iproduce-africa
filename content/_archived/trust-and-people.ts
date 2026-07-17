@@ -11,6 +11,7 @@ import type { Partner, PartnerVoice } from "@/types/partners";
 
 export const archivedHomeTestimonials = [
   {
+    id: "home-aissatou-diallo",
     quote:
       "iProduce connected us to two new buyers in three months — the platform pays for itself.",
     name: "Aïssatou Diallo",
@@ -19,6 +20,7 @@ export const archivedHomeTestimonials = [
     initials: "AD",
   },
   {
+    id: "home-kofi-mensah",
     quote:
       "From the academy to the community, everything we need to grow sits in one ecosystem.",
     name: "Kofi Mensah",
@@ -26,6 +28,7 @@ export const archivedHomeTestimonials = [
     initials: "KM",
   },
   {
+    id: "home-zainab-a",
     quote:
       "The bootcamp gave me my first export client. I came for the training and left with a market.",
     name: "Zainab A.",
@@ -33,6 +36,7 @@ export const archivedHomeTestimonials = [
     initials: "ZA",
   },
   {
+    id: "home-tendai-mukamuri",
     quote:
       "The partner network opened doors we'd been knocking on for years. Real introductions, not cold leads.",
     name: "Tendai Mukamuri",
@@ -40,6 +44,7 @@ export const archivedHomeTestimonials = [
     initials: "TM",
   },
   {
+    id: "home-fatou-ndiaye",
     quote:
       "Weekly webinars keep our team current on policy and AfCFTA changes — it's become part of our planning cycle.",
     name: "Fatou Ndiaye",
@@ -47,6 +52,7 @@ export const archivedHomeTestimonials = [
     initials: "FN",
   },
   {
+    id: "home-samuel-okoye",
     quote:
       "We joined for the market access and stayed for the community. The peer learning is unmatched.",
     name: "Samuel Okoye",
@@ -57,6 +63,7 @@ export const archivedHomeTestimonials = [
 
 export const archivedAcademyTestimonials = [
   {
+    id: "academy-aissatou-diallo",
     quote:
       "iProduce connected our co-op to two new buyers in 3 months — the platform pays for itself.",
     name: "Aïssatou Diallo",
@@ -65,6 +72,7 @@ export const archivedAcademyTestimonials = [
     initials: "AD",
   },
   {
+    id: "academy-kofi-mensah",
     quote:
       "From the academy to the marketplace, everything we need to grow sits in one ecosystem.",
     name: "Kofi Mensah",
@@ -72,6 +80,7 @@ export const archivedAcademyTestimonials = [
     initials: "KM",
   },
   {
+    id: "academy-zainab-a",
     quote:
       "The bootcamp gave me my first export client. I came for the training and left with a market.",
     name: "Zainab A.",
@@ -82,18 +91,21 @@ export const archivedAcademyTestimonials = [
 
 export const archivedPartnerVoices = [
   {
+    id: "partner-voice-musa-fajuyi",
     quote:
       "iProduce Africa's strong network and commitment to innovation make them an ideal partner for organisations seeking measurable impact in agriculture.",
     name: "Musa Fajuyi",
     role: "Partnerships Director, DGT Ltd",
   },
   {
+    id: "partner-voice-hauwa-bello",
     quote:
       "Working with iProduce gave our programme reach into communities we had never been able to support directly. The trust they've built across the continent is hard to replicate.",
     name: "Hauwa Bello",
     role: "Programme Lead, Sahara Foundation",
   },
   {
+    id: "partner-voice-tunde-adeyemi",
     quote:
       "A rare partner that brings both depth on the ground and discipline in how they measure outcomes. Our co-designed cohort exceeded every target we set.",
     name: "Dr. Tunde Adeyemi",

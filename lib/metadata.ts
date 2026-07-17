@@ -26,6 +26,7 @@ type PageMetadataInput = {
   description: string;
   path?: string;
   keywords?: string[];
+  image?: string;
 };
 
 function normalizeSiteUrl(url: string): string {
@@ -142,8 +143,10 @@ export function createPageMetadata({
   description,
   path = "/",
   keywords,
+  image,
 }: PageMetadataInput): Metadata {
   const resolvedTitle = resolveTitle(title);
+  const imageUrl = image ? resolveShareImageUrl(image) : undefined;
 
   return {
     title: {
@@ -158,10 +161,14 @@ export function createPageMetadata({
       title: resolvedTitle,
       description,
       path,
+      ...(imageUrl
+        ? { images: [{ url: imageUrl, alt: title ?? siteConfig.name }] }
+        : {}),
     }),
     twitter: createDefaultTwitter({
       title: resolvedTitle,
       description,
+      ...(imageUrl ? { images: [imageUrl] } : {}),
     }),
   };
 }
@@ -171,6 +178,7 @@ type ArticleMetadataInput = {
   description: string;
   path: string;
   publishedAt: string;
+  modifiedAt?: string;
   image: string;
 };
 
@@ -187,6 +195,7 @@ export function createArticleMetadata({
   description,
   path,
   publishedAt,
+  modifiedAt,
   image,
 }: ArticleMetadataInput): Metadata {
   const resolvedTitle = resolveTitle(title);
@@ -207,6 +216,7 @@ export function createArticleMetadata({
       title: resolvedTitle,
       description,
       publishedTime: publishedAt,
+      ...(modifiedAt ? { modifiedTime: modifiedAt } : {}),
       images: [{ url: imageUrl, alt: title }],
     },
     twitter: createDefaultTwitter({

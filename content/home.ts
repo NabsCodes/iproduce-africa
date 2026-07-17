@@ -37,7 +37,7 @@ export const homeContent = {
   about: {
     eyebrow: "What we do",
     title: "Integrating African Agripreneurs to the World Agro-ecosystem",
-    videoAriaLabel: "Intro video coming soon",
+    videoAriaLabel: "Play the iProduce Africa intro video",
   },
   journeys: [
     {

@@ -11,6 +11,10 @@ export type PublicSiteSettings = {
   phone: string;
   address: string;
   socialLinks: readonly SiteSocialLink[];
+  communityChannels: {
+    telegram?: string;
+    whatsapp?: string;
+  };
 };
 
 type RawSiteSettings = {
@@ -21,6 +25,8 @@ type RawSiteSettings = {
   linkedinUrl?: string | null;
   facebookUrl?: string | null;
   youtubeUrl?: string | null;
+  telegramUrl?: string | null;
+  whatsappUrl?: string | null;
 };
 
 const SOCIAL_PLATFORM_FIELDS = [
@@ -60,6 +66,10 @@ function normalizeSiteSettings(
         href,
       };
     }),
+    communityChannels: {
+      telegram: raw.telegramUrl?.trim() || undefined,
+      whatsapp: raw.whatsappUrl?.trim() || undefined,
+    },
   };
 }
 

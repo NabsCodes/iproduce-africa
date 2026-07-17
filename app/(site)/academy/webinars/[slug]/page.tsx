@@ -42,9 +42,10 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: webinar.title,
-    description: webinar.excerpt,
+    title: webinar.seo?.title ?? webinar.title,
+    description: webinar.seo?.description ?? webinar.excerpt,
     path: `/academy/webinars/${webinar.slug}`,
+    image: webinar.seo?.image ?? webinar.image,
   });
 }
 

@@ -7,6 +7,7 @@ import { AcademyDetailShell } from "@/components/academy/listings/academy-detail
 import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
 import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
 import { CtaSection } from "@/components/shared/cta-section";
+import { StructuredData } from "@/components/shared/structured-data";
 import { Badge } from "@/components/ui/badge";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { coursesContent, courseToCardItem } from "@/content/courses";
@@ -16,6 +17,7 @@ import {
   fetchCourseSlugs,
   fetchRelatedCourses,
 } from "@/lib/sanity/fetch/courses";
+import { createCourseStructuredData } from "@/lib/structured-data";
 
 export const revalidate = 3600;
 
@@ -41,9 +43,10 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: course.title,
-    description: course.excerpt,
+    title: course.seo?.title ?? course.title,
+    description: course.seo?.description ?? course.excerpt,
     path: `/academy/courses/${course.slug}`,
+    image: course.seo?.image ?? course.image,
   });
 }
 
@@ -61,53 +64,56 @@ export default async function CourseDetailPage({
   const related = await fetchRelatedCourses(slug);
 
   return (
-    <AcademyDetailShell
-      hero={<AcademyDetailHeroImage src={course.image} alt={course.title} />}
-      metadata={
-        <AcademyDetailMetadata
-          eyebrow={coursesContent.hero.eyebrow}
-          title={course.title}
-          badges={
-            <>
-              <Badge variant="leaf">{card.category}</Badge>
-              <Badge variant="meta">{course.duration}</Badge>
-            </>
-          }
-        />
-      }
-      main={
-        <article className="max-w-3xl">
-          <div className="flex flex-col gap-4">
-            {course.body.map((paragraph) => (
-              <p
-                key={paragraph.slice(0, 24)}
-                className="text-fg-muted text-base leading-7"
-              >
-                {paragraph}
-              </p>
-            ))}
-          </div>
-          <div className="mt-10">
-            <EyebrowBadge>Course outline</EyebrowBadge>
-            <h2 className="text-foreground mt-3 text-xl font-semibold">
-              What you will cover
-            </h2>
-            <ol className="text-fg-muted mt-4 list-decimal space-y-2 pl-5 text-base leading-7">
-              {course.modules.map((module) => (
-                <li key={module}>{module}</li>
+    <>
+      <StructuredData data={createCourseStructuredData(course)} />
+      <AcademyDetailShell
+        hero={<AcademyDetailHeroImage src={course.image} alt={course.title} />}
+        metadata={
+          <AcademyDetailMetadata
+            eyebrow={coursesContent.hero.eyebrow}
+            title={course.title}
+            badges={
+              <>
+                <Badge variant="leaf">{card.category}</Badge>
+                <Badge variant="meta">{course.duration}</Badge>
+              </>
+            }
+          />
+        }
+        main={
+          <article className="max-w-3xl">
+            <div className="flex flex-col gap-4">
+              {course.body.map((paragraph) => (
+                <p
+                  key={paragraph.slice(0, 24)}
+                  className="text-fg-muted text-base leading-7"
+                >
+                  {paragraph}
+                </p>
               ))}
-            </ol>
-          </div>
-        </article>
-      }
-      sidebar={<CourseRegistrationPanel course={course} />}
-      related={
-        <AcademyRelatedSection
-          content={coursesContent.relatedSection}
-          items={related}
-        />
-      }
-      cta={<CtaSection overlapNext={false} content={coursesContent.cta} />}
-    />
+            </div>
+            <div className="mt-10">
+              <EyebrowBadge>Course outline</EyebrowBadge>
+              <h2 className="text-foreground mt-3 text-xl font-semibold">
+                What you will cover
+              </h2>
+              <ol className="text-fg-muted mt-4 list-decimal space-y-2 pl-5 text-base leading-7">
+                {course.modules.map((module) => (
+                  <li key={module}>{module}</li>
+                ))}
+              </ol>
+            </div>
+          </article>
+        }
+        sidebar={<CourseRegistrationPanel course={course} />}
+        related={
+          <AcademyRelatedSection
+            content={coursesContent.relatedSection}
+            items={related}
+          />
+        }
+        cta={<CtaSection overlapNext={false} content={coursesContent.cta} />}
+      />
+    </>
   );
 }

@@ -338,7 +338,7 @@ export function FeaturedEventSection({
               <>
                 <div>
                   <p className="text-fg-subtle text-[11px] font-semibold tracking-[0.18em] uppercase">
-                    Next event begins in
+                    Next session begins in
                   </p>
                   <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
                     <CountdownCard
@@ -365,6 +365,7 @@ export function FeaturedEventSection({
                   webinar={webinar}
                   defaultLabel={featured.registerLabel}
                   className="self-start"
+                  showDetailsAction
                 />
               </>
             )}

@@ -9,6 +9,7 @@ import type { TestimonialItem } from "@/types/content";
 export type TestimonialPlacement = "home" | "academy" | "partners-voices";
 
 type RawTestimonialDoc = {
+  id: string;
   quote: string;
   name: string;
   role: string;
@@ -18,6 +19,7 @@ type RawTestimonialDoc = {
 
 function normalizeTestimonial(raw: RawTestimonialDoc): TestimonialItem {
   return {
+    id: raw.id,
     quote: raw.quote,
     name: raw.name,
     role: raw.role,

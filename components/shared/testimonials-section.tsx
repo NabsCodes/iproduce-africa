@@ -51,7 +51,7 @@ export function TestimonialsSection({
             <CarouselContent className="-ml-4 sm:-ml-6">
               {items.map((item) => (
                 <CarouselItem
-                  key={item.name}
+                  key={item.id}
                   className="basis-full pl-4 sm:basis-1/2 sm:pl-6 lg:basis-1/3"
                 >
                   <Card className="bg-subtle flex min-h-[300px] flex-col gap-0 rounded-xl border-0 py-0 shadow-none ring-0">

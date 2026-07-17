@@ -44,6 +44,7 @@ export function WebinarRegistrationPanel({
         webinar={webinar}
         defaultLabel={copy.buttonLabel}
         className="mt-6 w-full"
+        fullWidth
       />
     </div>
   );

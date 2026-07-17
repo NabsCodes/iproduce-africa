@@ -20,7 +20,13 @@ Editors control:
 - public email;
 - public phone;
 - address;
-- Instagram, LinkedIn, Facebook, and YouTube URLs.
+- Instagram, LinkedIn, Facebook, and YouTube URLs;
+- Telegram and WhatsApp community URLs for the Community and Contact pages.
+
+The Studio form groups these fields into **Contact details** and **Social &
+community links**. Every field description names the public surfaces it affects
+and explains the blank state. In particular, the public email does not control
+form-notification delivery, and Telegram/WhatsApp do not appear in the footer.
 
 Office hours, organisation identity, canonical URL, SEO, navigation, footer
 routes, and newsletter copy remain code-owned. Office hours describe the
@@ -44,11 +50,12 @@ code.
 
 Editors control:
 
-- Story paragraphs, poster image, and alt text;
+- Story paragraphs, poster image, alt text, and an optional YouTube/Vimeo URL;
 - Mission, Vision, and Objective body copy.
 
 The complete hero, journey timeline, section headings, CTA labels/actions,
-team/advisor chrome, poster play treatment, and layout remain code-owned.
+team/advisor chrome, video-provider allowlisting, embed behaviour, and layout
+remain code-owned.
 
 ### Legal (`legalPage`)
 
@@ -159,9 +166,10 @@ The Home What We Do poster, Home fixed-card images, and About Story poster are
 replaceable CMS image slots. The Home hero and layout-dependent imagery remain
 code-owned.
 
-Home What We Do and About Story still have poster-only coming-soon treatments.
-No unused video URL, player, captions, or hosting fields are added until a real
-video feature is approved.
+Home What We Do remains a poster-only coming-soon treatment. About Story has
+one optional YouTube/Vimeo URL and a privacy-oriented click-to-play facade; a
+blank or invalid value remains poster-only. Direct video uploads, custom video
+hosting, caption management, and Home video wiring are not included.
 
 ## Archival boundary
 

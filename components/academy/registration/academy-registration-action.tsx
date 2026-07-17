@@ -1,14 +1,12 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import { type ComponentProps, useEffect, useState } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { ComponentProps } from "react";
 
 import { AcademyRegisterButton } from "@/components/academy/registration/academy-register-button";
-import { ButtonLink } from "@/components/ui/button";
-import {
-  resolveCourseRegistration,
-  resolveWebinarRegistration,
-} from "@/lib/academy-registration";
+import { Button, ButtonLink } from "@/components/ui/button";
+import { useWebinarRegistrationState } from "@/hooks/use-webinar-registration-state";
+import { resolveCourseRegistration } from "@/lib/academy-registration";
 import { cn } from "@/lib/utils";
 import type { AcademyCourseDetail, AcademyWebinar } from "@/types/academy";
 
@@ -16,6 +14,8 @@ type AcademyRegistrationActionProps = {
   defaultLabel: string;
   className?: string;
   buttonSize?: ComponentProps<typeof AcademyRegisterButton>["size"];
+  fullWidth?: boolean;
+  showDetailsAction?: boolean;
 } & (
   | { kind: "webinar"; webinar: AcademyWebinar }
   | { kind: "course"; course: AcademyCourseDetail }
@@ -24,41 +24,12 @@ type AcademyRegistrationActionProps = {
 export function AcademyRegistrationAction(
   props: AcademyRegistrationActionProps,
 ) {
-  const { defaultLabel, className, buttonSize = "lg" } = props;
-  const webinarDate = props.kind === "webinar" ? props.webinar.date : null;
-  const [clockRevision, setClockRevision] = useState(0);
+  if (props.kind === "webinar") {
+    return <WebinarRegistrationAction {...props} />;
+  }
 
-  useEffect(() => {
-    if (!webinarDate) return;
-
-    const untilStart = Date.parse(webinarDate) - Date.now();
-    if (!Number.isFinite(untilStart) || untilStart <= 0) return;
-
-    const timeoutId = window.setTimeout(
-      () => setClockRevision((revision) => revision + 1),
-      Math.min(untilStart + 25, 2_147_000_000),
-    );
-
-    return () => window.clearTimeout(timeoutId);
-  }, [clockRevision, webinarDate]);
-
-  const target =
-    props.kind === "webinar"
-      ? {
-          kind: "webinar" as const,
-          slug: props.webinar.slug,
-          title: props.webinar.title,
-        }
-      : {
-          kind: "course" as const,
-          slug: props.course.slug,
-          title: props.course.title,
-        };
-
-  const registration =
-    props.kind === "webinar"
-      ? resolveWebinarRegistration(props.webinar)
-      : resolveCourseRegistration(props.course.registration);
+  const { course, defaultLabel, className, buttonSize = "lg" } = props;
+  const registration = resolveCourseRegistration(course.registration);
 
   if (registration.mode === "closed") {
     return (
@@ -72,34 +43,93 @@ export function AcademyRegistrationAction(
   if (registration.mode === "external") {
     if (registration.url) {
       return (
-        <ButtonLink
-          href={registration.url}
+        <Button
+          asChild
           variant="tangerine"
           size={buttonSize}
           className={className}
         >
-          {registration.label ?? "View recording"}
-          <ArrowRight className="size-4" />
-        </ButtonLink>
+          <a href={registration.url} target="_blank" rel="noopener noreferrer">
+            {registration.label ?? "Continue to registration"}
+            <ArrowUpRight className="size-4" />
+          </a>
+        </Button>
       );
     }
 
     return (
       <p className={cn("text-fg-muted text-sm leading-6", className)}>
-        Registration for this session is managed externally.
+        Registration for this course is managed externally.
       </p>
     );
   }
 
   return (
     <AcademyRegisterButton
-      kind={target.kind}
-      slug={target.slug}
-      title={target.title}
+      kind="course"
+      slug={course.slug}
+      title={course.title}
       label={registration.label ?? defaultLabel}
       variant="tangerine"
       size={buttonSize}
       className={className}
     />
+  );
+}
+
+function WebinarRegistrationAction({
+  webinar,
+  defaultLabel,
+  className,
+  buttonSize = "lg",
+  fullWidth = false,
+  showDetailsAction = false,
+}: Extract<AcademyRegistrationActionProps, { kind: "webinar" }>) {
+  const state = useWebinarRegistrationState(webinar, defaultLabel);
+
+  return (
+    <div className={cn("flex flex-col items-start gap-3", className)}>
+      <p
+        className="text-fg-muted text-sm leading-6"
+        role="status"
+        aria-live="polite"
+      >
+        {state.statusLine}
+      </p>
+
+      {state.action.kind === "internal" ? (
+        <AcademyRegisterButton
+          kind="webinar"
+          slug={webinar.slug}
+          title={webinar.title}
+          label={state.action.label}
+          variant="tangerine"
+          size={buttonSize}
+          fullWidth={fullWidth}
+        />
+      ) : state.action.kind === "external" ? (
+        <Button
+          asChild
+          variant="tangerine"
+          size={buttonSize}
+          fullWidth={fullWidth}
+        >
+          <a href={state.action.href} target="_blank" rel="noopener noreferrer">
+            {state.action.label}
+            <ArrowUpRight className="size-4" />
+          </a>
+        </Button>
+      ) : showDetailsAction ? (
+        <ButtonLink
+          href={`/academy/webinars/${webinar.slug}`}
+          variant="green-outline"
+          size={buttonSize}
+          fullWidth={fullWidth}
+        >
+          {state.action.label}
+          <ArrowRight className="size-4" />
+        </ButtonLink>
+      ) : null}
+    </div>
   );
 }

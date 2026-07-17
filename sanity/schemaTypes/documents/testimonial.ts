@@ -39,13 +39,20 @@ export const testimonial = defineType({
       name: "image",
       title: "Photo",
       type: "image",
+      description:
+        "Optional profile photo shown beside the person's name. Choose a clear portrait and use the hotspot to keep the face centred.",
       options: { hotspot: true },
     }),
     defineField({
       name: "initials",
       title: "Initials",
       type: "string",
-      description: "Fallback avatar text shown when no photo is set.",
+      description:
+        "Optional fallback shown when no photo is set. Leave blank to generate initials automatically from the person's name.",
+      validation: (Rule) =>
+        Rule.max(4).warning(
+          "Keep avatar initials to four characters or fewer.",
+        ),
     }),
     defineField({
       name: "placement",

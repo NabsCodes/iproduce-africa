@@ -27,6 +27,16 @@ const academyCardMetaDateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 });
 
+const academyRegistrationDeadlineFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: "UTC",
+  timeZoneName: "short",
+});
+
 /** Featured / detail / registration panel: "Tuesday, July 14, 2026". */
 export function formatAcademyFeaturedDate(iso: string): string {
   return academyFeaturedDateFormatter.format(new Date(iso));
@@ -40,6 +50,11 @@ export function formatAcademyShortDate(iso: string): string {
 /** Hub / Home card meta chips: "JUL 14". */
 export function formatAcademyCardMetaDate(iso: string): string {
   return academyCardMetaDateFormatter.format(new Date(iso)).toUpperCase();
+}
+
+/** Registration status copy: "Jul 14, 2026, 3:00 PM UTC". */
+export function formatAcademyRegistrationDeadline(iso: string): string {
+  return academyRegistrationDeadlineFormatter.format(new Date(iso));
 }
 
 /** Prefer editor override `dateLabel`, otherwise format from `date`. */

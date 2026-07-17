@@ -15,6 +15,7 @@ import {
   featuredArticleQuery,
   relatedArticlesQuery,
 } from "@/lib/sanity/queries";
+import { normalizeSeoMetadata, type RawSeoMetadata } from "@/lib/sanity/seo";
 import type { AcademyArticle, AcademyRelatedItem } from "@/types/academy";
 import type { BlogArticle, BlogCategory } from "@/types/blog";
 
@@ -27,10 +28,12 @@ type RawArticleDoc = {
   category: BlogCategory;
   readTimeMinutes: number | null;
   publishedAt: string;
+  _updatedAt: string;
   cardImage: SanityImageField | null;
   heroImage: SanityImageField | null;
   body: PortableTextBlock[];
   author: { name: string; role?: string } | null;
+  seo?: RawSeoMetadata | null;
 };
 
 const WORDS_PER_MINUTE = 200;
@@ -82,12 +85,14 @@ function normalizeArticle(raw: RawArticleDoc): BlogArticle {
     author: raw.author ?? { name: "iProduce Africa" },
     readTimeMinutes: raw.readTimeMinutes ?? estimateReadTimeMinutes(raw.body),
     publishedAt: raw.publishedAt,
+    updatedAt: raw._updatedAt,
     cardImage: resolveImageUrl(raw.cardImage) ?? "",
     cardImageAlt: raw.cardImage?.alt ?? raw.title,
     heroImage: resolveImageUrl(raw.heroImage),
     heroImageAlt: raw.heroImage?.alt,
     excerpt: raw.excerpt,
     body: portableTextToBlogArticleBlocks(raw.body),
+    seo: normalizeSeoMetadata(raw.seo),
   };
 }
 

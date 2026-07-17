@@ -3,6 +3,7 @@ import type {
   AcademyRelatedSectionContent,
 } from "@/types/academy";
 import type { CtaSectionContent } from "@/types/content";
+import type { SeoMetadata } from "@/types/seo";
 
 export type BlogCategory =
   | "Innovation"
@@ -67,6 +68,7 @@ export type BlogArticle = {
   readTimeMinutes: number;
   /** ISO 8601 — formatted at render time via `Intl.DateTimeFormat`. */
   publishedAt: string;
+  updatedAt?: string;
   /** Listing / grid card image. */
   cardImage: string;
   cardImageAlt: string;
@@ -76,6 +78,7 @@ export type BlogArticle = {
   /** Listing card description (~140 chars). */
   excerpt: string;
   body: readonly BlogArticleBlock[];
+  seo?: SeoMetadata;
 };
 
 export type BlogHeroContent = AcademyListingHeroContent;

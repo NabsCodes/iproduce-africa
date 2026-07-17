@@ -155,10 +155,13 @@ stand-ins featuring **African people and contexts** (agriculture, cohort
 learning, partnerships, digital platform, continental scale) until client
 exports real milestone photography to `public/images/about/journey/`.
 
-**Story media boundary:** Phase 3 makes the Story poster image/alt editable but
-does not add video fields. The current play mark remains a non-interactive
-coming-soon treatment until a real video, hosting source, captions/transcript,
-and player behaviour are approved as a separate feature.
+**Story media boundary:** The Story poster image/alt and one optional hosted
+video URL are editor-managed. The application accepts supported YouTube/Vimeo
+links, constructs a privacy-oriented embed URL, and mounts the player only
+after a visitor activates the real Play button. A missing or invalid URL shows
+the poster without promising unavailable playback. Direct video uploads,
+custom hosting, captions/transcripts, and Home video wiring remain separate
+requirements.
 
 ## Placeholder Copy / Metrics
 
@@ -182,4 +185,5 @@ remains placeholder pending client data.
 - [x] Motion adoption scope documented
 - [x] Real photography for team / advisors
 - [ ] Real photography for journey milestones
-- [ ] Story video link wired to a real asset
+- [x] Story click-to-play component + optional CMS video URL implemented
+- [ ] Client supplies and verifies the real Story video URL

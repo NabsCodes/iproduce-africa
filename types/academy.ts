@@ -7,6 +7,7 @@ import type {
   JumpSectionIconKey,
   TestimonialItem,
 } from "@/types/content";
+import type { SeoMetadata } from "@/types/seo";
 
 export type AcademyParticipantIconKey =
   | "rocket"
@@ -187,8 +188,24 @@ export type AcademyRegistrationMode =
 export type AcademyRegistrationConfig = {
   mode: AcademyRegistrationMode;
   url?: string;
+  providerName?: string;
+  closesAt?: string;
   label?: string;
   closedLabel?: string;
+};
+
+export type WebinarRegistrationAction =
+  | { kind: "internal"; label: string }
+  | { kind: "external"; label: string; href: string }
+  | { kind: "details"; label: string };
+
+export type WebinarRegistrationState = {
+  mode: AcademyRegistrationMode;
+  availability: "available" | "closed";
+  compactLabel: string;
+  statusLine: string;
+  action: WebinarRegistrationAction;
+  nextBoundary?: string;
 };
 
 export type AcademyWebinar = {
@@ -207,6 +224,7 @@ export type AcademyWebinar = {
   format?: string;
   speakers?: string;
   registration?: AcademyRegistrationConfig;
+  seo?: SeoMetadata;
 };
 
 export type AcademyCourseDetail = AcademyCourse & {
@@ -214,6 +232,7 @@ export type AcademyCourseDetail = AcademyCourse & {
   body: readonly string[];
   modules: readonly string[];
   registration?: AcademyRegistrationConfig;
+  seo?: SeoMetadata;
 };
 
 export type AcademyHomePreview = {

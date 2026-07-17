@@ -9,6 +9,7 @@ import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { communityPageContent } from "@/content/community";
+import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 import { cn } from "@/lib/utils";
 import type { CommunityPreviewFeature } from "@/types/community";
 
@@ -18,7 +19,11 @@ const featureIconMap: Record<CommunityPreviewFeature["icon"], LucideIcon> = {
   lightbulb: Lightbulb,
 };
 
-export function CommunityPreviewSection() {
+export function CommunityPreviewSection({
+  channels,
+}: {
+  channels: PublicSiteSettings["communityChannels"];
+}) {
   const section = communityPageContent.preview;
 
   return (
@@ -65,10 +70,15 @@ export function CommunityPreviewSection() {
 
             <div className="flex flex-wrap gap-3">
               {section.channels.map((channel) => {
+                const managedHref =
+                  channel.id === "telegram"
+                    ? channels.telegram
+                    : channels.whatsapp;
+                const managedStatus = managedHref ? "live" : "coming-soon";
                 const statusLabel =
-                  channel.status === "live" ? "LIVE" : "COMING SOON";
+                  managedStatus === "live" ? "LIVE" : "COMING SOON";
                 const statusClass =
-                  channel.status === "live"
+                  managedStatus === "live"
                     ? "text-leaf-600"
                     : "text-tangerine-600";
 
@@ -83,7 +93,7 @@ export function CommunityPreviewSection() {
                         statusClass,
                       )}
                     >
-                      {channel.status === "live" ? (
+                      {managedStatus === "live" ? (
                         <span
                           className="bg-leaf-500 size-1.5 shrink-0 rounded-full motion-safe:animate-pulse"
                           aria-hidden
@@ -94,11 +104,11 @@ export function CommunityPreviewSection() {
                   </>
                 );
 
-                if ("href" in channel && channel.href) {
+                if (managedHref) {
                   return (
                     <a
                       key={channel.id}
-                      href={channel.href}
+                      href={managedHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="border-border flex items-center gap-2.5 rounded-full border border-dashed bg-white/60 px-4 py-2.5 transition-colors hover:bg-white"

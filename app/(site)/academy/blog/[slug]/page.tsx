@@ -10,6 +10,7 @@ import { AcademyDetailShell } from "@/components/academy/listings/academy-detail
 import { AcademyRelatedSection } from "@/components/academy/listings/academy-related-section";
 import { AcademyDetailHeroImage } from "@/components/academy/listings/detail-hero-image";
 import { CtaSection } from "@/components/shared/cta-section";
+import { StructuredData } from "@/components/shared/structured-data";
 import { blogContent, getBlogHeroImage } from "@/content/blog";
 import { createArticleMetadata, createPageMetadata } from "@/lib/metadata";
 import {
@@ -17,6 +18,7 @@ import {
   fetchArticleSlugs,
   fetchRelatedArticles,
 } from "@/lib/sanity/fetch/articles";
+import { createBlogPostingStructuredData } from "@/lib/structured-data";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -48,11 +50,12 @@ export async function generateMetadata({
   }
 
   return createArticleMetadata({
-    title: article.title,
-    description: article.excerpt,
+    title: article.seo?.title ?? article.title,
+    description: article.seo?.description ?? article.excerpt,
     path: `/academy/blog/${article.slug}`,
     publishedAt: article.publishedAt,
-    image: getBlogHeroImage(article).src,
+    modifiedAt: article.updatedAt,
+    image: article.seo?.image ?? getBlogHeroImage(article).src,
   });
 }
 
@@ -70,43 +73,48 @@ export default async function BlogArticlePage({
   const relatedArticles = await fetchRelatedArticles(slug, article.category);
 
   return (
-    <AcademyDetailShell
-      hero={<AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />}
-      metadata={
-        <AcademyDetailMetadata
-          eyebrow={blogContent.hero.eyebrow}
-          title={article.title}
-          badges={
-            <ArticleMetaBadges
-              category={article.category}
-              readTimeMinutes={article.readTimeMinutes}
-            />
-          }
-          meta={
-            <ArticleAuthor
-              author={article.author}
-              publishedAt={dateFormatter.format(new Date(article.publishedAt))}
-              publishedAtIso={article.publishedAt}
-            />
-          }
-        />
-      }
-      main={<ArticleBody blocks={article.body} />}
-      sidebar={
-        <BlogArticleSidebar
-          title={article.title}
-          articlePath={`/academy/blog/${slug}`}
-          newsletter={blogContent.newsletter}
-          shareControls={blogContent.shareControls}
-        />
-      }
-      related={
-        <AcademyRelatedSection
-          content={blogContent.relatedSection}
-          items={relatedArticles}
-        />
-      }
-      cta={<CtaSection overlapNext={false} content={blogContent.cta} />}
-    />
+    <>
+      <StructuredData data={createBlogPostingStructuredData(article)} />
+      <AcademyDetailShell
+        hero={<AcademyDetailHeroImage src={hero.src} alt={hero.alt} priority />}
+        metadata={
+          <AcademyDetailMetadata
+            eyebrow={blogContent.hero.eyebrow}
+            title={article.title}
+            badges={
+              <ArticleMetaBadges
+                category={article.category}
+                readTimeMinutes={article.readTimeMinutes}
+              />
+            }
+            meta={
+              <ArticleAuthor
+                author={article.author}
+                publishedAt={dateFormatter.format(
+                  new Date(article.publishedAt),
+                )}
+                publishedAtIso={article.publishedAt}
+              />
+            }
+          />
+        }
+        main={<ArticleBody blocks={article.body} />}
+        sidebar={
+          <BlogArticleSidebar
+            title={article.title}
+            articlePath={`/academy/blog/${slug}`}
+            newsletter={blogContent.newsletter}
+            shareControls={blogContent.shareControls}
+          />
+        }
+        related={
+          <AcademyRelatedSection
+            content={blogContent.relatedSection}
+            items={relatedArticles}
+          />
+        }
+        cta={<CtaSection overlapNext={false} content={blogContent.cta} />}
+      />
+    </>
   );
 }

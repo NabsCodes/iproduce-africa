@@ -9,7 +9,7 @@ export const registrationConfig = defineType({
       name: "mode",
       title: "How people register",
       description:
-        "Open on this site — show the iProduce registration form. For webinars, registration closes automatically when the session starts.\n\nCollect interest only — use the same form as an interest / waitlist signup (typical for courses).\n\nSend to an external page — button opens your Zoom, Eventbrite, or other link instead of our form.\n\nRegistration closed — hide signup and show the closed message.",
+        "Open on this site — use the iProduce registration form. Webinar registration closes at the optional deadline, or when the session starts if no deadline is set.\n\nCollect interest only — use the iProduce form as an interest or waitlist signup. Without a deadline, this remains open after a webinar starts.\n\nSend to an external page — open Zoom, Eventbrite, or another provider in a new tab. That provider owns registration records and emails; the iProduce form is not used.\n\nRegistration closed — hide signup and show the closed message.",
       type: "string",
       options: {
         list: [
@@ -52,10 +52,35 @@ export const registrationConfig = defineType({
         }),
     }),
     defineField({
+      name: "providerName",
+      title: "External provider name (optional)",
+      description:
+        'Name shown in public copy, for example "Zoom" or "Eventbrite". When empty, the website uses "external platform".',
+      type: "string",
+      hidden: ({ parent }) => parent?.mode !== "external",
+    }),
+    defineField({
+      name: "closesAt",
+      title: "Registration closes at (optional)",
+      description:
+        "For webinars only. Leave blank to close normal on-site registration when the session starts. Interest and external registration remain available unless a deadline or closed mode is set.",
+      type: "datetime",
+      hidden: ({ document }) => document?._type !== "academyWebinar",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!value) return true;
+          const document = context.document as { date?: string } | undefined;
+          if (!document?.date) return true;
+          return Date.parse(value) <= Date.parse(document.date)
+            ? true
+            : "Registration must close at or before the session start time.";
+        }),
+    }),
+    defineField({
       name: "label",
       title: "Button text (optional)",
       description:
-        'Override the default button wording, e.g. "Reserve a seat" or "Join the waitlist".',
+        'Override the default button wording, e.g. "Reserve a seat" or "Join the waitlist". External links open in a new tab.',
       type: "string",
     }),
     defineField({

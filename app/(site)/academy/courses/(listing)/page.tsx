@@ -2,6 +2,7 @@ import { CoursesListingBody } from "@/components/academy/courses/courses-listing
 import { FeaturedCourseSection } from "@/components/academy/courses/featured-course-section";
 import { AcademyListingHeroSection } from "@/components/academy/listings/listing-hero-section";
 import { CtaSection } from "@/components/shared/cta-section";
+import { StructuredData } from "@/components/shared/structured-data";
 import { coursesContent, coursesListing } from "@/content/courses";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
@@ -9,6 +10,7 @@ import {
   fetchCoursesListing,
   fetchFeaturedCourse,
 } from "@/lib/sanity/fetch/courses";
+import { createCourseListStructuredData } from "@/lib/structured-data";
 
 export const metadata = createPageMetadata(pageSeo.courses);
 export const revalidate = 3600;
@@ -21,6 +23,9 @@ export default async function CoursesIndexPage() {
 
   return (
     <>
+      {courses.length >= 3 ? (
+        <StructuredData data={createCourseListStructuredData(courses)} />
+      ) : null}
       <AcademyListingHeroSection content={coursesListing.hero} />
       {featured ? <FeaturedCourseSection course={featured} /> : null}
       <CoursesListingBody

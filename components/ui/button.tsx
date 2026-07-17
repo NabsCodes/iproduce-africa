@@ -45,6 +45,10 @@ const buttonVariants = cva(
 
         "outline-light":
           "border-white/60 bg-transparent text-white hover:bg-white/10 focus-visible:ring-white/40",
+
+        /* Play control layered over poster imagery */
+        "video-overlay":
+          "bg-white/95 text-forest-600 shadow-sm hover:bg-white focus-visible:ring-leaf-300",
       },
       size: {
         /* Figma spec sizes */
@@ -58,6 +62,7 @@ const buttonVariants = cva(
         xs: "h-8 rounded-md px-3 text-xs [&_svg:not([class*='size-'])]:size-3.5",
         icon: "size-12 rounded-md [&_svg:not([class*='size-'])]:size-5",
         "icon-sm": "size-10 rounded-md [&_svg:not([class*='size-'])]:size-4",
+        "icon-lg": "size-14 rounded-xl [&_svg:not([class*='size-'])]:size-5",
       },
       fullWidth: {
         true: "w-full",

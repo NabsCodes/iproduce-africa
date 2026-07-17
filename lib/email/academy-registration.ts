@@ -1,6 +1,6 @@
 import {
   resolveCourseRegistration,
-  resolveWebinarRegistration,
+  resolveWebinarRegistrationState,
 } from "@/lib/academy-registration";
 import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
@@ -30,10 +30,10 @@ export type AcademySessionLookup =
 
 /**
  * Resolves title + registration status in one Sanity fetch — reuses the
- * already-tested `resolveWebinarRegistration`/`resolveCourseRegistration`
+ * already-tested `resolveWebinarRegistrationState`/`resolveCourseRegistration`
  * from `lib/academy-registration.ts` (the same functions the UI uses to
- * decide whether to show a register button) so the "closed, or open but
- * the date has already passed" rule lives in exactly one place.
+ * decide whether to show a register button) so deadline and closed-state
+ * rules live in exactly one place.
  *
  * `external` mode means the session is registered elsewhere (per
  * docs/sanity-academy-spec.md: "UI links out; API not used") — this API
@@ -47,8 +47,8 @@ export async function resolveAcademySession(
   if (kind === "webinar") {
     const webinar = await fetchWebinarBySlug(slug);
     if (!webinar) return { status: "not_found" };
-    const registration = resolveWebinarRegistration(webinar);
-    if (registration.mode === "closed") {
+    const registration = resolveWebinarRegistrationState(webinar);
+    if (registration.availability === "closed") {
       return { status: "closed", title: webinar.title };
     }
     if (registration.mode === "external") {

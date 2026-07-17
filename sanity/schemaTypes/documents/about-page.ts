@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { resolveVideoEmbed } from "@/lib/video-embeds";
+
 export const aboutPage = defineType({
   name: "aboutPage",
   title: "About Page",
@@ -34,6 +36,19 @@ export const aboutPage = defineType({
           title: "Poster alt text",
           type: "string",
           validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: "videoUrl",
+          title: "Story video URL (optional)",
+          description:
+            "Paste the public YouTube or Vimeo video URL. When blank or invalid, the website shows only the poster image and no play button.",
+          type: "url",
+          validation: (Rule) =>
+            Rule.custom((value) =>
+              !value || (typeof value === "string" && resolveVideoEmbed(value))
+                ? true
+                : "Enter a valid public YouTube or Vimeo video URL.",
+            ),
         }),
       ],
       validation: (Rule) => Rule.required(),

@@ -1,8 +1,8 @@
-import { GraduationCap, Play, UsersRound } from "lucide-react";
-import Image from "next/image";
+import { GraduationCap, UsersRound } from "lucide-react";
 
 import { MotionFade } from "@/components/shared/motion/motion-fade";
 import { SiteCtaButton } from "@/components/shared/site-cta-button";
+import { VideoPoster } from "@/components/shared/video-poster";
 import { DecorativeRing } from "@/components/ui/decorative-ring";
 import { EyebrowBadge } from "@/components/ui/eyebrow-badge";
 import { aboutPageContent } from "@/content/about";
@@ -20,22 +20,14 @@ export function StorySection({ story }: { story: AboutPageContent["story"] }) {
               strokeWidth={6}
               className="text-tangerine-300 -top-8 -right-6 size-[180px] sm:-top-10 sm:-right-8 sm:size-[220px]"
             />
-            <div className="bg-muted relative aspect-4/3 overflow-hidden rounded-xl">
-              <Image
-                src={story.image}
-                alt={story.imageAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              <span
-                aria-label={storyShell.videoAriaLabel}
-                title={storyShell.videoAriaLabel}
-                className="bg-leaf-subtle text-leaf-700 pointer-events-none absolute top-1/2 left-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl"
-              >
-                <Play className="size-5 fill-current" />
-              </span>
-            </div>
+            <VideoPoster
+              poster={story.image}
+              posterAlt={story.imageAlt}
+              video={story.video}
+              title={storyShell.videoAriaLabel}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="aspect-4/3"
+            />
           </div>
 
           <MotionFade>

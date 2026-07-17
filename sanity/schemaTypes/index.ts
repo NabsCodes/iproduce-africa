@@ -24,6 +24,7 @@ import { legalTable } from "@/sanity/schemaTypes/objects/legal-table";
 import { legalTableRow } from "@/sanity/schemaTypes/objects/legal-table-row";
 import { orderedStep } from "@/sanity/schemaTypes/objects/ordered-step";
 import { registrationConfig } from "@/sanity/schemaTypes/objects/registration-config";
+import { seoMetadata } from "@/sanity/schemaTypes/objects/seo-metadata";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Documents
@@ -47,6 +48,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   legalTable,
   legalTableRow,
   registrationConfig,
+  seoMetadata,
   orderedStep,
   // Blocks
   callout,
