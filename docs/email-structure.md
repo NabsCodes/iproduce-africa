@@ -15,7 +15,6 @@ lib/email/
 ├── format-submitted-at.ts       # Timestamp helper (Africa/Lagos)
 ├── resolve-label.ts             # Form option → label for email copy
 ├── contact.ts                   # Orchestration — contact form
-├── newsletter.ts                # rollback only until Mailchimp live test passes
 ├── academy-registration.ts
 ├── community.ts
 ├── partners.ts                  # inquiry + become-partner
@@ -32,7 +31,6 @@ lib/email/
 │   └── email-sign-off.tsx
 ├── templates/                   # One file per form — internal + receipt + build*()
 │   ├── contact-notification.tsx
-│   ├── newsletter-confirm.tsx
 │   ├── academy-registration-notification.tsx
 │   ├── community-application-notification.tsx
 │   ├── partner-inquiry-notification.tsx
@@ -128,19 +126,18 @@ Check both `*-notification` and `*-receipt` at **375px** before deploy.
 
 ## Suggestions — configuration
 
-| Variable                                                                  | Purpose                                                                                                                                                       |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RESEND_API_KEY`                                                          | Resend API key (dedicated iProduce project — not shared with other clients)                                                                                   |
-| `EMAIL_FROM`                                                              | `iProduce Africa <info@iproduceafrica.com>` in prod; `onboarding@resend.dev` pre-DNS                                                                          |
-| `NEXT_PUBLIC_SITE_URL`                                                    | **Until custom domain handover:** `https://iproduce-africa.vercel.app` — drives metadata, email CTAs, and footer links in sent mail via `getEmailSiteUrl()`   |
-| `EMAIL_ASSETS_BASE_URL`                                                   | **Match `NEXT_PUBLIC_SITE_URL` for now** — absolute logo URL (`/brand/email-logo.png`). Unset only for local `pnpm email:dev` (uses `/static/email-logo.png`) |
-| `CONTACT_TO_EMAIL`                                                        | Internal inbox per form (can share one ops address early)                                                                                                     |
-| `PARTNERS_TO_EMAIL`                                                       |                                                                                                                                                               |
-| `COMMUNITY_TO_EMAIL`                                                      |                                                                                                                                                               |
-| `ACADEMY_TO_EMAIL`                                                        |                                                                                                                                                               |
-| `MAILCHIMP_API_KEY` / `MAILCHIMP_SERVER_PREFIX` / `MAILCHIMP_AUDIENCE_ID` | Server-only newsletter audience integration                                                                                                                   |
-| `NEWSLETTER_TO_EMAIL`                                                     | Temporary rollback only; remove after production Mailchimp testing                                                                                            |
-| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY`                 | Production keys on live domain                                                                                                                                |
+| Variable                                                                  | Purpose                                                                                                                                            |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RESEND_API_KEY`                                                          | Resend API key (dedicated iProduce project — not shared with other clients)                                                                        |
+| `EMAIL_FROM`                                                              | `iProduce Africa <info@iproduceafrica.com>` in prod; `onboarding@resend.dev` pre-DNS                                                               |
+| `NEXT_PUBLIC_SITE_URL`                                                    | `https://iproduceafrica.com` in Production — drives metadata, email CTAs, and footer links in sent mail via `getEmailSiteUrl()`                    |
+| `EMAIL_ASSETS_BASE_URL`                                                   | Match the Production site URL — absolute logo URL (`/brand/email-logo.png`). Unset only for local `pnpm email:dev` (uses `/static/email-logo.png`) |
+| `CONTACT_TO_EMAIL`                                                        | Internal inbox per form (can share one ops address early)                                                                                          |
+| `PARTNERS_TO_EMAIL`                                                       |                                                                                                                                                    |
+| `COMMUNITY_TO_EMAIL`                                                      |                                                                                                                                                    |
+| `ACADEMY_TO_EMAIL`                                                        |                                                                                                                                                    |
+| `MAILCHIMP_API_KEY` / `MAILCHIMP_SERVER_PREFIX` / `MAILCHIMP_AUDIENCE_ID` | Server-only newsletter audience integration                                                                                                        |
+| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY`                 | Production keys on live domain                                                                                                                     |
 
 Missing `RESEND_API_KEY` or `EMAIL_FROM` → API returns **503** with friendly copy (no silent success).
 

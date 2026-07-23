@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.iproduceafrica.com" }],
+        destination: "https://iproduceafrica.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   serverExternalPackages: [
     "@react-email/components",
     "@react-email/render",

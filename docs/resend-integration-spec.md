@@ -196,9 +196,9 @@ client-sent titles.
 
 `POST /api/newsletter` now uses the client-owned Mailchimp audience. Mailchimp
 stores subscribers, applies the `Website newsletter` source tag, and sends the
-double-opt-in confirmation. The old newsletter-only Resend orchestrator and
-templates remain temporarily as rollback files until the production Mailchimp
-smoke test passes; no active newsletter route imports them.
+double-opt-in confirmation. The production Mailchimp lifecycle test passed, so
+the old newsletter-only Resend orchestrator, templates, previews, and
+`NEWSLETTER_TO_EMAIL` variable have been removed.
 
 Duplicate-submit handling is intentionally client-side for this phase:
 
@@ -267,8 +267,6 @@ Subscriber highlights use `EmailHighlightCard` (sage panel, serif value).
 | `community-application-receipt.tsx`      | Submitter | Application received         |
 | `academy-registration-notification.tsx`  | Internal  | Academy registration         |
 | `academy-registration-receipt.tsx`       | Submitter | Registration received        |
-| `newsletter-notification.tsx`            | Internal  | Newsletter subscriber        |
-| `newsletter-confirm.tsx`                 | Submitter | Newsletter                   |
 
 Partner inquiry and become-partner can share a internal layout variant if the
 diff is only field mapping — keep separate `build*` functions either way.
@@ -379,25 +377,24 @@ For production cutover order, smoke tests, and vendor ownership notes, use
 `docs/production-form-delivery-cutover.md`. This table is the source for exact
 env names used by code.
 
-| Variable                         | Required      | Example                                     | Purpose                                                                     |
-| -------------------------------- | ------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
-| `RESEND_API_KEY`                 | Yes (prod)    | `re_...`                                    | Resend API                                                                  |
-| `EMAIL_FROM`                     | Yes (prod)    | `iProduce Africa <info@iproduceafrica.com>` | Default sender                                                              |
-| `CONTACT_TO_EMAIL`               | Yes           | `info@iproduceafrica.com`                   | Contact notifications                                                       |
-| `PARTNERS_TO_EMAIL`              | Yes           | `info@iproduceafrica.com`                   | Partner forms                                                               |
-| `COMMUNITY_TO_EMAIL`             | Yes           | `info@iproduceafrica.com`                   | Community applications                                                      |
-| `ACADEMY_TO_EMAIL`               | Yes           | `info@iproduceafrica.com`                   | Academy registrations                                                       |
-| `MAILCHIMP_API_KEY`              | Newsletter    | server-only secret                          | Mailchimp Marketing API                                                     |
-| `MAILCHIMP_SERVER_PREFIX`        | Newsletter    | `us20`                                      | Mailchimp data-center prefix                                                |
-| `MAILCHIMP_AUDIENCE_ID`          | Newsletter    | audience ID                                 | Client-owned newsletter audience                                            |
-| `NEWSLETTER_TO_EMAIL`            | Legacy only   | `info@iproduceafrica.com`                   | Temporary rollback variable; remove after production Mailchimp smoke test   |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Yes (prod)    | `0x4...`                                    | Client widget site key                                                      |
-| `TURNSTILE_SECRET_KEY`           | Yes (prod)    | `0x4...`                                    | Server verification secret                                                  |
-| `UPSTASH_REDIS_REST_URL`         | Yes (prod)    | `https://...upstash.io`                     | Rate limit Redis REST URL                                                   |
-| `UPSTASH_REDIS_REST_TOKEN`       | Yes (prod)    | `...`                                       | Rate limit Redis token                                                      |
-| `ENABLE_DEV_RATE_LIMITS`         | No            | `true`                                      | Opt-in local rate limiting                                                  |
-| `NEXT_PUBLIC_SITE_URL`           | Yes (pre-DNS) | `https://iproduce-africa.vercel.app`        | Public origin for metadata + email links until `iproduceafrica.com` is live |
-| `EMAIL_ASSETS_BASE_URL`          | Yes (pre-DNS) | `https://iproduce-africa.vercel.app`        | Absolute logo URL in sent mail (`/brand/email-logo.png`)                    |
+| Variable                         | Required   | Example                                     | Purpose                                                      |
+| -------------------------------- | ---------- | ------------------------------------------- | ------------------------------------------------------------ |
+| `RESEND_API_KEY`                 | Yes (prod) | `re_...`                                    | Resend API                                                   |
+| `EMAIL_FROM`                     | Yes (prod) | `iProduce Africa <info@iproduceafrica.com>` | Default sender                                               |
+| `CONTACT_TO_EMAIL`               | Yes        | `info@iproduceafrica.com`                   | Contact notifications                                        |
+| `PARTNERS_TO_EMAIL`              | Yes        | `info@iproduceafrica.com`                   | Partner forms                                                |
+| `COMMUNITY_TO_EMAIL`             | Yes        | `info@iproduceafrica.com`                   | Community applications                                       |
+| `ACADEMY_TO_EMAIL`               | Yes        | `info@iproduceafrica.com`                   | Academy registrations                                        |
+| `MAILCHIMP_API_KEY`              | Newsletter | server-only secret                          | Mailchimp Marketing API                                      |
+| `MAILCHIMP_SERVER_PREFIX`        | Newsletter | `us20`                                      | Mailchimp data-center prefix                                 |
+| `MAILCHIMP_AUDIENCE_ID`          | Newsletter | audience ID                                 | Client-owned newsletter audience                             |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Yes (prod) | `0x4...`                                    | Client widget site key                                       |
+| `TURNSTILE_SECRET_KEY`           | Yes (prod) | `0x4...`                                    | Server verification secret                                   |
+| `UPSTASH_REDIS_REST_URL`         | Yes (prod) | `https://...upstash.io`                     | Rate limit Redis REST URL                                    |
+| `UPSTASH_REDIS_REST_TOKEN`       | Yes (prod) | `...`                                       | Rate limit Redis token                                       |
+| `ENABLE_DEV_RATE_LIMITS`         | No         | `true`                                      | Opt-in local rate limiting                                   |
+| `NEXT_PUBLIC_SITE_URL`           | Yes (prod) | `https://iproduceafrica.com`                | Canonical public origin for metadata and email links         |
+| `EMAIL_ASSETS_BASE_URL`          | Yes (prod) | `https://iproduceafrica.com`                | Absolute logo origin for sent mail (`/brand/email-logo.png`) |
 
 Document in `.env.example` (no secrets). Vercel: set per environment. After
 domain cutover, point both URL vars at `https://iproduceafrica.com`.
@@ -464,7 +461,6 @@ lib/
       become-partner-notification.tsx
       community-application-notification.tsx
       academy-registration-notification.tsx
-      newsletter-confirm.tsx
     previews/
       contact-notification.tsx      # default export fixtures for email:dev
       contact-receipt.tsx

@@ -92,7 +92,7 @@ client when they want the public URL to leave the old cPanel site).
 - Keep `NEXT_PUBLIC_SITE_URL` and `EMAIL_ASSETS_BASE_URL` on the same origin so
   email CTAs and logo images point at the live site.
 
-5. Mailchimp — account experience configured; final website smoke test pending
+5. Mailchimp — complete
 
 - Client-owned account and audience; `dev@iproduceafrica.com` is Owner.
 - Sending-domain authentication, audience fields, and API credentials are
@@ -101,12 +101,11 @@ client when they want the public URL to leave the old cPanel site).
   confirmation page are branded; the separate final welcome email stays off.
 - The public hosted signup URL is wired as a universal rejoin link. The API
   never forces an `unsubscribed` member back to `pending`.
-- Keep Production credentials out of Preview by default. Preview newsletter
-  submissions then fail closed intentionally instead of writing test contacts
-  into the live audience.
-- Complete the controlled pending → confirmed → unsubscribed → hosted rejoin
-  test
-  before deleting the Resend rollback files.
+- Production credentials are restricted to Production. Preview newsletter
+  submissions fail closed intentionally instead of writing test contacts into
+  the live audience.
+- The controlled pending → confirmed → unsubscribed → hosted rejoin test passed.
+- Newsletter-only Resend rollback files and `NEWSLETTER_TO_EMAIL` were removed.
 
 ## Smoke Test Matrix
 

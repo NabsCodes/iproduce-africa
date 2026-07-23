@@ -37,8 +37,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Client mail host confirmed — **Zoho Mail** (`dev@`, `content@` created; temp passwords, rotate at handover)
 - [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
 - [x] Resend domain verified (`iproduceafrica.com`, DKIM + `send` sending; Zoho MX intact) + production Vercel env + smoke path — **complete** (client is Resend Owner)
-- [ ] Mailchimp newsletter integration, double-opt-in account experience, clearer repeat-submit copy, and hosted rejoin fallback are implemented; run the final production pending → confirmed → unsubscribed → hosted rejoin smoke test before deleting the Resend rollback path
-- [ ] Website DNS cutover — apex and `www` are registered on the Vercel project, but DNS still points to the old WordPress host; lower TTL and switch only after client go/no-go (forms/mail already live on Vercel)
+- [x] Mailchimp newsletter integration, double-opt-in lifecycle, hosted rejoin flow, and Production-only environment boundary verified; newsletter-only Resend rollback removed
+- [x] Website DNS cutover — apex and `www` now resolve through Vercel with HTTPS; canonical `www` → apex redirect ships with the closeout deployment
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
 - [x] Sanity Phase 1 implementation (Academy catalogues, hub/home/search/sitemap/registration surfaces)
@@ -63,6 +63,6 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Category migration verified in Development and Production after a clean dry-run and Production backup; both post-runs are idempotent
 - [x] Required Article/Webinar category references deployed after both dataset migrations; Production deployment and public route smoke checks passed
 - [ ] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out
-- [ ] Custom-domain launch: lower website-record TTL, pass the separate go/no-go, update Turnstile hostnames, then switch only apex/`www`
+- [x] Custom-domain launch: apex/`www` DNS switched to Vercel at TTL 300; canonical URLs and email asset origins moved to `https://iproduceafrica.com`
 - [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
 - [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

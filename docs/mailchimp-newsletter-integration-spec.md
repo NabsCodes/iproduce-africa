@@ -1,7 +1,6 @@
 # Mailchimp Newsletter Integration Spec
 
-**Status:** Implemented in code — account experience configured; controlled
-production smoke test pending  
+**Status:** Production integration and lifecycle smoke test complete
 **Scope:** The existing footer and Academy Blog newsletter forms only
 
 ## Outcome
@@ -116,9 +115,8 @@ MAILCHIMP_AUDIENCE_ID=
   credentials are therefore expected to fail closed. This is an intentional
   safety boundary, not a Preview defect.
 - Local testing may use `.env.local` with controlled test addresses.
-- `NEWSLETTER_TO_EMAIL` remains in place until production Mailchimp testing
-  passes, then it is removed from code, Vercel, `.env.example`, and the old
-  Resend documentation.
+- `NEWSLETTER_TO_EMAIL` and the newsletter-only Resend rollback files were
+  removed after the production lifecycle test passed.
 
 ## Implemented Code Shape
 
@@ -286,7 +284,7 @@ opt-in flow.
 - `docs/status-board.md`
 - `docs/implementation-log.md`
 
-### Remove only after live Mailchimp testing passes
+### Removed after live Mailchimp testing passed
 
 - `lib/email/newsletter.ts`
 - `lib/email/templates/newsletter-confirm.tsx`
@@ -334,14 +332,14 @@ Add Vitest coverage for:
 14. Run the same production smoke test from the live website.
 15. Monitor Mailchimp and Vercel logs.
 16. Remove newsletter-only Resend delivery and `NEWSLETTER_TO_EMAIL` only after
-    the production smoke test passes.
+    the production smoke test passes. **Complete (2026-07-23).**
 
 ## Rollback
 
-Keep the current Resend newsletter module and environment variable available
-until production Mailchimp validation is complete. If the provider cutover
-fails, revert only `app/api/newsletter/route.ts` to the Resend handler while
-leaving every other public form unchanged.
+The temporary Resend newsletter rollback path was retained until production
+Mailchimp validation completed, then removed. Any future provider rollback must
+be an explicit code change and must leave every operational Resend form
+unchanged.
 
 ## Acceptance Criteria
 

@@ -3,6 +3,19 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Mailchimp and custom-domain closeout (2026-07-23)
+
+Verified the full Mailchimp lifecycle with the client, restricted all live
+Mailchimp credentials to Vercel Production, removed `NEWSLETTER_TO_EMAIL` and
+the unused newsletter-only Resend orchestrator/templates/previews, and retained
+Resend only for operational forms. Switched Production
+`NEXT_PUBLIC_SITE_URL`/`EMAIL_ASSETS_BASE_URL` to
+`https://iproduceafrica.com`.
+
+Confirmed apex and `www` DNS now resolve through Vercel with HTTPS and a
+300-second TTL. Added a permanent host redirect from `www` to the canonical
+apex so search engines and visitors do not receive two equivalent 200 pages.
+
 ## Mailchimp newsletter integration (2026-07-22)
 
 Approved the reviewed architecture and implemented Mailchimp for only the two
