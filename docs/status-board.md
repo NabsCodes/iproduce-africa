@@ -64,5 +64,6 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Required Article/Webinar category references deployed after both dataset migrations; Production deployment and public route smoke checks passed
 - [ ] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out
 - [x] Custom-domain launch: apex/`www` DNS switched to Vercel at TTL 300; canonical URLs and email asset origins moved to `https://iproduceafrica.com`
+- [ ] Restore the website-record TTL to `3600` or the previous `14400` after 24–48 stable production hours
 - [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
 - [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off
