@@ -350,8 +350,9 @@ Do **not** introduce a `loading.tsx` in this pass.
 - ~~OG / Twitter share image files~~ — shipped 2026-06-20 as
   `app/opengraph-image.png` (2400×1260) and `app/twitter-image.png`
   (2400×1200). Both are 2x source assets that downscale cleanly to the
-  1200×630 / 1200×600 platform standards. Per-page override is a one-file
-  drop into the route folder.
+  1200×630 / 1200×600 platform standards. `lib/metadata.ts` explicitly
+  references them as global fallbacks so the tags are emitted on every route;
+  pages with editorial imagery can still override them through their metadata.
 - Real telemetry wiring inside `error.tsx` — TODO marker only until a  
   monitoring tool is picked.
 

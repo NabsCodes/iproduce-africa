@@ -3,6 +3,14 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Social card metadata (2026-07-23)
+
+Restored global OG and X card image tags. The root PNG assets were still
+present, but metadata relied on implicit file-convention discovery and the card
+scanner received no image fields. `createDefaultOpenGraph` and
+`createDefaultTwitter` now emit absolute fallback URLs for normal routes;
+routes with editorial images continue to override those defaults.
+
 ## Mailchimp and custom-domain closeout (2026-07-23)
 
 Verified the full Mailchimp lifecycle with the client, restricted all live
