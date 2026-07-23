@@ -11,7 +11,8 @@ dry-runs, executed without warnings/errors, and passed idempotency checks.
 Production backup:
 `/private/tmp/iproduce-production-before-academy-categories-2026-07-23.tar.gz`
 (`de94a7039b77b021aea59caec5c1a369a03accd76f430f2a3c5cc482843c383b`).
-The final required-reference schema deploy remains the last repo-side step.
+The final required-reference schema is deployed and the Production deployment
+is Ready.
 
 ### Compatibility deploy
 
@@ -82,6 +83,13 @@ Verify with signed publishes:
 
 The domain switch is a separate operational decision, not the next automatic
 step after migration.
+
+**Prepared 2026-07-23:** `iproduceafrica.com` and
+`www.iproduceafrica.com` are registered on the Vercel project. DNS is unchanged:
+the apex still resolves to the old website at `147.124.214.15`, `www` still
+aliases the apex, and the website-record TTL remains about `14400`. No CAA
+record was present during this preflight. Recheck Vercel's requested DNS values
+and CAA immediately before the approved cutover.
 
 At least one current TTL window before launch:
 

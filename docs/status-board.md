@@ -38,7 +38,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
 - [x] Resend domain verified (`iproduceafrica.com`, DKIM + `send` sending; Zoho MX intact) + production Vercel env + smoke path — **complete** (client is Resend Owner)
 - [ ] Mailchimp newsletter integration, double-opt-in account experience, clearer repeat-submit copy, and hosted rejoin fallback are implemented; run the final production pending → confirmed → unsubscribed → hosted rejoin smoke test before deleting the Resend rollback path
-- [ ] Website DNS cutover — point `iproduceafrica.com` / `www` at Vercel when client wants the public URL switch (forms/mail already live on Vercel)
+- [ ] Website DNS cutover — apex and `www` are registered on the Vercel project, but DNS still points to the old WordPress host; lower TTL and switch only after client go/no-go (forms/mail already live on Vercel)
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
 - [x] Sanity Phase 1 implementation (Academy catalogues, hub/home/search/sitemap/registration surfaces)
@@ -61,6 +61,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [ ] Add `"id": _id` to both Sanity webhook projections for targeted author-detail revalidation (safe blog-subtree fallback remains active until then)
 - [x] CMS-managed category code: shared Article/Webinar collection, fallback reads, real badge tones, filters, search, and guarded migration tooling
 - [x] Category migration verified in Development and Production after a clean dry-run and Production backup; both post-runs are idempotent
+- [x] Required Article/Webinar category references deployed after both dataset migrations; Production deployment and public route smoke checks passed
 - [ ] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out
 - [ ] Custom-domain launch: lower website-record TTL, pass the separate go/no-go, update Turnstile hostnames, then switch only apex/`www`
 - [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
