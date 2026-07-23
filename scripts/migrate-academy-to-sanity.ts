@@ -11,7 +11,7 @@ import {
   blocksToPortableText,
   type PortableTextEntry,
 } from "@/scripts/lib/blocks-to-portable-text";
-import type { AcademyWebinar } from "@/types/academy";
+import type { AcademyWebinarSeed } from "@/types/academy";
 import type { BlogArticleBlock, BlogAuthor } from "@/types/blog";
 
 /**
@@ -259,7 +259,7 @@ async function maybeRepairWebinarTiming(
   client: SanityClient | null,
   flags: Flags,
   existing: ExistingDoc,
-  webinar: AcademyWebinar,
+  webinar: AcademyWebinarSeed,
 ) {
   const patch: Record<string, string> = {};
 

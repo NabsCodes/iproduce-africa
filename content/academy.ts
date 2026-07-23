@@ -55,7 +55,6 @@ export const academyContent = {
   featuredEvent: {
     eyebrow: "Featured Event",
     sectionTitle: "Don't miss what's next",
-    category: "Agribusiness Development",
     registerLabel: "Register Now",
   },
   opportunities: {

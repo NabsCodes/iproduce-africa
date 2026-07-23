@@ -5,25 +5,14 @@ import { fetchHubCourses } from "@/lib/sanity/fetch/courses";
 import { fetchHubScheduledWebinars } from "@/lib/sanity/fetch/webinars";
 import type {
   AcademyArticle,
-  AcademyArticleCategory,
   AcademyCourse,
   AcademyHomeCard,
   AcademyHomePreview,
-  AcademyPreviewTone,
   AcademyWebinar,
 } from "@/types/academy";
 
 const HOME_SPOTLIGHT_LIMIT = 4;
 const HOME_BLOG_LIMIT = 3;
-
-const articleToneByCategory: Record<
-  AcademyArticleCategory,
-  AcademyPreviewTone
-> = {
-  INNOVATION: "forest",
-  TRADE: "tangerine",
-  "SMART AGRICULTURE": "leaf",
-};
 
 function webinarToHomeCard(webinar: AcademyWebinar): AcademyHomeCard {
   return {
@@ -31,7 +20,8 @@ function webinarToHomeCard(webinar: AcademyWebinar): AcademyHomeCard {
     href: `/academy/webinars/${webinar.slug}`,
     image: webinar.image,
     imageAlt: webinar.imageAlt,
-    category: webinar.type,
+    category: webinar.category.name,
+    categoryTone: webinar.category.tone,
     meta:
       academyWebinarDisplayState(webinar) === "happening"
         ? "HAPPENING NOW"
@@ -60,8 +50,8 @@ function articleToHomeCard(article: AcademyArticle): AcademyHomeCard {
     href: `/academy/blog/${article.slug}`,
     image: article.image,
     imageAlt: article.imageAlt,
-    category: article.category,
-    categoryTone: articleToneByCategory[article.category],
+    category: article.category.name,
+    categoryTone: article.category.tone,
     meta: article.readTime.toUpperCase(),
     title: article.title,
     description: article.description,

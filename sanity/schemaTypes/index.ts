@@ -6,6 +6,7 @@ import { codeBlock } from "@/sanity/schemaTypes/blocks/code-block";
 import { table } from "@/sanity/schemaTypes/blocks/table";
 import { aboutPage } from "@/sanity/schemaTypes/documents/about-page";
 import { academyArticle } from "@/sanity/schemaTypes/documents/academy-article";
+import { academyCategory } from "@/sanity/schemaTypes/documents/academy-category";
 import { academyCourse } from "@/sanity/schemaTypes/documents/academy-course";
 import { academyWebinar } from "@/sanity/schemaTypes/documents/academy-webinar";
 import { author } from "@/sanity/schemaTypes/documents/author";
@@ -33,6 +34,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   homePage,
   aboutPage,
   author,
+  academyCategory,
   academyArticle,
   academyWebinar,
   academyCourse,

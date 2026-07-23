@@ -8,9 +8,8 @@ import { placeholderImages } from "@/lib/placeholder-images";
 import type {
   AcademyListingHeroContent,
   AcademyRelatedItem,
-  AcademyScheduledItem,
   AcademyScheduledType,
-  AcademyWebinar,
+  AcademyWebinarSeed,
 } from "@/types/academy";
 import type { ContentCardTone, CtaSectionContent } from "@/types/content";
 
@@ -37,7 +36,7 @@ const toneByType: Record<AcademyScheduledType, ContentCardTone> = {
   EVENT: "forest",
 };
 
-const afriAgriLeadershipForum: AcademyWebinar = {
+const afriAgriLeadershipForum: AcademyWebinarSeed = {
   slug: "afriagri-leadership-forum-2026",
   type: "EVENT",
   date: "2026-08-12T09:00:00Z",
@@ -61,7 +60,7 @@ const afriAgriLeadershipForum: AcademyWebinar = {
   registration: { mode: "open" },
 };
 
-const hubScheduledWebinars: AcademyWebinar[] = [
+const hubScheduledWebinars: AcademyWebinarSeed[] = [
   {
     slug: "scaling-smallholder-farms-with-data",
     type: "WEBINAR",
@@ -131,7 +130,7 @@ const hubScheduledWebinars: AcademyWebinar[] = [
   },
 ];
 
-const extraWebinars: AcademyWebinar[] = [
+const extraWebinars: AcademyWebinarSeed[] = [
   {
     slug: "cold-chain-basics-fresh-produce",
     type: "TRAINING",
@@ -203,8 +202,8 @@ export const webinarsContent = {
 };
 
 export function webinarsToHubScheduledItems(
-  webinars: readonly AcademyWebinar[],
-): AcademyScheduledItem[] {
+  webinars: readonly AcademyWebinarSeed[],
+) {
   return webinars.map((webinar) => ({
     type: webinar.type,
     date: webinar.date,
@@ -218,12 +217,12 @@ export function webinarsToHubScheduledItems(
 
 export const academyHubScheduledWebinars = hubScheduledWebinars;
 
-export function getWebinar(slug: string): AcademyWebinar | undefined {
+export function getWebinar(slug: string): AcademyWebinarSeed | undefined {
   return webinarsContent.webinars.find((webinar) => webinar.slug === slug);
 }
 
 export function webinarToRelatedItem(
-  webinar: AcademyWebinar,
+  webinar: AcademyWebinarSeed,
 ): AcademyRelatedItem {
   const card = webinarToCardItem(webinar);
   return {
@@ -239,7 +238,7 @@ export function webinarToRelatedItem(
   };
 }
 
-export function webinarToCardItem(webinar: AcademyWebinar) {
+export function webinarToCardItem(webinar: AcademyWebinarSeed) {
   return {
     key: webinar.slug,
     href: `/academy/webinars/${webinar.slug}`,

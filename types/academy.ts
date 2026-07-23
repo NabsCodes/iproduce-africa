@@ -1,6 +1,7 @@
 import type {
   CatalogueEmptyStateContent,
   CommunityHeroMember,
+  ContentCardTone,
   EyebrowTone,
   FaqCategory,
   FaqItem,
@@ -8,6 +9,14 @@ import type {
   TestimonialItem,
 } from "@/types/content";
 import type { SeoMetadata } from "@/types/seo";
+
+export type AcademyCategory = {
+  id: string;
+  name: string;
+  slug: string;
+  tone: ContentCardTone;
+  order: number;
+};
 
 export type AcademyParticipantIconKey =
   | "rocket"
@@ -46,7 +55,7 @@ export type AcademyFeaturedEvent = {
 
 export type AcademyFeaturedEventShell = Pick<
   AcademyFeaturedEvent,
-  "eyebrow" | "sectionTitle" | "category" | "registerLabel"
+  "eyebrow" | "sectionTitle" | "registerLabel"
 >;
 
 export type AcademyHeroAnnouncement = {
@@ -116,7 +125,7 @@ export type AcademyScheduledType =
   | "EVENT";
 
 export type AcademyScheduledItem = {
-  type: AcademyScheduledType;
+  category: AcademyCategory;
   date: string;
   endDate?: string;
   title: string;
@@ -137,13 +146,8 @@ export type AcademyCourse = {
   slug: string;
 };
 
-export type AcademyArticleCategory =
-  | "INNOVATION"
-  | "TRADE"
-  | "SMART AGRICULTURE";
-
 export type AcademyArticle = {
-  category: AcademyArticleCategory;
+  category: AcademyCategory;
   readTime: string;
   title: string;
   description: string;
@@ -208,9 +212,8 @@ export type WebinarRegistrationState = {
   nextBoundary?: string;
 };
 
-export type AcademyWebinar = {
+type AcademyWebinarBase = {
   slug: string;
-  type: AcademyScheduledType;
   date: string;
   endDate?: string;
   title: string;
@@ -225,6 +228,16 @@ export type AcademyWebinar = {
   speakers?: string;
   registration?: AcademyRegistrationConfig;
   seo?: SeoMetadata;
+};
+
+/** Sanity-backed public shape. */
+export type AcademyWebinar = AcademyWebinarBase & {
+  category: AcademyCategory;
+};
+
+/** Archived pre-Sanity seed shape retained only for migration rollback. */
+export type AcademyWebinarSeed = AcademyWebinarBase & {
+  type: AcademyScheduledType;
 };
 
 export type AcademyCourseDetail = AcademyCourse & {

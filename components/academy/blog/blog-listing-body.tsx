@@ -7,10 +7,11 @@ import {
 } from "@/components/academy/blog/category-filter-bar";
 import { blogListing } from "@/content/blog";
 import { useListingFilter } from "@/hooks/use-listing-filter";
+import type { AcademyCategory } from "@/types/academy";
 import type { BlogArticle } from "@/types/blog";
 
 type BlogListingBodyProps = {
-  categories: readonly string[];
+  categories: readonly AcademyCategory[];
   articles: readonly BlogArticle[];
 };
 
@@ -22,7 +23,7 @@ export function BlogListingBody({
     useListingFilter({
       items: articles,
       allValue: ALL_CATEGORIES,
-      getFilterValue: (article) => article.category,
+      getFilterValue: (article) => article.category.slug,
       sort: (a, b) => b.publishedAt.localeCompare(a.publishedAt),
     });
 

@@ -42,6 +42,7 @@ const STATIC_PATHS_BY_TYPE: Record<string, readonly string[]> = {
     "/academy/search",
     "/sitemap.xml",
   ],
+  academyCategory: ["/", "/academy", "/academy/search"],
   author: ["/academy/blog", "/academy", "/", "/academy/search"],
   testimonial: ["/", "/academy", "/partners"],
   faq: ["/", "/academy", "/community", "/partners", "/contact"],
@@ -129,6 +130,13 @@ export async function POST(request: NextRequest) {
     // their projection: invalidate the blog subtree instead of leaving
     // author copy stale on detail pages.
     revalidatePath("/academy/blog", "layout");
+  }
+
+  if (type === "academyCategory") {
+    // A category rename, ordering change, or tone change can affect every
+    // listing and detail page in both category-backed catalogues.
+    revalidatePath("/academy/blog", "layout");
+    revalidatePath("/academy/webinars", "layout");
   }
 
   const detailPrefix = DETAIL_PATH_PREFIX_BY_TYPE[type];

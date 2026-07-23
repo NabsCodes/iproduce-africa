@@ -1,29 +1,6 @@
 import { newsletterSignupSharedCopy } from "@/content/newsletter";
-import type { AcademyArticle, AcademyRelatedItem } from "@/types/academy";
-import type { BlogArticle, BlogCategory, BlogPageContent } from "@/types/blog";
-
-export const BLOG_CATEGORIES = [
-  "Innovation",
-  "Trade",
-  "Smart Agriculture",
-  "Agribusiness",
-  "Policy",
-  "Market Insights",
-  "Sustainability",
-  "Community",
-] as const satisfies readonly BlogCategory[];
-
-/** Re-export for consumers that import categories from content. */
-export const blogCategories = BLOG_CATEGORIES;
-
-export function toHubArticleCategory(
-  category: BlogCategory,
-): AcademyArticle["category"] {
-  const normalized = category.toUpperCase();
-  if (normalized === "TRADE") return "TRADE";
-  if (normalized === "SMART AGRICULTURE") return "SMART AGRICULTURE";
-  return "INNOVATION";
-}
+import type { AcademyRelatedItem } from "@/types/academy";
+import type { BlogArticle, BlogPageContent } from "@/types/blog";
 
 export function getBlogHeroImage(article: BlogArticle): {
   src: string;
@@ -88,8 +65,8 @@ export function articleToRelatedItem(article: BlogArticle): AcademyRelatedItem {
     href: `/academy/blog/${article.slug}`,
     image: article.cardImage,
     imageAlt: article.cardImageAlt,
-    category: article.category.toUpperCase(),
-    categoryTone: "tangerine",
+    category: article.category.name.toUpperCase(),
+    categoryTone: article.category.tone,
     meta: `${article.readTimeMinutes} MIN READ`,
     title: article.title,
     description: article.excerpt,

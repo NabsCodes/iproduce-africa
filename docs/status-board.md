@@ -59,5 +59,9 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [ ] Confirm the client-supplied About Story YouTube/Vimeo URL in both datasets when available (optional; no migration)
 - [ ] Review image-delivery performance/hotspot handling as its own cross-cutting slice
 - [ ] Add `"id": _id` to both Sanity webhook projections for targeted author-detail revalidation (safe blog-subtree fallback remains active until then)
-- [ ] Next migration slice — CMS-managed Article, Webinar, and Blog categories; migration must be reviewed before either dataset is patched
+- [x] CMS-managed category code: shared Article/Webinar collection, fallback reads, real badge tones, filters, search, and guarded migration tooling
+- [ ] Run and verify the category migration in Development, then Production after a backup and explicit approval
+- [ ] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out
+- [ ] Custom-domain launch: lower website-record TTL, pass the separate go/no-go, update Turnstile hostnames, then switch only apex/`www`
+- [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
 - [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

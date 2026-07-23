@@ -3,7 +3,7 @@
  * Runtime must not import this file — use content/blog.ts for chrome.
  */
 import { placeholderImages } from "@/lib/placeholder-images";
-import type { BlogArticle, BlogAuthor } from "@/types/blog";
+import type { BlogArticleSeed, BlogAuthor } from "@/types/blog";
 
 /** Exported so the Sanity migration script can key deterministic author IDs off these map keys. */
 export const authors = {
@@ -24,7 +24,7 @@ export const authors = {
  * Mix of briefs (~3–5 min), standard pieces (~6–9 min), and one
  * long-form flagship (~14 min) for layout / reading-progress QA.
  */
-export const blogArticles: readonly BlogArticle[] = [
+export const blogArticles: readonly BlogArticleSeed[] = [
   {
     slug: "unlocking-intra-african-trade",
     title:

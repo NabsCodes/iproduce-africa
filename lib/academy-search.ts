@@ -43,7 +43,7 @@ export function searchAcademy(
       webinar.title,
       webinar.description,
       webinar.excerpt,
-      webinar.type,
+      webinar.category.name,
       webinar.location ?? "",
       webinar.speakers ?? "",
     ].join(" ");
@@ -95,9 +95,11 @@ export function searchAcademy(
   }
 
   for (const article of catalogues.articles) {
-    const haystack = [article.title, article.excerpt, article.category].join(
-      " ",
-    );
+    const haystack = [
+      article.title,
+      article.excerpt,
+      article.category.name,
+    ].join(" ");
 
     if (!matches(haystack, query)) continue;
 
@@ -109,8 +111,8 @@ export function searchAcademy(
       href: `/academy/blog/${article.slug}`,
       image: article.cardImage,
       imageAlt: article.cardImageAlt,
-      category: article.category.toUpperCase(),
-      categoryTone: "forest",
+      category: article.category.name.toUpperCase(),
+      categoryTone: article.category.tone,
       meta: `${article.readTimeMinutes} MIN READ`,
     });
   }

@@ -26,6 +26,8 @@ and more task-oriented.
 13. `cms-post-cutover-enhancements-spec.md` for the client-review follow-up slices
 14. `cms-media-enhancements-spec.md` for testimonial/avatar and Story video behaviour
 15. `implementation-log.md`
+16. `production-closeout-runbook.md` for the category migration, external
+    webhook tasks, domain go/no-go, production QA, and handover
 
 ## Documents
 
@@ -52,6 +54,7 @@ and more task-oriented.
 | `cms-client-summary.md`                    | One-page client sign-off: what moves to CMS and when.                             |
 | `cms-post-cutover-enhancements-spec.md`    | Registration, SEO, channels, and editorial-category follow-up after cutover.      |
 | `cms-media-enhancements-spec.md`           | Partner Voices avatars, secure About video, and image-delivery follow-up.         |
+| `production-closeout-runbook.md`           | Category migration, dashboard tasks, custom-domain launch, QA, and handover.      |
 
 ## Source Of Truth Order
 

@@ -27,11 +27,7 @@ import { fetchCoursesListing } from "@/lib/sanity/fetch/courses";
 import { fetchFaqs } from "@/lib/sanity/fetch/faqs";
 import { fetchTestimonials } from "@/lib/sanity/fetch/testimonials";
 import { fetchWebinarsListing } from "@/lib/sanity/fetch/webinars";
-import type {
-  AcademyArticleCategory,
-  AcademyCourseLevel,
-  AcademyScheduledType,
-} from "@/types/academy";
+import type { AcademyCourseLevel } from "@/types/academy";
 import type { ContentCardTone } from "@/types/content";
 
 export const metadata = createPageMetadata(pageSeo.academy);
@@ -41,25 +37,11 @@ export const revalidate = 300;
 const HUB_WEBINARS_LIMIT = 4;
 const HUB_BLOG_LIMIT = 3;
 
-const scheduledTypeToneMap: Record<AcademyScheduledType, ContentCardTone> = {
-  WEBINAR: "tangerine",
-  TRAINING: "tangerine",
-  "LIVE Q&A": "leaf",
-  EVENT: "tangerine",
-};
-
 const courseLevelToneMap: Record<AcademyCourseLevel, ContentCardTone> = {
   BEGINNER: "tangerine",
   INTERMEDIATE: "tangerine",
   ADVANCED: "forest",
 };
-
-const articleCategoryToneMap: Record<AcademyArticleCategory, ContentCardTone> =
-  {
-    INNOVATION: "forest",
-    TRADE: "tangerine",
-    "SMART AGRICULTURE": "leaf",
-  };
 
 export default async function AcademyPage() {
   const scheduled = academyContent.scheduled;
@@ -93,14 +75,13 @@ export default async function AcademyPage() {
     .slice(0, HUB_BLOG_LIMIT)
     .map(articleToHubShape);
 
-  const { eyebrow, sectionTitle, category, registerLabel } =
-    academyContent.featuredEvent;
+  const { eyebrow, sectionTitle, registerLabel } = academyContent.featuredEvent;
   const featuredEvent = promotedWebinar
     ? {
         slug: promotedWebinar.slug,
         eyebrow,
         sectionTitle,
-        category,
+        category: promotedWebinar.category.name,
         registerLabel,
         format: promotedWebinar.format ?? "Event",
         title: promotedWebinar.title,
@@ -151,8 +132,8 @@ export default async function AcademyPage() {
           href: `/academy/webinars/${item.slug}`,
           image: item.image,
           imageAlt: item.imageAlt,
-          category: item.type,
-          categoryTone: scheduledTypeToneMap[item.type],
+          category: item.category.name,
+          categoryTone: item.category.tone,
           meta:
             academyWebinarDisplayState(item, now) === "happening"
               ? "HAPPENING NOW"
@@ -196,8 +177,8 @@ export default async function AcademyPage() {
           href: `/academy/blog/${item.slug}`,
           image: item.image,
           imageAlt: item.imageAlt,
-          category: item.category,
-          categoryTone: articleCategoryToneMap[item.category],
+          category: item.category.name,
+          categoryTone: item.category.tone,
           meta: item.readTime.toUpperCase(),
           title: item.title,
           description: item.description,

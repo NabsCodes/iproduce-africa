@@ -70,7 +70,10 @@ export default async function BlogArticlePage({
   if (!article) notFound();
 
   const hero = getBlogHeroImage(article);
-  const relatedArticles = await fetchRelatedArticles(slug, article.category);
+  const relatedArticles = await fetchRelatedArticles(
+    slug,
+    article.category.slug,
+  );
 
   return (
     <>
@@ -83,8 +86,9 @@ export default async function BlogArticlePage({
             title={article.title}
             badges={
               <ArticleMetaBadges
-                category={article.category}
+                category={article.category.name}
                 readTimeMinutes={article.readTimeMinutes}
+                categoryTone={article.category.tone}
               />
             }
             meta={

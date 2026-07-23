@@ -3,33 +3,9 @@ import type {
   AcademyListingHeroContent,
   AcademyRelatedItem,
   AcademyScheduledItem,
-  AcademyScheduledType,
   AcademyWebinar,
 } from "@/types/academy";
-import type { ContentCardTone, CtaSectionContent } from "@/types/content";
-
-export const WEBINAR_TYPES = [
-  "Webinar",
-  "Training",
-  "Live Q&A",
-  "Event",
-] as const;
-
-export type WebinarFilterType = (typeof WEBINAR_TYPES)[number];
-
-const typeLabelByScheduled: Record<AcademyScheduledType, WebinarFilterType> = {
-  WEBINAR: "Webinar",
-  TRAINING: "Training",
-  "LIVE Q&A": "Live Q&A",
-  EVENT: "Event",
-};
-
-const toneByType: Record<AcademyScheduledType, ContentCardTone> = {
-  WEBINAR: "tangerine",
-  TRAINING: "tangerine",
-  "LIVE Q&A": "leaf",
-  EVENT: "forest",
-};
+import type { CtaSectionContent } from "@/types/content";
 
 /** Code-owned listing chrome. Catalogue items live in Sanity. */
 export const webinarsContent = {
@@ -67,7 +43,7 @@ export function webinarsToHubScheduledItems(
   webinars: readonly AcademyWebinar[],
 ): AcademyScheduledItem[] {
   return webinars.map((webinar) => ({
-    type: webinar.type,
+    category: webinar.category,
     date: webinar.date,
     endDate: webinar.endDate,
     title: webinar.title,
@@ -100,18 +76,17 @@ export function webinarToCardItem(webinar: AcademyWebinar) {
     href: `/academy/webinars/${webinar.slug}`,
     image: webinar.image,
     imageAlt: webinar.imageAlt,
-    category: typeLabelByScheduled[webinar.type],
-    categoryTone: toneByType[webinar.type],
+    category: webinar.category.name,
+    categoryTone: webinar.category.tone,
     meta: formatAcademyShortDate(webinar.date),
     title: webinar.title,
     description: webinar.description,
-    filterType: typeLabelByScheduled[webinar.type],
+    filterType: webinar.category.slug,
   };
 }
 
 export const webinarsListing = {
   hero: webinarsContent.hero,
-  filterTypes: WEBINAR_TYPES,
   filterEmptyState: {
     icon: "calendar",
     title: "Nothing matches this filter",

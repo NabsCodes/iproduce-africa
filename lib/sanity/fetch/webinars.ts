@@ -2,6 +2,11 @@ import type { Image } from "sanity";
 
 import { webinarToRelatedItem } from "@/content/webinars";
 import {
+  legacyWebinarCategory,
+  normalizeAcademyCategory,
+  type RawAcademyCategory,
+} from "@/lib/academy-categories";
+import {
   academyNowIso,
   resolveValidAcademyEndDate,
   selectPromotableWebinars,
@@ -28,7 +33,8 @@ type SanityImageField = Image & { alt?: string };
 type RawWebinarDoc = {
   slug: string;
   title: string;
-  type: AcademyScheduledType;
+  type?: AcademyScheduledType | string | null;
+  categoryRef?: RawAcademyCategory | null;
   date: string;
   endDate?: string | null;
   description: string;
@@ -51,7 +57,9 @@ function normalizeWebinar(raw: RawWebinarDoc): AcademyWebinar {
 
   return {
     slug: raw.slug,
-    type: raw.type,
+    category: normalizeAcademyCategory(raw.categoryRef, () =>
+      legacyWebinarCategory(raw.type),
+    ),
     date: raw.date,
     endDate,
     title: raw.title,

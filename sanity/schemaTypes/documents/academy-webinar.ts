@@ -27,19 +27,30 @@ export const academyWebinar = defineType({
         "Treat as append-only once published — editing the slug after first publish breaks existing links.",
     }),
     defineField({
-      name: "type",
-      title: "Type",
-      type: "string",
+      name: "categoryRef",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "academyCategory" }],
+      description:
+        "Choose the label used on Webinar/Event cards and public filters. Manage options under Academy → Categories.",
       options: {
-        list: [
-          { title: "Webinar", value: "WEBINAR" },
-          { title: "Training", value: "TRAINING" },
-          { title: "Live Q&A", value: "LIVE Q&A" },
-          { title: "Event", value: "EVENT" },
-        ],
+        filter: "appliesToWebinars == true",
       },
-      initialValue: "WEBINAR",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.custom((value) =>
+          value
+            ? true
+            : "Choose a Webinar/Event category before final handover.",
+        ).warning(),
+    }),
+    defineField({
+      name: "type",
+      title: "Legacy type",
+      type: "string",
+      hidden: true,
+      readOnly: true,
+      description:
+        "Temporary rollback value retained for one stable release after category migration.",
     }),
     defineField({
       name: "date",
@@ -144,6 +155,18 @@ export const academyWebinar = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "type", media: "image" },
+    select: {
+      title: "title",
+      categoryName: "categoryRef.name",
+      legacyType: "type",
+      media: "image",
+    },
+    prepare({ title, categoryName, legacyType, media }) {
+      return {
+        title,
+        subtitle: categoryName ?? legacyType ?? "Category not selected",
+        media,
+      };
+    },
   },
 });

@@ -119,6 +119,8 @@ export const structure: StructureResolver = (S) =>
               ),
               S.documentTypeListItem("academyCourse").title("Courses"),
               S.documentTypeListItem("author").title("Authors"),
+              S.divider(),
+              S.documentTypeListItem("academyCategory").title("Categories"),
             ]),
         ),
       S.documentTypeListItem("partner").title("Partners"),

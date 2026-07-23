@@ -5,19 +5,18 @@ import {
   ALL_LISTING_FILTER,
   ListingFilterBar,
 } from "@/components/academy/listings/listing-filter-bar";
-import type { WebinarFilterType } from "@/content/webinars";
 import { webinarsListing, webinarToCardItem } from "@/content/webinars";
 import { useListingFilter } from "@/hooks/use-listing-filter";
-import type { AcademyWebinar } from "@/types/academy";
+import type { AcademyCategory, AcademyWebinar } from "@/types/academy";
 
 type WebinarsListingBodyProps = {
   webinars: readonly AcademyWebinar[];
-  filterTypes: readonly WebinarFilterType[];
+  categories: readonly AcademyCategory[];
 };
 
 export function WebinarsListingBody({
   webinars,
-  filterTypes,
+  categories,
 }: WebinarsListingBodyProps) {
   const { activeFilter, setActiveFilter, filtered, resetKey } =
     useListingFilter({
@@ -31,7 +30,7 @@ export function WebinarsListingBody({
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="mb-10 sm:mb-12">
           <ListingFilterBar
-            options={filterTypes}
+            options={categories}
             value={activeFilter}
             onChange={setActiveFilter}
             ariaLabel="Filter webinars and events by type"

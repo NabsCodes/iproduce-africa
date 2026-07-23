@@ -41,18 +41,40 @@ taxonomy migration.
 - They do not appear in the footer, and blank URLs hide the related action.
 - No URLs are seeded or invented. Editors populate each dataset deliberately.
 
-## Slice B — Editorial categories (separate review)
+## Slice B — Editorial categories
 
-Add CMS-managed categories for Academy articles, webinars/events, and the
-public blog filtering experience. Courses retain their fixed curriculum levels.
+**Approved and implemented in code; dataset rollout in progress.**
 
-Before implementation:
+This slice consciously supersedes the earlier idea of separate Article and
+Webinar category document types. Both catalogues need the same
+name/slug/tone/order contract, so one shared `academyCategory` collection is
+the single source of truth.
 
-1. Review the category document shape, seed set, slug policy, badge tone, and
-   duplicate-name behaviour.
-2. Deploy reference fields with warning-level validation and legacy fallback.
-3. Patch and verify `development`, then explicitly approve the production patch.
-4. Tighten the reference to required only after both datasets are complete.
-5. Keep strong references and retain legacy fields for one stable release.
+Each category has two independent switches:
 
-No category migration or dataset write belongs to Slice A.
+- **Available for Articles** (`appliesToArticles`)
+- **Available for Webinars & Events** (`appliesToWebinars`)
+
+Both can be on, one can be on, or both can be off. Both off archives the
+category from future reference selectors without breaking existing content
+that already references it. References stay strong, so a used category cannot
+be deleted until affected content is reassigned.
+
+Articles and Webinars use `categoryRef`; legacy `category` / `type` strings
+remain hidden for one stable release. Public fetches prefer the reference and
+fall back to the legacy value during rollout. Filters are derived from
+categories represented by published content, sorted by the category display
+order, and compare by slug. Courses retain fixed curriculum levels.
+
+Rollout order:
+
+1. Deploy schema + fallback queries with warning-level reference validation.
+2. Dry-run, migrate, and verify Development.
+3. Dry-run Production, export a backup, then execute only with explicit
+   Production approval.
+4. Verify cards, filters, search tones, related content, and revalidation.
+5. Tighten both reference fields to required and deploy the final schema.
+6. Retain legacy fields and archived rollback snapshots for one stable release.
+
+The executable runbook and external dashboard checklist live in
+`docs/production-closeout-runbook.md`.

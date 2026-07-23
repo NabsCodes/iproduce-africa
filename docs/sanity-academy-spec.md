@@ -124,7 +124,8 @@ Maps to `BlogArticle` (`types/blog.ts`).
 | `title`           | string               | `title`                       | required                                      |
 | `slug`            | slug                 | `slug`                        | unique                                        |
 | `excerpt`         | text                 | `excerpt`                     | max ~200                                      |
-| `category`        | string (list)        | `BlogCategory`                | eight values — see below                      |
+| `categoryRef`     | reference → category | `AcademyCategory`             | shared CMS category; required after migration |
+| `category`        | hidden legacy string | rollback only                 | retained for one stable release               |
 | `author`          | reference → `author` | `BlogAuthor`                  | **required reference** (v1)                   |
 | `readTimeMinutes` | number               | `readTimeMinutes`             | optional override; else compute in projection |
 | `publishedAt`     | datetime             | `publishedAt`                 | ISO at fetch                                  |
@@ -134,51 +135,42 @@ Maps to `BlogArticle` (`types/blog.ts`).
 
 **No `isPublished` field** — visibility = Sanity publish + drafts filter only.
 
-**Categories (canonical — eight):** Innovation, Trade, Smart Agriculture,
-Agribusiness, Policy, Market Insights, Sustainability, Community — controlled
-`list` in Studio (from `content/blog.ts` `BLOG_CATEGORIES`).
+### Shared CMS categories (post-cutover closeout)
 
-### Hub category collapse (`BlogCategory` → `AcademyArticleCategory`)
+Articles and Webinars now reference the same `academyCategory` document type.
+The public contract is `{id, name, slug, tone, order}`. Two independent
+availability booleans control which reference selectors show a category.
+Turning both off archives it from new assignment; existing strong references
+continue rendering.
 
-Academy hub blog band uses **three** chip values. Projection in
-`lib/sanity/fetch/academy-preview.ts` must match today’s static behaviour in
-`content/blog.ts` `toHubArticleCategory()`:
-
-| `BlogCategory` (8) | `AcademyArticleCategory` (hub) |
-| ------------------ | ------------------------------ |
-| Trade              | TRADE                          |
-| Smart Agriculture  | SMART AGRICULTURE              |
-| Innovation         | INNOVATION                     |
-| Agribusiness       | INNOVATION                     |
-| Policy             | INNOVATION                     |
-| Market Insights    | INNOVATION                     |
-| Sustainability     | INNOVATION                     |
-| Community          | INNOVATION                     |
-
-Do not change this mapping without a deliberate product decision and type update.
+The old eight-to-three hub collapse has been removed. Cards, detail badges,
+Home/Academy previews, related content, filters, and search all consume the
+same normalized CMS category and its real badge tone. Legacy string values
+remain hidden and query-backed only for the one-release rollback window.
 
 ### `academyWebinar`
 
 Maps to `AcademyWebinar` (`types/academy.ts`). One type for webinars, training,
 live Q&A, and events (matches `AcademyScheduledType`).
 
-| Sanity field   | Type                 | Maps to                | Notes                                                                 |
-| -------------- | -------------------- | ---------------------- | --------------------------------------------------------------------- |
-| `title`        | string               | `title`                |
-| `slug`         | slug                 | `slug`                 |
-| `type`         | string list          | `AcademyScheduledType` | WEBINAR, TRAINING, LIVE Q&A, EVENT                                    |
-| `date`         | datetime             | `date`                 | ISO string                                                            |
-| `endDate`      | datetime             | `endDate?`             | optional; must be after `date`                                        |
-| `description`  | text                 | `description`          | listing card                                                          |
-| `excerpt`      | text                 | `excerpt`              | search + cards                                                        |
-| `image`        | image + alt          | `image`, `imageAlt?`   |                                                                       |
-| `body`         | array of string      | `body: string[]`       | v1 — max 2000 chars/string, min 1 when published                      |
-| `dateLabel`    | string               | `dateLabel?`           | **computed from `date` in projection**; optional Studio override only |
-| `location`     | string               | `location?`            |                                                                       |
-| `format`       | string               | `format?`              |                                                                       |
-| `speakers`     | string               | `speakers?`            |                                                                       |
-| `registration` | `registrationConfig` | `registration?`        |                                                                       |
-| `seo`          | `seoMetadata`        | `seo?`                 | optional metadata title, description, and share image                 |
+| Sanity field   | Type                 | Maps to              | Notes                                                                 |
+| -------------- | -------------------- | -------------------- | --------------------------------------------------------------------- |
+| `title`        | string               | `title`              |
+| `slug`         | slug                 | `slug`               |
+| `categoryRef`  | reference → category | `AcademyCategory`    | shared CMS category; required after migration                         |
+| `type`         | hidden legacy string | rollback only        | retained for one stable release                                       |
+| `date`         | datetime             | `date`               | ISO string                                                            |
+| `endDate`      | datetime             | `endDate?`           | optional; must be after `date`                                        |
+| `description`  | text                 | `description`        | listing card                                                          |
+| `excerpt`      | text                 | `excerpt`            | search + cards                                                        |
+| `image`        | image + alt          | `image`, `imageAlt?` |                                                                       |
+| `body`         | array of string      | `body: string[]`     | v1 — max 2000 chars/string, min 1 when published                      |
+| `dateLabel`    | string               | `dateLabel?`         | **computed from `date` in projection**; optional Studio override only |
+| `location`     | string               | `location?`          |                                                                       |
+| `format`       | string               | `format?`            |                                                                       |
+| `speakers`     | string               | `speakers?`          |                                                                       |
+| `registration` | `registrationConfig` | `registration?`      |                                                                       |
+| `seo`          | `seoMetadata`        | `seo?`               | optional metadata title, description, and share image                 |
 
 **`registrationConfig`** — single object in
 `sanity/schemaTypes/objects/registration-config.ts`, imported by webinar and
@@ -286,7 +278,7 @@ nested bullet blocks.
 | -------------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
 | `spotlight.upcoming` | GROQ: upcoming webinars from Sanity, same filter/sort as `isUpcomingSession` | —                                   |
 | `spotlight.training` | GROQ: course card projection, limit N                                        | —                                   |
-| `blog`               | GROQ: article hub preview + category collapse table                          | —                                   |
+| `blog`               | GROQ: article hub preview + normalized CMS category                          | —                                   |
 | `opportunities`      | —                                                                            | `content/academy.ts` anchors + copy |
 
 Home sections import `fetchAcademyHomePreview()` instead of static

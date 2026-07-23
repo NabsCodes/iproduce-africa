@@ -39,9 +39,9 @@ export function FeaturedArticleSection({
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <ArticleMetaBadges
-                category={article.category}
+                category={article.category.name}
                 readTimeMinutes={article.readTimeMinutes}
-                categoryTone="leaf"
+                categoryTone={article.category.tone}
               />
             </div>
 

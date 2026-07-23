@@ -28,7 +28,14 @@ export function featuredQuery(type: string, orderField: string) {
 const ARTICLE_PROJECTION = `{
   ...,
   "slug": slug.current,
-  "author": author->{name, role}
+  "author": author->{name, role},
+  "categoryRef": categoryRef->{
+    "id": _id,
+    name,
+    "slug": slug.current,
+    tone,
+    order
+  }
 }`;
 
 export const articleSlugsQuery = `*[_type == "academyArticle" && ${DRAFT_FILTER}].slug.current`;
@@ -57,7 +64,14 @@ export const articleSlugsByAuthorIdQuery = `*[
 /** No author dereference needed — webinars have no reference fields. */
 const WEBINAR_PROJECTION = `{
   ...,
-  "slug": slug.current
+  "slug": slug.current,
+  "categoryRef": categoryRef->{
+    "id": _id,
+    name,
+    "slug": slug.current,
+    tone,
+    order
+  }
 }`;
 
 // Select the end date if it exists and is after the start date, otherwise select the start date

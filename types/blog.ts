@@ -1,4 +1,5 @@
 import type {
+  AcademyCategory,
   AcademyListingHeroContent,
   AcademyRelatedSectionContent,
 } from "@/types/academy";
@@ -59,10 +60,9 @@ export type BlogArticleBlock =
       caption?: string;
     };
 
-export type BlogArticle = {
+type BlogArticleBase = {
   slug: string;
   title: string;
-  category: BlogCategory;
   author: BlogAuthor;
   /** Authored value — renders as e.g. "5 MIN READ". Auto-calc later (post-Sanity). */
   readTimeMinutes: number;
@@ -79,6 +79,15 @@ export type BlogArticle = {
   excerpt: string;
   body: readonly BlogArticleBlock[];
   seo?: SeoMetadata;
+};
+
+export type BlogArticle = BlogArticleBase & {
+  category: AcademyCategory;
+};
+
+/** Archived pre-Sanity seed shape retained only for migration rollback. */
+export type BlogArticleSeed = BlogArticleBase & {
+  category: BlogCategory;
 };
 
 export type BlogHeroContent = AcademyListingHeroContent;

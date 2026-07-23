@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { legacyWebinarCategory } from "@/lib/academy-categories";
 import {
   resolveValidRegistrationDeadline,
   resolveWebinarRegistrationState,
@@ -13,7 +14,7 @@ const AFTER_START = "2026-07-20T15:00:00.000Z";
 function webinar(registration: AcademyWebinar["registration"]): AcademyWebinar {
   return {
     slug: "sample-session",
-    type: "WEBINAR",
+    category: legacyWebinarCategory("WEBINAR"),
     date: START,
     title: "Sample session",
     description: "A sample Academy session.",

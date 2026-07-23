@@ -42,7 +42,9 @@ export function FeaturedWebinarSection({
               {isHappening ? (
                 <Badge variant="tangerine">Happening now</Badge>
               ) : null}
-              <Badge variant="leaf">{webinar.type}</Badge>
+              <Badge variant={webinar.category.tone}>
+                {webinar.category.name}
+              </Badge>
               {webinar.format ? (
                 <Badge variant="forest">{webinar.format}</Badge>
               ) : null}

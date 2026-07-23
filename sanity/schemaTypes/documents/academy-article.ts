@@ -2,18 +2,6 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { createSlugIsUnique } from "@/sanity/schemaTypes/shared/slug-validator";
 
-// Matches content/blog.ts BLOG_CATEGORIES (8 canonical values).
-const BLOG_CATEGORIES = [
-  "Innovation",
-  "Trade",
-  "Smart Agriculture",
-  "Agribusiness",
-  "Policy",
-  "Market Insights",
-  "Sustainability",
-  "Community",
-];
-
 export const academyArticle = defineType({
   name: "academyArticle",
   title: "Article",
@@ -46,11 +34,28 @@ export const academyArticle = defineType({
       validation: (Rule) => Rule.required().max(220),
     }),
     defineField({
-      name: "category",
+      name: "categoryRef",
       title: "Category",
+      type: "reference",
+      to: [{ type: "academyCategory" }],
+      description:
+        "Choose the topic used on Article cards and public Blog filters. Manage options under Academy → Categories.",
+      options: {
+        filter: "appliesToArticles == true",
+      },
+      validation: (Rule) =>
+        Rule.custom((value) =>
+          value ? true : "Choose an Article category before final handover.",
+        ).warning(),
+    }),
+    defineField({
+      name: "category",
+      title: "Legacy category",
       type: "string",
-      options: { list: BLOG_CATEGORIES },
-      validation: (Rule) => Rule.required(),
+      hidden: true,
+      readOnly: true,
+      description:
+        "Temporary rollback value retained for one stable release after category migration.",
     }),
     defineField({
       name: "author",
@@ -145,6 +150,18 @@ export const academyArticle = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "category", media: "cardImage" },
+    select: {
+      title: "title",
+      categoryName: "categoryRef.name",
+      legacyCategory: "category",
+      media: "cardImage",
+    },
+    prepare({ title, categoryName, legacyCategory, media }) {
+      return {
+        title,
+        subtitle: categoryName ?? legacyCategory ?? "Category not selected",
+        media,
+      };
+    },
   },
 });

@@ -4,6 +4,7 @@ import { WebinarsListingBody } from "@/components/academy/webinars/webinars-list
 import { CtaSection } from "@/components/shared/cta-section";
 import { pageSeo } from "@/content/seo";
 import { webinarsContent, webinarsListing } from "@/content/webinars";
+import { categoriesUsedBy } from "@/lib/academy-categories";
 import { selectPromotableWebinars } from "@/lib/academy-webinars";
 import { createPageMetadata } from "@/lib/metadata";
 import { fetchWebinarsListing } from "@/lib/sanity/fetch/webinars";
@@ -22,7 +23,7 @@ export default async function WebinarsIndexPage() {
       {promoted ? <FeaturedWebinarSection webinar={promoted} /> : null}
       <WebinarsListingBody
         webinars={webinars}
-        filterTypes={webinarsListing.filterTypes}
+        categories={categoriesUsedBy(webinars, (webinar) => webinar.category)}
       />
       <CtaSection overlapNext={false} content={webinarsContent.cta} />
     </>

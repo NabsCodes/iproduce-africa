@@ -2,8 +2,9 @@ import { BlogListingBody } from "@/components/academy/blog/blog-listing-body";
 import { FeaturedArticleSection } from "@/components/academy/blog/featured-article-section";
 import { AcademyListingHeroSection } from "@/components/academy/listings/listing-hero-section";
 import { CtaSection } from "@/components/shared/cta-section";
-import { blogCategories, blogContent } from "@/content/blog";
+import { blogContent } from "@/content/blog";
 import { pageSeo } from "@/content/seo";
+import { categoriesUsedBy } from "@/lib/academy-categories";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   fetchArticlesListing,
@@ -23,7 +24,10 @@ export default async function BlogIndexPage() {
     <>
       <AcademyListingHeroSection content={blogContent.hero} />
       {featured ? <FeaturedArticleSection article={featured} /> : null}
-      <BlogListingBody categories={blogCategories} articles={articles} />
+      <BlogListingBody
+        categories={categoriesUsedBy(articles, (article) => article.category)}
+        articles={articles}
+      />
       <CtaSection overlapNext={false} content={blogContent.cta} />
     </>
   );

@@ -1,6 +1,11 @@
 import type { Image } from "sanity";
 
-import { articleToRelatedItem, toHubArticleCategory } from "@/content/blog";
+import { articleToRelatedItem } from "@/content/blog";
+import {
+  legacyArticleCategory,
+  normalizeAcademyCategory,
+  type RawAcademyCategory,
+} from "@/lib/academy-categories";
 import { sanityFetch } from "@/lib/sanity/client";
 import { resolveImageUrl } from "@/lib/sanity/image";
 import {
@@ -25,7 +30,8 @@ type RawArticleDoc = {
   slug: string;
   title: string;
   excerpt: string;
-  category: BlogCategory;
+  category?: BlogCategory | string | null;
+  categoryRef?: RawAcademyCategory | null;
   readTimeMinutes: number | null;
   publishedAt: string;
   _updatedAt: string;
@@ -78,10 +84,14 @@ function estimateReadTimeMinutes(body: readonly PortableTextBlock[]): number {
 }
 
 function normalizeArticle(raw: RawArticleDoc): BlogArticle {
+  const category = normalizeAcademyCategory(raw.categoryRef, () =>
+    legacyArticleCategory(raw.category),
+  );
+
   return {
     slug: raw.slug,
     title: raw.title,
-    category: raw.category,
+    category,
     author: raw.author ?? { name: "iProduce Africa" },
     readTimeMinutes: raw.readTimeMinutes ?? estimateReadTimeMinutes(raw.body),
     publishedAt: raw.publishedAt,
@@ -122,15 +132,13 @@ export async function fetchArticlesListing(): Promise<BlogArticle[]> {
 }
 
 /**
- * Applies the spec-locked 8→3 category collapse via the shared
- * `toHubArticleCategory()` from `content/blog.ts`. Exported so callers that
- * already have a `BlogArticle[]` listing in hand (e.g. the `/academy` hub
- * page, which fetches the full listing anyway for its total-count label)
- * can derive hub cards without a second `fetchArticlesListing()` round trip.
+ * Derives the Academy/Home card shape from the normalized CMS category.
+ * Exported so callers that already have the full listing can avoid another
+ * fetch.
  */
 export function articleToHubShape(article: BlogArticle): AcademyArticle {
   return {
-    category: toHubArticleCategory(article.category),
+    category: article.category,
     readTime: `${article.readTimeMinutes} min read`,
     title: article.title,
     description: article.excerpt,
@@ -171,7 +179,7 @@ export async function fetchFeaturedArticle(
  */
 export async function fetchRelatedArticles(
   excludeSlug: string,
-  category: BlogCategory,
+  categorySlug: string,
   limit = 3,
 ): Promise<AcademyRelatedItem[]> {
   const raw = await sanityFetch<RawArticleDoc[]>(relatedArticlesQuery, {
@@ -179,9 +187,11 @@ export async function fetchRelatedArticles(
   });
   const articles = raw.map(normalizeArticle);
   const sameCategory = articles.filter(
-    (article) => article.category === category,
+    (article) => article.category.slug === categorySlug,
   );
-  const rest = articles.filter((article) => article.category !== category);
+  const rest = articles.filter(
+    (article) => article.category.slug !== categorySlug,
+  );
 
   return [...sameCategory, ...rest].slice(0, limit).map(articleToRelatedItem);
 }
