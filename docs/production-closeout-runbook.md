@@ -6,6 +6,13 @@ workstream and is not changed here.
 
 ## 1. Academy category rollout
 
+**Completed 2026-07-23:** Development and Production migrations passed clean
+dry-runs, executed without warnings/errors, and passed idempotency checks.
+Production backup:
+`/private/tmp/iproduce-production-before-academy-categories-2026-07-23.tar.gz`
+(`de94a7039b77b021aea59caec5c1a369a03accd76f430f2a3c5cc482843c383b`).
+The final required-reference schema deploy remains the last repo-side step.
+
 ### Compatibility deploy
 
 - Deploy `academyCategory`, Article/Webinar reference fields, fallback queries,

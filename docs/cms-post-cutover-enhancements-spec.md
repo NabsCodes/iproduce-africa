@@ -43,7 +43,7 @@ taxonomy migration.
 
 ## Slice B — Editorial categories
 
-**Approved and implemented in code; dataset rollout in progress.**
+**Implemented and migrated in Development and Production.**
 
 This slice consciously supersedes the earlier idea of separate Article and
 Webinar category document types. Both catalogues need the same

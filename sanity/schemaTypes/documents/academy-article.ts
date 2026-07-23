@@ -44,9 +44,7 @@ export const academyArticle = defineType({
         filter: "appliesToArticles == true",
       },
       validation: (Rule) =>
-        Rule.custom((value) =>
-          value ? true : "Choose an Article category before final handover.",
-        ).warning(),
+        Rule.required().error("Choose an Article category before publishing."),
     }),
     defineField({
       name: "category",

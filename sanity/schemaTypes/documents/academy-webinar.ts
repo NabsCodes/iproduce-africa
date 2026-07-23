@@ -37,11 +37,9 @@ export const academyWebinar = defineType({
         filter: "appliesToWebinars == true",
       },
       validation: (Rule) =>
-        Rule.custom((value) =>
-          value
-            ? true
-            : "Choose a Webinar/Event category before final handover.",
-        ).warning(),
+        Rule.required().error(
+          "Choose a Webinar/Event category before publishing.",
+        ),
     }),
     defineField({
       name: "type",
