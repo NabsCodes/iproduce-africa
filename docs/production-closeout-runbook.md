@@ -84,12 +84,12 @@ Verify with signed publishes:
 The domain switch is a separate operational decision, not the next automatic
 step after migration.
 
-**Prepared 2026-07-23:** `iproduceafrica.com` and
-`www.iproduceafrica.com` are registered on the Vercel project. DNS is unchanged:
-the apex still resolves to the old website at `147.124.214.15`, `www` still
-aliases the apex, and the website-record TTL remains about `14400`. No CAA
-record was present during this preflight. Recheck Vercel's requested DNS values
-and CAA immediately before the approved cutover.
+**Launched 2026-07-23:** `iproduceafrica.com` and
+`www.iproduceafrica.com` now resolve through Vercel at TTL `300`. HTTPS is live,
+the apex returns `200`, and `www` permanently redirects to the same apex path
+with `308`. Production `NEXT_PUBLIC_SITE_URL` and `EMAIL_ASSETS_BASE_URL` use
+`https://iproduceafrica.com`; the email logo, robots, sitemap, `/admin`, and
+newsletter Turnstile rejection path passed live checks.
 
 At least one current TTL window before launch:
 

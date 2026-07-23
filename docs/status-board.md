@@ -38,7 +38,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
 - [x] Resend domain verified (`iproduceafrica.com`, DKIM + `send` sending; Zoho MX intact) + production Vercel env + smoke path — **complete** (client is Resend Owner)
 - [x] Mailchimp newsletter integration, double-opt-in lifecycle, hosted rejoin flow, and Production-only environment boundary verified; newsletter-only Resend rollback removed
-- [x] Website DNS cutover — apex and `www` now resolve through Vercel with HTTPS; canonical `www` → apex redirect ships with the closeout deployment
+- [x] Website DNS cutover — apex and `www` resolve through Vercel with HTTPS; canonical `www` → apex `308` redirect verified live
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
 - [x] Sanity Phase 1 implementation (Academy catalogues, hub/home/search/sitemap/registration surfaces)
