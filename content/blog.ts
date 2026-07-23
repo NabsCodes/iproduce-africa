@@ -1,3 +1,4 @@
+import { newsletterSignupSharedCopy } from "@/content/newsletter";
 import type { AcademyArticle, AcademyRelatedItem } from "@/types/academy";
 import type { BlogArticle, BlogCategory, BlogPageContent } from "@/types/blog";
 
@@ -43,6 +44,7 @@ export const blogContent = {
       "Explore trends, perspectives, and practical insights driving innovation and growth across Africa's agricultural ecosystem.",
   },
   newsletter: {
+    ...newsletterSignupSharedCopy,
     eyebrow: "Stay Informed",
     description:
       "Receive the latest insights, industry trends, and inspiration from across Africa's agribusiness ecosystem.",
@@ -50,9 +52,6 @@ export const blogContent = {
     inputPlaceholder: "Your email address",
     submitLabel: "Subscribe",
     submittingLabel: "Subscribing...",
-    successMessage:
-      "Thanks for subscribing. A confirmation may arrive in your inbox shortly.",
-    subscribeAgainLabel: "Subscribe with another email",
   },
   shareControls: {
     heading: "Share Article",

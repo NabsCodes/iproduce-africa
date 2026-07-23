@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   return handlePublicFormPost({
     request,
     schema: academyRegistrationSubmitSchemaWithSecurity,
-    toEmailEnv: "ACADEMY_TO_EMAIL",
+    requiredEnvNames: ["RESEND_API_KEY", "EMAIL_FROM", "ACADEMY_TO_EMAIL"],
     rateLimitRoute: "academy-register",
     handler: async (data) => {
       const { resolveAcademySession, sendAcademyRegistrationEmails } =

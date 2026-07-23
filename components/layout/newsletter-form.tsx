@@ -1,18 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
 import { NewsletterSignupForm } from "@/components/shared/newsletter-signup-form";
 import { siteConfig } from "@/content/site";
 
 export function NewsletterForm() {
   const copy = siteConfig.footer.newsletter;
-  const pathname = usePathname();
 
   return (
     <NewsletterSignupForm
       variant="footer"
-      sourcePath={pathname || "/"}
       copy={{
         inputId: "footer-newsletter-email",
         inputLabel: "Email address",
@@ -20,7 +16,11 @@ export function NewsletterForm() {
         submitLabel: copy.submitLabel,
         submittingLabel: copy.submittingLabel,
         successMessage: copy.successMessage,
+        repeatSubmissionMessage: copy.repeatSubmissionMessage,
         subscribeAgainLabel: copy.subscribeAgainLabel,
+        resubscribePrompt: copy.resubscribePrompt,
+        resubscribeLabel: copy.resubscribeLabel,
+        resubscribeHref: copy.resubscribeHref,
       }}
     />
   );

@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 
+import { readTrimmedEnv } from "@/lib/env";
+
 export type SendEmailInput = {
   to: string;
   subject: string;
@@ -12,13 +14,6 @@ export type SendEmailInput = {
 export type SendEmailResult =
   | { sent: true }
   | { sent: false; reason: "not_configured" };
-
-export function readTrimmedEnv(name: string): string | undefined {
-  const raw = process.env[name];
-  if (!raw) return undefined;
-  const trimmed = raw.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
-}
 
 function resolveFrom(override?: string): string | undefined {
   if (override) {

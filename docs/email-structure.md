@@ -1,7 +1,8 @@
 # Email — File Structure & Ownership
 
-Quick map for anyone touching transactional email. Integration behaviour (Resend,
-Turnstile, env vars, API contracts) lives in `docs/resend-integration-spec.md`.
+Quick map for anyone touching transactional email. Resend integration behaviour
+lives in `docs/resend-integration-spec.md`; newsletter subscriber delivery lives
+in `docs/mailchimp-newsletter-integration-spec.md`.
 
 ## Folder tree
 
@@ -14,7 +15,7 @@ lib/email/
 ├── format-submitted-at.ts       # Timestamp helper (Africa/Lagos)
 ├── resolve-label.ts             # Form option → label for email copy
 ├── contact.ts                   # Orchestration — contact form
-├── newsletter.ts
+├── newsletter.ts                # rollback only until Mailchimp live test passes
 ├── academy-registration.ts
 ├── community.ts
 ├── partners.ts                  # inquiry + become-partner
@@ -58,23 +59,29 @@ lib/turnstile.ts
 components/shared/turnstile-widget.tsx
 components/shared/public-form-security-fields.tsx
 schemas/public-form.ts           # turnstileToken + hpField honeypot envelope only
+
+lib/mailchimp/newsletter.ts      # server-only newsletter audience sync
 ```
 
 ## Logic vs helpers vs markup
 
-| Kind              | Files                                                                                   | Responsibility                                                               |
-| ----------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| **Transport**     | `send.ts`                                                                               | `RESEND_API_KEY`, `EMAIL_FROM`, `sendEmail()`, `isEmailDeliveryConfigured()` |
-| **Render**        | `render.ts`                                                                             | `renderEmailTemplate()`                                                      |
-| **Orchestration** | `contact.ts`, `newsletter.ts`, `academy-registration.ts`, `community.ts`, `partners.ts` | Read `*_TO_EMAIL`, call `build*Email()`, send internal then receipt          |
-| **Helpers**       | `assets.ts`, `format-submitted-at.ts`, `resolve-label.ts`, `styles.ts`                  | Logo, timestamps, labels, tokens — no Resend calls                           |
-| **Templates**     | `templates/*.tsx`                                                                       | React Email JSX + `build*NotificationEmail()` / `build*ReceiptEmail()`       |
-| **Chrome**        | `components/*.tsx`                                                                      | Reusable layout pieces — markup and styles only, no send logic               |
-| **Previews**      | `previews/*.tsx`                                                                        | Sample props for local preview — not used at runtime                         |
+| Kind              | Files                                                                  | Responsibility                                                               |
+| ----------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **Transport**     | `send.ts`                                                              | `RESEND_API_KEY`, `EMAIL_FROM`, `sendEmail()`, `isEmailDeliveryConfigured()` |
+| **Render**        | `render.ts`                                                            | `renderEmailTemplate()`                                                      |
+| **Orchestration** | `contact.ts`, `academy-registration.ts`, `community.ts`, `partners.ts` | Read `*_TO_EMAIL`, call `build*Email()`, send internal then receipt          |
+| **Newsletter**    | `lib/mailchimp/newsletter.ts`                                          | Preserve consent status, sync subscriber, apply website source tag           |
+| **Helpers**       | `assets.ts`, `format-submitted-at.ts`, `resolve-label.ts`, `styles.ts` | Logo, timestamps, labels, tokens — no Resend calls                           |
+| **Templates**     | `templates/*.tsx`                                                      | React Email JSX + `build*NotificationEmail()` / `build*ReceiptEmail()`       |
+| **Chrome**        | `components/*.tsx`                                                     | Reusable layout pieces — markup and styles only, no send logic               |
+| **Previews**      | `previews/*.tsx`                                                       | Sample props for local preview — not used at runtime                         |
 
-**Call chain:** `app/api/*/route.ts` → `lib/api/public-form-post.ts` → domain
-orchestrator → `build*Email()` in templates → `renderEmailTemplate()` →
-`sendEmail()`.
+**Operational call chain:** `app/api/*/route.ts` →
+`lib/api/public-form-post.ts` → domain orchestrator → `build*Email()` in
+templates → `renderEmailTemplate()` → `sendEmail()`.
+
+**Newsletter call chain:** `app/api/newsletter/route.ts` → shared public-form
+security → `lib/mailchimp/newsletter.ts` → Mailchimp member + tag endpoints.
 
 Validation stays in `schemas/`. Orchestrators receive validated payloads only.
 
@@ -121,18 +128,19 @@ Check both `*-notification` and `*-receipt` at **375px** before deploy.
 
 ## Suggestions — configuration
 
-| Variable                                                  | Purpose                                                                                                                                                       |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RESEND_API_KEY`                                          | Resend API key (dedicated iProduce project — not shared with other clients)                                                                                   |
-| `EMAIL_FROM`                                              | `iProduce Africa <info@iproduceafrica.com>` in prod; `onboarding@resend.dev` pre-DNS                                                                          |
-| `NEXT_PUBLIC_SITE_URL`                                    | **Until custom domain handover:** `https://iproduce-africa.vercel.app` — drives metadata, email CTAs, and footer links in sent mail via `getEmailSiteUrl()`   |
-| `EMAIL_ASSETS_BASE_URL`                                   | **Match `NEXT_PUBLIC_SITE_URL` for now** — absolute logo URL (`/brand/email-logo.png`). Unset only for local `pnpm email:dev` (uses `/static/email-logo.png`) |
-| `CONTACT_TO_EMAIL`                                        | Internal inbox per form (can share one ops address early)                                                                                                     |
-| `PARTNERS_TO_EMAIL`                                       |                                                                                                                                                               |
-| `COMMUNITY_TO_EMAIL`                                      |                                                                                                                                                               |
-| `ACADEMY_TO_EMAIL`                                        |                                                                                                                                                               |
-| `NEWSLETTER_TO_EMAIL`                                     | Operational record until a list tool exists                                                                                                                   |
-| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Production keys on live domain                                                                                                                                |
+| Variable                                                                  | Purpose                                                                                                                                                       |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RESEND_API_KEY`                                                          | Resend API key (dedicated iProduce project — not shared with other clients)                                                                                   |
+| `EMAIL_FROM`                                                              | `iProduce Africa <info@iproduceafrica.com>` in prod; `onboarding@resend.dev` pre-DNS                                                                          |
+| `NEXT_PUBLIC_SITE_URL`                                                    | **Until custom domain handover:** `https://iproduce-africa.vercel.app` — drives metadata, email CTAs, and footer links in sent mail via `getEmailSiteUrl()`   |
+| `EMAIL_ASSETS_BASE_URL`                                                   | **Match `NEXT_PUBLIC_SITE_URL` for now** — absolute logo URL (`/brand/email-logo.png`). Unset only for local `pnpm email:dev` (uses `/static/email-logo.png`) |
+| `CONTACT_TO_EMAIL`                                                        | Internal inbox per form (can share one ops address early)                                                                                                     |
+| `PARTNERS_TO_EMAIL`                                                       |                                                                                                                                                               |
+| `COMMUNITY_TO_EMAIL`                                                      |                                                                                                                                                               |
+| `ACADEMY_TO_EMAIL`                                                        |                                                                                                                                                               |
+| `MAILCHIMP_API_KEY` / `MAILCHIMP_SERVER_PREFIX` / `MAILCHIMP_AUDIENCE_ID` | Server-only newsletter audience integration                                                                                                                   |
+| `NEWSLETTER_TO_EMAIL`                                                     | Temporary rollback only; remove after production Mailchimp testing                                                                                            |
+| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY`                 | Production keys on live domain                                                                                                                                |
 
 Missing `RESEND_API_KEY` or `EMAIL_FROM` → API returns **503** with friendly copy (no silent success).
 
@@ -142,5 +150,5 @@ Missing `RESEND_API_KEY` or `EMAIL_FROM` → API returns **503** with friendly c
 - **Domain verification:** DKIM + SPF on `iproduceafrica.com` before switching `EMAIL_FROM` off `onboarding@resend.dev`.
 - **Keys:** Use restricted preview key on Vercel preview; rotate production key at handoff if agency held it during build.
 - **Deliverability:** Sequential — notification first (load-bearing; failure → `500`), then submitter receipt via `sendEmailQuietly` (best-effort; failures are logged, route still returns `200`). Rationale: admin already has the submission, so receipt rejections (e.g. Resend testing mode pre-DNS) must not surface to the user as a generic failure. Surface bounces via the Resend dashboard, not the API response.
-- **Later (out of scope):** Resend Audiences for newsletter list, webhooks for bounce logging, BCC archive address for compliance.
+- **Newsletter:** Mailchimp owns subscriber consent and campaigns; do not add a Resend Audience for the same list.
 - **Testing matrix:** Human submit, honeypot (success, no send), Turnstile fail, missing env (503), `replyTo` on contact/partners/community/academy internal mail.

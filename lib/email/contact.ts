@@ -1,8 +1,9 @@
-import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
+import { sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildContactNotificationEmail,
   buildContactReceiptEmail,
 } from "@/lib/email/templates/contact-notification";
+import { readTrimmedEnv } from "@/lib/env";
 import type { ContactFormValues } from "@/schemas/contact";
 
 export type SendContactEmailsInput = ContactFormValues & {

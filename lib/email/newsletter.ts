@@ -1,8 +1,9 @@
-import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
+import { sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildNewsletterConfirmEmail,
   buildNewsletterNotificationEmail,
 } from "@/lib/email/templates/newsletter-confirm";
+import { readTrimmedEnv } from "@/lib/env";
 import type { NewsletterValues } from "@/schemas/newsletter";
 
 export type SendNewsletterEmailsInput = NewsletterValues & {

@@ -49,7 +49,7 @@ path to Sanity CMS.
 - Unified Academy search across learning and editorial content
 - Responsive layouts designed intentionally for mobile, tablet, and desktop
 - Accessible UI primitives, keyboard-friendly navigation, and reduced-motion support
-- Live form validation with Resend email delivery, Cloudflare Turnstile, and honeypot protection on all public forms
+- Live form validation with Mailchimp newsletter subscriptions, Resend operational email delivery, Cloudflare Turnstile, and honeypot protection
 - Metadata, Open Graph, Twitter cards, sitemap, robots, and scoped 404 pages
 - Content-first architecture prepared for a future Sanity migration
 
@@ -143,7 +143,7 @@ final release QA and the optional public-domain switch remain.
 
 **Shipped in repo**
 
-- Seven public form surfaces → six API routes with internal notification + best-effort submitter receipt (receipt failures are logged, not surfaced to the user)
+- Seven public form surfaces → six protected API routes; newsletter subscriptions use Mailchimp double opt-in while operational forms use Resend notification + receipt delivery
 - Cloudflare Turnstile + honeypot on every submission path
 - React Email templates previewable via `pnpm email:dev`
 - Sanity-managed Academy catalogues, trust/people content, selected Home/About
@@ -169,13 +169,15 @@ continue without relying on chat history.
 - [`docs/layout-system.md`](./docs/layout-system.md) — responsive layout rules
 - [`docs/routes/`](./docs/routes) — route-by-route specifications
 - [`docs/resend-integration-spec.md`](./docs/resend-integration-spec.md) — form delivery, Resend, Turnstile
+- [`docs/mailchimp-newsletter-integration-spec.md`](./docs/mailchimp-newsletter-integration-spec.md) — newsletter subscriber delivery and cutover
 - [`docs/email-structure.md`](./docs/email-structure.md) — email folder map and dual UI
 
 ## Environment Variables
 
-Form delivery and Turnstile need env vars on Vercel (and locally in `.env.local`).
-See [`docs/resend-integration-spec.md`](./docs/resend-integration-spec.md). Without
-`RESEND_API_KEY` and `EMAIL_FROM`, form APIs return **503** — not fake success.
+Form delivery, Mailchimp, and Turnstile need route-specific env vars on Vercel
+(and locally in `.env.local`). See the Resend and Mailchimp integration specs.
+Missing provider configuration fails closed with **503** rather than returning
+fake success.
 
 ## Quality Gate
 
@@ -191,9 +193,8 @@ pnpm build
 ## Deployment
 
 The application is optimized for Vercel and can be deployed to any platform
-that supports Next.js. Set Resend, Turnstile, and per-form `*_TO_EMAIL` variables
-before expecting live mail delivery. Sanity CMS env vars will be documented when
-that phase begins.
+that supports Next.js. Set Mailchimp, Resend, Turnstile, route inbox, and Sanity
+variables in the appropriate deployment environments before production use.
 
 ---
 

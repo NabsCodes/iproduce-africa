@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   return handlePublicFormPost({
     request,
     schema: becomePartnerSubmitSchema,
-    toEmailEnv: "PARTNERS_TO_EMAIL",
+    requiredEnvNames: ["RESEND_API_KEY", "EMAIL_FROM", "PARTNERS_TO_EMAIL"],
     rateLimitRoute: "partners-become",
     handler: async (data) => {
       const { sendBecomePartnerEmails } = await import("@/lib/email/partners");

@@ -91,7 +91,11 @@ export type BlogNewsletterContent = {
   submitLabel: string;
   submittingLabel: string;
   successMessage: string;
+  repeatSubmissionMessage: string;
   subscribeAgainLabel: string;
+  resubscribePrompt: string;
+  resubscribeLabel: string;
+  resubscribeHref: string;
 };
 
 export type BlogShareControlsContent = {

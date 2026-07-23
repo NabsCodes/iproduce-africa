@@ -2,11 +2,12 @@ import {
   resolveCourseRegistration,
   resolveWebinarRegistrationState,
 } from "@/lib/academy-registration";
-import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
+import { sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildAcademyRegistrationNotificationEmail,
   buildAcademyRegistrationReceiptEmail,
 } from "@/lib/email/templates/academy-registration-notification";
+import { readTrimmedEnv } from "@/lib/env";
 import { fetchCourseBySlug } from "@/lib/sanity/fetch/courses";
 import { fetchWebinarBySlug } from "@/lib/sanity/fetch/webinars";
 import type { AcademyRegistrationSubmitPayload } from "@/schemas/academy-registration";

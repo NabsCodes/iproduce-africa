@@ -3,6 +3,33 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Mailchimp newsletter integration (2026-07-22)
+
+Approved the reviewed architecture and implemented Mailchimp for only the two
+existing newsletter surfaces. `POST /api/newsletter` keeps the shared
+Turnstile, honeypot, rate-limit, and response pipeline, then performs a
+server-only, state-aware member sync with double opt-in and the exact `Website
+newsletter` tag. Existing pending/subscribed/unsubscribed contacts are
+preserved, cleaned contacts are not overridden, and provider logs contain no
+email or key values.
+
+Refactored the shared public-form environment contract so each route declares
+its own provider variables; the five operational routes remain on Resend and
+the newsletter route no longer depends on Resend configuration. Removed the
+obsolete newsletter `sourcePath` request field, aligned public copy and docs,
+and added focused provider/state/timeout/tag tests. The previous
+newsletter-only Resend files and `NEWSLETTER_TO_EMAIL` remain rollback-only
+until the controlled production Mailchimp smoke test passes.
+
+Follow-up review (2026-07-23): verified the account now uses double opt-in and
+the client-owned hosted signup URL is available. Removed the API attempt to
+force `unsubscribed` contacts back to `pending`; all existing consent states are
+preserved, while every successful response exposes the same quiet hosted rejoin
+link so membership cannot be enumerated. Centralized shared newsletter response
+copy, added clearer browser-local repeat-submit messaging, simplified the footer
+reassurance line, and replaced the optimistic resubscribe test with an explicit
+no-consent-mutation regression.
+
 ## Home What We Do video parity (2026-07-17)
 
 Extended the About Story video pattern to Home so both CMS surfaces stay in

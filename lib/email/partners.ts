@@ -1,4 +1,4 @@
-import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
+import { sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildBecomePartnerNotificationEmail,
   buildBecomePartnerReceiptEmail,
@@ -7,6 +7,7 @@ import {
   buildPartnerInquiryNotificationEmail,
   buildPartnerInquiryReceiptEmail,
 } from "@/lib/email/templates/partner-inquiry-notification";
+import { readTrimmedEnv } from "@/lib/env";
 import type {
   BecomePartnerValues,
   PartnerInquiryValues,

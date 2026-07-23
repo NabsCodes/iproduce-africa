@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   return handlePublicFormPost({
     request,
     schema: communityApplicationSubmitSchema,
-    toEmailEnv: "COMMUNITY_TO_EMAIL",
+    requiredEnvNames: ["RESEND_API_KEY", "EMAIL_FROM", "COMMUNITY_TO_EMAIL"],
     rateLimitRoute: "community-application",
     handler: async (data) => {
       const { sendCommunityApplicationEmails } =

@@ -26,7 +26,11 @@ export type SiteFooterConfig = {
     submitLabel: string;
     submittingLabel: string;
     successMessage: string;
+    repeatSubmissionMessage: string;
     subscribeAgainLabel: string;
+    resubscribePrompt: string;
+    resubscribeLabel: string;
+    resubscribeHref: string;
   };
   legalLinks: readonly SiteLinkItem[];
 };

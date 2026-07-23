@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { z } from "zod";
 
-import { readTrimmedEnv } from "@/lib/email/send";
+import { getMissingEnvNames } from "@/lib/env";
 import {
   PUBLIC_FORM_DELIVERY_ERROR,
   PUBLIC_FORM_RATE_LIMIT_ERROR,
@@ -20,7 +20,7 @@ import { PUBLIC_FORM_HONEYPOT_FIELD } from "@/schemas/public-form";
 type HandlePublicFormPostOptions<T extends z.ZodTypeAny> = {
   request: Request;
   schema: T;
-  toEmailEnv: string;
+  requiredEnvNames: readonly string[];
   rateLimitRoute: PublicFormRateLimitRoute;
   handler: (data: z.infer<T>) => Promise<void>;
 };
@@ -44,7 +44,7 @@ const VALIDATION_ERROR_MESSAGES = new Set([
 export async function handlePublicFormPost<T extends z.ZodTypeAny>({
   request,
   schema,
-  toEmailEnv,
+  requiredEnvNames,
   rateLimitRoute,
   handler,
 }: HandlePublicFormPostOptions<T>) {
@@ -134,15 +134,11 @@ export async function handlePublicFormPost<T extends z.ZodTypeAny>({
       );
     }
 
-    const missingEmailEnv = [
-      readTrimmedEnv("RESEND_API_KEY") ? null : "RESEND_API_KEY",
-      readTrimmedEnv("EMAIL_FROM") ? null : "EMAIL_FROM",
-      readTrimmedEnv(toEmailEnv) ? null : toEmailEnv,
-    ].filter((name): name is string => Boolean(name));
+    const missingDeliveryEnv = getMissingEnvNames(requiredEnvNames);
 
-    if (missingEmailEnv.length > 0) {
+    if (missingDeliveryEnv.length > 0) {
       logPublicFormConfigIssue(
-        `Missing email environment variable(s): ${missingEmailEnv.join(", ")}.`,
+        `Missing delivery environment variable(s): ${missingDeliveryEnv.join(", ")}.`,
       );
 
       return NextResponse.json(

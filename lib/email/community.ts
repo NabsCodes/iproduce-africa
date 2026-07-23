@@ -1,9 +1,10 @@
-import { readTrimmedEnv, sendEmail, sendEmailQuietly } from "@/lib/email/send";
+import { sendEmail, sendEmailQuietly } from "@/lib/email/send";
 import {
   buildCommunityApplicationNotificationEmail,
   buildCommunityApplicationReceiptEmail,
   type CommunityApplicationEmailInput,
 } from "@/lib/email/templates/community-application-notification";
+import { readTrimmedEnv } from "@/lib/env";
 
 export type FormEmailResult =
   | { sent: true }

@@ -196,9 +196,8 @@ Do **not** claim or imply:
 - Formal WCAG audit / certification (Accessibility page = commitment + practices,
   not a badge)
 - PostHog or session replay (not in this repo)
-- Resend Audiences / marketing automation lists (newsletter is
-  operational notification today — describe as email list for updates, not
-  a full ESP product unless client confirms)
+- Additional marketing automation products beyond the confirmed Mailchimp
+  newsletter audience and double-opt-in flow
 
 ---
 

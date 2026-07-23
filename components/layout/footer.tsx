@@ -165,7 +165,7 @@ export function Footer({ settings }: { settings: PublicSiteSettings }) {
 
             <NewsletterForm />
             <p className="mt-3 text-xs text-white/40">
-              No spam. Unsubscribe anytime.
+              You can unsubscribe at any time.
             </p>
           </div>
         </div>

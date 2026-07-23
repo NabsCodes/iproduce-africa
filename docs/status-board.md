@@ -32,11 +32,12 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Static content structure is stable enough for Sanity mapping
 - [x] Placeholder imagery source is known (`lib/placeholder-images.ts` + `public/images/`)
 - [x] Form integration scope documented (`docs/resend-integration-spec.md`)
-- [x] Resend + React Email + Turnstile implementation (6 API routes, 7 form surfaces, dual-email delivery)
+- [x] Resend + React Email + Turnstile implementation for operational forms; newsletter route now uses Mailchimp while preserving the shared security pipeline
 - [x] Email folder structure + dual UI documented (`docs/email-structure.md`)
 - [x] Client mail host confirmed — **Zoho Mail** (`dev@`, `content@` created; temp passwords, rotate at handover)
 - [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
 - [x] Resend domain verified (`iproduceafrica.com`, DKIM + `send` sending; Zoho MX intact) + production Vercel env + smoke path — **complete** (client is Resend Owner)
+- [ ] Mailchimp newsletter integration, double-opt-in account experience, clearer repeat-submit copy, and hosted rejoin fallback are implemented; run the final production pending → confirmed → unsubscribed → hosted rejoin smoke test before deleting the Resend rollback path
 - [ ] Website DNS cutover — point `iproduceafrica.com` / `www` at Vercel when client wants the public URL switch (forms/mail already live on Vercel)
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**

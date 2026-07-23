@@ -1,4 +1,4 @@
-import { readTrimmedEnv } from "@/lib/email/send";
+import { readTrimmedEnv } from "@/lib/env";
 
 type TurnstileVerificationResult =
   | { success: true; bypassed: boolean }

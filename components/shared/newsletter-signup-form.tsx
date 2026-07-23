@@ -114,24 +114,28 @@ export type NewsletterSignupCopy = {
   submitLabel: string;
   submittingLabel?: string;
   successMessage: string;
+  repeatSubmissionMessage: string;
   subscribeAgainLabel: string;
+  resubscribePrompt: string;
+  resubscribeLabel: string;
+  resubscribeHref: string;
   formAriaLabel?: string;
 };
 
 type NewsletterSignupFormProps = {
   copy: NewsletterSignupCopy;
   variant?: "footer" | "compact";
-  sourcePath?: string;
   className?: string;
 };
 
 export function NewsletterSignupForm({
   copy,
   variant = "footer",
-  sourcePath = "/",
   className,
 }: NewsletterSignupFormProps) {
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionState, setSubmissionState] = useState<
+    "submitted" | "repeat" | null
+  >(null);
   const submittingLabel = copy.submittingLabel ?? "Subscribing...";
   const {
     isSubmitting,
@@ -152,30 +156,24 @@ export function NewsletterSignupForm({
 
   async function onSubmit(values: NewsletterClientValues) {
     const normalizedEmail = normalizeNewsletterEmail(values.email);
-    const submissionBody = {
-      ...values,
-      sourcePath,
-    };
 
     if (normalizedEmail && hasSubmittedNewsletterEmail(normalizedEmail)) {
       clearSubmitError();
-      setSubmitted(true);
+      setSubmissionState("repeat");
       return;
     }
 
     const hasTurnstileToken = values.turnstileToken.trim().length > 0;
     const result =
       normalizedEmail && hasTurnstileToken
-        ? await submitNewsletterOnce(normalizedEmail, () =>
-            submit(submissionBody),
-          )
-        : await submit(submissionBody);
+        ? await submitNewsletterOnce(normalizedEmail, () => submit(values))
+        : await submit(values);
 
     if (result.success) {
       if (normalizedEmail) {
         rememberSubmittedNewsletterEmail(normalizedEmail);
       }
-      setSubmitted(true);
+      setSubmissionState("submitted");
     }
   }
 
@@ -183,13 +181,18 @@ export function NewsletterSignupForm({
     form.reset(withPublicFormSecurity(newsletterDefaultValues));
     bumpTurnstileReset();
     clearSubmitError();
-    setSubmitted(false);
+    setSubmissionState(null);
   }
 
   const isCompact = variant === "compact";
   const successSpacing = isCompact ? "mt-5" : "mt-6";
 
-  if (submitted) {
+  if (submissionState) {
+    const successMessage =
+      submissionState === "repeat"
+        ? copy.repeatSubmissionMessage
+        : copy.successMessage;
+
     return (
       <div
         role="status"
@@ -206,7 +209,29 @@ export function NewsletterSignupForm({
             isCompact ? "text-fg-muted" : "text-white/70",
           )}
         >
-          {copy.successMessage}
+          {successMessage}
+        </p>
+        <p
+          className={cn(
+            "text-xs leading-5",
+            isCompact ? "text-fg-muted" : "text-white/60",
+          )}
+        >
+          {copy.resubscribePrompt}{" "}
+          <a
+            href={copy.resubscribeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${copy.resubscribeLabel} (opens in a new tab)`}
+            className={cn(
+              "font-semibold underline underline-offset-4",
+              isCompact
+                ? "text-leaf-700 hover:text-leaf-800"
+                : "text-leaf-300 hover:text-leaf-200",
+            )}
+          >
+            {copy.resubscribeLabel}
+          </a>
         </p>
         <Button
           type="button"

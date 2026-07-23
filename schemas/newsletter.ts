@@ -10,13 +10,7 @@ export const newsletterSchema = z.object({
   email: emailSchema,
 });
 
-export const newsletterSubmitSchema = withPublicFormEnvelope(
-  newsletterSchema.and(
-    z.object({
-      sourcePath: z.string().trim().max(200).optional(),
-    }),
-  ),
-);
+export const newsletterSubmitSchema = withPublicFormEnvelope(newsletterSchema);
 
 export const newsletterClientSchema =
   withPublicFormClientEnvelope(newsletterSchema);

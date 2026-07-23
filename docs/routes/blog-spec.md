@@ -30,14 +30,16 @@ courses via the detail page's related section.
   built listing routes for Webinars & Events, Courses, and Blog. Events remain
   folded into the Webinars & Events catalogue. See
   [Navbar + footer migration](#navbar--footer-migration).
-- Static-first MVP: no Sanity, no comments, no auth. Newsletter signup uses
+- Static-first MVP: no comments or auth. Newsletter signup uses
   shared `NewsletterSignupForm` (RHF + Zod) and POSTs to `/api/newsletter`
-  (Resend + Turnstile). Inline success + Sonner toast. **Subscribe with another
-  email** resets the form + Turnstile without refresh. Submit shows spinner on
-  the send button while loading. Since blog detail pages can show both the
-  sidebar newsletter form and the global footer newsletter form, the shared
-  newsletter form de-dupes the same normalized email within the current browser
-  session.
+  (Mailchimp + Turnstile). Inline success + Sonner toast. **Subscribe with
+  another email** resets the form + Turnstile without refresh. Submit shows
+  spinner on the send button while loading. Since blog detail pages can show
+  both the sidebar newsletter form and the global footer newsletter form, the
+  shared newsletter form de-dupes the same normalized email within the current
+  browser session. First and repeat submissions use different browser-local
+  copy, while both keep Mailchimp membership private and expose the same hosted
+  rejoin link for previously unsubscribed contacts.
 - Reuse existing primitives: `ContentCard`, `EyebrowPill`, `SiteCtaButton`,
   `CtaSection`. Motion primitives (`MotionFade`, `MotionStagger`) apply on
   day one — the full motion pass is shipped.
@@ -142,11 +144,11 @@ Body content is **structured blocks** (not MDX/HTML strings) — see
 
 `<BlogArticleSidebar />` composes newsletter + share controls. Newsletter uses
 shared `NewsletterSignupForm` (`compact` variant) with the same Zod schema as
-the footer. The sidebar passes the article path as newsletter `sourcePath`; the
-footer passes the current pathname, and current-session email de-dupe prevents
-the two newsletter surfaces from creating duplicate inbox notifications for the
-same address. Share row: WhatsApp, LinkedIn, X, copy-link (+ optional native
-share on mobile) — see table below.
+the footer. Both surfaces use the same Mailchimp audience and `Website
+newsletter` source tag; current-session email de-dupe prevents repeat requests
+for the same address. The public hosted rejoin link is universal rather than
+conditional on stored Mailchimp status. Share row: WhatsApp, LinkedIn, X,
+copy-link (+ optional native share on mobile) — see table below.
 
 | Control     | Action                                                                                           |
 | ----------- | ------------------------------------------------------------------------------------------------ |

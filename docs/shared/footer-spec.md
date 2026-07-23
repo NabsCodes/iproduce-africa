@@ -8,10 +8,12 @@ routes. Social icons remain placeholder pending final destinations (see
 Current Questions).
 
 Newsletter signup is live via `NewsletterSignupForm` → `/api/newsletter`.
-Success shows inline copy plus **Subscribe with another email** (resets form +
-Turnstile). Submit button swaps to a spinner while posting. The footer passes
-the current pathname as `sourcePath`, so footer submissions from article pages
-no longer appear as homepage submissions in the inbox.
+Success shows clear first-submit/current-session-repeat copy,
+**Subscribe with another email** (resets form + Turnstile), and the universal
+Mailchimp-hosted rejoin link required for previously unsubscribed contacts.
+Submit swaps to a spinner while posting. The protected route stores subscribers
+in Mailchimp with double opt-in and one website source tag; it does not send
+per-subscriber internal Resend notifications.
 
 Footer `legalLinks` (Privacy, Terms, Cookies, Accessibility) are now live
 internal links to `/privacy`, `/terms`, `/cookies`, `/accessibility` — see
@@ -30,10 +32,12 @@ brand tone without pretending final integrations already exist.
 - Current social destinations are data-driven from `content/site.ts`, but final
   URLs are still pending
 - Address data now lives in `content/site.ts`
-- Newsletter treatment is live (Resend + Turnstile); subscribe-again reset matches Contact form UX
+- Newsletter treatment is live in code (Mailchimp + Turnstile); subscribe-again reset matches Contact form UX
 - Newsletter duplicate-submit protection is client-side for now: same-instance
   in-flight lock plus current-session normalized email de-dupe across footer and
   sidebar newsletter forms
+- Newsletter responses never reveal audience membership; the hosted rejoin link
+  is visible after every successful submission
 - Footer can include visible placeholder items from the design, but they should
   not become dead links
 
@@ -51,5 +55,5 @@ brand tone without pretending final integrations already exist.
 - [x] Desktop composition approved in code
 - [x] Mobile composition approved
 - [x] Footer copy aligned with static MVP boundaries
-- [x] Newsletter block wired to `/api/newsletter` with spinner, subscribe-again reset, current-path source attribution, and current-session de-dupe
+- [x] Newsletter block wired to `/api/newsletter` with spinner, subscribe-again reset, Mailchimp source tag, current-session de-dupe, and hosted rejoin fallback
 - [x] Legal links (Privacy, Terms, Cookies, Accessibility) live — routes shipped

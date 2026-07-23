@@ -5,15 +5,16 @@ export async function POST(request: Request) {
   return handlePublicFormPost({
     request,
     schema: newsletterSubmitSchema,
-    toEmailEnv: "NEWSLETTER_TO_EMAIL",
+    requiredEnvNames: [
+      "MAILCHIMP_API_KEY",
+      "MAILCHIMP_SERVER_PREFIX",
+      "MAILCHIMP_AUDIENCE_ID",
+    ],
     rateLimitRoute: "newsletter",
     handler: async (data) => {
-      const { sendNewsletterEmails } = await import("@/lib/email/newsletter");
-      await sendNewsletterEmails({
-        email: data.email,
-        submittedAt: new Date(),
-        sourcePath: data.sourcePath?.trim() || "/",
-      });
+      const { subscribeNewsletterEmail } =
+        await import("@/lib/mailchimp/newsletter");
+      await subscribeNewsletterEmail(data.email);
     },
   });
 }

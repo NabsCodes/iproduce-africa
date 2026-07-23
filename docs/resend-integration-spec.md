@@ -175,15 +175,15 @@ auth, audit logging, Prisma, or admin stack.
 
 All schemas live in `schemas/`. All UI wired to API routes via `usePublicFormSubmit`.
 
-| Form                         | UI entry                                                             | Schema                                         | API route                                                 | Internal email              | Submitter receipt | Spam protection      |
-| ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------- | --------------------------- | ----------------- | -------------------- |
-| Contact                      | `components/contact/contact-form.tsx`                                | `schemas/contact.ts`                           | `POST /api/contact`                                       | Yes → `CONTACT_TO_EMAIL`    | Yes               | Turnstile + honeypot |
-| Partner inquiry (page)       | `components/partners/inquiry-form.tsx`                               | `schemas/partners.ts` → `partnerInquirySchema` | `POST /api/partners/inquiry`                              | Yes → `PARTNERS_TO_EMAIL`   | Yes               | Turnstile + honeypot |
-| Become partner (dialog)      | `components/partners/become-partner-dialog.tsx`                      | `becomePartnerSchema`                          | `POST /api/partners/become-partner`                       | Yes → `PARTNERS_TO_EMAIL`   | Yes               | Turnstile + honeypot |
-| Community application (page) | `components/community/application-form.tsx`                          | `membershipApplicationSchema`                  | `POST /api/community/application`                         | Yes → `COMMUNITY_TO_EMAIL`  | Yes               | Turnstile + honeypot |
-| Community dialog             | `components/community/membership-application-dialog.tsx`             | `membershipApplicationDialogSchema`            | `POST /api/community/application` with `source: "dialog"` | Yes → `COMMUNITY_TO_EMAIL`  | Yes               | Turnstile + honeypot |
-| Academy registration         | `components/academy/registration/academy-registration-dialog.tsx`    | `academyRegistrationSubmitSchema`              | `POST /api/academy/register`                              | Yes → `ACADEMY_TO_EMAIL`    | Yes               | Turnstile + honeypot |
-| Newsletter                   | `components/shared/newsletter-signup-form.tsx`, footer, blog sidebar | `schemas/newsletter.ts`                        | `POST /api/newsletter`                                    | Yes → `NEWSLETTER_TO_EMAIL` | Yes               | Turnstile + honeypot |
+| Form                         | UI entry                                                             | Schema                                         | API route                                                 | Internal email             | Submitter receipt | Spam protection      |
+| ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------- | -------------------------- | ----------------- | -------------------- |
+| Contact                      | `components/contact/contact-form.tsx`                                | `schemas/contact.ts`                           | `POST /api/contact`                                       | Yes → `CONTACT_TO_EMAIL`   | Yes               | Turnstile + honeypot |
+| Partner inquiry (page)       | `components/partners/inquiry-form.tsx`                               | `schemas/partners.ts` → `partnerInquirySchema` | `POST /api/partners/inquiry`                              | Yes → `PARTNERS_TO_EMAIL`  | Yes               | Turnstile + honeypot |
+| Become partner (dialog)      | `components/partners/become-partner-dialog.tsx`                      | `becomePartnerSchema`                          | `POST /api/partners/become-partner`                       | Yes → `PARTNERS_TO_EMAIL`  | Yes               | Turnstile + honeypot |
+| Community application (page) | `components/community/application-form.tsx`                          | `membershipApplicationSchema`                  | `POST /api/community/application`                         | Yes → `COMMUNITY_TO_EMAIL` | Yes               | Turnstile + honeypot |
+| Community dialog             | `components/community/membership-application-dialog.tsx`             | `membershipApplicationDialogSchema`            | `POST /api/community/application` with `source: "dialog"` | Yes → `COMMUNITY_TO_EMAIL` | Yes               | Turnstile + honeypot |
+| Academy registration         | `components/academy/registration/academy-registration-dialog.tsx`    | `academyRegistrationSubmitSchema`              | `POST /api/academy/register`                              | Yes → `ACADEMY_TO_EMAIL`   | Yes               | Turnstile + honeypot |
+| Newsletter                   | `components/shared/newsletter-signup-form.tsx`, footer, blog sidebar | `schemas/newsletter.ts`                        | `POST /api/newsletter`                                    | No — Mailchimp audience    | Mailchimp opt-in  | Turnstile + honeypot |
 
 ### Academy registration note
 
@@ -194,9 +194,11 @@ client-sent titles.
 
 ### Newsletter note
 
-Newsletter must send an internal notification as well as the subscriber
-confirmation. Because this integration does not store subscribers in a DB or
-Resend Audience, the internal notification is the operational record for now.
+`POST /api/newsletter` now uses the client-owned Mailchimp audience. Mailchimp
+stores subscribers, applies the `Website newsletter` source tag, and sends the
+double-opt-in confirmation. The old newsletter-only Resend orchestrator and
+templates remain temporarily as rollback files until the production Mailchimp
+smoke test passes; no active newsletter route imports them.
 
 Duplicate-submit handling is intentionally client-side for this phase:
 
@@ -385,7 +387,10 @@ env names used by code.
 | `PARTNERS_TO_EMAIL`              | Yes           | `info@iproduceafrica.com`                   | Partner forms                                                               |
 | `COMMUNITY_TO_EMAIL`             | Yes           | `info@iproduceafrica.com`                   | Community applications                                                      |
 | `ACADEMY_TO_EMAIL`               | Yes           | `info@iproduceafrica.com`                   | Academy registrations                                                       |
-| `NEWSLETTER_TO_EMAIL`            | Yes           | `info@iproduceafrica.com`                   | Newsletter subscriber alerts                                                |
+| `MAILCHIMP_API_KEY`              | Newsletter    | server-only secret                          | Mailchimp Marketing API                                                     |
+| `MAILCHIMP_SERVER_PREFIX`        | Newsletter    | `us20`                                      | Mailchimp data-center prefix                                                |
+| `MAILCHIMP_AUDIENCE_ID`          | Newsletter    | audience ID                                 | Client-owned newsletter audience                                            |
+| `NEWSLETTER_TO_EMAIL`            | Legacy only   | `info@iproduceafrica.com`                   | Temporary rollback variable; remove after production Mailchimp smoke test   |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Yes (prod)    | `0x4...`                                    | Client widget site key                                                      |
 | `TURNSTILE_SECRET_KEY`           | Yes (prod)    | `0x4...`                                    | Server verification secret                                                  |
 | `UPSTASH_REDIS_REST_URL`         | Yes (prod)    | `https://...upstash.io`                     | Rate limit Redis REST URL                                                   |
