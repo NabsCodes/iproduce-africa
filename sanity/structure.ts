@@ -88,6 +88,34 @@ function teamMembersByGroup(
     );
 }
 
+/**
+ * Webinars/events split by timing. Nothing is stored or moved — each list is a
+ * live GROQ view comparing the event's end (or start, when no end is set) to
+ * `now()`. Undated drafts stay under Upcoming so a half-finished event never
+ * disappears before its date is filled in. `date` is required on publish, so
+ * only in-progress drafts hit the undated branch.
+ */
+function webinarsByTiming(
+  S: StructureBuilder,
+  title: string,
+  itemId: string,
+  filter: string,
+  direction: "asc" | "desc",
+) {
+  return S.listItem()
+    .id(itemId)
+    .title(title)
+    .child(
+      S.documentList()
+        .id(itemId)
+        .title(title)
+        .schemaType("academyWebinar")
+        .apiVersion(apiVersion)
+        .filter(filter)
+        .defaultOrdering([{ field: "date", direction }]),
+    );
+}
+
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
@@ -114,9 +142,45 @@ export const structure: StructureResolver = (S) =>
             .title("Academy")
             .items([
               S.documentTypeListItem("academyArticle").title("Articles"),
-              S.documentTypeListItem("academyWebinar").title(
-                "Webinars & Events",
-              ),
+              S.listItem()
+                .id("webinars")
+                .title("Webinars & Events")
+                .child(
+                  S.list()
+                    .id("webinars")
+                    .title("Webinars & Events")
+                    .items([
+                      webinarsByTiming(
+                        S,
+                        "Upcoming",
+                        "webinars-upcoming",
+                        '_type == "academyWebinar" && (!defined(coalesce(endDate, date)) || coalesce(endDate, date) >= now())',
+                        "asc",
+                      ),
+                      webinarsByTiming(
+                        S,
+                        "Past",
+                        "webinars-past",
+                        '_type == "academyWebinar" && defined(coalesce(endDate, date)) && coalesce(endDate, date) < now()',
+                        "desc",
+                      ),
+                      S.divider(),
+                      S.listItem()
+                        .id("webinars-all")
+                        .title("All webinars & events")
+                        .child(
+                          S.documentList()
+                            .id("webinars-all")
+                            .title("All webinars & events")
+                            .schemaType("academyWebinar")
+                            .apiVersion(apiVersion)
+                            .filter('_type == "academyWebinar"')
+                            .defaultOrdering([
+                              { field: "date", direction: "desc" },
+                            ]),
+                        ),
+                    ]),
+                ),
               S.documentTypeListItem("academyCourse").title("Courses"),
               S.documentTypeListItem("author").title("Authors"),
               S.divider(),

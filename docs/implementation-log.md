@@ -3,6 +3,23 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Studio: Webinars & Events split into Upcoming / Past (2026-07-25)
+
+Editor-experience polish. The Studio "Webinars & Events" list was a single flat
+`documentTypeListItem`; it now expands to **Upcoming**, **Past**, and **All
+webinars & events** sub-lists (`sanity/structure.ts`, same Structure Builder
+pattern already used for testimonials/FAQs/team). Display-only — nothing is
+stored or moved. Each view is a live GROQ filter on `coalesce(endDate, date)`
+vs `now()`: Upcoming = future/in-progress events plus undated drafts (so a
+half-finished event never disappears before its `date` is filled in — `date` is
+required only on publish), Past = ended events, All = flat fallback. Upcoming
+sorts soonest-first, Past most-recent-first. Create still works from each list
+via the default `academyWebinar` template.
+
+No schema, `_type`, query, or webhook change — the public site already handled
+upcoming/past via `selectPromotableWebinars()`; this is purely `/admin`
+convenience. `typecheck` + `lint` clean.
+
 ## Transactional emails pinned to light mode (2026-07-24)
 
 Fixed dark-on-dark rendering in the receipt/notification emails (reported on the

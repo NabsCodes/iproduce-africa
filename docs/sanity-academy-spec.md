@@ -172,6 +172,15 @@ live Q&A, and events (matches `AcademyScheduledType`).
 | `registration` | `registrationConfig` | `registration?`      |                                                                       |
 | `seo`          | `seoMetadata`        | `seo?`               | optional metadata title, description, and share image                 |
 
+**Studio organization (`sanity/structure.ts`):** the "Webinars & Events" list is
+split into **Upcoming**, **Past**, and **All webinars & events**. This is
+display-only — nothing is stored on the document or moved. Each view is a live
+GROQ filter comparing `coalesce(endDate, date)` to `now()`: Upcoming holds future
+and in-progress events plus undated drafts (so a half-finished event never
+disappears before its date is set), Past holds ended events, and All is the flat
+fallback. Because the document `_type` never changes, the revalidation webhook is
+unaffected — no webhook change is required for this.
+
 **`registrationConfig`** — single object in
 `sanity/schemaTypes/objects/registration-config.ts`, imported by webinar and
 course schemas (field set must not drift). Studio titles are plain language;
