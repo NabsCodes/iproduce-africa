@@ -132,6 +132,7 @@ export function BlogArticleSidebar({
 
         <NewsletterSignupForm
           variant="compact"
+          turnstileSize="normal"
           copy={{
             inputId: "blog-sidebar-newsletter-email",
             inputLabel: newsletter.inputLabel,

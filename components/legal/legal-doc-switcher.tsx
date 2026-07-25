@@ -41,7 +41,7 @@ export function LegalDocSwitcher({ className }: { className?: string }) {
       <DropdownMenuContent
         align="start"
         sideOffset={8}
-        className="border-grey-200 w-(--radix-dropdown-menu-trigger-width) min-w-[240px] border bg-white p-2 ring-0"
+        className="border-grey-200 w-(--radix-dropdown-menu-trigger-width) min-w-60 border bg-white p-2 ring-0"
       >
         {legalContent.nav.map((item) => {
           const isActive = item.href === pathname;

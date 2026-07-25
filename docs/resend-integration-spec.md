@@ -42,9 +42,12 @@ CMS setup.
 This is the shared behavior for all public forms. Keep future changes inside the
 shared form layer unless a form has a genuine layout-specific need.
 
-- Normal state: render no Turnstile helper copy. Keep the existing
-  `appearance: "interaction-only"` behavior so Cloudflare only becomes visible
-  when a visitor must act.
+- Normal state: render no Turnstile helper copy. The widget uses
+  `appearance: "always"`, so its checkbox/status card is visible on every form.
+  An earlier `interaction-only` config kept it invisible for low-risk visitors,
+  but a not-yet-arrived silent token left users told to "complete verification"
+  with nothing on screen; a visible widget makes that state legible. The card's
+  `theme` follows the form `tone` (dark card on dark surfaces).
 - Challenge state: let the Cloudflare widget provide the interaction. Do not add
   a second custom verification panel around it.
 - Failure state: show one short recovery message with one retry action and the
@@ -140,12 +143,15 @@ before launch.
 
 ### Client inputs needed (checklist)
 
+> Source of truth: `docs/status-board.md`. Tick milestones there first, then
+> back-fill this list — this spec drifted behind the board once already.
+
 - [x] Confirm primary inbox: `info@iproduceafrica.com` (or alternatives per form)
 - [x] DNS access for Resend domain records (cPanel Zone Editor) + Cloudflare Turnstile setup
 - [x] Who receives: contact, partners, community, academy registrations, newsletter alerts (shared `info@` / ops until split)
 - [x] Confirm Turnstile site domain(s): local dev, Vercel preview, production
 - [x] Client is Resend Owner (no further ownership invite needed)
-- [ ] Website apex/`www` → Vercel (optional public URL switch; forms already live)
+- [x] Website apex/`www` → Vercel — live (apex + `www` resolve through Vercel with HTTPS; `www` → apex `308` redirect verified)
 
 ---
 
@@ -567,6 +573,9 @@ Deliver to client:
 
 ## Checklist
 
+> Source of truth: `docs/status-board.md`. Tick milestones there first, then
+> back-fill this list.
+
 - [x] Account strategy agreed (separate iProduce Resend project; `dev@iproduceafrica.com`)
 - [x] Client DNS / inbox checklist executed (cPanel Zone Editor + Zoho preserved)
 - [x] Turnstile site configured for local / preview / production domains
@@ -582,4 +591,4 @@ Deliver to client:
 - [x] Domain verified on production (`iproduceafrica.com`; Enable Receiving left **off**; Sending + DKIM on)
 - [x] Client owns Resend project (Owner) — no further ownership transfer required
 - [x] Route specs + `implementation-log.md` updated
-- [ ] Custom domain website cutover to Vercel (optional public DNS switch; mail/forms already complete)
+- [x] Custom domain website cutover to Vercel — live (`iproduceafrica.com` apex + `www` on Vercel; canonical URLs + email asset origins moved to the custom domain)

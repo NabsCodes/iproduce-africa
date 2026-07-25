@@ -111,7 +111,7 @@ export const aboutPageContent = {
         year: "2021",
         title: "The Idea",
         description:
-          "Founded in Lagos with a simple belief: Africa's agribusiness actors needed a shared digital home — a place to learn, connect, and grow together.",
+          "Founded in Abuja with a simple belief: Africa's agribusiness actors needed a shared digital home — a place to learn, connect, and grow together.",
         image: placeholderImages.about.journey.idea,
         imageAlt: "Agripreneur working in a greenhouse",
         focusPoints: [

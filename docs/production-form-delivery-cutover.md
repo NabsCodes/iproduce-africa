@@ -135,8 +135,9 @@ is not interrupted.
 - Missing Turnstile config outside local development fails closed.
 - Missing route-specific Resend or Mailchimp environment fails closed.
 - Client-side forms reset Turnstile after success and failure.
-- Normal Turnstile verification has no persistent helper copy; the challenge is
-  visible only when Cloudflare requires interaction.
+- Normal Turnstile verification has no persistent helper copy, but the widget
+  itself is always visible (`appearance: "always"`) so users can see and
+  complete it; Cloudflare still escalates to a real challenge for risky visitors.
 - Widget load/timeout/unsupported failures show one retry plus email fallback;
   one retry performs one reset.
 - Server-side Turnstile verification is bounded to 8 seconds and distinguishes

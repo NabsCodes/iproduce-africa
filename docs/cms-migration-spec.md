@@ -981,13 +981,16 @@ internal dev if needed).
 
 ## Review checklist (before implementation)
 
+> Source of truth: `docs/status-board.md`. Tick milestones there first, then
+> back-fill this list — this spec drifted behind the board once already.
+
 - [x] Phase boundaries approved (1–4)
 - [x] CMS vs code table agreed
 - [x] Edge-case rules accepted (hide-vs-placeholder, branded fallbacks)
 - [x] Folder tree approved
 - [x] External review (Codex + Claude) incorporated
-- [ ] Client sign-off on CMS scope
-- [ ] `docs/sanity-academy-spec.md` checklist signed off
+- [x] Client sign-off on CMS scope (Phase 1–3; see `docs/cms-client-summary.md`)
+- [x] `docs/sanity-academy-spec.md` checklist signed off (approved with edits)
 - [ ] Sanity project ownership / handoff aligned with Resend pattern
 
 ---

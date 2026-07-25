@@ -126,9 +126,9 @@ export async function POST(request: NextRequest) {
   }
 
   if (type === "author" && !body.id) {
-    // Safe fallback until both dataset webhooks include `"id": _id` in
-    // their projection: invalidate the blog subtree instead of leaving
-    // author copy stale on detail pages.
+    // Defensive fallback: both dataset webhooks now project `"id": _id`, but if
+    // a payload ever arrives without it, invalidate the blog subtree instead of
+    // leaving author copy stale on detail pages.
     revalidatePath("/academy/blog", "layout");
   }
 

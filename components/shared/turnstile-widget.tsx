@@ -50,11 +50,13 @@ export function TurnstileWidget({
 
   return (
     <>
-      {/* Rendered in normal flow because the Cloudflare widget is configured
-          as "Managed" — most users get a silent pass (0×0 iframe) but the
-          container must remain visible so Cloudflare can render a real
-          challenge for higher-risk visitors. Hiding it absolutely would
-          silently reject those users and lose legitimate leads. */}
+      {/* Always visible: the widget renders a checkbox/status card so users can
+          see and complete verification. An earlier "interaction-only" config
+          kept the widget invisible for low-risk visitors, but if the silent
+          token had not arrived when they hit Submit they were told to "complete
+          verification" with nothing on screen to complete. A visible widget
+          makes that state legible and lets Cloudflare still challenge
+          higher-risk visitors. */}
       <Turnstile
         ref={ref}
         siteKey={siteKey}
@@ -68,9 +70,9 @@ export function TurnstileWidget({
         onUnsupported={handleUnavailable}
         scriptOptions={{ onError: handleUnavailable }}
         options={{
-          theme: "light",
+          theme: tone === "dark" ? "dark" : "light",
           size,
-          appearance: "interaction-only",
+          appearance: "always",
           retry: "auto",
         }}
       />

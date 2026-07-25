@@ -13,7 +13,6 @@ import { EmailInternalMasthead } from "@/lib/email/components/email-internal-mas
 import { EmailSubscriberFooter } from "@/lib/email/components/email-subscriber-footer";
 import { EmailSubscriberMasthead } from "@/lib/email/components/email-subscriber-masthead";
 import {
-  emailColorSchemeStyles,
   emailInternalMobileStyles,
   emailLayout,
   emailSubscriberMobileStyles,
@@ -40,14 +39,17 @@ export function EmailShell({
   return (
     <Html lang="en">
       <Head>
-        <meta name="color-scheme" content="light dark" />
-        <meta name="supported-color-schemes" content="light dark" />
+        {/* Light only: the templates are designed in a single light palette.
+            Opting out of dark mode keeps clients (notably Apple Mail) from
+            darkening the body card while leaving the dark body text unchanged,
+            which produced unreadable dark-on-dark copy. */}
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font -- email clients require the font link in <Head>, not a Next.js page */}
         <link
           href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
-        <style>{emailColorSchemeStyles}</style>
         {!isInternal ? (
           <style>{emailSubscriberMobileStyles}</style>
         ) : (

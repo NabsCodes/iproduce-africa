@@ -58,12 +58,15 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Client-visible media slice: Partner Voices avatars + stable testimonial IDs + secure About Story click-to-play video
 - [ ] Confirm the client-supplied About Story YouTube/Vimeo URL in both datasets when available (optional; no migration)
 - [ ] Review image-delivery performance/hotspot handling as its own cross-cutting slice
-- [ ] Add `"id": _id` to both Sanity webhook projections for targeted author-detail revalidation (safe blog-subtree fallback remains active until then)
+- [x] Add `"id": _id` to both Sanity webhook projections for targeted author-detail revalidation — live on Production + Development; author/category publish fan-out verified
+  - Plain terms: editing an author in the CMS now refreshes just that author's
+    pages instead of rebuilding the whole blog section. (A safe rebuild-the-blog
+    fallback still runs if a payload ever arrives without the ID.)
 - [x] CMS-managed category code: shared Article/Webinar collection, fallback reads, real badge tones, filters, search, and guarded migration tooling
 - [x] Category migration verified in Development and Production after a clean dry-run and Production backup; both post-runs are idempotent
 - [x] Required Article/Webinar category references deployed after both dataset migrations; Production deployment and public route smoke checks passed
-- [ ] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out
+- [x] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out — filter includes it on both webhooks; fan-out verified
 - [x] Custom-domain launch: apex/`www` DNS switched to Vercel at TTL 300; canonical URLs and email asset origins moved to `https://iproduceafrica.com`
-- [ ] Restore the website-record TTL to `3600` or the previous `14400` after 24–48 stable production hours
+- [x] Restore the website-record TTL to `3600`/`14400` after 24–48 stable production hours — done (raised back off the cutover `300`)
 - [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
 - [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

@@ -123,14 +123,31 @@ export type NewsletterSignupCopy = {
 };
 
 type NewsletterSignupFormProps = {
+  /** All user-facing strings. Sourced from a `newsletter` content object. */
   copy: NewsletterSignupCopy;
+  /**
+   * Layout preset. Bundles the tone, input height, button size, spacing, and
+   * default Turnstile size as one coherent set — override individual pieces
+   * with the props below rather than fighting the preset.
+   * - `footer` (default): light text on the dark footer band, tall inputs,
+   *   `normal` Turnstile.
+   * - `compact`: dark text inside a light card (e.g. blog sidebar), small
+   *   inputs, `compact` Turnstile.
+   */
   variant?: "footer" | "compact";
+  /**
+   * Turnstile widget size, decoupled from `variant` so a compact-layout form
+   * (e.g. the blog sidebar) can still opt into the wider `normal` widget.
+   * Defaults to the variant's natural size when omitted.
+   */
+  turnstileSize?: "normal" | "compact";
   className?: string;
 };
 
 export function NewsletterSignupForm({
   copy,
   variant = "footer",
+  turnstileSize,
   className,
 }: NewsletterSignupFormProps) {
   const [submissionState, setSubmissionState] = useState<
@@ -321,7 +338,7 @@ export function NewsletterSignupForm({
         <PublicFormSecurityFields
           control={form.control}
           resetNonce={turnstileResetNonce}
-          turnstileSize={isCompact ? "compact" : "normal"}
+          turnstileSize={turnstileSize ?? (isCompact ? "compact" : "normal")}
           tone={isCompact ? "default" : "dark"}
           className="mt-4"
         />
