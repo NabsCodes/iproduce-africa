@@ -22,3 +22,20 @@ export function resolveImageUrl(
   if (!image?.asset) return undefined;
   return urlFor(image).url();
 }
+
+/**
+ * Build a URL cropped to an exact `width`×`height`. Passing both dimensions
+ * makes `@sanity/image-url` compute a crop rectangle that honors the editor's
+ * Studio crop *and* hotspot for that target aspect ratio, so the delivered
+ * image already matches the target shape — no CSS crop guessing. Used for the
+ * About team/advisor cards and dialog, where one photo appears at several
+ * fixed aspect ratios.
+ */
+export function buildCroppedImageUrl(
+  image: Image | null | undefined,
+  width: number,
+  height: number,
+): string | undefined {
+  if (!image?.asset) return undefined;
+  return urlFor(image).width(width).height(height).auto("format").url();
+}

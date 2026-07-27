@@ -46,8 +46,8 @@ export function PersonPhoto({
   className,
   imageClassName,
 }: PersonPhotoProps) {
-  const [failed, setFailed] = useState(false);
-  const showFallback = !isAboutPersonPhotoAvailable(src) || failed;
+  const [failedSrc, setFailedSrc] = useState<string>();
+  const showFallback = !isAboutPersonPhotoAvailable(src) || failedSrc === src;
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
@@ -60,7 +60,7 @@ export function PersonPhoto({
           fill
           sizes={sizes}
           className={cn("object-cover", imageClassName)}
-          onError={() => setFailed(true)}
+          onError={() => setFailedSrc(src)}
         />
       )}
     </div>

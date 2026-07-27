@@ -29,11 +29,11 @@ function AdvisorCard({
   return (
     <Card className="group border-default hover:border-leaf-300 focus-within:border-leaf-300 h-full min-h-0 flex-col gap-0 overflow-hidden border bg-white p-0 shadow-none ring-0 transition-colors sm:min-h-44 sm:flex-row lg:min-h-48">
       <PersonPhoto
-        src={advisor.photo}
+        src={advisor.photoCard ?? advisor.photo}
         alt={advisor.name}
         sizes="(min-width: 1024px) 160px, (min-width: 640px) 128px, 100vw"
         className="aspect-5/3 w-full shrink-0 sm:aspect-square sm:w-32 sm:self-stretch lg:w-40"
-        imageClassName="object-[center_30%] transition-transform duration-300 group-hover:scale-[1.02]"
+        imageClassName="transition-transform duration-300 group-hover:scale-[1.02]"
       />
       <CardContent className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="text-foreground font-serif text-base font-semibold sm:text-lg">
@@ -86,13 +86,13 @@ export function AdvisorsSection({ members }: AdvisorsSectionProps) {
     <section className="relative overflow-x-clip bg-white py-14 sm:py-16 lg:py-20">
       <DecorativeRing
         strokeWidth={6}
-        className="text-tangerine-300 top-28 right-10 hidden size-[300px] translate-x-[60%] -translate-y-1/2 opacity-80 lg:block lg:size-[300px]"
+        className="text-tangerine-300 top-28 right-10 hidden size-75 translate-x-[60%] -translate-y-1/2 opacity-80 lg:block lg:size-75"
       />
       <div className="max-w-8xl relative mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <MotionFade>
           <div className="max-w-2xl">
             <EyebrowBadge>{advisors.eyebrow}</EyebrowBadge>
-            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+            <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-12">
               {advisors.title}
             </h2>
             <p className="text-fg-muted mt-4 text-base leading-7">

@@ -16,6 +16,7 @@ const SINGLETON_TYPES = new Set([
 ]);
 
 export default defineConfig({
+  title: "iProduce Africa CMS",
   basePath: "/admin",
   projectId: projectId ?? "",
   dataset,

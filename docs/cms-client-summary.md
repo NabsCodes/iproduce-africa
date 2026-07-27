@@ -7,8 +7,11 @@ One-page overview for sign-off. Technical detail lives in
 
 ## What you get
 
-A **Sanity Studio** at `/admin` on the live site (separate login). Your team can
-update content without a developer deploy.
+An **iProduce Africa CMS** workspace powered by Sanity Studio at `/admin` on
+the live site (separate login). Your team can update content without a
+developer deploy. The editor is excluded from public search indexing; its
+document-specific `/admin/...` addresses are private editing links rather than
+public website pages.
 
 Placeholder content from today's site is **pre-loaded into a staging Studio**
 (`development` dataset) so you edit or delete — not start from blank pages.

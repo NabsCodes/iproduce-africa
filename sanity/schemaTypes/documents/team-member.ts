@@ -41,7 +41,15 @@ export const teamMember = defineType({
       name: "photo",
       title: "Photo",
       type: "image",
-      options: { hotspot: true },
+      options: {
+        hotspot: {
+          previews: [
+            { title: "Team card (4:3)", aspectRatio: 4 / 3 },
+            { title: "Advisor card (square)", aspectRatio: 1 },
+            { title: "Profile dialog (portrait)", aspectRatio: 3 / 4 },
+          ],
+        },
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({

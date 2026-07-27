@@ -40,11 +40,11 @@ function TeamCard({
         className="group focus-visible:ring-leaf-400 flex flex-1 flex-col text-left outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
         <PersonPhoto
-          src={member.photo}
+          src={member.photoCard ?? member.photo}
           alt={member.name}
           sizes="(max-width: 1024px) 100vw, 33vw"
           className="aspect-4/3 rounded-xl"
-          imageClassName="object-[center_20%] transition-transform duration-300 group-hover:scale-[1.02]"
+          imageClassName="transition-transform duration-300 group-hover:scale-[1.02]"
         />
         <CardContent className="flex flex-1 flex-col p-0 pt-3">
           <div className="flex flex-wrap items-center gap-x-2 text-sm">
@@ -101,7 +101,7 @@ export function TeamSection({ members }: TeamSectionProps) {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-xl">
               <EyebrowBadge>{team.eyebrow}</EyebrowBadge>
-              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
+              <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-12">
                 {team.title}
               </h2>
             </div>

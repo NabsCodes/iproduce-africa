@@ -1,6 +1,6 @@
 # Mailchimp Newsletter Integration Spec
 
-**Status:** Production integration and lifecycle smoke test complete
+**Status:** Production integration live; lifecycle smoke test awaiting self-service unsubscribe and hosted rejoin evidence
 **Scope:** The existing footer and Academy Blog newsletter forms only
 
 ## Outcome
@@ -115,8 +115,10 @@ MAILCHIMP_AUDIENCE_ID=
   credentials are therefore expected to fail closed. This is an intentional
   safety boundary, not a Preview defect.
 - Local testing may use `.env.local` with controlled test addresses.
-- `NEWSLETTER_TO_EMAIL` and the newsletter-only Resend rollback files were
-  removed after the production lifecycle test passed.
+- The checked-in route no longer references `NEWSLETTER_TO_EMAIL` or a
+  newsletter-only Resend delivery module. Their historic removal is not evidence
+  that the current lifecycle smoke test passed; no additional removal is allowed
+  until the open cases in this document have live evidence.
 
 ## Implemented Code Shape
 
@@ -284,7 +286,7 @@ opt-in flow.
 - `docs/status-board.md`
 - `docs/implementation-log.md`
 
-### Removed after live Mailchimp testing passed
+### Final cleanup candidates (only after every live case passes)
 
 - `lib/email/newsletter.ts`
 - `lib/email/templates/newsletter-confirm.tsx`
@@ -332,14 +334,30 @@ Add Vitest coverage for:
 14. Run the same production smoke test from the live website.
 15. Monitor Mailchimp and Vercel logs.
 16. Remove newsletter-only Resend delivery and `NEWSLETTER_TO_EMAIL` only after
-    the production smoke test passes. **Complete (2026-07-23).**
+    the production smoke test passes. Do not remove or recreate rollback code
+    solely to make this checklist read as complete; record live evidence first.
+
+### Controlled production evidence — 2026-07-26
+
+- Starting from the real pending confirmation email sent to the controlled test
+  mailbox, its confirmation link reached Mailchimp's branded confirmation page
+  and displayed "Your subscription to our list has been confirmed."
+- A live, redacted Mailchimp API read then returned `subscribed` and the active
+  `Website newsletter` tag for that controlled contact.
+- The self-service preferences page accepted an `Email Me A Link` request and
+  displayed `Email Sent`. The corresponding new preference email was not
+  observable in the controlled Gmail mailbox during the smoke-test window.
+- Therefore the unsubscribe, website repeat-after-unsubscribe, and hosted
+  rejoin/renewed-consent cases remain unverified. Keep the production cutover
+  open until the preference-link delivery is diagnosed and those three cases
+  are observed end-to-end.
 
 ## Rollback
 
-The temporary Resend newsletter rollback path was retained until production
-Mailchimp validation completed, then removed. Any future provider rollback must
-be an explicit code change and must leave every operational Resend form
-unchanged.
+Newsletter delivery is already Mailchimp-only in the checked-in route. Do not
+remove or alter any shared operational Resend code. No further newsletter-only
+rollback cleanup is authorized until every production lifecycle case above
+passes with recorded evidence.
 
 ## Acceptance Criteria
 

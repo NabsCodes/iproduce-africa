@@ -92,7 +92,7 @@ client when they want the public URL to leave the old cPanel site).
 - Keep `NEXT_PUBLIC_SITE_URL` and `EMAIL_ASSETS_BASE_URL` on the same origin so
   email CTAs and logo images point at the live site.
 
-5. Mailchimp — complete
+5. Mailchimp — lifecycle verification in progress
 
 - Client-owned account and audience; `dev@iproduceafrica.com` is Owner.
 - Sending-domain authentication, audience fields, and API credentials are
@@ -104,8 +104,16 @@ client when they want the public URL to leave the old cPanel site).
 - Production credentials are restricted to Production. Preview newsletter
   submissions fail closed intentionally instead of writing test contacts into
   the live audience.
-- The controlled pending → confirmed → unsubscribed → hosted rejoin test passed.
-- Newsletter-only Resend rollback files and `NEWSLETTER_TO_EMAIL` were removed.
+- On 2026-07-26, the controlled pending → confirmed portion passed: Mailchimp's
+  confirmation page was reached and a redacted API read returned `subscribed`
+  with the active `Website newsletter` tag.
+- The preferences page accepted the controlled `Email Me A Link` request, but
+  its new security email was not observable in the controlled Gmail mailbox
+  during the test window. Unsubscribe and hosted-rejoin evidence is therefore
+  still required before closeout.
+- The checked-in newsletter route is already Mailchimp-only. Do not remove or
+  alter shared Resend functionality; defer any newsletter-only rollback cleanup
+  until the full lifecycle passes.
 
 ## Smoke Test Matrix
 

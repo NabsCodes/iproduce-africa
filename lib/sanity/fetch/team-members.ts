@@ -1,7 +1,7 @@
 import type { Image } from "sanity";
 
 import { sanityFetch } from "@/lib/sanity/client";
-import { resolveImageUrl } from "@/lib/sanity/image";
+import { buildCroppedImageUrl, resolveImageUrl } from "@/lib/sanity/image";
 import { teamMembersQuery } from "@/lib/sanity/queries";
 import {
   isValidSocialValue,
@@ -65,7 +65,40 @@ function normalizeSocials(
     }));
 }
 
+/**
+ * Portrait head-shots crop best with the focal point in the upper third. When
+ * an editor hasn't set a hotspot, Sanity crops from the vertical *center* —
+ * which cuts heads and shows too much torso. Inject a top-biased default focal
+ * point in that case; a real editor hotspot (present) is left untouched and
+ * always wins.
+ */
+function withDefaultFocalPoint(image: Image | null): Image | null {
+  if (!image?.asset) return image;
+  if (image.hotspot) return image;
+  return {
+    ...image,
+    // The builder currently crops around the hotspot centre; its dimensions
+    // do not control zoom. Keep a small, valid footprint around that point
+    // rather than a full-height hotspot whose y: 0.32 bounds would extend
+    // beyond the image.
+    hotspot: {
+      _type: "sanity.imageHotspot",
+      x: 0.5,
+      y: 0.32,
+      height: 0.1,
+      width: 0.1,
+    },
+  };
+}
+
 function normalizeTeamMember(raw: RawTeamMemberDoc): AboutPerson {
+  // Card shape differs by group: team cards are 4:3, advisor cards are square.
+  // The dialog is portrait for everyone. Each URL bakes in the editor's Studio
+  // crop + hotspot (or the top-biased default), so faces stay framed.
+  const [cardW, cardH] = raw.group === "advisor" ? [1000, 1000] : [1000, 750];
+  const framed = withDefaultFocalPoint(raw.photo);
+  const fallback = resolveImageUrl(raw.photo) ?? "";
+
   return {
     id: raw.id,
     group: raw.group,
@@ -74,7 +107,9 @@ function normalizeTeamMember(raw: RawTeamMemberDoc): AboutPerson {
     // Defensive fallback — Studio's `Rule.required()` on `photo` can be
     // bypassed by a direct API write, so the fetch layer can't assume a
     // resolvable image exists.
-    photo: resolveImageUrl(raw.photo) ?? "",
+    photo: fallback,
+    photoCard: buildCroppedImageUrl(framed, cardW, cardH) ?? fallback,
+    photoPortrait: buildCroppedImageUrl(framed, 750, 1000) ?? fallback,
     bioSummary: raw.bioSummary,
     bioParagraphs: raw.bioParagraphs,
     credentials: raw.credentials ?? undefined,

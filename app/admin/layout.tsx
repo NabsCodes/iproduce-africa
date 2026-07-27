@@ -6,7 +6,14 @@ import {
 
 export const metadata: Metadata = {
   ...studioMetadata,
-  title: "Studio",
+  title: {
+    absolute: "iProduce Africa CMS",
+  },
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
 };
 
 // Not typed as `Viewport` — next-sanity@13.1.1 declares `viewportFit` as a

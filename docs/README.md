@@ -54,6 +54,7 @@ and more task-oriented.
 | `cms-client-summary.md`                    | One-page client sign-off: what moves to CMS and when.                             |
 | `cms-post-cutover-enhancements-spec.md`    | Registration, SEO, channels, and editorial-category follow-up after cutover.      |
 | `cms-media-enhancements-spec.md`           | Partner Voices avatars, secure About video, and image-delivery follow-up.         |
+| `cms-editor-guide.md`                      | Plain-language Studio tasks and client training-video outline.                    |
 | `production-closeout-runbook.md`           | Category migration, dashboard tasks, custom-domain launch, QA, and handover.      |
 
 ## Source Of Truth Order

@@ -34,11 +34,10 @@ export function PersonProfileDialog({
         >
           <div className="flex max-h-[calc(100vh-1rem)] flex-col overflow-hidden sm:h-128 sm:max-h-[min(32rem,calc(100vh-2rem))] sm:flex-row">
             <PersonPhoto
-              src={person.photo}
+              src={person.photoPortrait ?? person.photo}
               alt={person.name}
               sizes="(max-width: 640px) 100vw, 40vw"
               className="border-grey-200 aspect-4/3 w-full shrink-0 border-r sm:aspect-auto sm:h-full sm:w-2/5"
-              imageClassName="object-[center_22%]"
             />
 
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white">

@@ -91,6 +91,12 @@ receives the `team` half as a `members` prop. `content/about-people.ts`
 Current core team: Aisha Waziri Umar, Wilson Agaba, Mustapha Yakubu, Umma
 Umar, Usman Dagona, and Tobi Seun Ajayi.
 
+**Photo framing:** the fetch layer keeps the full Sanity image record long
+enough to build a 4:3 card URL and a portrait dialog URL. Both honor the
+editor's crop and hotspot. If no hotspot was saved, a small focal point at
+`x: 0.5`, `y: 0.32` gives uncropped head-shots a useful top-biased default;
+an editor hotspot always wins.
+
 ### 7. Advisors — `components/about/advisors-section.tsx`
 
 Left-aligned header block (eyebrow + h2 + description). Then
@@ -107,6 +113,10 @@ Optional `email` / `phone` render in the modal footer only (not on cards).
 `fetchTeamMembers()`'s result as a `members` prop.
 `content/about-people.ts` (`group: 'advisor'`) is the migration-script
 source, not the live path.
+
+The same fetch-layer framing builds a square Advisor-card URL plus the
+portrait dialog URL. Components fall back to the original `photo` URL for a
+non-Sanity or unresolved framed source.
 
 ### 8. CTA — reuses `<CtaSection />`
 

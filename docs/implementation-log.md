@@ -3,6 +3,63 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Embedded Studio metadata and crawler boundary (2026-07-27)
+
+Named the embedded workspace **iProduce Africa CMS**, gave the `/admin`
+layout a stable fallback browser title, and marked the entire editor surface
+`noindex`, `nofollow`, and `nocache`. Corrected the generated robots policy to
+disallow the real `/admin` base path instead of the unused `/studio` path.
+Sanity's document-specific internal URLs remain unchanged because they are
+required for editor deep links and do not belong to the public SEO surface.
+
+## Mailchimp production lifecycle smoke test — partial (2026-07-26)
+
+Used the real pending confirmation email for the controlled test contact. Its
+link reached Mailchimp's branded "subscription confirmed" page; a live
+redacted API read then verified `subscribed` plus the exact active `Website
+newsletter` tag. The tested self-service preferences page accepted `Email Me A
+Link`, but the resulting new security email was not observable in the
+controlled Gmail mailbox during the test window. Do **not** mark unsubscribe,
+website repeat-after-unsubscribe, or hosted rejoin as passed, and do not make a
+newsletter rollback-cleanup decision until that email delivery and all three
+remaining transitions have live evidence. Turnstile, honeypot, Upstash rate
+limiting, and the Mailchimp-only route were inspected and left unchanged.
+
+## Team photos honor the Sanity crop + hotspot (2026-07-25)
+
+The `teamMember.photo` field had `hotspot: true`, but nothing on the site used
+it: the fetch flattened the image to a dimensionless URL (`resolveImageUrl`) and
+the cards framed it with hardcoded CSS `object-[center_20%/30%/22%]` per surface.
+
+First attempt mapped the hotspot `x/y` to a CSS `object-position`. That honored
+the focal point but **ignored the crop rectangle** — when an editor cropped a
+photo, `resolveImageUrl` served the cropped (but un-resized) image while CSS
+positioned it, producing a black bar on the profile dialog. Replaced with the
+correct approach: **pre-build per-surface cropped URLs in the fetch** via
+`buildCroppedImageUrl` (`lib/sanity/image.ts`), which passes `width`+`height` so
+`@sanity/image-url` computes a crop rectangle honoring **both** the editor's crop
+and hotspot for that exact aspect. `AboutPerson` now carries `photoCard` (4:3 for
+team, square for advisors) and `photoPortrait` (dialog); `object-cover` fits the
+already-correct image, no CSS position guessing.
+
+Refinement: with no editor hotspot, Sanity crops from the vertical center, which
+cut heads on portrait head-shots. `withDefaultFocalPoint` injects a top-biased
+default (`y: 0.32`, with a small valid hotspot footprint) only when the image
+has no hotspot, so uncropped photos frame faces well by default and any editor
+hotspot still wins. `PersonPhoto` also scopes failed-image state to its current
+`src`, so switching profiles cannot leave a later valid image stuck on the
+fallback. Verified the generated `rect` with a scratch script before wiring.
+Studio's hotspot tool now shows named 4:3 Team, square Advisor, and 3:4 profile
+previews so editors can inspect the same crop/hotspot against every intended
+shape; the previews do not store independent crops or change frontend ratios.
+Files: `types/about.ts`,
+`lib/sanity/image.ts`, `lib/sanity/fetch/team-members.ts`,
+`components/about/{person-photo,team-section,advisors-section,person-profile-dialog}.tsx`.
+No stored-data or webhook change; the schema change is editor UI configuration
+only. Final verification: generated Sanity URLs carried the expected crop
+`rect`; all 43 tests passed; `format`, `lint`, `typecheck`, and the production
+`build` were clean.
+
 ## Studio: Webinars & Events split into Upcoming / Past (2026-07-25)
 
 Editor-experience polish. The Studio "Webinars & Events" list was a single flat

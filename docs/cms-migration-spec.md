@@ -89,7 +89,21 @@ Sanity MCP / docs also recommend:
 - Singletons enforced in **desk structure** (`documentId` fixed), not a fake schema flag
 - TypeGen from `sanity.cli.ts` when the schema stabilises
 
-**Studio path:** `/admin` (matches q-das; less collision with public “studio” language than `/studio`).
+**Studio path:** `/admin` (matches q-das; less collision with public “studio”
+language than `/studio`).
+
+**Studio identity and indexing boundary:**
+
+- The workspace title is **iProduce Africa CMS**.
+- `app/admin/layout.tsx` provides the embedded Studio metadata/viewport and
+  marks the editor surface `noindex`, `nofollow`, and `nocache`.
+- `app/robots.ts` disallows `/admin`; `/admin` is not a public SEO route and is
+  never included in the sitemap.
+- Sanity's routes beneath `/admin` intentionally include the active structure
+  pane and document ID. Migrated Academy IDs contain the original slug (for
+  example `academyArticle.unlocking-trade`), so these URLs can look like public
+  Blog slugs. They are authenticated editor deep links, not public canonical
+  URLs, and should not be rewritten for SEO.
 
 ### Studio layout vs site chrome (locked)
 
@@ -638,17 +652,17 @@ every `teamMember`, split by `group` in JS
 querying twice — same request-consolidation approach as `fetchPartners()`'s
 marquee/voices split. Static v1 mirror: `content/about-people.ts`.
 
-| Sanity field    | Type                                   | Projects to                  | Required                                                                                                                                                                             |
-| --------------- | -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`          | string                                 | `name`                       | yes                                                                                                                                                                                  |
-| `role`          | string                                 | `role`                       | yes                                                                                                                                                                                  |
-| `bioSummary`    | text                                   | `bioSummary`                 | yes — card teaser (`line-clamp-3`)                                                                                                                                                   |
-| `bioParagraphs` | array of text                          | `bioParagraphs[]`            | yes — profile dialog body, plain paragraphs (no rich formatting needed)                                                                                                              |
-| `credentials`   | string                                 | `credentials`                | optional — modal header under role                                                                                                                                                   |
-| `photo`         | image (no required alt subfield)       | `photo` URL string           | yes — alt derives from `name` at render (a name label is always shown next to the photo, unlike Partner's logo)                                                                      |
-| `group`         | list                                   | `team` \| `advisor`          | yes                                                                                                                                                                                  |
-| `socials`       | array of `{ platform, value, label? }` | `socials[]` on `AboutPerson` | optional — `platform`: `linkedin` \| `facebook` \| `x` \| `instagram` \| `telegram` \| `website` \| `email` \| `phone`; fetch layer drops unknown platforms/blank values defensively |
-| `order`         | number                                 | sort (`AboutPerson.order`)   | optional — `order(coalesce(order, 9999) asc, name asc)`; fetch layer normalizes to `order ?? 9999` since `AboutPerson.order` stays a required `number` on the type                   |
+| Sanity field    | Type                                                                                            | Projects to                                                           | Required                                                                                                                                                                                                                                                                       |
+| --------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`          | string                                                                                          | `name`                                                                | yes                                                                                                                                                                                                                                                                            |
+| `role`          | string                                                                                          | `role`                                                                | yes                                                                                                                                                                                                                                                                            |
+| `bioSummary`    | text                                                                                            | `bioSummary`                                                          | yes — card teaser (`line-clamp-3`)                                                                                                                                                                                                                                             |
+| `bioParagraphs` | array of text                                                                                   | `bioParagraphs[]`                                                     | yes — profile dialog body, plain paragraphs (no rich formatting needed)                                                                                                                                                                                                        |
+| `credentials`   | string                                                                                          | `credentials`                                                         | optional — modal header under role                                                                                                                                                                                                                                             |
+| `photo`         | image (crop + hotspot enabled; 4:3, square, and 3:4 hotspot previews; no required alt subfield) | `photo` fallback URL + per-surface `photoCard` / `photoPortrait` URLs | yes — crop/hotspot are baked into the fixed card/dialog shapes in the server fetch; Studio previews help editors inspect the shapes but do not store separate crops; alt derives from `name` at render (a name label is always shown next to the photo, unlike Partner's logo) |
+| `group`         | list                                                                                            | `team` \| `advisor`                                                   | yes                                                                                                                                                                                                                                                                            |
+| `socials`       | array of `{ platform, value, label? }`                                                          | `socials[]` on `AboutPerson`                                          | optional — `platform`: `linkedin` \| `facebook` \| `x` \| `instagram` \| `telegram` \| `website` \| `email` \| `phone`; fetch layer drops unknown platforms/blank values defensively                                                                                           |
+| `order`         | number                                                                                          | sort (`AboutPerson.order`)                                            | optional — `order(coalesce(order, 9999) asc, name asc)`; fetch layer normalizes to `order ?? 9999` since `AboutPerson.order` stays a required `number` on the type                                                                                                             |
 
 **No `slug`/stable-id field** — `AboutPerson.id` is used only as a React
 list key (never for routing or lookup), so it's normalized from Sanity's

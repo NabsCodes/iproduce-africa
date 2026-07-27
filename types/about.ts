@@ -114,6 +114,17 @@ export type AboutPerson = {
   name: string;
   role: string;
   photo: string;
+  /**
+   * Card-shaped crop (4:3 for team, square for advisors) with the editor's
+   * Sanity crop + hotspot baked in by the image pipeline. Falls back to
+   * `photo` for non-Sanity sources.
+   */
+  photoCard?: string;
+  /**
+   * Portrait crop for the profile dialog, crop + hotspot baked in. Falls back
+   * to `photo`.
+   */
+  photoPortrait?: string;
   bioSummary: string;
   bioParagraphs: readonly string[];
   credentials?: string;
