@@ -8,9 +8,10 @@ this spec.
 
 **Where we are**
 
-- Motion pass Slices A–E shipped in code (primitives, all six routes, dialogs,
-  Academy tabs/countdown, scroll reveals).
-- Remaining: browser QA + reduced-motion sweep. Lighthouse optional.
+- Motion pass Slices A–E and the original browser/reduced-motion sweep shipped
+  (primitives, all six routes, dialogs, Academy tabs/countdown, scroll reveals).
+- Final cross-browser content review remains part of handover QA. A dedicated
+  motion-performance Lighthouse delta is optional.
 - CMS migration does **not** block or change motion — primitives wrap JSX
   regardless of whether copy comes from `content/*.ts` or Sanity later.
 
@@ -398,7 +399,7 @@ For each page after the motion pass:
 - [x] Academy tabs `layoutId` + featured countdown crossfade
 - [x] Scroll-reveal gaps: Home Partners marquee, Featured Articles, Academy Featured Event
 - [x] Update `docs/design-system.md` to point at this spec
-- [ ] Browser QA + reduced-motion sweep (all routes + dialogs)
+- [x] Browser QA + reduced-motion sweep (all routes + dialogs)
 - [x] Log the motion pass in `docs/implementation-log.md`
-- [ ] Tick the Motion item in the Notion dev notes (QA remaining)
+- [x] Tick the Motion item in the Notion dev notes
 - [ ] Lighthouse baseline + delta (optional / deferred)

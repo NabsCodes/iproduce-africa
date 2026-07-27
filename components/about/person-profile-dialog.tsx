@@ -57,9 +57,9 @@ export function PersonProfileDialog({
 
               <div className="min-h-0 flex-1 overflow-y-auto px-5 sm:px-6">
                 <div className="flex flex-col gap-4 py-5 sm:py-6">
-                  {person.bioParagraphs.map((paragraph, index) => (
+                  {person.bioParagraphs.map((paragraph) => (
                     <p
-                      key={index}
+                      key={paragraph}
                       className="text-fg-muted text-sm leading-6 sm:text-[15px]"
                     >
                       {paragraph}

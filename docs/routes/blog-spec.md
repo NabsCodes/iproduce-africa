@@ -439,4 +439,4 @@ Only ones still load-bearing after the Codex review:
 - [x] Realistic editorial catalogue in `content/blog-articles.ts` (3–14 min mix)
 - [x] Newsletter RHF + `schemas/newsletter.ts` + live `/api/newsletter` submit
 - [x] Breadcrumbs explicitly out of scope (rejected in QA)
-- [ ] Verification sweep + Lighthouse row
+- [ ] Final live visual/cross-browser sweep; optional route-specific Lighthouse row

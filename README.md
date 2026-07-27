@@ -139,7 +139,7 @@ presentation.
 The public frontend, form delivery layer, and approved Sanity CMS phases are
 implemented. Production mail is live, and the reviewed CMS dataset now powers
 the production deployment. Signed production webhook revalidation is active;
-final release QA and the optional public-domain switch remain.
+the custom domain is live, and final handover QA remains.
 
 **Shipped in repo**
 
@@ -152,7 +152,7 @@ final release QA and the optional public-domain switch remain.
 
 **Next steps**
 
-- Point the public apex/`www` DNS at Vercel when the client approves the URL switch
+- Complete final production review, client access checks, and handover materials
 - Keep the archived Sanity seed snapshots for one stable production release,
   then remove them after sign-off
 - Optional analytics, preview, TypeGen, and search-at-scale polish

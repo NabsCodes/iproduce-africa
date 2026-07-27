@@ -6,19 +6,14 @@
 Phase 1: **Academy editorial catalogues only**. Patched after Codex + Claude
 review.
 
-**Implementation progress (2026-07-11):** foundation (schemas, Studio,
-migration script) shipped and seeded into `development` — see
-`docs/implementation-log.md`. Cutover sequence steps 1–7 now done for
-**all Phase 1 Academy surfaces** — blog/webinars/courses listing+detail
-routes, the registration email resolver, the `/academy` hub (all three
-catalogue bands + featured event), Home spotlight + featured articles, and
-`/academy/search`, plus `app/sitemap.ts`. Every public catalogue surface now
-reads from the same Sanity source — no more static/Sanity split between
-`/academy/blog/[slug]` and the hub/home/search surfaces. Remaining Phase 1
-steps are non-code: QA on staging, archiving the static catalogue arrays
-(not yet done — kept for rollback), and production dataset + webhook
-configuration (manual, external). Phase 2 (testimonials, partners, team,
-FAQs, member stories) is next after that.
+**Current status (2026-07-27):** Phase 1 Academy surfaces, the Phase 2
+trust/people content, and the approved Phase 3 singletons are live through
+Sanity. Development and Production datasets are separated, Academy categories
+are migrated in both datasets, and signed webhook revalidation is active on the
+custom domain. Static catalogue snapshots remain under `content/_archived/`
+for one stable release and should be deleted only after final production
+sign-off. Optional client content and final handover do not require further
+Academy CMS feature work.
 
 ---
 

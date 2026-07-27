@@ -37,7 +37,7 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Client mail host confirmed — **Zoho Mail** (`dev@`, `content@` created; temp passwords, rotate at handover)
 - [x] Production form-delivery cutover checklist documented (`docs/production-form-delivery-cutover.md`)
 - [x] Resend domain verified (`iproduceafrica.com`, DKIM + `send` sending; Zoho MX intact) + production Vercel env + smoke path — **complete** (client is Resend Owner)
-- [x] Mailchimp newsletter integration, double-opt-in lifecycle, hosted rejoin flow, and Production-only environment boundary verified; newsletter-only Resend rollback removed
+- [ ] Mailchimp newsletter integration is live and Production-only; pending → subscribed + source tag passed, while unsubscribe, repeat-after-unsubscribe, and hosted rejoin still need recorded end-to-end evidence
 - [x] Website DNS cutover — apex and `www` resolve through Vercel with HTTPS; canonical `www` → apex `308` redirect verified live
 - [x] `docs/cms-migration-spec.md` drafted — **approved with edits** (Codex/Claude review incorporated)
 - [x] `docs/sanity-academy-spec.md` drafted — **approved with edits**
@@ -57,7 +57,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Post-cutover Slice A code: registration deadline/status resolver, Academy SEO fields + structured data, Telegram/WhatsApp channel settings
 - [x] Client-visible media slice: Partner Voices avatars + stable testimonial IDs + secure About Story click-to-play video
 - [ ] Confirm the client-supplied About Story YouTube/Vimeo URL in both datasets when available (optional; no migration)
-- [ ] Review image-delivery performance/hotspot handling as its own cross-cutting slice
+- [x] Team/advisor image crops and Sanity hotspots now affect their card/profile surfaces, with editor previews documented
+- [ ] Review remaining site-wide image payload sizing and crop/hotspot handling only if prioritised before handover (optional cross-cutting follow-up)
 - [x] Add `"id": _id` to both Sanity webhook projections for targeted author-detail revalidation — live on Production + Development; author/category publish fan-out verified
   - Plain terms: editing an author in the CMS now refreshes just that author's
     pages instead of rebuilding the whole blog section. (A safe rebuild-the-blog
@@ -67,6 +68,5 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Required Article/Webinar category references deployed after both dataset migrations; Production deployment and public route smoke checks passed
 - [x] Add `academyCategory` to the external Sanity webhook filter and verify category/author publish fan-out — filter includes it on both webhooks; fan-out verified
 - [x] Custom-domain launch: apex/`www` DNS switched to Vercel at TTL 300; canonical URLs and email asset origins moved to `https://iproduceafrica.com`
-- [x] Restore the website-record TTL to `3600`/`14400` after 24–48 stable production hours — done (raised back off the cutover `300`)
+- [ ] Restore the website-record TTL to `3600`/`14400` after 24–48 stable production hours — done (raised back off the cutover `300`)
 - [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
-- [ ] Delete one-release rollback snapshots from `content/_archived/` only after production is stable and signed off

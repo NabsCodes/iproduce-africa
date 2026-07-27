@@ -6,16 +6,26 @@ import { useEffect, useState } from "react";
 export function useRouteHash() {
   const pathname = usePathname();
   const activePath = pathname || "/";
-  const [hash, setHash] = useState("");
+  const [routeHash, setRouteHash] = useState({
+    path: activePath,
+    hash: "",
+  });
 
   useEffect(() => {
-    const syncHash = () => setHash(window.location.hash);
+    const syncHash = () => {
+      setRouteHash({
+        path: activePath,
+        hash: window.location.hash,
+      });
+    };
 
     syncHash();
     window.addEventListener("hashchange", syncHash);
 
     return () => window.removeEventListener("hashchange", syncHash);
   }, [activePath]);
+
+  const hash = routeHash.path === activePath ? routeHash.hash : "";
 
   return `${activePath}${hash}`;
 }

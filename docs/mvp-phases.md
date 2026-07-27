@@ -49,7 +49,8 @@ After the static UI is approved:
 **Shipped (2026-06-26):** All seven public forms POST to API routes with Resend
 dual-email delivery, Turnstile, and honeypot. **Complete (2026-07-14):** domain
 verified on `iproduceafrica.com`, client owns Resend, production Vercel form
-delivery live. Optional later: website apex/`www` DNS → Vercel.
+delivery live. **Complete (2026-07-23):** website apex/`www` DNS now points to
+Vercel with HTTPS and canonical `www` → apex redirects.
 
 This phase may still stay backend-light beyond form delivery if needed.
 
@@ -83,7 +84,8 @@ Optional later work includes analytics, preview/TypeGen, translation, and
 search-at-scale improvements.
 
 Form submission workflows (Resend + Turnstile) landed in Phase 2 and are live.
-The public apex/`www` DNS switch remains a separate client-approved launch step.
+The public apex/`www` DNS switch is complete; final production review and
+handover remain.
 
 ## Explicitly Not In Scope Now
 

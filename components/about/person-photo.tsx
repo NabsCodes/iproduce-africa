@@ -47,20 +47,20 @@ export function PersonPhoto({
   imageClassName,
 }: PersonPhotoProps) {
   const [failedSrc, setFailedSrc] = useState<string>();
-  const showFallback = !isAboutPersonPhotoAvailable(src) || failedSrc === src;
+  const resolvedSrc = src?.trim();
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      {showFallback ? (
+      {!resolvedSrc || failedSrc === resolvedSrc ? (
         <PersonPhotoFallback className="absolute inset-0" />
       ) : (
         <Image
-          src={src!}
+          src={resolvedSrc}
           alt={alt}
           fill
           sizes={sizes}
           className={cn("object-cover", imageClassName)}
-          onError={() => setFailedSrc(src)}
+          onError={() => setFailedSrc(resolvedSrc)}
         />
       )}
     </div>

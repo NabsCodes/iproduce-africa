@@ -36,7 +36,7 @@ export function useClickOutside<T extends HTMLElement>(
 
       for (const ref of ignoreRefsRef.current ?? []) {
         const ignoreEl = ref.current;
-        if (ignoreEl && ignoreEl.contains(target)) return;
+        if (ignoreEl?.contains(target)) return;
       }
 
       onOutsideClickRef.current();

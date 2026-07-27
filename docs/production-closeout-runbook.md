@@ -1,8 +1,8 @@
 # Production Closeout Runbook
 
 Use this for the final Academy category migration, Sanity webhook update,
-custom-domain launch, production QA, and handover. Mailchimp remains a separate
-workstream and is not changed here.
+custom-domain launch, production QA, and handover. Mailchimp lifecycle evidence
+is tracked in its dedicated integration and form-cutover docs.
 
 ## 1. Academy category rollout
 
@@ -91,6 +91,10 @@ with `308`. Production `NEXT_PUBLIC_SITE_URL` and `EMAIL_ASSETS_BASE_URL` use
 `https://iproduceafrica.com`; the email logo, robots, sitemap, `/admin`, and
 newsletter Turnstile rejection path passed live checks.
 
+**Current DNS check (2026-07-27):** apex and `www` still report TTL `300`.
+Restore the website-record TTL to `3600` or the previous `14400` after the
+stable-launch window; do not change any mail-related records.
+
 At least one current TTL window before launch:
 
 - lower only the apex website A-record and `www` CNAME TTL from about `14400`
@@ -150,7 +154,8 @@ Browser-check mobile, tablet, and desktop, then verify:
 - Contact, Partner, Community, and Academy operational forms;
 - Turnstile accepts the apex and safely rejects missing/invalid tokens.
 
-Mailchimp newsletter QA remains delegated to its separate owner.
+Mailchimp newsletter lifecycle QA remains tracked separately in
+`docs/mailchimp-newsletter-integration-spec.md`.
 
 ## 5. Search and handover
 

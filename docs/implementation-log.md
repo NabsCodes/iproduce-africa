@@ -3,6 +3,19 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Final status-source reconciliation (2026-07-27)
+
+Restored pathname-driven hash synchronisation in `useRouteHash`; the effect must
+rerun after client-side route changes because changing routes does not guarantee
+a browser `hashchange` event. Reconciled the current-status docs with the live
+custom-domain state: the domain launch is complete, the website-record TTL is
+still `300`, final handover QA remains, the Academy CMS phases/categories and
+webhooks are complete, and team/advisor crop handling is distinguished from the
+optional site-wide image-delivery follow-up. Corrected the Mailchimp status so
+only the observed pending → subscribed + source-tag path is marked verified;
+unsubscribe/rejoin evidence remains open. Historical implementation entries
+were intentionally left unchanged.
+
 ## Embedded Studio metadata and crawler boundary (2026-07-27)
 
 Named the embedded workspace **iProduce Africa CMS**, gave the `/admin`
