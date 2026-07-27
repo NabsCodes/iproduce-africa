@@ -105,7 +105,9 @@ this is just to keep your editing list tidy.
 
 **Site Settings** (one shared record at the bottom of the menu):
 
-- **Contact details:** public email, phone, address.
+- **Contact details:** public email, primary public phone, optional secondary
+  public phone, and address. The Contact page shows both phone numbers when
+  both are filled; the footer keeps the primary number only.
 - **Social & community links:** Instagram, LinkedIn, Facebook, YouTube, Telegram,
   WhatsApp.
 

@@ -3,6 +3,34 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Academy listing grid rhythm (2026-07-27)
+
+Changed the shared Academy listing grid to show six cards initially instead of
+five. This keeps the first render in complete rows at the two-column tablet and
+three-column desktop breakpoints for blog, course, and webinar catalogues.
+
+## CMS null-state alignment (2026-07-27)
+
+Audited the public CMS-fed sections against the mandatory empty-content rules.
+Kept existing guards for empty testimonials, FAQs, people, member stories,
+partner collections, and Academy related content. Refined the Partners Voices
+edge states: logos-only now uses a wider centred grid and alternate
+code-owned copy, testimonial-only remains centred, and both collections empty
+hide the section entirely. Updated the Partners and CMS specs with the full
+state matrix.
+
+## Site Settings contact polish (2026-07-27)
+
+Added an optional `secondaryPhone` Site Settings field and wired the Contact
+page to render one or two CMS-managed public numbers without duplicate values.
+The footer continues to show only the required primary number for density and
+consistency. Added the field to the Phase 3 migration seed and updated the
+Contact, CMS, editor, and Partners layout documentation.
+
+## Academy null-state spacing (2026-07-27)
+
+| 2026-07-27 | Codex | Added conditional top rhythm to the Academy webinar, course, and blog listing bodies so a missing Sanity featured item leaves intentional space below the dark listing hero without adding duplicate spacing when the featured band is present. | `app/(site)/academy/{webinars,courses,blog}/(listing)/page.tsx`, `components/academy/{webinars,courses,blog}/*-listing-body.tsx`, `docs/routes/academy-spec.md` | Pending final format, lint, typecheck, and build | Complete | Recheck the three Academy listing routes in the browser with and without featured Sanity records. |
+
 ## Final status-source reconciliation (2026-07-27)
 
 Restored pathname-driven hash synchronisation in `useRouteHash`; the effect must

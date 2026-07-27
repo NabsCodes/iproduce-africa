@@ -26,7 +26,6 @@ export type ContactHeroContent = {
 export type ContactReachOutContent = {
   title: string;
   availabilityIntro: string;
-  secondaryPhone: string;
 };
 
 export type ContactFormOption = {

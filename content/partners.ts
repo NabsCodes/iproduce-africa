@@ -109,6 +109,8 @@ export const partnersPageContent = {
   voices: {
     eyebrow: "Trusted by many",
     title: "Hear From Our Valuable Partners",
+    logosOnlyEyebrow: "Our trusted partners",
+    logosOnlyTitle: "Organisations We Work With",
     items: [],
   },
   opportunities: {

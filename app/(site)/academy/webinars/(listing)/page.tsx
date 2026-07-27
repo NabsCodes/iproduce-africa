@@ -24,6 +24,7 @@ export default async function WebinarsIndexPage() {
       <WebinarsListingBody
         webinars={webinars}
         categories={categoriesUsedBy(webinars, (webinar) => webinar.category)}
+        hasFeatured={Boolean(promoted)}
       />
       <CtaSection overlapNext={false} content={webinarsContent.cta} />
     </>

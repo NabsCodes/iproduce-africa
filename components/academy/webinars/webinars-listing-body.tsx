@@ -7,16 +7,19 @@ import {
 } from "@/components/academy/listings/listing-filter-bar";
 import { webinarsListing, webinarToCardItem } from "@/content/webinars";
 import { useListingFilter } from "@/hooks/use-listing-filter";
+import { cn } from "@/lib/utils";
 import type { AcademyCategory, AcademyWebinar } from "@/types/academy";
 
 type WebinarsListingBodyProps = {
   webinars: readonly AcademyWebinar[];
   categories: readonly AcademyCategory[];
+  hasFeatured: boolean;
 };
 
 export function WebinarsListingBody({
   webinars,
   categories,
+  hasFeatured,
 }: WebinarsListingBodyProps) {
   const { activeFilter, setActiveFilter, filtered, resetKey } =
     useListingFilter({
@@ -26,7 +29,9 @@ export function WebinarsListingBody({
     });
 
   return (
-    <section className="bg-white">
+    <section
+      className={cn("bg-white", !hasFeatured && "pt-14 sm:pt-16 lg:pt-20")}
+    >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="mb-10 sm:mb-12">
           <ListingFilterBar

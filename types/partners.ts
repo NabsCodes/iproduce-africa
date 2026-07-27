@@ -72,6 +72,8 @@ export type PartnerVoice = {
 export type PartnerVoicesContent = {
   eyebrow: string;
   title: string;
+  logosOnlyEyebrow?: string;
+  logosOnlyTitle?: string;
   items: readonly PartnerVoice[];
 };
 

@@ -206,16 +206,17 @@ Reuse shared `CtaSection` with Contact-specific content:
 
 Reconcile these when implementing `content/contact.ts` / `content/site.ts`:
 
-| Field        | Screenshot                              | Current `site.ts`                      | Action                                                    |
-| ------------ | --------------------------------------- | -------------------------------------- | --------------------------------------------------------- |
-| Phone        | Two numbers (703…, 803…)                | Single `+234 803 410 8745`             | Primary from `site.ts`; secondary in contact content only |
-| Hours        | Mon–Fri, 9:00 AM – 5:00 PM              | Mon–Fri, 08 am – 05 pm                 | Use `siteConfig.hours` on Contact page                    |
-| Address      | 3, Baltic Crescent Maitama, Abuja       | Comma after Crescent                   | Use `siteConfig.address`                                  |
-| Social       | WhatsApp, Instagram, LinkedIn, Telegram | facebook, instagram, linkedin, youtube | Contact hero uses screenshot set; Contact-scoped icons    |
-| Map hub name | iProduce AgriBusiness Hub               | —                                      | Contact-only content                                      |
+| Field        | Screenshot                              | Current `site.ts`                             | Action                                                                            |
+| ------------ | --------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------- |
+| Phone        | Two numbers (703…, 803…)                | Primary + optional secondary in Site Settings | Contact shows the secondary first when populated; footer keeps the primary number |
+| Hours        | Mon–Fri, 9:00 AM – 5:00 PM              | Mon–Fri, 08 am – 05 pm                        | Use `siteConfig.hours` on Contact page                                            |
+| Address      | 3, Baltic Crescent Maitama, Abuja       | Comma after Crescent                          | Use `siteConfig.address`                                                          |
+| Social       | WhatsApp, Instagram, LinkedIn, Telegram | facebook, instagram, linkedin, youtube        | Contact hero uses screenshot set; Contact-scoped icons                            |
+| Map hub name | iProduce AgriBusiness Hub               | —                                             | Contact-only content                                                              |
 
-Global footer/nav contact details can stay on `site.ts` until a deliberate
-site-wide copy pass; the Contact page should match the approved screenshot.
+Site Settings owns the primary public phone and an optional secondary public
+phone. The Contact page shows both when populated, while the global footer
+keeps the primary number only to avoid making the shared footer too dense.
 
 ---
 

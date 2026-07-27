@@ -9,6 +9,7 @@ import type { SiteSocialLink } from "@/types/site";
 export type PublicSiteSettings = {
   email: string;
   phone: string;
+  secondaryPhone?: string;
   address: string;
   socialLinks: readonly SiteSocialLink[];
   communityChannels: {
@@ -20,6 +21,7 @@ export type PublicSiteSettings = {
 type RawSiteSettings = {
   email?: string | null;
   phone?: string | null;
+  secondaryPhone?: string | null;
   address?: string | null;
   instagramUrl?: string | null;
   linkedinUrl?: string | null;
@@ -57,6 +59,7 @@ function normalizeSiteSettings(
   return {
     email: requireSingletonField(raw.email, "siteSettings", "email"),
     phone: requireSingletonField(raw.phone, "siteSettings", "phone"),
+    secondaryPhone: raw.secondaryPhone?.trim() || undefined,
     address: requireSingletonField(raw.address, "siteSettings", "address"),
     socialLinks: SOCIAL_PLATFORM_FIELDS.map(({ platform, label, field }) => {
       const href = raw[field]?.trim() || undefined;

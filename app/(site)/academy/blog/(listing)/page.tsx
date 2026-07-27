@@ -27,6 +27,7 @@ export default async function BlogIndexPage() {
       <BlogListingBody
         categories={categoriesUsedBy(articles, (article) => article.category)}
         articles={articles}
+        hasFeatured={Boolean(featured)}
       />
       <CtaSection overlapNext={false} content={blogContent.cta} />
     </>

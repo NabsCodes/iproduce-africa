@@ -31,6 +31,7 @@ export default async function CoursesIndexPage() {
       <CoursesListingBody
         courses={courses}
         filterLevels={coursesListing.filterLevels}
+        hasFeatured={Boolean(featured)}
       />
       <CtaSection overlapNext={false} content={coursesContent.cta} />
     </>

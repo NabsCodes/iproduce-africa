@@ -30,6 +30,14 @@ export const siteSettings = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "secondaryPhone",
+      title: "Secondary public phone",
+      description:
+        "Optional additional number shown on the Contact page. Include the country code. Leave blank when the organisation has only one public phone number.",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
       name: "address",
       title: "Public address",
       description:

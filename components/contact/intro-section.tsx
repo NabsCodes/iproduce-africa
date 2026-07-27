@@ -105,6 +105,10 @@ export function ContactIntroSection({
   settings: PublicSiteSettings;
 }) {
   const { hero, reachOut, form } = contactPageContent;
+  const phoneNumbers = [settings.secondaryPhone, settings.phone].filter(
+    (phone, index, values): phone is string =>
+      Boolean(phone) && values.indexOf(phone) === index,
+  );
 
   return (
     <section
@@ -184,18 +188,15 @@ export function ContactIntroSection({
                     Phone
                   </span>
                   <div className="text-fg-muted flex flex-col gap-0.5 text-sm leading-6 sm:text-base">
-                    <a
-                      href={`tel:${formatTel(reachOut.secondaryPhone)}`}
-                      className="hover:text-foreground transition-colors"
-                    >
-                      {reachOut.secondaryPhone}
-                    </a>
-                    <a
-                      href={`tel:${formatTel(settings.phone)}`}
-                      className="hover:text-foreground transition-colors"
-                    >
-                      {settings.phone}
-                    </a>
+                    {phoneNumbers.map((phone) => (
+                      <a
+                        key={phone}
+                        href={`tel:${formatTel(phone)}`}
+                        className="hover:text-foreground transition-colors"
+                      >
+                        {phone}
+                      </a>
+                    ))}
                   </div>
                 </div>
               </li>

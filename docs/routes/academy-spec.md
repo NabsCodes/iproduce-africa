@@ -156,6 +156,11 @@ When nothing is upcoming:
 - the webinar listing hides its featured band;
 - Home keeps its existing Upcoming-tab empty state.
 
+When a listing route has no featured Sanity item, its filter/listing body adds
+the standard section top rhythm so the filters do not visually touch the dark
+hero. The spacing is omitted when the featured band is present because that
+band already owns the separation.
+
 Standalone section between Tabs and Opportunities. `"use client"` for the
 countdown timer.
 

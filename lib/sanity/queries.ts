@@ -199,6 +199,7 @@ export const memberStoriesQuery = `*[
 export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSettings" && ${DRAFT_FILTER}][0]{
   email,
   phone,
+  secondaryPhone,
   address,
   instagramUrl,
   linkedinUrl,

@@ -167,7 +167,7 @@ justified.
 | **Partners page copy**       | `content/partners.ts`                                          | **Code**                       | Marketing UI; partners/voices/FAQs are already CMS                                                           |
 | **Contact page copy**        | `content/contact.ts`                                           | **Code**                       | Mostly static + form; map embed is code                                                                      |
 | **Navigation**               | `content/navigation.ts`                                        | **Code**                       | Tied to routes; wrong href breaks site                                                                       |
-| **Public contact settings**  | `content/site.ts`                                              | **Singleton** Phase 3          | Phone, email, address, and social URLs                                                                       |
+| **Public contact settings**  | `content/site.ts`                                              | **Singleton** Phase 3          | Primary phone, optional secondary phone, email, address, and social URLs                                     |
 | **SEO defaults**             | `content/seo.ts`                                               | **Code** → **Singleton** later | Per-route metadata can stay in route files                                                                   |
 | **Countries list**           | `content/countries.ts`                                         | **Code**                       | Reference data for forms                                                                                     |
 | **System pages**             | `content/system-pages.ts`                                      | **Code**                       | 404/error copy; rare edits                                                                                   |
@@ -326,6 +326,9 @@ bands; all Phase 2 placeholders visible in Studio on handoff.
   `CREATE` (missing doc), `MATCH` (byte-stable seed), `DIFF` (doc exists but
   payload differs and must be reviewed rather than overwritten).
 - Required singletons fail loudly at fetch time; no runtime static fallback.
+- Site Settings keeps the primary public phone required and the secondary
+  public phone optional. Contact surfaces render the secondary number only
+  when populated; the shared footer intentionally shows the primary number.
 - Academy, Community, and Partners marketing/UI copy remains code-owned. Their
   Phase 1/2 catalogue, FAQ, testimonial, partner, and people records remain
   CMS-backed.
@@ -743,17 +746,17 @@ underneath swaps to an empty-state panel.
 
 ### Rule 3 — Minimum items before showing a band
 
-| Band                                              | Minimum | Fallback                                                                                    |
-| ------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
-| Testimonials carousel                             | 1       | hide section                                                                                |
-| FAQ accordion                                     | 1       | hide section                                                                                |
-| Partners marquee                                  | 1       | hide section (hybrid static until Phase 2 cutover)                                          |
-| Partner voices quotes                             | 1       | hide quotes band; logo grid uses `buildVoicesLogoGrid` (may repeat few logos)               |
-| Team / advisors grid                              | 1       | hide section                                                                                |
-| Community member stories                          | 1       | hide section                                                                                |
-| Home Academy Spotlight tab (webinars/courses)     | 1       | swap that tab's grid for `CatalogueEmptyState` — never hides the whole section (see Rule 2) |
-| Academy hub band (webinars & events/courses/blog) | 1       | **never hide** — swap grid for `CatalogueEmptyState`, header/anchor stays (see Rule 2)      |
-| Related items                                     | 1       | hide related block                                                                          |
+| Band                                              | Minimum | Fallback                                                                                                           |
+| ------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
+| Testimonials carousel                             | 1       | hide section                                                                                                       |
+| FAQ accordion                                     | 1       | hide section                                                                                                       |
+| Partners marquee                                  | 1       | hide section (hybrid static until Phase 2 cutover)                                                                 |
+| Partner voices quotes                             | 1       | omit quote column when empty; if logos exist, render the centred logos-only variant with alternate code-owned copy |
+| Team / advisors grid                              | 1       | hide section                                                                                                       |
+| Community member stories                          | 1       | hide section                                                                                                       |
+| Home Academy Spotlight tab (webinars/courses)     | 1       | swap that tab's grid for `CatalogueEmptyState` — never hides the whole section (see Rule 2)                        |
+| Academy hub band (webinars & events/courses/blog) | 1       | **never hide** — swap grid for `CatalogueEmptyState`, header/anchor stays (see Rule 2)                             |
+| Related items                                     | 1       | hide related block                                                                                                 |
 
 Document thresholds in the spec checklist when implementing each page.
 

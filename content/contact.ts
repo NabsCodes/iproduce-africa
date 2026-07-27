@@ -25,7 +25,6 @@ export const contactPageContent = {
     title: "Reach out",
     availabilityIntro:
       "Reach out to our team through any of these channels. We're available",
-    secondaryPhone: "+234 703 783 6030",
   },
   form: {
     title: "Contact Form",

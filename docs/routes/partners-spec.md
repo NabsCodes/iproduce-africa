@@ -229,6 +229,20 @@ it against the current partner catalogue instead of restoring stale copy.
   or hide them until multiple testimonials exist.
 - Do not invent partner quotes beyond the provided one.
 
+### CMS empty states
+
+- Testimonials and partner logos are independent CMS collections.
+- When both collections contain items, use the two-column testimonial + logo
+  composition above.
+- When testimonials are empty but partner logos exist, omit the quote column,
+  centre the more compact logo grid, and use the code-owned `Our trusted
+partners` / `Organisations We Work With` copy instead of testimonial
+  language.
+- When logos are empty but testimonials exist, keep the testimonial column as a
+  centred single-column block.
+- When both collections are empty, omit the entire Voices section; do not show
+  a heading, empty carousel, or placeholder quote.
+
 ## 5. Ways We Can Work Together
 
 ### Desktop Composition

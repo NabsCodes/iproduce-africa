@@ -7,17 +7,20 @@ import {
 } from "@/components/academy/blog/category-filter-bar";
 import { blogListing } from "@/content/blog";
 import { useListingFilter } from "@/hooks/use-listing-filter";
+import { cn } from "@/lib/utils";
 import type { AcademyCategory } from "@/types/academy";
 import type { BlogArticle } from "@/types/blog";
 
 type BlogListingBodyProps = {
   categories: readonly AcademyCategory[];
   articles: readonly BlogArticle[];
+  hasFeatured: boolean;
 };
 
 export function BlogListingBody({
   categories,
   articles,
+  hasFeatured,
 }: BlogListingBodyProps) {
   const { activeFilter, setActiveFilter, filtered, resetKey } =
     useListingFilter({
@@ -28,7 +31,9 @@ export function BlogListingBody({
     });
 
   return (
-    <section className="bg-white">
+    <section
+      className={cn("bg-white", !hasFeatured && "pt-14 sm:pt-16 lg:pt-20")}
+    >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="mb-10 sm:mb-12">
           <CategoryFilterBar

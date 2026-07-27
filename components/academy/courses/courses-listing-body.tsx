@@ -8,16 +8,19 @@ import {
 import type { CourseFilterLevel } from "@/content/courses";
 import { coursesListing, courseToCardItem } from "@/content/courses";
 import { useListingFilter } from "@/hooks/use-listing-filter";
+import { cn } from "@/lib/utils";
 import type { AcademyCourseDetail } from "@/types/academy";
 
 type CoursesListingBodyProps = {
   courses: readonly AcademyCourseDetail[];
   filterLevels: readonly CourseFilterLevel[];
+  hasFeatured: boolean;
 };
 
 export function CoursesListingBody({
   courses,
   filterLevels,
+  hasFeatured,
 }: CoursesListingBodyProps) {
   const { activeFilter, setActiveFilter, filtered, resetKey } =
     useListingFilter({
@@ -26,7 +29,9 @@ export function CoursesListingBody({
     });
 
   return (
-    <section className="bg-white">
+    <section
+      className={cn("bg-white", !hasFeatured && "pt-14 sm:pt-16 lg:pt-20")}
+    >
       <div className="max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="mb-10 sm:mb-12">
           <ListingFilterBar

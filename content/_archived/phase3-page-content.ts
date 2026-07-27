@@ -10,6 +10,7 @@ import type { LegalPageContent } from "@/types/legal";
 export const archivedSiteSettingsSeed = {
   email: "info@iproduceafrica.com",
   phone: "+234 803 410 8745",
+  secondaryPhone: "+234 703 783 6030",
   address: "3, Baltic Crescent, Maitama, Abuja",
   instagramUrl: undefined as string | undefined,
   linkedinUrl: undefined as string | undefined,

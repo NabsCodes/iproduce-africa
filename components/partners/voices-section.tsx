@@ -25,10 +25,18 @@ export function VoicesSection({ voices, partners }: VoicesSectionProps) {
   const section = partnersPageContent.voices;
   const hasVoices = voices.length > 0;
   const hasLogos = partners.length > 0;
+  if (!hasVoices && !hasLogos) return null;
+
   // Two columns only when both collections have content — either one alone
   // gets the full-width, centered single-column treatment instead of a
   // blank column next to it.
   const twoColumn = hasVoices && hasLogos;
+  const eyebrow = hasVoices
+    ? section.eyebrow
+    : (section.logosOnlyEyebrow ?? section.eyebrow);
+  const title = hasVoices
+    ? section.title
+    : (section.logosOnlyTitle ?? section.title);
 
   return (
     <section className="bg-subtle relative overflow-clip py-14 sm:py-16 lg:py-20">
@@ -44,12 +52,18 @@ export function VoicesSection({ voices, partners }: VoicesSectionProps) {
           )}
         >
           <div
-            className={cn("min-w-0", !twoColumn && "mx-auto w-full max-w-2xl")}
+            className={cn(
+              "min-w-0",
+              !twoColumn &&
+                (hasLogos
+                  ? "mx-auto w-full max-w-4xl"
+                  : "mx-auto w-full max-w-2xl"),
+            )}
           >
             <MotionFade>
-              <EyebrowBadge>{section.eyebrow}</EyebrowBadge>
+              <EyebrowBadge>{eyebrow}</EyebrowBadge>
               <h2 className="text-foreground mt-3 font-serif text-2xl leading-tight font-semibold tracking-[-0.01em] sm:text-4xl sm:leading-[48px]">
-                {section.title}
+                {title}
               </h2>
             </MotionFade>
 

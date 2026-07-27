@@ -294,6 +294,7 @@ async function buildSiteSettingsPayload() {
     _type: "siteSettings",
     email: archivedSiteSettingsSeed.email,
     phone: archivedSiteSettingsSeed.phone,
+    secondaryPhone: archivedSiteSettingsSeed.secondaryPhone,
     address: archivedSiteSettingsSeed.address,
     instagramUrl: archivedSiteSettingsSeed.instagramUrl,
     linkedinUrl: archivedSiteSettingsSeed.linkedinUrl,

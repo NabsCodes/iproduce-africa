@@ -12,7 +12,9 @@ import { MotionStagger } from "@/components/shared/motion/motion-stagger";
 import { Button } from "@/components/ui/button";
 import type { CatalogueEmptyStateContent } from "@/types/content";
 
-const INITIAL_VISIBLE = 5;
+// Six keeps the initial grid balanced at every supported multi-column
+// breakpoint: two rows at `sm` and two rows at `lg`.
+const INITIAL_VISIBLE = 6;
 const PAGE_SIZE = 6;
 
 export type ListingCardGridItem = {
