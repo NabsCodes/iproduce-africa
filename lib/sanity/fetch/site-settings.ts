@@ -6,6 +6,22 @@ import { resolveImageUrl } from "@/lib/sanity/image";
 import { siteSettingsQuery } from "@/lib/sanity/queries";
 import type { SiteSocialLink } from "@/types/site";
 
+/**
+ * Public app-promotion state. `hidden`, missing fields, and incomplete copy
+ * all normalize away, so every consumer only ever sees a renderable promotion.
+ */
+export type MobileAppPromotion = {
+  status: "comingSoon" | "live";
+  title: string;
+  description: string;
+  preview?: {
+    image: string;
+    alt: string;
+  };
+  iosUrl?: string;
+  androidUrl?: string;
+};
+
 export type PublicSiteSettings = {
   email: string;
   phone: string;
@@ -16,6 +32,7 @@ export type PublicSiteSettings = {
     telegram?: string;
     whatsapp?: string;
   };
+  mobileAppPromotion?: MobileAppPromotion;
 };
 
 type RawSiteSettings = {
@@ -29,6 +46,12 @@ type RawSiteSettings = {
   youtubeUrl?: string | null;
   telegramUrl?: string | null;
   whatsappUrl?: string | null;
+  mobileAppStatus?: string | null;
+  mobileAppTitle?: string | null;
+  mobileAppDescription?: string | null;
+  mobileAppPreview?: { image?: Image | null; alt?: string | null } | null;
+  iosAppUrl?: string | null;
+  androidAppUrl?: string | null;
 };
 
 const SOCIAL_PLATFORM_FIELDS = [
@@ -47,6 +70,42 @@ function requireSingletonField<T>(
     throw new Error(`Missing required field "${field}" on ${docId}.`);
   }
   return value;
+}
+
+/**
+ * Existing `siteSettings` documents predate these fields, so anything missing,
+ * hidden, or incompletely filled in degrades to no promotion at all. A `live`
+ * status with no usable store URL degrades to `comingSoon` rather than
+ * rendering dead store buttons. The optional preview uses the non-throwing
+ * image resolver so an absent mockup can never fail the public layout.
+ */
+export function normalizeMobileAppPromotion(
+  raw: RawSiteSettings,
+): MobileAppPromotion | undefined {
+  const status = raw.mobileAppStatus;
+  if (status !== "comingSoon" && status !== "live") return undefined;
+
+  const title = raw.mobileAppTitle?.trim();
+  const description = raw.mobileAppDescription?.trim();
+  if (!title || !description) return undefined;
+
+  const previewImage = resolveImageUrl(raw.mobileAppPreview?.image ?? null);
+  const previewAlt = raw.mobileAppPreview?.alt?.trim();
+
+  const iosUrl = status === "live" ? raw.iosAppUrl?.trim() : undefined;
+  const androidUrl = status === "live" ? raw.androidAppUrl?.trim() : undefined;
+
+  return {
+    status: iosUrl || androidUrl ? status : "comingSoon",
+    title,
+    description,
+    preview:
+      previewImage && previewAlt
+        ? { image: previewImage, alt: previewAlt }
+        : undefined,
+    iosUrl: iosUrl || undefined,
+    androidUrl: androidUrl || undefined,
+  };
 }
 
 function normalizeSiteSettings(
@@ -73,6 +132,7 @@ function normalizeSiteSettings(
       telegram: raw.telegramUrl?.trim() || undefined,
       whatsapp: raw.whatsappUrl?.trim() || undefined,
     },
+    mobileAppPromotion: normalizeMobileAppPromotion(raw),
   };
 }
 

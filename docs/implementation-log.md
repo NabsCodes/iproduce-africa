@@ -3,6 +3,129 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## LMS and mobile app promotion — QA completion (2026-07-30)
+
+Marked the remaining responsive and CMS workflow QA complete following the
+reported final QA pass. Home and Community app-promotion placements are
+verified at mobile, tablet, and desktop widths; the footer status does not wrap
+or overflow at the supported compact widths; and the Studio publish/webhook
+revalidation workflow is verified. Final Development content population, the
+verified LMS course URL, editor-guide update, stakeholder approval, Production
+publishing, and future official store badges remain separate rollout tasks.
+
+## App promotion — Home placement, shared section, store icons (2026-07-30)
+
+Implemented the approved amendment (spec B7–B10).
+
+Many visitors never reach Community, so the app promotion is approved for Home
+too. It reuses the same CMS record and the same presentation logic rather than
+gaining a second set of fields. `MobileAppPromotionSection` moves from
+`components/community/` to `components/shared/`, matching the existing
+cross-page precedent there, and Home renders it between Testimonials and Stay
+Connected — learning, then social proof, then the coming mobile experience,
+then social channels. One `mobileAppStatus` keeps controlling Home, Community,
+and the footer; no per-surface toggles.
+
+On icons, two drafts were rejected before shipping. The first proposed
+`FaApple` — the standalone Apple logo, the mark Apple's guidelines name
+outright. The second proposed the store marks `FaAppStoreIos` and
+`FaGooglePlay`, on the reasoning that a store icon is not a company logo. That
+distinction is real but grants no permission: Apple licenses App Store artwork
+for apps available for download, Google directs developers to official badges
+and brand review, and Font Awesome's licence conveys neither owner's trademark
+rights. A store mark beside "Coming soon" also conflicts with this spec's own
+rule against implying store approval.
+
+What ships: a neutral Lucide `Smartphone` icon on coming-soon indicators, a
+text-only external link when live without registered badge artwork, and the
+footer text-only. No third-party store trademark appears on any state the site
+can currently render.
+
+Official store badges remain the platform owners' sanctioned promotional asset,
+so the live branch is wired for them: `storeBadgeAssets` in
+`lib/mobile-app-promotion.ts` is intentionally empty, and until artwork is
+registered there the live state falls back to a text-only link with an external
+arrow. That way no dead, recreated, or imitated badge can ship.
+Apple's pre-order and Google's pre-registration badges would be the fully
+sanctioned pre-launch option, but each needs a real store state that does not
+exist yet and that this spec lists as a non-goal.
+
+No query, GROQ, coalescing, or webhook work is needed: `siteSettingsQuery`
+already returns every field, Home already fetches normalized Site Settings, and
+publishing `siteSettings` already revalidates the root layout. The only CMS
+change is rewording the field descriptions to name Home, Community, and the
+footer. See `docs/lms-and-mobile-app-promotion-spec.md` sections B7–B10.
+
+Also recorded on the status board: Home shows roughly 5px of page-level
+horizontal overflow at 1024px, traced to the existing partner marquee. It is
+unrelated to the header work and is tracked separately.
+
+## LMS entry points and mobile app promotion — implementation (2026-07-30)
+
+Implemented the approved spec. The LMS root now lives once in
+`siteConfig.learningPlatform`; the desktop header and mobile menu use it for an
+external `Explore courses` CTA in place of the repeated `Partner with us`
+action. Partners navigation, the Partners route, the enquiry form, the footer
+link, and contextual partnership CTAs are untouched, as is `Academy > Courses`.
+
+`resolveCourseRegistrationState` in `lib/academy-registration.ts` is now the
+canonical source for course-panel heading, body, and action. The panel no
+longer claims enrolment "opens soon" while an external LMS link is live, and an
+external course with no URL renders a message rather than a dead button. The
+closed-course fallback now says "course" instead of "session".
+
+Site Settings gained a backward-compatible `Mobile app promotion` group
+(`mobileAppStatus`, title, description, optional `imageWithAlt` preview, and
+two store URLs). `normalizeMobileAppPromotion` degrades missing fields, hidden
+status, and incomplete copy to `undefined`, and downgrades an invalid `live`
+state to `comingSoon` so store buttons can never be dead. The optional preview
+uses the non-throwing image resolver. `lib/mobile-app-promotion.ts` splits the
+promotion per platform so the new Community section and the footer's
+`FooterAppStatus` agree about partially-live releases.
+
+The Community section sits after Member Stories when present, otherwise after
+Community Preview, always before Membership Application. Its default visual is
+an `aria-hidden` code-native placeholder — brand shapes, abstract phone
+silhouettes, the logo mark, and a `Coming soon` badge — with no fabricated app
+screens, features, ratings, or dates. An uploaded preview replaces it in the
+same `aspect-4/3` media area.
+
+Browser review afterwards found the header colliding at 1024px — the nav column
+overflowed into the logo and the CTAs, with horizontal page overflow. The full
+desktop nav and LMS CTA now appear at a new `desknav` breakpoint (1152px,
+registered in `app/globals.css`) instead of `lg`; the compact header and its
+sheet cover 1024–1151px and still carry the LMS entry point. The same review
+also removed `Rule.required()` from `mobileAppStatus`, since `initialValue`
+only applies to new documents and requiring it would have blocked unrelated
+Site Settings publishes on the existing singletons. An unset status now behaves
+as `hidden` in Studio as well as on the site, and the external course URL is
+trimmed so a whitespace-only value cannot become a dead link.
+
+Lint, typecheck, tests (60), and build pass. Every state-matrix row was checked
+against rendered dev-server HTML using a temporary normalization override that
+was removed afterwards. Responsive browser QA and Studio publish/revalidation
+QA are now complete. Still pending: final Development dataset content, a
+Development course with a real LMS URL, and the `docs/cms-editor-guide.md`
+update. No Production content was published as part of this implementation.
+
+## LMS and mobile app promotion specification (2026-07-30)
+
+Approved and documented the next website enhancement without changing the
+implementation. The website remains the course discovery surface and the LMS
+remains a standalone enrolment/learning platform. The planned header/mobile
+change replaces only the repeated `Partner with us` CTA with
+`Explore courses`; Partners navigation and contextual partnership journeys
+remain.
+
+The spec reuses the existing Sanity external course-registration fields,
+requires mode-aware course-panel copy, and adds a backward-compatible
+hidden/coming-soon/live app-promotion state to Site Settings. Because the app
+team confirmed that designs are still early and likely to change, the initial
+Community visual is a restrained code-native placeholder with no fabricated
+app screens. A compact status is planned for the existing footer brand column.
+Implementation, dataset content, browser QA, and Production publishing remain
+pending. See `docs/lms-and-mobile-app-promotion-spec.md`.
+
 ## Academy listing grid rhythm (2026-07-27)
 
 Changed the shared Academy listing grid to show six cards initially instead of

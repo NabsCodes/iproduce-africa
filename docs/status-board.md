@@ -6,8 +6,49 @@ Use this as the quick checkpoint list across shared sections and public pages.
 
 - [x] Navbar spec and implementation documented against current approved screenshots
 - [x] Footer spec and implementation documented against current approved screenshots
-- [x] Shared CTA language locked (`Join our community`, `Partner with us`)
+- [x] Shared CTA language locked — header/mobile use `Join our community` and
+      `Explore courses`; `Partner with us` stays the contextual partnership CTA
 - [x] Global spacing, typography, and radius rhythm locked in docs
+
+## LMS and Mobile App Enhancement
+
+- [x] Approve the standalone LMS boundary and before/after website direction
+- [x] Document the implementation contract in
+      `docs/lms-and-mobile-app-promotion-spec.md`
+- [x] Replace the repeated header/mobile Partner CTA with `Explore courses`
+- [x] Make the course registration panel accurate for external, interest, open,
+      and closed states
+- [x] Add backward-compatible app-promotion fields to Site Settings
+- [x] Build the Community-page branded coming-soon placeholder
+- [x] Add the compact footer app status
+- [x] Automated checks — lint, typecheck, tests, and build pass; the state
+      matrix is covered by `tests/site-settings-fetch.test.ts` and
+      `tests/academy-registration.test.ts`
+- [x] Move the section to `components/shared/` and render it on Home between
+      Testimonials and Stay Connected (spec B7–B8)
+- [x] Keep every renderable state free of third-party store trademarks —
+      neutral `Smartphone` icon while coming soon, text-only live fallback,
+      footer text-only (spec B9)
+- [x] Update the Sanity field descriptions to name Home, Community, and the
+      footer (spec B10)
+- [ ] Add official App Store / Google Play badge artwork to `storeBadgeAssets`
+      once verified store listings exist (spec B9)
+- [ ] Optional: pursue App Store pre-order / Google Play pre-registration to
+      unlock authorized pre-launch badges (needs developer-account access)
+- [ ] Populate and verify Development content before Production publishing
+- [ ] Configure one Development course with a verified public LMS URL
+- [x] Mobile menu at 390px and desktop at 1440px verified in a browser
+- [x] Compact header at 1024px/1151px and full navigation at 1152px/1280px
+      verified in a browser after the `desknav` change
+- [x] Home and Community app sections verified at 390px, tablet, and desktop
+- [x] Studio publish + webhook revalidation QA completed
+- [ ] Update `docs/cms-editor-guide.md` once the Studio workflow is verified
+
+## Known Issues
+
+- [ ] Home reports roughly 5px of page-level horizontal overflow at 1024px,
+      traced to the existing partner marquee. Unrelated to the header or the
+      LMS work; track and fix separately.
 
 ## Pages
 

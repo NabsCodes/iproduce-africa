@@ -35,6 +35,17 @@ export type SiteFooterConfig = {
   legalLinks: readonly SiteLinkItem[];
 };
 
+/**
+ * The standalone iProduce LMS. Defined once so the header and mobile menu
+ * never repeat the URL, and the canonical subdomain swap is a one-line change.
+ */
+export type SiteLearningPlatformConfig = {
+  label: string;
+  href: string;
+  /** Accessible name that communicates destination and new-tab behavior. */
+  accessibleLabel: string;
+};
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -44,6 +55,7 @@ export type SiteConfig = {
   phone: string;
   hours: string;
   address: string;
+  learningPlatform: SiteLearningPlatformConfig;
   socialLinks: readonly SiteSocialLink[];
   footer: SiteFooterConfig;
 };

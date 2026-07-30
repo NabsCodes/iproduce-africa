@@ -20,6 +20,13 @@ export const siteConfig = {
   phone: "+234 803 410 8745",
   hours: "Monday - Friday, 08 am - 05 pm",
   address: "3, Baltic Crescent, Maitama, Abuja",
+  // Swap this one value for https://learn.iproduceafrica.com once that
+  // subdomain is live. Do not repeat the URL in components.
+  learningPlatform: {
+    label: "Explore courses",
+    href: "https://iproducelms.netlify.app/",
+    accessibleLabel: "Explore courses on iProduce LMS (opens in a new tab)",
+  },
   socialLinks: [
     { label: "Instagram", platform: "instagram", href: undefined },
     { label: "LinkedIn", platform: "linkedin", href: undefined },

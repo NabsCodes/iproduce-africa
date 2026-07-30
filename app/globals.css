@@ -166,6 +166,13 @@
 
 @theme {
   --container-8xl: 82rem;
+  /**
+   * The full desktop navigation plus both header CTAs does not fit between
+   * `lg` (1024px) and this width — the nav column overflows and collides with
+   * the logo and CTAs. The compact header with the mobile sheet carries the
+   * range below it. Header and mobile-nav must switch on the same value.
+   */
+  --breakpoint-desknav: 72rem;
 }
 
 @theme inline {

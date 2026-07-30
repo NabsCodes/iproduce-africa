@@ -8,6 +8,32 @@ sheet, numbered list, label-only Academy children, no-icon Join pill, and a
 slim email + phone footer. Academy desktop dropdown polish is implemented;
 formal screenshot sign-off is still open.
 
+## LMS Entry Point — Implemented
+
+The desktop header and mobile menu now use a prominent external
+`Explore courses` entry point for the standalone iProduce LMS in place of the
+repeated `Partner with us` CTA. The destination is code-owned in
+`content/site.ts` (`siteConfig.learningPlatform`), so the canonical
+`learn.iproduceafrica.com` cutover is a one-line change.
+
+Preserved deliberately:
+
+- `Partners` stays in the main navigation.
+- The Partners route, footer link, enquiry form, and contextual partnership
+  CTAs are unchanged. This was a header-priority change, not a removal of the
+  partnership journey.
+- `Courses` stays inside the Academy dropdown/accordion, pointed at the website
+  catalogue.
+- The Join CTA remains the primary filled action.
+
+Both `Explore courses` links open in a new tab with `rel="noopener noreferrer"`,
+carry an `ArrowUpRight` affordance, and use the accessible name
+`Explore courses on iProduce LMS (opens in a new tab)`. The mobile link is
+wrapped in `SheetClose`, so activating it closes the menu.
+
+The full contract and acceptance criteria live in
+`docs/lms-and-mobile-app-promotion-spec.md`.
+
 ## Purpose
 
 The navbar should feel premium, clear, and reliable across desktop and mobile.
@@ -33,12 +59,21 @@ Social links are rendered inline in each surface. Do not reintroduce a shared
 
 - **Below** `md` **(768px):** compact header — logo, compact `Join` CTA, plain
   hamburger. Utility bar hidden. Full nav lives in the mobile sheet.
-- `md` **to below** `lg`**:** tablet header — utility bar is visible, but the
-  primary bar stays compact with logo, compact `Join` CTA, and hamburger. Do
-  not show the full desktop nav here; it does not have enough horizontal room.
-- `lg` **and up:** full desktop nav and `Partner with us` text CTA.
+- `md` **to below** `desknav`**:** tablet header — utility bar is visible, but
+  the primary bar stays compact with logo, compact `Join` CTA, and hamburger.
+  Do not show the full desktop nav here; it does not have enough horizontal
+  room.
+- `desknav` **(1152px) and up:** full desktop nav and `Explore courses`
+  external text CTA; the hamburger disappears.
 - `xl` **and up:** full `Join our community` button. Below `xl`, the compact
   join trigger remains beside the hamburger.
+
+`desknav` is a project breakpoint registered in `app/globals.css`
+(`--breakpoint-desknav: 72rem`). It exists because the full nav plus both
+header CTAs overflows its grid column between `lg` and 1152px — browser QA at
+1024px showed the logo colliding with `Home`, `Contact` colliding with the LMS
+CTA, and horizontal page overflow. Header and mobile-nav must always switch on
+the same value; do not split them back onto `lg`.
 
 ## Desktop Structure
 
@@ -107,8 +142,8 @@ and clicking the chevron opens the menu:
 
 ### CTAs (desktop)
 
-- `Partner with us` — text link (`leaf-600`), points to
-  `/partners#partnership-enquiry`
+- `Explore courses` — external text link (`leaf-600`) with an `ArrowUpRight`
+  affordance, points to `siteConfig.learningPlatform.href` in a new tab
 - `Join our community` — green filled button with `UsersRound` icon, opens the
   membership application dialog through `CommunityJoinButton`
 
@@ -137,9 +172,9 @@ and clicking the chevron opens the menu:
   label column (`pl-10`)
 - Open or active Academy parent flips to tangerine (label, number, chevron)
 - CTA block order: filled `Join our community` pill (no icon, rounded-full) then
-  `Partner with us` as a centered leaf-green text link
+  `Explore courses` as a centered leaf-green external text link
 - `Join our community` closes the sheet and opens the membership dialog;
-  `Partner with us` links to `/partners#partnership-enquiry`
+  `Explore courses` closes the sheet and opens the LMS in a new tab
 - Footer block: email left, phone right, no hours and no social — those stay on
   the desktop utility bar only
 - Radix Dialog handles dismiss (overlay click, ESC, close button); no separate  
@@ -147,7 +182,8 @@ and clicking the chevron opens the menu:
 
 ## Confirmed Inputs
 
-- Primary CTAs are `Join our community` and `Partner with us`
+- Header/mobile-menu CTAs are `Join our community` and `Explore courses`;
+  `Partner with us` remains the contextual partnership CTA elsewhere
 - Main nav links remain overview routes (`/community`, `/partners`). Partner
   CTA lands on `#partnership-enquiry`, while Join opens the membership dialog.
 - Academy includes a dropdown on desktop and accordion on mobile
@@ -167,7 +203,8 @@ Source: `CleanShot 2026-06-14 at 7.29.01@2x.png`
 - white primary bar with the original logo at left
 - main navigation spread evenly in the center column
 - short orange underline under the active link text
-- `Partner with us` as the quieter text CTA
+- the quieter text CTA (now `Explore courses`; the screenshot predates the
+  LMS change and still shows `Partner with us`)
 - `Join our community` as the filled green CTA
 
 ## Current Questions
@@ -178,6 +215,9 @@ Source: `CleanShot 2026-06-14 at 7.29.01@2x.png`
 ## Checklist
 
 - [x] Approved desktop navbar screenshot documented
+- [x] Repeated Partner CTA replaced with external `Explore courses` on desktop
+      and mobile, per `docs/lms-and-mobile-app-promotion-spec.md`
+- [ ] Confirm header fit and hierarchy at `lg` and `xl` in a browser
 - [x] Approved mobile navbar screenshot documented (`Device=Mobile, Page=Academy, State=Menu open.png`)
 - [x] Desktop layout and link spacing implemented (`justify-evenly` center column)
 - [x] Desktop active-state behavior implemented (underline under link text)

@@ -206,7 +206,13 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSetti
   facebookUrl,
   youtubeUrl,
   telegramUrl,
-  whatsappUrl
+  whatsappUrl,
+  mobileAppStatus,
+  mobileAppTitle,
+  mobileAppDescription,
+  mobileAppPreview,
+  iosAppUrl,
+  androidAppUrl
 }`;
 
 export const homePageQuery = `*[_type == "homePage" && _id == "homePage" && ${DRAFT_FILTER}][0]{

@@ -8,6 +8,27 @@ dialog shipped same day. See
 for the wizard contract. Phase 2 member stories and FAQs are Sanity-backed;
 the marketing page shell and cards remain code-owned.
 
+## Mobile App Promotion — Implemented
+
+`MobileAppPromotionSection` renders one CMS-controlled mobile-app promotion
+after Member Stories when stories exist, or directly after Community Preview
+when they do not. It is approved to move to
+`components/shared/mobile-app-promotion-section.tsx` so Home can render the
+same section from the same CMS record — Community stops owning the file but its
+placement here is unchanged. It always stays before Membership Application, and renders
+nothing at all when Site Settings has no visible promotion.
+
+The visual is a branded code-native `Coming soon` placeholder, because the app
+is early in development and approved screen designs do not exist yet. It is
+`aria-hidden` decoration built from brand shapes, abstract phone silhouettes,
+and the logo mark — no fabricated product interface, ratings, or launch dates.
+An editor-uploaded preview replaces it in the same `aspect-4/3` media area, so
+swapping in an approved mockup needs no layout change.
+
+Sanity controls hidden/coming-soon/live state, copy, the optional later mockup,
+and eventual iOS/Android URLs. See
+`docs/lms-and-mobile-app-promotion-spec.md` for the complete contract.
+
 ## Purpose
 
 Convert visitors into community members. Explain what membership unlocks
@@ -52,6 +73,15 @@ member portal.
 12. Shared `CtaSection` (community-specific content).
 
 No marquee on this page. The orbit lives in the hero only.
+
+Implemented insertion order:
+
+```text
+CommunityPreviewSection
+MemberStoriesSection, when present
+MobileAppPromotionSection, when Site Settings exposes a promotion
+MembershipApplicationSection
+```
 
 ## Reuse map
 

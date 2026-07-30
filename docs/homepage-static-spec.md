@@ -99,7 +99,8 @@ Latest Home implementation order after the June 24 review:
 
 - Home order is now: Hero, Partners, What we do, Core Focus, Why join us, Your
   pathway, Academy spotlight, Testimonials, Stay connected, FAQ, Featured
-  articles, CTA.
+  articles, CTA. The approved Mobile App Promotion insertion sits between
+  Testimonials and Stay connected.
 - Partners sits directly under the hero in a pale `forest-subtle` band with
   normal Home section rhythm. The old extra top padding is only for pages where
   a preceding CTA overlaps the partner band.
@@ -110,6 +111,13 @@ Latest Home implementation order after the June 24 review:
   `AcademyEventCard`.
 - Academy spotlight shows a four-card desktop row where space allows, then
   falls back to two cards on tablet and one card at 390px.
+- Approved, pending implementation: a CMS-controlled Mobile App Promotion
+  section sits between Testimonials and Stay connected. It is the shared
+  `components/shared/mobile-app-promotion-section.tsx` also used by Community,
+  driven by the single `siteSettings.mobileAppPromotion` record, and renders
+  nothing when that promotion is hidden or unset. Do not add Home-specific app
+  fields or a Home-only visibility toggle. See
+  `docs/lms-and-mobile-app-promotion-spec.md` (B7–B10).
 - Stay connected is a dark rounded Home module between Testimonials and FAQ.
   It presents Instagram, Facebook, and YouTube cards using the shared
   `content/site.ts` social-link source. Do not invent final URLs; cards remain

@@ -212,6 +212,18 @@ export type WebinarRegistrationState = {
   nextBoundary?: string;
 };
 
+export type CourseRegistrationAction =
+  | { kind: "internal"; label: string }
+  | { kind: "external"; label: string; href: string }
+  | { kind: "none" };
+
+export type CourseRegistrationState = {
+  mode: AcademyRegistrationMode;
+  heading: string;
+  body: string;
+  action: CourseRegistrationAction;
+};
+
 type AcademyWebinarBase = {
   slug: string;
   date: string;

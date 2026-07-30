@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { legacyWebinarCategory } from "@/lib/academy-categories";
 import {
+  resolveCourseRegistrationState,
   resolveValidRegistrationDeadline,
   resolveWebinarRegistrationState,
 } from "@/lib/academy-registration";
@@ -150,5 +151,95 @@ describe("resolveWebinarRegistrationState", () => {
 
     expect(state.availability).toBe("closed");
     expect(state.statusLine).toBe("Applications are complete.");
+  });
+});
+
+describe("resolveCourseRegistrationState", () => {
+  it("hands an external course over to its learning platform", () => {
+    const state = resolveCourseRegistrationState({
+      mode: "external",
+      url: "https://iproducelms.netlify.app/courses/agribusiness-basics",
+      providerName: "iProduce LMS",
+    });
+
+    expect(state.heading).toBe("Learn on iProduce LMS");
+    expect(state.body).toContain("iProduce LMS");
+    expect(state.action).toEqual({
+      kind: "external",
+      label: "Start learning",
+      href: "https://iproducelms.netlify.app/courses/agribusiness-basics",
+    });
+  });
+
+  it("keeps a configured external label", () => {
+    const state = resolveCourseRegistrationState({
+      mode: "external",
+      url: "https://iproducelms.netlify.app/courses/agribusiness-basics",
+      providerName: "iProduce LMS",
+      label: "Open the course",
+    });
+
+    expect(state.action).toMatchObject({ label: "Open the course" });
+  });
+
+  it("renders no dead button when an external course has no usable URL", () => {
+    const missing = resolveCourseRegistrationState({
+      mode: "external",
+      providerName: "iProduce LMS",
+    });
+    const blank = resolveCourseRegistrationState({
+      mode: "external",
+      url: "   ",
+      providerName: "iProduce LMS",
+    });
+
+    expect(missing.heading).toBe("Learning link unavailable");
+    expect(missing.action).toEqual({ kind: "none" });
+    expect(blank.action).toEqual({ kind: "none" });
+  });
+
+  it("trims a padded external URL", () => {
+    const state = resolveCourseRegistrationState({
+      mode: "external",
+      url: "  https://iproducelms.netlify.app/courses/x  ",
+    });
+
+    expect(state.action).toMatchObject({
+      href: "https://iproducelms.netlify.app/courses/x",
+    });
+  });
+
+  it("defaults an unconfigured course to interest", () => {
+    const state = resolveCourseRegistrationState(undefined, {
+      defaultLabel: "Register interest",
+    });
+
+    expect(state.mode).toBe("interest");
+    expect(state.heading).toBe("Register your interest");
+    expect(state.body).toContain("notify you");
+    expect(state.action).toEqual({
+      kind: "internal",
+      label: "Register interest",
+    });
+  });
+
+  it("keeps open registration on the internal action", () => {
+    const state = resolveCourseRegistrationState({ mode: "open" });
+
+    expect(state.heading).toBe("Registration open");
+    expect(state.action).toEqual({ kind: "internal", label: "Register now" });
+  });
+
+  it("uses configured closed copy and hides the registration button", () => {
+    const configured = resolveCourseRegistrationState({
+      mode: "closed",
+      closedLabel: "This cohort is full.",
+    });
+    const fallback = resolveCourseRegistrationState({ mode: "closed" });
+
+    expect(configured.heading).toBe("Registration closed");
+    expect(configured.body).toBe("This cohort is full.");
+    expect(configured.action).toEqual({ kind: "none" });
+    expect(fallback.body).toBe("Registration has closed for this course.");
   });
 });

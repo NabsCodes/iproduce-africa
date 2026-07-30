@@ -9,6 +9,7 @@ import { WhoShouldJoinSection } from "@/components/community/who-should-join-sec
 import { WhyJoinSection } from "@/components/community/why-join-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
+import { MobileAppPromotionSection } from "@/components/shared/mobile-app-promotion-section";
 import { communityPageContent } from "@/content/community";
 import { pageSeo } from "@/content/seo";
 import { createPageMetadata } from "@/lib/metadata";
@@ -40,6 +41,9 @@ export default async function CommunityPage() {
       <CommunityPreviewSection channels={settings.communityChannels} />
       {memberStories.length > 0 ? (
         <MemberStoriesSection items={memberStories} />
+      ) : null}
+      {settings.mobileAppPromotion ? (
+        <MobileAppPromotionSection promotion={settings.mobileAppPromotion} />
       ) : null}
       <MembershipApplicationSection />
       {faqs.length > 0 ? (

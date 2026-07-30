@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { mainNavigation } from "@/content/navigation";
+import { siteConfig } from "@/content/site";
 import { useRouteHash } from "@/hooks/use-route-hash";
 import { useScrolled } from "@/hooks/use-scrolled";
 import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
@@ -54,14 +55,14 @@ export function Header({ contact }: { contact: PublicSiteSettings }) {
       >
         <div
           className={cn(
-            "max-w-8xl mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 sm:px-6 lg:grid-cols-[auto_1fr_auto] lg:gap-6 lg:px-8 xl:px-10",
+            "max-w-8xl desknav:grid-cols-[auto_1fr_auto] mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 sm:px-6 lg:gap-6 lg:px-8 xl:px-10",
             scrolled ? "h-[72px] lg:h-[76px]" : "h-[72px] lg:h-20",
           )}
         >
           <SiteLogo priority className="shrink-0 justify-self-start" />
 
           <nav
-            className="hidden w-full min-w-0 flex-nowrap items-center justify-center gap-2 lg:flex xl:gap-4"
+            className="desknav:flex hidden w-full min-w-0 flex-nowrap items-center justify-center gap-2 xl:gap-4"
             aria-label="Main"
           >
             {mainNavigation.map((link) => {
@@ -148,12 +149,16 @@ export function Header({ contact }: { contact: PublicSiteSettings }) {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2 justify-self-end sm:gap-3 md:gap-5">
-            <Link
-              href="/partners#partnership-enquiry"
-              className="text-leaf-600 hover:text-leaf-700 focus-visible:bg-leaf-50 focus-visible:text-leaf-700 hidden px-2 py-1 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-none lg:inline-flex"
+            <a
+              href={siteConfig.learningPlatform.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={siteConfig.learningPlatform.accessibleLabel}
+              className="text-leaf-600 hover:text-leaf-700 focus-visible:bg-leaf-50 focus-visible:text-leaf-700 desknav:inline-flex hidden items-center gap-1 px-2 py-1 text-[15px] font-semibold whitespace-nowrap transition-colors focus-visible:outline-none"
             >
-              Partner with us
-            </Link>
+              {siteConfig.learningPlatform.label}
+              <ArrowUpRight className="size-4" aria-hidden />
+            </a>
             <CommunityJoinButton
               showIcon
               className="hidden h-[52px] px-6 text-[15px] font-semibold xl:inline-flex"

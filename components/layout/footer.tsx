@@ -1,12 +1,16 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
 import { NewsletterForm } from "@/components/layout/newsletter-form";
 import { SiteLogo } from "@/components/layout/site-logo";
 import { SocialIcon } from "@/components/layout/social-icon";
 import { siteConfig } from "@/content/site";
+import { resolveMobileAppPlatforms } from "@/lib/mobile-app-promotion";
 import { isInternalRoute } from "@/lib/routes";
-import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
+import type {
+  MobileAppPromotion,
+  PublicSiteSettings,
+} from "@/lib/sanity/fetch/site-settings";
 
 function FooterLink({
   label,
@@ -42,6 +46,41 @@ function FooterLink({
   );
 }
 
+function FooterAppStatus({ promotion }: { promotion: MobileAppPromotion }) {
+  const platforms = resolveMobileAppPlatforms(promotion);
+  const live = platforms.filter((platform) => platform.status === "live");
+  const pending = platforms.filter(
+    (platform) => platform.status === "comingSoon",
+  );
+
+  return (
+    <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/55">
+      <span className="text-white/70">Mobile apps</span>
+      <span aria-hidden className="text-white/25">
+        —
+      </span>
+      {live.map((platform) => (
+        <a
+          key={platform.platform}
+          href={platform.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Get the iProduce app on the ${platform.storeLabel} (opens in a new tab)`}
+          className="focus-visible:ring-leaf-300 inline-flex items-center gap-1 rounded-sm text-white/75 transition-colors hover:text-white focus-visible:ring-2 focus-visible:outline-none"
+        >
+          {platform.label}
+          <ArrowUpRight className="size-3.5 shrink-0" aria-hidden />
+        </a>
+      ))}
+      {pending.length > 0 ? (
+        <span>
+          {pending.map((platform) => platform.label).join(" & ")} · Coming soon
+        </span>
+      ) : null}
+    </p>
+  );
+}
+
 export function Footer({ settings }: { settings: PublicSiteSettings }) {
   const currentYear = new Date().getFullYear();
 
@@ -71,7 +110,7 @@ export function Footer({ settings }: { settings: PublicSiteSettings }) {
                     >
                       <SocialIcon
                         platform={social.platform}
-                        className="size-[18px]"
+                        className="size-4.5"
                       />
                     </a>
                   </li>
@@ -85,13 +124,17 @@ export function Footer({ settings }: { settings: PublicSiteSettings }) {
                     >
                       <SocialIcon
                         platform={social.platform}
-                        className="size-[18px]"
+                        className="size-4.5"
                       />
                     </span>
                   </li>
                 ),
               )}
             </ul>
+
+            {settings.mobileAppPromotion ? (
+              <FooterAppStatus promotion={settings.mobileAppPromotion} />
+            ) : null}
           </div>
 
           {siteConfig.footer.linkGroups.map((group) => (
@@ -126,7 +169,7 @@ export function Footer({ settings }: { settings: PublicSiteSettings }) {
                   className="flex items-start gap-2.5 text-[15px] text-white/75 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
                 >
                   <Mail
-                    className="text-leaf-300 mt-0.5 size-[18px] shrink-0"
+                    className="text-leaf-300 mt-0.5 size-4.5 shrink-0"
                     aria-hidden
                   />
                   <span className="min-w-0 break-all">{settings.email}</span>
@@ -139,7 +182,7 @@ export function Footer({ settings }: { settings: PublicSiteSettings }) {
                   className="flex items-start gap-2.5 text-[15px] text-white/75 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
                 >
                   <Phone
-                    className="text-leaf-300 mt-0.5 size-[18px] shrink-0"
+                    className="text-leaf-300 mt-0.5 size-4.5 shrink-0"
                     aria-hidden
                   />
                   <span>{settings.phone}</span>
@@ -147,7 +190,7 @@ export function Footer({ settings }: { settings: PublicSiteSettings }) {
               </li>
               <li className="flex items-start gap-2.5 text-[15px] leading-normal text-white/75">
                 <MapPin
-                  className="text-leaf-300 mt-0.5 size-[18px] shrink-0"
+                  className="text-leaf-300 mt-0.5 size-4.5 shrink-0"
                   aria-hidden
                 />
                 <span>{settings.address}</span>

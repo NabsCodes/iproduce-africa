@@ -6,7 +6,7 @@ import type { ComponentProps } from "react";
 import { AcademyRegisterButton } from "@/components/academy/registration/academy-register-button";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { useWebinarRegistrationState } from "@/hooks/use-webinar-registration-state";
-import { resolveCourseRegistration } from "@/lib/academy-registration";
+import { resolveCourseRegistrationState } from "@/lib/academy-registration";
 import { cn } from "@/lib/utils";
 import type { AcademyCourseDetail, AcademyWebinar } from "@/types/academy";
 
@@ -29,38 +29,30 @@ export function AcademyRegistrationAction(
   }
 
   const { course, defaultLabel, className, buttonSize = "lg" } = props;
-  const registration = resolveCourseRegistration(course.registration);
+  const { action } = resolveCourseRegistrationState(course.registration, {
+    defaultLabel,
+  });
 
-  if (registration.mode === "closed") {
+  if (action.kind === "none") return null;
+
+  if (action.kind === "external") {
     return (
-      <p className={cn("text-fg-muted text-sm leading-6", className)}>
-        {registration.closedLabel ??
-          "Registration has closed for this session."}
-      </p>
-    );
-  }
-
-  if (registration.mode === "external") {
-    if (registration.url) {
-      return (
-        <Button
-          asChild
-          variant="tangerine"
-          size={buttonSize}
-          className={className}
+      <Button
+        asChild
+        variant="tangerine"
+        size={buttonSize}
+        className={className}
+      >
+        <a
+          href={action.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${action.label} (opens in a new tab)`}
         >
-          <a href={registration.url} target="_blank" rel="noopener noreferrer">
-            {registration.label ?? "Continue to registration"}
-            <ArrowUpRight className="size-4" />
-          </a>
-        </Button>
-      );
-    }
-
-    return (
-      <p className={cn("text-fg-muted text-sm leading-6", className)}>
-        Registration for this course is managed externally.
-      </p>
+          {action.label}
+          <ArrowUpRight className="size-4" />
+        </a>
+      </Button>
     );
   }
 
@@ -69,7 +61,7 @@ export function AcademyRegistrationAction(
       kind="course"
       slug={course.slug}
       title={course.title}
-      label={registration.label ?? defaultLabel}
+      label={action.label}
       variant="tangerine"
       size={buttonSize}
       className={className}

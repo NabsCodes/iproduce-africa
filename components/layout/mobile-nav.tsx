@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -20,6 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { mainNavigation } from "@/content/navigation";
+import { siteConfig } from "@/content/site";
 import type { PublicSiteSettings } from "@/lib/sanity/fetch/site-settings";
 import { cn } from "@/lib/utils";
 
@@ -54,11 +55,17 @@ export function MobileNav({
       <SheetTrigger asChild>
         <button
           type="button"
-          className="text-grey-950 focus-visible:ring-leaf-400 inline-flex size-11 shrink-0 items-center justify-center transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:outline-none lg:hidden"
+          className="text-grey-950 focus-visible:ring-leaf-400 desknav:hidden inline-flex size-11 shrink-0 items-center justify-center transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:outline-none"
           aria-label="Open menu"
           aria-expanded={open}
         >
-          <svg viewBox="0 0 24 24" className="size-6" fill="none" aria-hidden>
+          <svg
+            viewBox="0 0 24 24"
+            className="size-6"
+            fill="none"
+            aria-hidden="true"
+            focusable="false"
+          >
             <path
               d="M4 7h16M4 12h16M4 17h16"
               stroke="currentColor"
@@ -252,12 +259,16 @@ export function MobileNav({
               Join our community
             </CommunityJoinButton>
             <SheetClose asChild>
-              <Link
-                href="/partners#partnership-enquiry"
-                className="text-leaf-700 hover:text-forest-700 focus-visible:ring-leaf-400 block py-3 text-center text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              <a
+                href={siteConfig.learningPlatform.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={siteConfig.learningPlatform.accessibleLabel}
+                className="text-leaf-700 hover:text-forest-700 focus-visible:ring-leaf-400 flex items-center justify-center gap-1.5 py-3 text-center text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
-                Partner with us
-              </Link>
+                {siteConfig.learningPlatform.label}
+                <ArrowUpRight className="size-4" aria-hidden />
+              </a>
             </SheetClose>
           </div>
 

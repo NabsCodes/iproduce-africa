@@ -6,10 +6,12 @@ import {
 import type {
   AcademyRegistrationConfig,
   AcademyWebinar,
+  CourseRegistrationState,
   WebinarRegistrationState,
 } from "@/types/academy";
 
 const DEFAULT_CLOSED_LABEL = "Registration has closed for this session.";
+const DEFAULT_CLOSED_COURSE_LABEL = "Registration has closed for this course.";
 
 export function isUpcomingSession(
   date: string,
@@ -143,4 +145,77 @@ export function resolveCourseRegistration(
   registration?: AcademyRegistrationConfig,
 ): AcademyRegistrationConfig {
   return registration ?? { mode: "interest" };
+}
+
+type ResolveCourseRegistrationOptions = {
+  /** Interest-mode button fallback, so `content/academy.ts` still owns it. */
+  defaultLabel?: string;
+};
+
+/**
+ * Canonical course registration contract. Courses have no session date, so
+ * unlike webinars there is no deadline arithmetic — only the configured mode
+ * decides the panel copy and whether a button, external link, or plain message
+ * renders. Keeping heading/body here stops the panel from claiming enrolment
+ * "opens soon" while an external LMS link is already live.
+ */
+export function resolveCourseRegistrationState(
+  registration: AcademyRegistrationConfig | undefined,
+  options: ResolveCourseRegistrationOptions = {},
+): CourseRegistrationState {
+  const configured = resolveCourseRegistration(registration);
+  const label = configured.label?.trim();
+  const provider = configured.providerName?.trim();
+
+  if (configured.mode === "closed") {
+    return {
+      mode: configured.mode,
+      heading: "Registration closed",
+      body: configured.closedLabel?.trim() || DEFAULT_CLOSED_COURSE_LABEL,
+      action: { kind: "none" },
+    };
+  }
+
+  if (configured.mode === "external") {
+    const url = configured.url?.trim();
+    if (!url) {
+      return {
+        mode: configured.mode,
+        heading: "Learning link unavailable",
+        body: "The learning link for this course is not available yet. Check back soon, or contact us about the next enrolment window.",
+        action: { kind: "none" },
+      };
+    }
+
+    const platform = provider || "the learning platform";
+    return {
+      mode: configured.mode,
+      heading: provider ? `Learn on ${provider}` : "Learn on the platform",
+      body: `Enrolment and course delivery continue on ${platform}. The course page opens in a new tab.`,
+      action: {
+        kind: "external",
+        label: label || "Start learning",
+        href: url,
+      },
+    };
+  }
+
+  if (configured.mode === "interest") {
+    return {
+      mode: configured.mode,
+      heading: "Register your interest",
+      body: "Enrolment is not open yet. Register your interest and we will notify you when this course becomes available.",
+      action: {
+        kind: "internal",
+        label: label || options.defaultLabel || "Register interest",
+      },
+    };
+  }
+
+  return {
+    mode: configured.mode,
+    heading: "Registration open",
+    body: "Registration for this course is currently open. Share your details and our team will confirm your place.",
+    action: { kind: "internal", label: label || "Register now" },
+  };
 }

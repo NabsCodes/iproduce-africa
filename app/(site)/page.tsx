@@ -8,6 +8,7 @@ import { WhatWeDoSection } from "@/components/home/what-we-do-section";
 import { WhyJoinUsSection } from "@/components/home/why-join-us-section";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FaqSection } from "@/components/shared/faq-section";
+import { MobileAppPromotionSection } from "@/components/shared/mobile-app-promotion-section";
 import { PartnersSection } from "@/components/shared/partners-section";
 import { TestimonialsSection } from "@/components/shared/testimonials-section";
 import { academyHomePreview } from "@/content/academy";
@@ -70,6 +71,11 @@ export default async function HomePage() {
       />
       {testimonials.length > 0 ? (
         <TestimonialsSection items={testimonials} />
+      ) : null}
+      {siteSettings.mobileAppPromotion ? (
+        <MobileAppPromotionSection
+          promotion={siteSettings.mobileAppPromotion}
+        />
       ) : null}
       <StayConnectedSection socialLinks={siteSettings.socialLinks} />
       {faqs.length > 0 ? (
