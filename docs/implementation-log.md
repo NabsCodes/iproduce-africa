@@ -3,6 +3,15 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## README current-state refresh (2026-07-31)
+
+Updated the public repository overview to reflect the live Sanity/form stack,
+Vercel Analytics, the standalone LMS entry points, and the CMS-controlled
+mobile-app promotion foundation. The README now distinguishes code completion
+from the still-pending Development content, stakeholder approval, Production
+publishing, newsletter lifecycle evidence, and final handover work, with links
+to the relevant rollout and closeout documents.
+
 ## LMS and mobile app promotion — QA completion (2026-07-30)
 
 Marked the remaining responsive and CMS workflow QA complete following the

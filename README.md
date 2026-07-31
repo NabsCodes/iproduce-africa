@@ -37,9 +37,8 @@ showcase the organisation's mission, Academy, community, partnerships, and
 agribusiness resources.
 
 The project translates an evolving Figma system into a cohesive production
-frontend. The current implementation prioritizes visual fidelity, accessible
-interactions, responsive composition, content ownership, and a clean migration
-path to Sanity CMS.
+website. It prioritizes visual fidelity, accessible interactions, responsive
+composition, and clear content ownership through Sanity CMS.
 
 ## Experience
 
@@ -47,11 +46,14 @@ path to Sanity CMS.
 - Academy hub with dedicated Webinar, Course, and Blog catalogues
 - Static detail pages with shareable, SEO-friendly slugs
 - Unified Academy search across learning and editorial content
+- Standalone LMS entry points: the website remains the discovery surface while
+  public LMS pages handle enrolment and learning
 - Responsive layouts designed intentionally for mobile, tablet, and desktop
 - Accessible UI primitives, keyboard-friendly navigation, and reduced-motion support
 - Live form validation with Mailchimp newsletter subscriptions, Resend operational email delivery, Cloudflare Turnstile, and honeypot protection
 - Metadata, Open Graph, Twitter cards, sitemap, robots, and scoped 404 pages
-- Content-first architecture prepared for a future Sanity migration
+- Sanity-managed editorial content, contact settings, legal pages, and a
+  future mobile-app promotion state shared across Home, Community, and footer
 
 ## Main Routes
 
@@ -69,16 +71,17 @@ path to Sanity CMS.
 
 ## Tech Stack
 
-| Area      | Technology                                                  |
-| --------- | ----------------------------------------------------------- |
-| Framework | Next.js 16 with App Router                                  |
-| UI        | React 19, Tailwind CSS 4, Radix UI, shadcn-style primitives |
-| Language  | TypeScript                                                  |
-| Motion    | Motion for React with reduced-motion safeguards             |
-| Forms     | React Hook Form and Zod                                     |
-| Carousels | Embla Carousel                                              |
-| Icons     | Lucide React and React Icons                                |
-| Tooling   | pnpm, ESLint, Prettier                                      |
+| Area       | Technology                                                  |
+| ---------- | ----------------------------------------------------------- |
+| Framework  | Next.js 16 with App Router                                  |
+| UI         | React 19, Tailwind CSS 4, Radix UI, shadcn-style primitives |
+| Language   | TypeScript                                                  |
+| CMS        | Sanity Studio, GROQ, signed revalidation                    |
+| Forms      | React Hook Form, Zod, Resend, Mailchimp                     |
+| Protection | Cloudflare Turnstile, honeypot, Upstash rate limiting       |
+| Motion     | Motion for React with reduced-motion safeguards             |
+| Analytics  | Vercel Analytics                                            |
+| Tooling    | pnpm, ESLint, Prettier                                      |
 
 ## Getting Started
 
@@ -136,10 +139,12 @@ presentation.
 
 ## Project Status
 
-The public frontend, form delivery layer, and approved Sanity CMS phases are
-implemented. Production mail is live, and the reviewed CMS dataset now powers
-the production deployment. Signed production webhook revalidation is active;
-the custom domain is live, and final handover QA remains.
+The public frontend, operational form delivery, and approved Sanity CMS phases
+are implemented. The Production CMS dataset powers the live deployment,
+signed webhook revalidation is active, and the custom domain is live. The
+website also includes the approved LMS entry points and a CMS-controlled
+mobile-app promotion foundation; those new CMS content and Production rollout
+steps remain separate from code completion.
 
 **Shipped in repo**
 
@@ -147,15 +152,27 @@ the custom domain is live, and final handover QA remains.
 - Cloudflare Turnstile + honeypot on every submission path
 - React Email templates previewable via `pnpm email:dev`
 - Sanity-managed Academy catalogues, trust/people content, selected Home/About
-  copy, public contact settings, and legal documents
+  copy, public contact settings, legal documents, and mobile-app promotion
+  state
 - Embedded editor at `/admin` with organised two-level navigation
+- `Explore courses` links to the standalone iProduce LMS without duplicating
+  learner accounts, enrolment, or course delivery inside this website
+- Mode-aware course registration panels for external LMS, interest, open, and
+  closed course states
+- Vercel Analytics included in the public app shell
 
 **Next steps**
 
+- Populate and verify the LMS/mobile-app content in Sanity Development, then
+  obtain approval before publishing it to Production
+- Configure each LMS-backed course with its verified public course URL; update
+  the central LMS destination when `learn.iproduceafrica.com` is ready
 - Complete final production review, client access checks, and handover materials
+- Record the remaining Mailchimp unsubscribe and hosted-rejoin lifecycle
+  evidence before declaring newsletter closeout complete
 - Keep the archived Sanity seed snapshots for one stable production release,
   then remove them after sign-off
-- Optional analytics, preview, TypeGen, and search-at-scale polish
+- Optional preview, TypeGen, search-at-scale, and site-wide image-payload work
 
 ## Documentation
 
@@ -171,13 +188,17 @@ continue without relying on chat history.
 - [`docs/resend-integration-spec.md`](./docs/resend-integration-spec.md) — form delivery, Resend, Turnstile
 - [`docs/mailchimp-newsletter-integration-spec.md`](./docs/mailchimp-newsletter-integration-spec.md) — newsletter subscriber delivery and cutover
 - [`docs/email-structure.md`](./docs/email-structure.md) — email folder map and dual UI
+- [`docs/lms-and-mobile-app-promotion-spec.md`](./docs/lms-and-mobile-app-promotion-spec.md) — standalone LMS links and mobile-app promotion rollout
+- [`docs/cms-editor-guide.md`](./docs/cms-editor-guide.md) — client-friendly Studio editing guide
+- [`docs/status-board.md`](./docs/status-board.md) — current delivery and rollout checklist
+- [`docs/production-closeout-runbook.md`](./docs/production-closeout-runbook.md) — final QA, access, search, and handover runbook
 
 ## Environment Variables
 
-Form delivery, Mailchimp, and Turnstile need route-specific env vars on Vercel
-(and locally in `.env.local`). See the Resend and Mailchimp integration specs.
-Missing provider configuration fails closed with **503** rather than returning
-fake success.
+Form delivery, Mailchimp, Turnstile, Upstash, and Sanity need environment
+variables on Vercel (and locally in `.env.local`). See the form-delivery,
+Mailchimp, and CMS specifications. Missing production provider configuration
+fails closed with **503** rather than returning fake success.
 
 ## Quality Gate
 
@@ -187,6 +208,7 @@ Before handing off a completed change:
 pnpm format
 pnpm lint
 pnpm typecheck
+pnpm test
 pnpm build
 ```
 

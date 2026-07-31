@@ -36,10 +36,7 @@ export function SiteLogo({
         height={1164}
         priority={priority}
         sizes="(min-width: 1280px) 172px, (min-width: 1024px) 156px, (min-width: 640px) 152px, 140px"
-        className={cn(
-          "h-auto w-35 sm:w-38 lg:w-[156px] xl:w-45",
-          imageClassName,
-        )}
+        className={cn("h-auto w-35 sm:w-38 lg:w-39 xl:w-45", imageClassName)}
       />
     </Link>
   );
