@@ -32,7 +32,7 @@ function NavIndicator({ active }: { active: boolean }) {
   return (
     <span
       aria-hidden
-      className="bg-tangerine-500 pointer-events-none absolute -bottom-0.5 left-1/2 h-[3px] w-5 -translate-x-1/2 rounded-full"
+      className="bg-tangerine-500 pointer-events-none absolute -bottom-0.5 left-1/2 h-0.75 w-5 -translate-x-1/2 rounded-full"
     />
   );
 }
@@ -56,7 +56,7 @@ export function Header({ contact }: { contact: PublicSiteSettings }) {
         <div
           className={cn(
             "max-w-8xl desknav:grid-cols-[auto_1fr_auto] mx-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 transition-[height] sm:gap-3 sm:px-6 lg:gap-6 lg:px-8 xl:px-10",
-            scrolled ? "h-[72px] lg:h-[76px]" : "h-[72px] lg:h-20",
+            scrolled ? "h-18 lg:h-19" : "h-18 lg:h-20",
           )}
         >
           <SiteLogo priority className="shrink-0 justify-self-start" />
@@ -98,7 +98,7 @@ export function Header({ contact }: { contact: PublicSiteSettings }) {
                       <DropdownMenuContent
                         align="start"
                         sideOffset={8}
-                        className="border-grey-200 w-auto min-w-[240px] border bg-white p-2.5 ring-0"
+                        className="border-grey-200 w-auto min-w-60 border bg-white p-2.5 ring-0"
                       >
                         {link.children.map((child) => {
                           const isChildActive =
@@ -161,7 +161,7 @@ export function Header({ contact }: { contact: PublicSiteSettings }) {
             </a>
             <CommunityJoinButton
               showIcon
-              className="hidden h-[52px] px-6 text-[15px] font-semibold xl:inline-flex"
+              className="hidden h-13 px-6 text-[15px] font-semibold xl:inline-flex"
             >
               Join our community
             </CommunityJoinButton>
