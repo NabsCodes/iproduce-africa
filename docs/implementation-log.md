@@ -3,6 +3,54 @@
 Keep this log short. It exists so Nabeel, Codex, Cursor, Claude, or any future
 agent can continue work without depending on chat history.
 
+## Client-ready handover documents (2026-08-03)
+
+Prepared a deliberately small, professional client package: a branded Website
+Handover Summary and a task-focused CMS Editor Guide, each supplied as an
+editable Word master and a client PDF. The summary covers delivery, editorial
+and technical boundaries, account-security practice, open closeout items, and
+support. Tobi Seun Ajayi is named as the client's routine CMS and technical
+contact without implying ownership of accounts that still need confirmation.
+The CMS guide now gives detailed Article and Webinar/Event procedures, examples,
+registration modes, timing behaviour, and edge cases. It also makes clear that
+separate development teams own the LMS and mobile app; this website handover
+only covers their approved public links and promotional fields. The access
+register was aligned to the same roles and records Tobi's nominated account
+email as `ibotajayi@gmail.com`. Rendered and visually reviewed every page before
+placing the files in `docs/client-handover/client-ready/`. The agreed support
+period, final issue date, access confirmation, recording, and final delivery
+remain open.
+
+Reduced the supporting Markdown handover notes so they no longer duplicate the
+client PDFs or the access workbook. The repository now keeps a short overview,
+asset note, access note, support route, CMS call checklist, and final group
+message template as maintainable working sources only.
+
+Kept the comprehensive Access and Open Items Register as a private closeout
+record and created a separate one-sheet client Access Summary. The client copy
+records `dev@iproduceafrica.com` as the setup account for client services;
+`content@iproduceafrica.com` and Tobi's Gmail are listed only as additional
+Sanity editors. Developer-managed GitHub, Vercel, Turnstile, and Upstash are
+shown without exposing private account details.
+
+## Client handover source pack (2026-08-01)
+
+Created `docs/client-handover/` as the maintained source for the client-facing
+operational handover: Drive folder map, project overview, asset checklist,
+access/ownership guidance, support/open-items record, and a CMS training/call
+script. The pack explicitly separates the current operational handover from
+developer-managed code/hosting so GitHub/Vercel is not silently represented as
+pending client access. It keeps credentials, deployment secrets, backups, and
+internal records out of client documents.
+
+Reconciled the CMS client summary with the live Production CMS state, instead
+of retaining its historical staging-to-production migration wording. Updated
+the editor guide after the verified Studio workflow and added the necessary
+shared mobile-app promotion safeguard: leave it hidden until a content and
+store rollout is approved. Final client access confirmations, password
+rotation, training recording, search-property setup, remaining newsletter
+lifecycle evidence, and formal delivery are still open.
+
 ## README current-state refresh (2026-07-31)
 
 Updated the public repository overview to reflect the live Sanity/form stack,

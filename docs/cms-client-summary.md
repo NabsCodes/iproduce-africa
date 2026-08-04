@@ -13,9 +13,11 @@ developer deploy. The editor is excluded from public search indexing; its
 document-specific `/admin/...` addresses are private editing links rather than
 public website pages.
 
-Placeholder content from today's site is **pre-loaded into a staging Studio**
-(`development` dataset) so you edit or delete — not start from blank pages.
-**Production** CMS is populated only after you review and approve that content.
+The live website reads from the **Production** CMS dataset. A separate
+`development` dataset remains available for controlled testing and rollout
+work, but it is not a substitute for the live editorial workflow. Publish live
+content only through the agreed CMS process and check the public page after a
+meaningful change.
 
 ---
 
@@ -42,7 +44,7 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 
 ---
 
-## What stays with engineering (for now)
+## What stays with the website team (for now)
 
 - Main navigation and footer links
 - Contact, community, and partner **forms** (they already send email)
@@ -58,17 +60,26 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 - Office hours
 - Academy promotion controls — the site automatically prioritises a happening event, then the nearest upcoming published webinar
 
+The **LMS and mobile app are separate products with separate development
+teams**. The website team does not operate learner accounts, enrolment,
+lessons, progress, certificates, app functionality, store releases, or support
+inside those products. Sanity only holds the approved public links and
+promotional content that the website displays for them.
+
 ---
 
 ## How handoff works
 
-1. We create a Sanity project (`development` + `production` datasets).
-2. **Migration scripts** copy today's placeholder content into the **staging**
-   Studio (`development`) — Academy, trust/people, then the durable Phase 3
-   settings/page/legal content.
-3. You review on staging, replace placeholders with real content where ready.
-4. After your approval, we migrate approved content to **production** CMS.
-5. You own the Sanity account (same pattern as Resend for email).
+1. Tobi Seun Ajayi (`ibotajayi@gmail.com`), the nominated iProduce Africa CMS
+   and technical contact, signs in at `/admin` using his individual Sanity
+   invitation.
+2. They make and publish the approved editorial change, then check its public
+   page on the live site.
+3. Development/testing and any bulk migration work stay controlled by the
+   agreed technical process; they are not a reason to share deployment or
+   migration credentials with editors.
+4. The client administrator keeps the named Sanity owner, editor roles,
+   recovery method, and billing responsibility current in the access register.
 
 ---
 
@@ -77,8 +88,9 @@ editable in Sanity. Legal content is required, not an optional follow-up.
 - [x] **Approve** the full Phase 1–3 CMS scope and staging content
 - [x] Confirm Studio access and assign the client content manager
 - [x] Confirm the Sanity project, datasets, and editor access
-- [x] Review staging content before pointing the live site at production CMS
 - [ ] Confirm real start times only when those six Academy placeholder events become real launch content
+- [ ] Have client counsel approve or replace the working legal-page copy before
+      treating it as final legal guidance
 
 Questions on anything not in this table — defer to the dev team; the full spec
 covers implementation detail.

@@ -42,7 +42,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
       verified in a browser after the `desknav` change
 - [x] Home and Community app sections verified at 390px, tablet, and desktop
 - [x] Studio publish + webhook revalidation QA completed
-- [ ] Update `docs/cms-editor-guide.md` once the Studio workflow is verified
+- [x] Update `docs/cms-editor-guide.md` after Studio workflow verification;
+      include the shared mobile-app promotion safeguard
 
 ## Known Issues
 
@@ -111,3 +112,8 @@ Use this as the quick checkpoint list across shared sections and public pages.
 - [x] Custom-domain launch: apex/`www` DNS switched to Vercel at TTL 300; canonical URLs and email asset origins moved to `https://iproduceafrica.com`
 - [ ] Restore the website-record TTL to `3600`/`14400` after 24–48 stable production hours — done (raised back off the cutover `300`)
 - [ ] Production QA and client handover (`docs/production-closeout-runbook.md`)
+  - [x] Client-facing handover source pack prepared in `docs/client-handover/`
+  - [x] Branded editable Word masters and visually verified client PDFs prepared
+        in `docs/client-handover/client-ready/`
+  - [ ] Confirm support period, final issue date, Tobi's access through
+        `ibotajayi@gmail.com`, recording, and final delivery email

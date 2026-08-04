@@ -58,6 +58,7 @@ and more task-oriented.
 | `cms-media-enhancements-spec.md`           | Partner Voices avatars, secure About video, and image-delivery follow-up.         |
 | `lms-and-mobile-app-promotion-spec.md`     | LMS entry points, course handoff, and CMS-controlled mobile app promotion.        |
 | `cms-editor-guide.md`                      | Plain-language Studio tasks and client training-video outline.                    |
+| `client-handover/`                         | Client-facing operational handover source pack and Drive upload map.              |
 | `production-closeout-runbook.md`           | Category migration, dashboard tasks, custom-domain launch, QA, and handover.      |
 
 ## Source Of Truth Order
